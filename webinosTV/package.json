@@ -32,5 +32,6 @@
   , "grunt-browserify" : "~1.2.0"
   , "grunt-contrib-clean" : "~0.4.1"
   , "grunt-contrib-watch" : "~0.4.4"
+  , "statechart": "0.1.0"
   }
 }

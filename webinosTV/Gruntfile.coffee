@@ -1,7 +1,7 @@
 _ = require 'underscore'
 
 module.exports = (grunt) ->
-  deps = ['underscore', 'baconjs', 'bacon-jquery-bindings']
+  deps = ['underscore', 'baconjs', 'bacon-jquery-bindings', 'statechart']
   shim =
     webinos:
       path: 'vendor/webinos.js'
