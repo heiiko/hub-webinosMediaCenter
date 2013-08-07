@@ -8,6 +8,8 @@ var MessagingService = require('./service/messaging.coffee');
 var MediaContentService = require('./service/mediacontent.coffee');
 var MediaService = require('./service/media.coffee');
 
+var view = require('./view/view.js');
+
 $(document).ready(function() {
   new Controller();
 

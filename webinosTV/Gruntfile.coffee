@@ -14,7 +14,7 @@ module.exports = (grunt) ->
       exports: '$'
     iscroll:
       path: 'vendor/iscroll.js'
-      exports: 'iScroll'
+      exports: 'IScroll'
 
   grunt.initConfig
     browserify:
