@@ -12,6 +12,11 @@ module.exports = (grunt) ->
     jquery:
       path: 'vendor/jquery-2.0.3.js'
       exports: '$'
+    'jquery.fittext':
+      path: 'vendor/jquery.fittext.js'
+      exports: null
+      depends:
+        jquery: 'jQuery'
     iscroll:
       path: 'vendor/iscroll.js'
       exports: 'IScroll'
@@ -33,7 +38,7 @@ module.exports = (grunt) ->
         dest: 'dist/deps.js'
         options:
           alias: deps
-          shim: _.pick(shim, ['promise', 'jquery', 'iscroll'])
+          shim: _.pick(shim, ['promise', 'jquery', 'jquery.fittext', 'iscroll'])
 
       app:
         src: ['lib/app.js']
