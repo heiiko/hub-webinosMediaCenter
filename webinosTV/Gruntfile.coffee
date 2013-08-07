@@ -26,7 +26,7 @@ module.exports = (grunt) ->
         dest: 'dist/wrt.js'
         options:
           shim: _.pick(shim, 'webinos')
-          ignore: ['crypto', 'path', './registry.js', 'webinos-utilities']
+          ignore: ['crypto', 'path', './logging.js', './registry.js', 'webinos-utilities']
 
       deps:
         src: []
