@@ -1,0 +1,142 @@
+@charset "UTF-8";
+body, li, ul {
+    padding:0;
+    margin:0;
+}
+
+body {
+    font-size:12px;
+    font-family:helvetica;
+}
+
+#horizontalwrapper {
+    position: absolute;
+    top: 40px; bottom: 0px; left: 0px; right: 0px;
+    background:#333;
+}
+
+#superwrapper{
+    min-width: 1200px;
+}
+
+.wrapper {
+    float: left;
+    overflow:auto;
+    height: 540px;
+}
+
+#sourcewrapper {
+    width: 10%;
+}
+
+#mediatypwrapper {
+    width: 10%
+}
+
+#contentwrapper {
+    width: 27%;
+}
+
+#contentwrapper li {
+    height: 30px;
+    margin-bottom: 5px;
+}
+
+#playmodewrapper {
+    width: 10%;
+}
+#playmodewrapper li {
+    height: 245px;
+}
+
+#targetwrapper {
+    width: 10%;
+}
+
+#queuewrapper {
+    width: 27%;
+}
+
+ul {
+    list-style:none;
+    margin: 0px 5px;
+}
+
+li {
+    padding: 10px;
+    margin-bottom: 10px;
+    height: 80px;
+    background-color:#3f3f3f;
+    font-size:14px;
+    color: white;
+    text-align: center;
+}
+
+#pullUp {
+    background:#aaa;
+    font-weight:bold;
+    font-size:14px;
+    color:#fff;
+}
+
+#pullUp .pullUpIcon  {
+    display:block; float:left;
+    width:40px; height:40px;
+    background:url(../images/pull-icon@2x.png) 0 0 no-repeat;
+    -webkit-background-size:40px 80px; background-size:40px 80px;
+    -webkit-transition-property:-webkit-transform;
+    -webkit-transition-duration:250ms;
+}
+
+#pullUp .pullUpIcon  {
+    -webkit-transform:rotate(-180deg) translateZ(0);
+}
+
+#pullUp.flip .pullUpIcon {
+    -webkit-transform:rotate(0deg) translateZ(0);
+}
+
+#pullUp.loading .pullUpIcon {
+    background-position:0 100%;
+    -webkit-transform:rotate(0deg) translateZ(0);
+    -webkit-transition-duration:0ms;
+
+    -webkit-animation-name:loading;
+    -webkit-animation-duration:2s;
+    -webkit-animation-iteration-count:infinite;
+    -webkit-animation-timing-function:linear;
+}
+
+@-webkit-keyframes loading {
+    from { -webkit-transform:rotate(0deg) translateZ(0); }
+to { -webkit-transform:rotate(360deg) translateZ(0); }
+}
+
+#leftfadeoutdummie, #rightfadeoutdummie{
+	width: 3%;
+	margin: 0px;
+	padding: 0px;
+}
+
+
+#leftfadeout, #rightfadeout {
+	position: absolute;
+	top: 40px;
+	z-index: 5;
+	width: 40px;
+	height: 540px;
+	/*border: 1px solid yellow;*/
+	margin: 0px;
+	padding: 0px;
+        background: -webkit-linear-gradient(right,  rgba(51,51,51,0) 0%,rgba(51,51,51,1) 70%);
+}
+
+#rightfadeout {
+	right: 0px;
+        background: -webkit-linear-gradient(left,  rgba(51,51,51,0) 0%,rgba(51,51,51,1) 70%);
+}
+
+
+/*@media screen and (min-width:768px) {
+
+}*/
