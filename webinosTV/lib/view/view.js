@@ -1,5 +1,6 @@
-$ = require('jquery');
-IScroll = require('iscroll');
+var $ = require('jquery');
+var _ = require('underscore');
+var IScroll = require('iscroll');
 
 var sourceScroll;
 var mediatypScroll;
@@ -61,14 +62,12 @@ function calcSize() {
 }
 
 function loaded() {
-    setTimeout(function() {
-        sourceScroll = new IScroll('#sourcewrapper', {snap: 'li', momentum: true});
-        mediatypScroll = new IScroll('#mediatypwrapper', {snap: 'li', momentum: true});
-        contentScroll = new IScroll('#contentwrapper', {snap: 'li', momentum: true});
-        targetScroll = new IScroll('#targetwrapper', {snap: 'li', momentum: false});
-        queueScroll = new IScroll('#queuewrapper', {snap: 'li', momentum: false});
-        horizontalScroll = new IScroll('#horizontalwrapper', {snap: 'ul', scrollX: true, scrollY: false, momentum: false});
-    }, 500 );
+    sourceScroll = new IScroll('#sourcewrapper', {snap: 'li', momentum: true});
+    mediatypScroll = new IScroll('#mediatypwrapper', {snap: 'li', momentum: true});
+    contentScroll = new IScroll('#contentwrapper', {snap: 'li', momentum: true});
+    targetScroll = new IScroll('#targetwrapper', {snap: 'li', momentum: false});
+    queueScroll = new IScroll('#queuewrapper', {snap: 'li', momentum: false});
+    horizontalScroll = new IScroll('#horizontalwrapper', {snap: 'ul', scrollX: true, scrollY: false, momentum: false});
 }
 
 document.addEventListener('touchmove', function(e) {
@@ -77,5 +76,23 @@ document.addEventListener('touchmove', function(e) {
 , false);
 
 document.addEventListener('DOMContentLoaded', function() {
-    setTimeout(loaded, 200);
+    setTimeout(loaded, 800);
 }, false);
+
+module.exports.addSources = function(devices) {
+    if (_.isEmpty(devices)) {
+        return;
+    }
+    var $sourceList = $('#sourcelist');
+    $sourceList.empty();
+
+    _.each(devices, function(device) {
+        $sourceList.append($('<li><img src="images/tv.svg"><p>' + device.ref.address() + '</p></li>'));
+    });
+
+    if (!sourceScroll) {
+        sourceScroll = new IScroll('#sourcewrapper', {snap: 'li', momentum: true});
+    }
+
+    sourceScroll.refresh();
+};
