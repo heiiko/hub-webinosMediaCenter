@@ -7,16 +7,19 @@ promisify = require('../util/promisify.coffee')
 Service = require('./service.coffee')
 
 class MediaService extends Service
+  @findServices: (options, filter) ->
+    super(new ServiceType("http://webinos.org/api/media"), options, filter).map (service) ->
+      new MediaService(service.underlying())
   constructor: (underlying) ->
     sink = undefined
     events = new Bacon.EventStream (newSink) =>
-      sink = (event) =>
+      sink = (event) ->
         reply = newSink event
-        unsub() if reply == Bacon.noMore or event.isEnd()
+        unsub() if reply is Bacon.noMore or event.isEnd()
       unless @bound()
         sink? new Bacon.End()
       else
-        promisify(underlying.registerListeners, underlying)(
+        promisify('registerListeners', @underlying())(
           onPlay: ({currentMedia, volume}) => sink? new Bacon.Next(new Play(this, currentMedia, volume))
           onPause: => sink? new Bacon.Next(new Pause(this))
           onStop: => sink? new Bacon.Next(new Stop(this))
@@ -24,7 +27,7 @@ class MediaService extends Service
           onVolumeUP: (volume) => sink? new Bacon.Next(new Volume(this, volume))
           onVolumeDOWN: (volume) => sink? new Bacon.Next(new Volume(this, volume))
           onVolumeSet: (volume) => sink? new Bacon.Next(new Volume(this, volume)))
-        .catch((error) =>
+        .catch((error) ->
           sink? new Bacon.Error(error)
           sink? new Bacon.End())
         .then(=> @isPlaying())
@@ -32,59 +35,55 @@ class MediaService extends Service
           sink? new Bacon.Next(new Playing(this, currentMedia, volume)) if isPlaying)
       unsub = =>
         sink = undefined
-        underlying.unregisterListenersOnExit()
+        @underlying().unregisterListenersOnExit()
     super(underlying)
-    @filter('.isUnbind').onValue(=> sink? new Bacon.End())
+    @filter('.isUnbind').onValue(-> sink? new Bacon.End())
     @events = -> events
-    @play = (path) =>
-      return Promise.reject("Service not bound") unless @bound()
-      promisify(underlying.play, underlying)(path)
-    @playPause = =>
-      return Promise.reject("Service not bound") unless @bound()
-      promisify(underlying.playPause, underlying)()
-    @isPlaying = =>
-      return Promise.reject("Service not bound") unless @bound()
-      promisify(underlying.isPlaying, underlying)()
-    @stepForward = =>
-      return Promise.reject("Service not bound") unless @bound()
-      promisify(underlying.stepforward, underlying)()
-    @bigStepForward = =>
-      return Promise.reject("Service not bound") unless @bound()
-      promisify(underlying.bigStepforward, underlying)()
-    @stepBackward = =>
-      return Promise.reject("Service not bound") unless @bound()
-      promisify(underlying.stepback, underlying)()
-    @bigStepBackward = =>
-      return Promise.reject("Service not bound") unless @bound()
-      promisify(underlying.bigStepback, underlying)()
-    @stop = =>
-      return Promise.reject("Service not bound") unless @bound()
-      promisify(underlying.stop, underlying)()
-    @volumeUp = =>
-      return Promise.reject("Service not bound") unless @bound()
-      promisify(underlying.volumeUP, underlying)()
-    @volumeDown = =>
-      return Promise.reject("Service not bound") unless @bound()
-      promisify(underlying.volumeDOWN, underlying)()
-    @volume = (volume) =>
-      return Promise.reject("Service not bound") unless @bound()
-      promisify(underlying.setVolume, underlying)(volume)
-    @increasePlaybackSpeed = =>
-      return Promise.reject("Service not bound") unless @bound()
-      promisify(underlying.increasePlaybackSpeed, underlying)()
-    @decreasePlaybackSpeed = =>
-      return Promise.reject("Service not bound") unless @bound()
-      promisify(underlying.decreasePlaybackSpeed, underlying)()
-    @showInfo = =>
-      return Promise.reject("Service not bound") unless @bound()
-      promisify(underlying.showInfo, underlying)()
-    @toggleSubtitle = =>
-      return Promise.reject("Service not bound") unless @bound()
-      promisify(underlying.toggleSubtitle, underlying)()
-
-MediaService.findServices = (options, filter) ->
-  Service.findServices(new ServiceType("http://webinos.org/api/media"), options, filter).map (service) ->
-    new MediaService(service.underlying())
+  play: (path) ->
+    return Promise.reject("Service not bound") unless @bound()
+    promisify('play', @underlying())(path)
+  playPause: ->
+    return Promise.reject("Service not bound") unless @bound()
+    promisify('playPause', @underlying())()
+  isPlaying: ->
+    return Promise.reject("Service not bound") unless @bound()
+    promisify('isPlaying', @underlying())()
+  stepForward: ->
+    return Promise.reject("Service not bound") unless @bound()
+    promisify('stepforward', @underlying())()
+  bigStepForward: ->
+    return Promise.reject("Service not bound") unless @bound()
+    promisify('bigStepforward', @underlying())()
+  stepBackward: ->
+    return Promise.reject("Service not bound") unless @bound()
+    promisify('stepback', @underlying())()
+  bigStepBackward: ->
+    return Promise.reject("Service not bound") unless @bound()
+    promisify('bigStepback', @underlying())()
+  stop: ->
+    return Promise.reject("Service not bound") unless @bound()
+    promisify('stop', @underlying())()
+  volumeUp: ->
+    return Promise.reject("Service not bound") unless @bound()
+    promisify('volumeUP', @underlying())()
+  volumeDown: ->
+    return Promise.reject("Service not bound") unless @bound()
+    promisify('volumeDOWN', @underlying())()
+  volume: (volume) ->
+    return Promise.reject("Service not bound") unless @bound()
+    promisify('setVolume', @underlying())(volume)
+  increasePlaybackSpeed: ->
+    return Promise.reject("Service not bound") unless @bound()
+    promisify('increasePlaybackSpeed', @underlying())()
+  decreasePlaybackSpeed: ->
+    return Promise.reject("Service not bound") unless @bound()
+    promisify('decreasePlaybackSpeed', @underlying())()
+  showInfo: ->
+    return Promise.reject("Service not bound") unless @bound()
+    promisify('showInfo', @underlying())()
+  toggleSubtitle: ->
+    return Promise.reject("Service not bound") unless @bound()
+    promisify('toggleSubtitle', @underlying())()
 
 class Event
   constructor: (service) ->

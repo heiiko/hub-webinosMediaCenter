@@ -7,16 +7,17 @@ promisify = require('../util/promisify.coffee')
 Service = require('./service.coffee')
 
 class MessagingService extends Service
-  constructor: (underlying) ->
-    super(underlying)
+  @findServices: (options, filter) ->
+    super(new ServiceType("http://webinos.org/api/app2app"), options, filter).map (service) ->
+      new MessagingService(service.underlying())
   createChannel: (configuration, requestCallback) ->
     return Promise.reject("Service not bound") unless @bound()
     new Promise (resolver) =>
       messages = new Bacon.Bus()
       @underlying().createChannel(configuration, requestCallback,
-        (message) => messages.push(message)
+        (message) -> messages.push(message)
         (channel) => resolver.fulfill(new Channel(this, channel, messages))
-        (error) => resolver.reject(error))
+        (error) -> resolver.reject(error))
   searchForChannels: (namespace, zoneIds = [], timeout = 5000) ->
     return Bacon.once(new Bacon.Error("Service not bound")) unless @bound()
     new Bacon.EventStream (sink) =>
@@ -24,25 +25,21 @@ class MessagingService extends Service
       op = @underlying().searchForChannels(namespace, zoneIds,
         (channel) =>
           reply = sink new Bacon.Next(new Channel(this, channel))
-          unsub() if reply == Bacon.noMore
+          unsub() if reply is Bacon.noMore
         -> undefined # successCallback
-        (error) =>
+        (error) ->
           return if ended
           sink new Bacon.Error(error)
           sink new Bacon.End()
           unsub())
-      Bacon.later(timeout, null).onValue =>
+      Bacon.later(timeout, null).onValue ->
         return if ended
         sink new Bacon.End()
         unsub()
-      unsub = =>
+      unsub = ->
         return if ended
         ended = yes
         op.cancel()
-
-MessagingService.findServices = (options, filter) ->
-  Service.findServices(new ServiceType("http://webinos.org/api/app2app"), options, filter).map (service) ->
-    new MessagingService(service.underlying())
 
 class Channel extends Bacon.EventStream
   constructor: (service, underlying, messages) ->
@@ -54,16 +51,16 @@ class Channel extends Bacon.EventStream
     messages.onValue (message) =>
       sink? new Bacon.Next(new Message(this, message))
     super (newSink) => # auto(dis)connect
-      sink = (event) =>
+      sink = (event) ->
         reply = newSink event
-        unsub() if reply == Bacon.noMore or event.isEnd()
+        unsub() if reply is Bacon.noMore or event.isEnd()
       if connected
         sink? new Bacon.Next(new Connected(this))
       else if disconnected
         sink? new Bacon.Next(new Disconnected(this))
         sink? new Bacon.End()
       else if @automode # => not connected and not disconnected
-        @connect().catch((error) =>
+        @connect().catch((error) ->
           sink? new Bacon.Error(error)
           sink? new Bacon.End())
       unsub = =>
@@ -84,15 +81,15 @@ class Channel extends Bacon.EventStream
           connected = yes
           sink? new Bacon.Next(new Connected(this))
         underlying.connect(requestInfo,
-          (message) => messages.push(message)
+          (message) -> messages.push(message)
           => connect(); resolver.fulfill(this)
-          (error) => resolver.reject(error))
-    @send = (message) =>
+          (error) -> resolver.reject(error))
+    @send = (message) ->
       return Promise.reject("Channel not connected") unless connected
-      promisify(underlying.send, underlying)(message)
-    @sendTo = (client, message) =>
+      promisify('send', underlying)(message)
+    @sendTo = (client, message) ->
       return Promise.reject("Channel not connected") unless connected
-      promisify(underlying.sendTo)(client, message)
+      promisify('sendTo', underlying)(client, message)
     @disconnect = =>
       return Promise.fulfill(this) if disconnected
       return Promise.reject("Channel not connected") unless connected
@@ -107,7 +104,7 @@ class Channel extends Bacon.EventStream
           sink? new Bacon.End()
         underlying.disconnect(
           => disconnect(); resolver.fulfill(this)
-          (error) => disconnect(); resolver.reject(error))
+          (error) -> disconnect(); resolver.reject(error))
 
 class Event
   constructor: (channel) ->

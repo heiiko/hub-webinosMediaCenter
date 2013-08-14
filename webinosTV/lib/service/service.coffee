@@ -6,12 +6,31 @@ Bacon = require('baconjs')
 Promise = require('promise')
 
 class Service extends Bacon.EventStream
+  @findServices: (serviceType, options = {timeout: 5000}, filter) ->
+    new Bacon.EventStream (sink) ->
+      ended = no
+      op = webinos.discovery.findServices(serviceType,
+        onFound: (service) ->
+          op.found = no # Gimme that timeout!
+          reply = sink new Bacon.Next(new Service(service))
+          unsub() if reply == Bacon.noMore
+        onError: (error) ->
+          return if ended
+          if (!_.contains(['AbortError', 'TimeoutError'], error.name))
+            sink new Bacon.Error(error)
+          sink new Bacon.End()
+          unsub()
+        options, filter)
+      unsub = ->
+        return if ended
+        ended = yes
+        op.cancel()
   constructor: (underlying) ->
     bound = no
     unbound = no
     sink = undefined
     super (newSink) =>
-      sink = (event) =>
+      sink = (event) ->
         reply = newSink event
         unsub() if reply == Bacon.noMore or event.isEnd()
       if bound
@@ -19,9 +38,11 @@ class Service extends Bacon.EventStream
       else if unbound
         sink? new Bacon.Next(new Unbound(this))
         sink? new Bacon.End()
-      unsub = =>
+      unsub = ->
         sink = undefined
     @underlying = -> underlying
+    @address = -> underlying.serviceAddress
+    @id = -> underlying.id
     @bound = -> bound
     @unbound = -> unbound
     @bindService = =>
@@ -49,26 +70,6 @@ class Service extends Bacon.EventStream
         underlying.unbindService() # Call me maybe?!
         unbind()
         resolver.fulfill(this)
-
-Service.findServices = (serviceType, options = {timeout: 5000}, filter) ->
-  new Bacon.EventStream (sink) ->
-    ended = no
-    op = webinos.discovery.findServices(serviceType,
-      onFound: (service) ->
-        op.found = no # Gimme that timeout!
-        reply = sink new Bacon.Next(new Service(service))
-        unsub() if reply == Bacon.noMore
-      onError: (error) ->
-        return if ended
-        if (!_.contains(['AbortError', 'TimeoutError'], error.name))
-          sink new Bacon.Error(error)
-        sink new Bacon.End()
-        unsub()
-      options, filter)
-    unsub = ->
-      return if ended
-      ended = yes
-      op.cancel()
 
 class Event
   constructor: (service) ->
