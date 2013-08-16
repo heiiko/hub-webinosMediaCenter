@@ -62,7 +62,7 @@ function calcSize() {
 }
 
 function loaded() {
-    sourceScroll = new IScroll('#sourcewrapper', {snap: 'li', momentum: true});
+    //sourceScroll = new IScroll('#sourcewrapper', {snap: 'li', momentum: true});
     mediatypScroll = new IScroll('#mediatypwrapper', {snap: 'li', momentum: true});
     contentScroll = new IScroll('#contentwrapper', {snap: 'li', momentum: true});
     targetScroll = new IScroll('#targetwrapper', {snap: 'li', momentum: false});
@@ -79,20 +79,23 @@ document.addEventListener('DOMContentLoaded', function() {
     setTimeout(loaded, 800);
 }, false);
 
-module.exports.addSources = function(devices) {
-    if (_.isEmpty(devices)) {
-        return;
-    }
+function BrowserView(viewModel) {
+  this.viewModel = viewModel;
+
+  this.viewModel.onValue((function (event) {
     var $sourceList = $('#sourcelist');
     $sourceList.empty();
 
-    _.each(devices, function(device) {
-        $sourceList.append($('<li><img src="images/tv.svg"><p>' + device.ref.address() + '</p></li>'));
+    _.each(this.viewModel.sources(), function (source) {
+      $sourceList.append($('<li><img src="images/tv.svg"><p>' + source.address() + '</p></li>'));
     });
 
     if (!sourceScroll) {
-        sourceScroll = new IScroll('#sourcewrapper', {snap: 'li', momentum: true});
+      sourceScroll = new IScroll('#sourcewrapper', {snap: 'li', momentum: true});
     }
 
     sourceScroll.refresh();
-};
+  }).bind(this));
+}
+
+module.exports = BrowserView;
