@@ -3,7 +3,7 @@ var $ = require('jquery');
 
 var Bacon = require('baconjs');
 
-var DeviceManager = require('./model/devices.coffee');
+var DeviceManager = require('./model/device.coffee');
 var view = require('./view/view.js');
 var WebinosController = require('./controller/app_controller.js');
 
