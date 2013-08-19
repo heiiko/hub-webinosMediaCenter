@@ -3,13 +3,8 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="48px"
 	 height="40px" viewBox="0 0 48 40" style="enable-background:new 0 0 48 40;" xml:space="preserve">
-<g id="music">
-	<g>
-		<path style="fill:#FFFFFF;" d="M34,3.686L17,9v17.889c0-0.069-0.645-0.119-0.992-0.119c-2.223,0-4.029,1.504-4.029,3.353
-			c0,1.852,1.789,3.354,4.012,3.354c2.225,0,4.009-1.503,4.009-3.354V15.149l11-3.589v10.797c0-0.069-0.519-0.117-0.866-0.117
-			c-2.229,0-3.972,1.503-3.972,3.354c0,1.849,1.693,3.353,3.922,3.353c2.223,0,3.916-1.504,3.916-3.353V3.709
-			C34,3.701,34,3.695,34,3.686z"/>
-	</g>
+<g id="right">
+	<polygon style="fill:#FFFFFF;" points="30.999,19 21.999,10 18.999,13 24.999,19 18.999,25 21.999,28 	"/>
 </g>
 <g id="Ebene_1">
 </g>
