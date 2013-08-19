@@ -10,48 +10,48 @@ var horizontalScroll;
 var contentScroll;
 
 $(window).resize(function() {
-    calcSize();
+  calcSize();
 });
 
 $(document).ready(function() {
-    $('.albumhead').click(function() {
-        if ($(this).next('ul').is(":visible")) {
-            $(this).children('img').attr("src", "images/arrow_big_down.svg");
-        } else {
-            $(this).children('img').attr("src", "images/arrow_big_up.svg");
-        }
-        $(this).next('ul').toggle();
-        contentScroll.refresh();
-    });
+  $('.albumhead').click(function() {
+    if ($(this).next('ul').is(":visible")) {
+      $(this).children('img').attr("src", "images/arrow_big_down.svg");
+    } else {
+      $(this).children('img').attr("src", "images/arrow_big_up.svg");
+    }
+    $(this).next('ul').toggle();
+    contentScroll.refresh();
+  });
 
-    calcSize();
+  calcSize();
 });
 
 function calcSize() {
-    var width = $(window).innerWidth();
-    var height = $(window).innerHeight();
-    var buttonWidth;
-    if (width <= 400) {
-        buttonWidth = width * 0.9 / 2;
-        $('.buttonlist li').outerHeight(buttonWidth / 1.6);
-        $('#horizontalscroller').width(buttonWidth * 8);
-    } else if (width < 600) {
-        buttonWidth = width * 0.9 / 3;
-        $('.buttonlist li').outerHeight(buttonWidth / 1.6);
-        $('#horizontalscroller').width(buttonWidth * 8);
-    } else if (width < 960) {
-        buttonWidth = width * 0.9 / 4;
-        $('.buttonlist li').outerHeight(buttonWidth / 1.6);
-        $('#horizontalscroller').width(buttonWidth * 8);
-    } else if (width < 1200) {
-        buttonWidth = width * 0.9 / 6;
-        $('.buttonlist li').outerHeight(buttonWidth / 1.6);
-        $('#horizontalscroller').width(buttonWidth * 8);
-    } else {
-        buttonWidth = width * 0.9 / 8;
-        $('.buttonlist li').outerHeight(buttonWidth / 1.6);
-        $('#horizontalscroller').width(buttonWidth * 8);
-    }
+  var width = $(window).innerWidth();
+  var height = $(window).innerHeight();
+  var buttonWidth;
+  if (width <= 400) {
+    buttonWidth = width * 0.9 / 2;
+    $('.buttonlist li').outerHeight(buttonWidth / 1.6);
+    $('#horizontalscroller').width(buttonWidth * 8);
+  } else if (width < 600) {
+    buttonWidth = width * 0.9 / 3;
+    $('.buttonlist li').outerHeight(buttonWidth / 1.6);
+    $('#horizontalscroller').width(buttonWidth * 8);
+  } else if (width < 960) {
+    buttonWidth = width * 0.9 / 4;
+    $('.buttonlist li').outerHeight(buttonWidth / 1.6);
+    $('#horizontalscroller').width(buttonWidth * 8);
+  } else if (width < 1200) {
+    buttonWidth = width * 0.9 / 6;
+    $('.buttonlist li').outerHeight(buttonWidth / 1.6);
+    $('#horizontalscroller').width(buttonWidth * 8);
+  } else {
+    buttonWidth = width * 0.9 / 8;
+    $('.buttonlist li').outerHeight(buttonWidth / 1.6);
+    $('#horizontalscroller').width(buttonWidth * 8);
+  }
 
     //vertikal zentrieren
     $('#horizontalwrapper').height(height * 0.9);
@@ -59,43 +59,59 @@ function calcSize() {
 
     $('#verticalwrapper').height(height * 0.9 - 20);
     $('#playmodewrapper li').outerHeight((height * 0.45) - 5);
-}
+  }
 
-function loaded() {
+  function loaded() {
     //sourceScroll = new IScroll('#sourcewrapper', {snap: 'li', momentum: true});
     mediatypScroll = new IScroll('#mediatypwrapper', {snap: 'li', momentum: true});
     contentScroll = new IScroll('#contentwrapper', {snap: 'li', momentum: true});
-    targetScroll = new IScroll('#targetwrapper', {snap: 'li', momentum: false});
+    //targetScroll = new IScroll('#targetwrapper', {snap: 'li', momentum: false});
     queueScroll = new IScroll('#queuewrapper', {snap: 'li', momentum: false});
     horizontalScroll = new IScroll('#horizontalwrapper', {snap: 'ul', scrollX: true, scrollY: false, momentum: false});
-}
+  }
 
-document.addEventListener('touchmove', function(e) {
+  document.addEventListener('touchmove', function(e) {
     e.preventDefault();
-}
-, false);
+  }
+  , false);
 
-document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function() {
     setTimeout(loaded, 800);
-}, false);
+  }, false);
 
-function BrowserView(viewModel) {
-  this.viewModel = viewModel;
+  function BrowserView(viewModel) {
+    this.viewModel = viewModel;
+    this.viewModel.sources().onValue(function (sources) {
+      var $sourceList = $('#sourcelist');
+      $sourceList.empty();
 
-  this.viewModel.onValue((function (event) {
-    var $sourceList = $('#sourcelist');
-    $sourceList.empty();
+      _.each(sources, function (source) {
+        $sourceList.append($('<li><img src="images/tv.svg"><p>' + source.address() + '</p></li>'));
+      });
 
-    _.each(this.viewModel.sources(), function (source) {
-      $sourceList.append($('<li><img src="images/tv.svg"><p>' + source.address() + '</p></li>'));
+      if (sources.length > 0) {
+        if (!sourceScroll) {
+          sourceScroll = new IScroll('#sourcewrapper', {snap: 'li', momentum: true});
+        }
+        sourceScroll.refresh();
+      }
     });
 
-    if (!sourceScroll) {
-      sourceScroll = new IScroll('#sourcewrapper', {snap: 'li', momentum: true});
-    }
+    this.viewModel.targets().onValue(function (targets) {
+      var $targetList = $('#targetlist');
+      $targetList.empty();
 
-    sourceScroll.refresh();
-  }).bind(this));
-}
+      _.each(targets, function (target) {
+        $targetList.append($('<li><img src="images/tv.svg"><p>' + target.address() + '</p></li>'));
+      });
 
-module.exports = BrowserView;
+      if (targets.length > 0) {
+        if (!targetScroll) {
+          targetScroll = new IScroll('#targetwrapper', {snap: 'li', momentum: true});
+        }
+        targetScroll.refresh();
+      }
+    });
+  }
+
+  module.exports = BrowserView;

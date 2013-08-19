@@ -49,7 +49,18 @@ class DeviceManager extends Bacon.EventStream
         unsub() if reply == Bacon.noMore or event.isEnd()
       unsub = ->
         sink = undefined
-    @devices = -> _.filter(devices, (device) -> device.devicestatus()?)
+    @devices = ->
+      refs = {}
+      _.each(devices, ({ref}) -> refs[ref.id()] = ref if device.devicestatus()?)
+      refs
+    @toProperty = =>
+      @scan @devices(), (devices, event) ->
+        device = event.device()
+        if event.isFound()
+          devices[device.address()] = device
+        else if event.isLost()
+          delete devices[device.address()]
+        devices
 
 class Device extends Bacon.EventStream
   constructor: (address, discovery, timeout) ->
@@ -82,7 +93,18 @@ class Device extends Bacon.EventStream
       unsub = ->
         sink = undefined
     @address = -> address
-    @services = -> services
+    @services = ->
+      refs = {}
+      _.each(services, ({ref}) -> refs[ref.id()] = ref)
+      refs
+    @toProperty = =>
+      @scan @services(), (devices, event) ->
+        service = event.service()
+        if event.isAvailable()
+          services[service.id()] = service
+        else if event.isUnavailable()
+          delete services[service.id()]
+        services
     @devicestatus = -> _.find(services, ({ref}) -> ref instanceof DeviceStatusService)?.ref
     @mediacontent = -> _.find(services, ({ref}) -> ref instanceof MediaContentService)?.ref
     @media = -> _.find(services, ({ref}) -> ref instanceof MediaService)?.ref

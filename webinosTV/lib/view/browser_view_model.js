@@ -1,82 +1,35 @@
-var util = require('util');
+var _ = require('underscore');
 
-var Bacon = require('baconjs');
+var Bacon = require('baconjs')
+var bjq = require('bacon.jquery');
 
-util.inherits(BrowserViewModel, Bacon.EventStream);
 function BrowserViewModel(manager) {
-  var sink = undefined;
-  Bacon.EventStream.call(this, function (newSink) {
-    var unsub;
-    sink = function (event) {
-      var reply;
-      reply = newSink(event);
-      if (reply === Bacon.noMore || event.isEnd()) {
-        return unsub();
-      }
-    };
-    return unsub = function() {
-      sink = undefined;
-    };
-  });
-
-  var sources = {};
-
-  manager.flatMap(function (event) {
-    return Bacon.once(event).merge(event.device());
-  }).onValue(function (event) {
-    device = event.device();
-    if (event.isFound() || event.isAvailable()) {
-      if (device.isSource()) {
-        sources[device.address()] = device;
-        if (typeof sink === 'function') {
-          sink(new Bacon.Next(new FoundSource(device)));
-        }
-      }
-    } else if (event.isLost() || event.isUnavailable()) {
-      if (!device.isSource()) {
-        delete sources[device.address()];
-        if (typeof sink === 'function') {
-          sink(new Bacon.Next(new LostSource(device)));
-        }
-      }
-    }
-  });
+  var sources = bjq.Model({});
+  sources.addSource(manager.toProperty().map(function (devices) {
+    return _.filter(devices, function (device) {
+      return device.isSource();
+    });
+  }));
 
   this.sources = function () {
     return sources;
   };
-}
 
-function Event(device) {
-  this.device = function () {
-    return device;
+  var targets = bjq.Model({});
+  targets.addSource(manager.toProperty().map(function (devices) {
+    return _.filter(devices, function (device) {
+      return device.isTarget();
+    });
+  }));
+
+  this.targets = function () {
+    return targets;
   };
+
+  this.selectedSources = [];
+  this.selectedCategories = [];
+  this.selectedFiles = [];
+  this.selectedTargets = [];
 }
-
-Event.prototype.isFoundSource = function () {
-  return false;
-};
-
-Event.prototype.isLostSource = function () {
-  return false;
-};
-
-util.inherits(FoundSource, Event)
-function FoundSource(device) {
-  Event.call(this, device);
-}
-
-FoundSource.prototype.isFoundSource = function() {
-  return true;
-};
-
-util.inherits(LostSource, Event)
-function LostSource(device) {
-  Event.call(this, device);
-}
-
-LostSource.prototype.isLostSource = function() {
-  return true;
-};
 
 module.exports = BrowserViewModel;

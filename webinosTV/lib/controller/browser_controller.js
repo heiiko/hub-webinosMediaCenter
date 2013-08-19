@@ -4,7 +4,7 @@ var BrowserView = require('../view/browser_view.js');
 function BrowserController(manager) {
   this.manager = manager;
 
-  this.viewModel = new BrowserViewModel(manager);
+  this.viewModel = new BrowserViewModel(this.manager);
   this.view = new BrowserView(this.viewModel);
 }
 
