@@ -19,6 +19,11 @@ function init() {
     $('#torendererbutton').on('click', function(){ gotoPageById('#renderer'); toggleMainmenu(); });
     $('#tocontrollerbutton').on('click', function(){ gotoPageById('#controller'); toggleMainmenu(); });
     $('#leftfadeout').on('click', function(){ toggleMainmenu(); });
+
+    if (window.location.hash) {
+        gotoPageById(window.location.hash);
+        toggleMainmenu();
+    }
 }
 
 
