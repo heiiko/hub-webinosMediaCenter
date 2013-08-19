@@ -1,6 +1,7 @@
 var $ = require('jquery');
 var _ = require('underscore');
 var IScroll = require('iscroll');
+require('./pagetransition.js');
 
 var sourceScroll;
 var mediatypScroll;
@@ -62,9 +63,9 @@ function calcSize() {
   }
 
   function loaded() {
-    //sourceScroll = new IScroll('#sourcewrapper', {snap: 'li', momentum: true});
-    mediatypScroll = new IScroll('#mediatypwrapper', {snap: 'li', momentum: true});
-    contentScroll = new IScroll('#contentwrapper', {snap: 'li', momentum: true});
+    //sourceScroll = new IScroll('#sourcewrapper', {snap: 'li', momentum: false});
+    mediatypScroll = new IScroll('#mediatypwrapper', {snap: 'li', momentum: false});
+    contentScroll = new IScroll('#contentwrapper', {snap: 'li', momentum: false});
     //targetScroll = new IScroll('#targetwrapper', {snap: 'li', momentum: false});
     queueScroll = new IScroll('#queuewrapper', {snap: 'li', momentum: false});
     horizontalScroll = new IScroll('#horizontalwrapper', {snap: 'ul', scrollX: true, scrollY: false, momentum: false});
@@ -72,8 +73,7 @@ function calcSize() {
 
   document.addEventListener('touchmove', function(e) {
     e.preventDefault();
-  }
-  , false);
+  }, false);
 
   document.addEventListener('DOMContentLoaded', function() {
     setTimeout(loaded, 800);
@@ -91,7 +91,7 @@ function calcSize() {
 
       if (sources.length > 0) {
         if (!sourceScroll) {
-          sourceScroll = new IScroll('#sourcewrapper', {snap: 'li', momentum: true});
+          sourceScroll = new IScroll('#sourcewrapper', {snap: 'li', momentum: false});
         }
         sourceScroll.refresh();
       }
@@ -107,7 +107,7 @@ function calcSize() {
 
       if (targets.length > 0) {
         if (!targetScroll) {
-          targetScroll = new IScroll('#targetwrapper', {snap: 'li', momentum: true});
+          targetScroll = new IScroll('#targetwrapper', {snap: 'li', momentum: false});
         }
         targetScroll.refresh();
       }

@@ -14,15 +14,20 @@ function init() {
     } );
 
     $(current).addClass('pt-page-current');
-    $('#tosimplebrowserbutton').on('click', function(){ gotoPageById('#browser');
+    $('#tosimplebrowserbutton').on('click', function(){ gotoPageById('#browser'); toggleMainmenu(); });
+    $('#toadvancedbrowserbutton').on('click', function(){ gotoPageById('#browser'); toggleMainmenu(); });
+    $('#torendererbutton').on('click', function(){ gotoPageById('#renderer'); toggleMainmenu(); });
+    $('#tocontrollerbutton').on('click', function(){ gotoPageById('#controller'); toggleMainmenu(); });
+    $('#leftfadeout').on('click', function(){ toggleMainmenu(); });
+}
+
+
+function toggleMainmenu (){
         $('.mainmenu').animate({'width': 'toggle'});
         $('.overlay').animate({'opacity': 'toggle'}, 1000);
-     });
-    $('#toadvancedbrowserbutton').on('click', function(){ gotoPageById('#browser'); });
-    $('#torendererbutton').on('click', function(){ gotoPageById('#renderer'); });
-    $('#tocontrollerbutton').on('click', function(){ gotoPageById('#controller'); });
-    console.log("buttonsready");
 }
+
+
 
 function onEndAnimation($outpage, $inpage) {
     endCurrPage = false;
@@ -37,7 +42,6 @@ function resetPage($outpage, $inpage) {
 }
 
 function gotoPageById(id) {
-        console.log("starttransition");
     if (!isAnimating && (current != id)) {
         isAnimating = true;
         var $currPage = $(current);
