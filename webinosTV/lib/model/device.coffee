@@ -10,27 +10,38 @@ class DeviceManager extends Bacon.EventStream
   constructor: (interval = 60000, timeout = 60000) ->
     devices = {}
     compound = new Bacon.Bus()
-    compound.map('.device').onValue (device) ->
-      sink? new Bacon.Next(new Changed(device))
-    compound.filter('.isUnavailable').map('.device').onValue (device) ->
-      return if _.size(device.services()) > 0
-      devices[device.address()].discovery.end()
-      delete devices[device.address()]
-      sink? new Bacon.Next(new Lost(device))
+    compound.onValue (event) ->
+      device = event.device()
+      service = event.service()
+      if event.isAvailable()
+        if service instanceof DeviceStatusService
+          sink? new Bacon.Next(new Found(device))
+        else
+          sink? new Bacon.Next(new Changed(device))
+      else if event.isUnavailable()
+        if _.size(device.services()) == 0
+          devices[device.address()].discovery.end()
+          delete devices[device.address()]
+        if service instanceof DeviceStatusService
+          sink? new Bacon.Next(new Lost(device))
+        else
+          sink? new Bacon.Next(new Changed(device))
     services = Bacon.once(Date.now()).concat(Bacon.fromPoll(interval, -> Date.now())).flatMap (now) ->
       Bacon.mergeAll(
         DeviceStatusService.findServices(),
         MediaContentService.findServices(),
         MediaService.findServices())
-    services.onValue (service) ->
-      discovery = devices[service.address()]?.discovery
-      if not discovery?
-        discovery = new Bacon.Bus()
-        device = new Device(service.address(), discovery, timeout)
-        devices[service.address()] = {ref: device, discovery: discovery}
-        sink? new Bacon.Next(new Found(device))
-        compound.plug(device)
-      discovery.push(service)
+    services
+      .flatMap (service) ->
+        Bacon.fromPromise(service.bindService())
+      .onValue (service) ->
+        discovery = devices[service.address()]?.discovery
+        if not discovery?
+          discovery = new Bacon.Bus()
+          device = new Device(service.address(), discovery, timeout)
+          devices[service.address()] = {ref: device, discovery: discovery}
+          compound.plug(device)
+        discovery.push(service)
     sink = undefined
     super (newSink) ->
       sink = (event) ->
@@ -38,7 +49,7 @@ class DeviceManager extends Bacon.EventStream
         unsub() if reply == Bacon.noMore or event.isEnd()
       unsub = ->
         sink = undefined
-    @devices = -> devices
+    @devices = -> _.filter(devices, (device) -> device.devicestatus()?)
 
 class Device extends Bacon.EventStream
   constructor: (address, discovery, timeout) ->
@@ -52,14 +63,15 @@ class Device extends Bacon.EventStream
         services[service.id()].seen = Date.now()
       else
         services[service.id()] = {ref: service, seen: Date.now()}
-        sink? new Bacon.Next(new Available(this, service))
         compound.plug(service)
+        sink? new Bacon.Next(new Available(this, service))
     discovery.onEnd ->
       unsubPoll()
       sink? new Bacon.End()
     unsubPoll = Bacon.fromPoll(timeout, -> Date.now()).onValue (now) =>
       for id, {ref, seen} of services
         continue if seen >= (now - timeout)
+        ref.unbindService() if ref.bound()
         delete services[id]
         sink? new Bacon.Next(new Unavailable(this, ref))
     sink = undefined
