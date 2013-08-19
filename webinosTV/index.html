@@ -6,11 +6,26 @@
         <script type="text/javascript" src="dist/deps.js"></script>
         <script type="text/javascript" src="dist/app.js"></script>
         <link href="css/styles.css" rel="stylesheet" type="text/css" />
+        <link href="css/animations.css" rel="stylesheet" type="text/css" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     </head>
     <body>
-        <div id="viewport">
+        <div id="mainmenu">
+            <div class="overlay"></div>
+            <div class="mainmenu">
+                <div class="mm_button">
+                    <button id="tosimplebrowserbutton" class="mm_button browsermodebutton">simple<br>Browser</button><button id="toadvancedbrowserbutton" class="mm_button browsermodebutton">advance<br>Browser</button>
+                </div>
+                <button id="torendererbutton" class="mm_button">Renderer</button>
+                <button id="tocontrollerbutton" class="mm_button">Controller</button>
+            </div>
+        </div>
+        
+        <div id="startscreen" class="pt-page">
+            <img src="images/webinosTV.jpg">
+        </div>
+        <div id="browser" class="pt-page">
             <div id="horizontalwrapper">
                 <div id="horizontalscroller">
                     <div id="header">
@@ -42,7 +57,7 @@
                     <div id="verticalwrapper">
                         <div id="sourcewrapper" class="wrapper buttonlist">
                             <ul id="sourcelist">
-                                <li>
+<!--                                <li>
                                     <img src="images/tv.svg">
                                     <p>Living Room</p>
                                 </li>
@@ -78,7 +93,7 @@
                                     <img src="images/tablet.svg">
                                     <p>Ralph's Tablet</p>
                                 </li>
-                            </ul>
+ -->                            </ul>
                         </div>
                         <div id="mediatypwrapper" class="wrapper buttonlist">
                             <ul id="mediatyplist">
@@ -241,7 +256,7 @@
                         </div>
                         <div id="targetwrapper" class="wrapper buttonlist">
                             <ul id="targetlist">
-                                <li>
+<!--                                 <li>
                                     <img src="images/tv.svg">
                                     <p>Living Room</p>
                                 </li>
@@ -276,7 +291,7 @@
                                 <li>
                                     <img src="images/tablet.svg">
                                     <p>Ralph's Tablet</p>
-                                </li>
+                                </li> -->
                             </ul>
                         </div>
                         <div id="playmodewrapper" class="wrapper buttonlist">
@@ -324,6 +339,14 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div id="renderer" class="pt-page">
+            <video width="1024" height="768" controls>
+                <source src="movies/movie.mp4" type="video/mp4">
+            </video>
+        </div>
+        <div id="controller" class="pt-page">
+            <p>Controller...</p>
         </div>
         <div id="leftfadeout"></div>
         <div id="rightfadeout"></div>

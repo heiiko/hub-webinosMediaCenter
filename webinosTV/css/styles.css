@@ -1,10 +1,11 @@
 @charset "UTF-8";
 
 body, li, ul {
-    padding: 0px;
-    margin: 0px;
+    padding: 0;
+    margin: 0;
     font-family: helvetica;
     color: white;
+    background-color: #333;
 }
 
 body {
@@ -13,22 +14,72 @@ body {
 
 p {
     font-size: 14px;
-    margin: 0px;
+    margin: 0;
 }
 
-ul {
+/*ul {
     list-style:none;
-    padding: 0px 3px;
+}*/
+
+.overlay {
+    background: #000;
+    opacity: .5;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
 }
 
-#viewport{
+.mainmenu {
+    width: 25%;
+    height: 100%;
+    background: #333;
     position: absolute;
-    top: 0px; bottom: 0px; left: 0px; right: 0px;
+    top: 0; bottom: 0; left: 0; right: 0;
+    z-index: 11;
+}
+
+.mm_button {
+    display: block;
+    width: 90%;
+    height: 150px;
+    padding: 0;
+    margin: 5%;
+    font-family: helvetica;
+    color: white;
+    font-size: 16px;
+    background: #3F3F3F;
+    border: none;
+    cursor: pointer;
+    -webkit-user-select: none;
+}
+
+.browsermodebutton {
+    display: inline;
+    width: 50%;
+    margin: 0;
+}
+
+.pt-page {
+    position: absolute;
+    top: 0; bottom: 0; left: 0; right: 0;
     overflow: hidden;
     text-align: center;
     width: 100%;
     height: 100%;
     background-color: #333;
+    visibility: hidden;
+}
+
+.pt-page-current {
+    visibility: visible;
+    z-index: 1;
+}
+
+#startscreen img {
+    width: 50%;
+    float: right;
+    margin: 0 12.5%;
 }
 
 #horizontalwrapper {
@@ -42,7 +93,6 @@ ul {
 
 #verticalwrapper {
     position: relative;
-    float: bottom;
 }
 
 .wrapper {
@@ -51,6 +101,9 @@ ul {
     overflow: hidden;
 }
 
+.wrapper > ul {
+    padding: 0 3px;
+}
 
 .buttonlist {
     width: 12.5%;
@@ -81,7 +134,6 @@ ul {
     display: block;
     background-color: #3F3F3F;
     font-size:12px;
-    padding: 2px;
 }
 
 .contentlist li:nth-child(2n){
@@ -105,13 +157,13 @@ ul {
 }
 
 .albumsonglist {
-    padding: 0px;
+    padding: 0;
     display:none;
 }
 
 
 .focus {
-    box-shadow: 8px 0px 3px -2px #0089bf, -8px 0px 3px -2px #99e2ff;
+    box-shadow: 8px 0 3px -2px #0089bf, -8px 0 3px -2px #99e2ff;
     background-color: #00b7ff;
 }
 .selected {
@@ -137,18 +189,18 @@ ul {
 .listhead img {
     float: left;
     width: 20px;
-    padding:0px;
+    padding: 0;
 }
 
 .topfadeout, .bottomfadeout{
     z-index: 1;
     position: fixed;
     height: 40px;
-    margin-top: -2px;
+    /*margin-top: -1px;*/
     background: -webkit-linear-gradient(bottom,  rgba(51,51,51,0) 0%,rgba(51,51,51,1) 100%);
 }
 .bottomfadeout {
-    margin-top: -39px;
+    margin-top: -40px;
     background: -webkit-linear-gradient(top,  rgba(51,51,51,0) 0%,rgba(51,51,51,1) 100%);
 }
 
