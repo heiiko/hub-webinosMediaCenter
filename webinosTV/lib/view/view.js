@@ -1,5 +1,6 @@
 $ = require('jquery');
 IScroll = require('iscroll');
+require('./pagetransition.js');
 
 var sourceScroll;
 var mediatypScroll;
@@ -73,8 +74,7 @@ function loaded() {
 
 document.addEventListener('touchmove', function(e) {
     e.preventDefault();
-}
-, false);
+}, false);
 
 document.addEventListener('DOMContentLoaded', function() {
     setTimeout(loaded, 200);
