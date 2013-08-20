@@ -12,20 +12,21 @@ class DeviceManager extends Bacon.EventStream
     compound = new Bacon.Bus()
     compound.onValue (event) ->
       device = event.device()
-      service = event.service()
       if event.isAvailable()
-        if service instanceof DeviceStatusService
+        if event.service() instanceof DeviceStatusService
           sink? new Bacon.Next(new Found(device))
-        else
+        else if device.devicestatus()?
           sink? new Bacon.Next(new Changed(device))
       else if event.isUnavailable()
         if _.size(device.services()) == 0
           devices[device.address()].discovery.end()
           delete devices[device.address()]
-        if service instanceof DeviceStatusService
+        if event.service() instanceof DeviceStatusService
           sink? new Bacon.Next(new Lost(device))
-        else
+        else if device.devicestatus()?
           sink? new Bacon.Next(new Changed(device))
+      else if device.devicestatus()?
+        sink? new Bacon.Next(event)
     services = Bacon.once(Date.now()).concat(Bacon.fromPoll(interval, -> Date.now())).flatMap (now) ->
       Bacon.mergeAll(
         DeviceStatusService.findServices(),
@@ -38,7 +39,7 @@ class DeviceManager extends Bacon.EventStream
         discovery = devices[service.address()]?.discovery
         if not discovery?
           discovery = new Bacon.Bus()
-          device = new Device(service.address(), discovery, timeout)
+          device = new Device(service.address(), discovery, interval, timeout)
           devices[service.address()] = {ref: device, discovery: discovery}
           compound.plug(device)
         discovery.push(service)
@@ -63,7 +64,10 @@ class DeviceManager extends Bacon.EventStream
         devices
 
 class Device extends Bacon.EventStream
-  constructor: (address, discovery, timeout) ->
+  constructor: (address, discovery, interval, timeout) ->
+    type = undefined
+    content = {}
+    refresh = undefined
     services = {}
     compound = new Bacon.Bus()
     compound.filter('.isUnbind').map('.service').onValue (service) =>
@@ -92,7 +96,22 @@ class Device extends Bacon.EventStream
         unsub() if reply == Bacon.noMore or event.isEnd()
       unsub = ->
         sink = undefined
+    @onValue (event) =>
+      return if not event.isAvailable()
+      service = event.service()
+      if service instanceof DeviceStatusService
+        event.service().getPropertyValue(
+          component: '_DEFAULT'
+          aspect: 'Device'
+          property: 'type'
+        ).then (value) =>
+          type = if value is 'smartphone' then 'phone' else value
+          sink? new Bacon.Next(new Changed(this))
+      else if service instanceof MediaContentService
+        @refresh()
     @address = -> address
+    @type = -> type
+    @content = -> content
     @services = ->
       refs = {}
       _.each(services, ({ref}) -> refs[ref.id()] = ref)
@@ -110,6 +129,15 @@ class Device extends Bacon.EventStream
     @media = -> _.find(services, ({ref}) -> ref instanceof MediaService)?.ref
     @isSource = -> @mediacontent()?
     @isTarget = -> @media()?
+    @refresh = (force = no) =>
+      now = Date.now()
+      return if refresh? and refresh >= (now - interval) and not force
+      refresh = now
+      mediacontent = @mediacontent()
+      return if not mediacontent?
+      mediacontent.findItem({}).then (items) =>
+        content['media'] = items
+        sink? new Bacon.Next(new Changed(this))
 
 class Event
   constructor: (device) ->

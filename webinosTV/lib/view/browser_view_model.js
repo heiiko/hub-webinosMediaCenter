@@ -15,6 +15,17 @@ function BrowserViewModel(manager) {
     return sources;
   };
 
+  var content = bjq.Model({});
+  content.addSource(sources.map(function (sources) {
+    return _.chain(sources).map(function (source) {
+      return source.content()['media'];
+    }).flatten().value();
+  }));
+
+  this.content = function () {
+    return content;
+  };
+
   var targets = bjq.Model({});
   targets.addSource(manager.toProperty().map(function (devices) {
     return _.filter(devices, function (device) {

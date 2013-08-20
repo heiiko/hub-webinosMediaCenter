@@ -12,58 +12,60 @@
     </head>
     <body>
         <div class="overlay"></div>
-            <div id="mainmenu" class="menu">
-                <div class="mm_button">
-                    <div id="tosimplebrowserbutton" class="mm_button mm_browsermodebutton">simple<br>Browser</div><div id="toadvancedbrowserbutton" class="mm_button mm_browsermodebutton">advance<br>Browser</div>
-                </div>
-                <div id="torendererbutton" class="mm_button">Renderer</div>
-                <div id="tocontrollerbutton" class="mm_button">Controller</div>
+        <div id="mainmenu" class="menu">
+            <div class="mm_button">
+                <div id="tosimplebrowserbutton" class="mm_button mm_browsermodebutton">simple<br>Browser</div><div id="toadvancedbrowserbutton" class="mm_button mm_browsermodebutton">advance<br>Browser</div>
             </div>
-            <div id="selecttarget" class="menu">
-                <div id="st_wrapper" class="wrapper selecttargetlist">
-                    <ul id="st_targetlist">
-                        <li>
-                            <img src="images/tv.svg">
-                            <p>Living Room</p>
-                        </li>
-                        <li>
-                            <img src="images/tv.svg">
-                            <p>Kittchen</p>
-                        </li>
-                        <li>
-                            <img src="images/tv.svg">
-                            <p>Bedroom</p>
-                        </li>
-                        <li>
-                            <img src="images/phone.svg">
-                            <p>My iPhone</p>
-                        </li>
-                        <li>
-                            <img src="images/pc.svg">
-                            <p>My Computer</p>
-                        </li>
-                        <li>
-                            <img src="images/laptop.svg">
-                            <p>My Laptop</p>
-                        </li>
-                        <li>
-                            <img src="images/tablet.svg">
-                            <p>My Tablet</p>
-                        </li>
-                        <li>
-                            <img src="images/phone.svg">
-                            <p>Ralph's Phone</p>
-                        </li>
-                        <li>
-                            <img src="images/tablet.svg">
-                            <p>Ralph's Tablet</p>
-                        </li>
-                    </ul>
-                </div>
+            <div id="torendererbutton" class="mm_button">Renderer</div>
+            <div id="tocontrollerbutton" class="mm_button">Controller</div>
+        </div>
+        <div id="selecttarget" class="menu">
+            <div id="st_wrapper" class="wrapper selecttargetlist">
+                <ul id="st_targetlist">
+                    <li>
+                        <img src="images/tv.svg">
+                        <p>Living Room</p>
+                    </li>
+                    <li>
+                        <img src="images/tv.svg">
+                        <p>Kittchen</p>
+                    </li>
+                    <li>
+                        <img src="images/tv.svg">
+                        <p>Bedroom</p>
+                    </li>
+                    <li>
+                        <img src="images/phone.svg">
+                        <p>My iPhone</p>
+                    </li>
+                    <li>
+                        <img src="images/pc.svg">
+                        <p>My Computer</p>
+                    </li>
+                    <li>
+                        <img src="images/laptop.svg">
+                        <p>My Laptop</p>
+                    </li>
+                    <li>
+                        <img src="images/tablet.svg">
+                        <p>My Tablet</p>
+                    </li>
+                    <li>
+                        <img src="images/phone.svg">
+                        <p>Ralph's Phone</p>
+                    </li>
+                    <li>
+                        <img src="images/tablet.svg">
+                        <p>Ralph's Tablet</p>
+                    </li>
+                </ul>
             </div>
+        </div>
+
         <div id="startscreen" class="pt-page">
             <img src="images/webinosTV.jpg">
         </div>
+
         <div id="browser" class="pt-page">
             <div id="horizontalwrapper">
                 <div id="horizontalscroller">
@@ -165,7 +167,7 @@
                         </div>
                         <div id="contentwrapper" class="wrapper contentlist">
                             <ul id="contentlist">
-                                <li>
+<!--                                 <li>
                                     <div class="album">
                                         <div class="albumhead">
                                             <p>Artist - Album</p>
@@ -288,7 +290,7 @@
                                 <li>songz</li>
                                 <li id="pullUp">
                                     <span class="pullUpIcon"></span><span class="pullUpLabel">Pull up to load more...</span>
-                                </li>
+                                </li> -->
                             </ul>
 
 
@@ -379,13 +381,22 @@
                 </div>
             </div>
         </div>
+
         <div id="renderer" class="pt-page">
             <video width="1024" height="768" controls>
                 <source src="movies/movie.mp4" type="video/mp4">
             </video>
         </div>
-        <div id="controller" class="pt-page">
-            <p>Controller...</p>
+        
+        <div id="controller" class="pt-page pageRemote landscape">
+            <div class="backButton"><div class="backButtonCaption" ></div> <div class="clickAreaBack"></div></div> 
+            <div class="tapButton" ><div class="clickAreaUp"></div><div class="clickAreaDown"></div><div class="clickAreaLeft"></div><div class="clickAreaRight"></div><div class="clickAreaOk"></div></div>
+            <div class="switchButtons toggleTapButton" ></div>  
+            <div class="switchButtons toggleSwipeButton" ></div>  
+            <div class="switchButtons toggleGyroButton" ></div> 
+            <div class="switchButtons searchButton" ></div> 
+            <div class="switchButtons changeModeButton" ></div> 
+            <div class="logoArea"></div>  
         </div>
         <div id="leftfadeout"></div>
         <div id="rightfadeout"></div>

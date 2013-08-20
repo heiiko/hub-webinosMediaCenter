@@ -64,7 +64,7 @@ function calcSize() {
   function loaded() {
     //sourceScroll = new IScroll('#sourcewrapper', {snap: 'li', momentum: false});
     mediatypScroll = new IScroll('#mediatypwrapper', {snap: 'li', momentum: false});
-    contentScroll = new IScroll('#contentwrapper', {snap: 'li', momentum: false});
+    //contentScroll = new IScroll('#contentwrapper', {snap: 'li', momentum: false});
     //targetScroll = new IScroll('#targetwrapper', {snap: 'li', momentum: false});
     queueScroll = new IScroll('#queuewrapper', {snap: 'li', momentum: false});
     horizontalScroll = new IScroll('#horizontalwrapper', {snap: 'ul', scrollX: true, scrollY: false, momentum: false});
@@ -80,6 +80,7 @@ function calcSize() {
 
   function BrowserView(viewModel) {
     this.viewModel = viewModel;
+
     this.viewModel.sources().onValue(function (sources) {
       var $sourceList = $('#sourcelist');
       $sourceList.empty();
@@ -93,6 +94,22 @@ function calcSize() {
           sourceScroll = new IScroll('#sourcewrapper', {snap: 'li', momentum: false});
         }
         sourceScroll.refresh();
+      }
+    });
+
+    this.viewModel.content().onValue(function (content) {
+      var $contentList = $('#contentlist');
+      $contentList.empty();
+
+      _.each(content, function (item) {
+        $contentList.append($('<li><p>' + item.title + '</p></li>'));
+      });
+
+      if (content.length > 0) {
+        if (!contentScroll) {
+          contentScroll = new IScroll('#contentwrapper', {snap: 'li', momentum: false});
+        }
+        contentScroll.refresh();
       }
     });
 
