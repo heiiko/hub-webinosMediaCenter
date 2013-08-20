@@ -325,8 +325,24 @@ border-radius: 100px;
     position: absolute;
     margin: 1em; 
 }
+.toggleTapButton{
+    background-image: url(../images/Remote/mode_tap.svg);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: right middle;
+    right: 18%;
+    cursor: pointer;  
+}
 .toggleSwipeButton{
     background-image: url(../images/Remote/mode_swipe.svg);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: right middle;
+    right: 12%;
+    cursor: pointer;  
+}
+.toggleGyroButton{
+    background-image: url(../images/Remote/mode_gyro.svg);
     background-size: contain;
     background-repeat: no-repeat;
     background-position: right middle;
@@ -338,7 +354,7 @@ border-radius: 100px;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: right middle;
-    right: 12%;
+    right: 24%;
     cursor: pointer;  
 }
 .changeModeButton{
