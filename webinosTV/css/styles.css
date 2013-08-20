@@ -180,7 +180,7 @@ p {
     background-color: #00b7ff;
 }
 .selected {
-    background-color: #666666;
+    background-color: #666666 !important;
 }
 
 
@@ -206,13 +206,14 @@ p {
 }
 
 .topfadeout, .bottomfadeout{
-    z-index: 2;
+    /*z-index: 2;
     position: fixed;
     height: 40px;
+    margin-top: -1px;*/
     background: -webkit-linear-gradient(bottom,  rgba(51,51,51,0) 0%,rgba(51,51,51,1) 100%);
 }
 .bottomfadeout {
-    margin-top: -40px;
+    /*margin-top: -40px;*/
     background: -webkit-linear-gradient(top,  rgba(51,51,51,0) 0%,rgba(51,51,51,1) 100%);
 }
 
@@ -243,7 +244,7 @@ p {
     top: 0px; bottom: 0px; left: 0px; right: 0px;
     position: absolute;
     margin: 1em;
-} 
+}
 .backButton .backButtonCaption {
     background-image: url(../images/Remote/back.svg);
     background-size: contain;
@@ -253,17 +254,17 @@ p {
     width: 15%;
     height: 10%;
     position: absolute;
-    margin: 1em; 
-    cursor: pointer;  
+    margin: 1em;
+    cursor: pointer;
 
 }
 
 .clickAreaBack, .clickAreaUp, .clickAreaDown, .clickAreaLeft, .clickAreaRight, .clickAreaOk{
     width: 100%;
     height: 100%;
-    cursor: pointer;  
+    cursor: pointer;
     position: absolute;
-  
+
 }
 
 .clickAreaRight:active, .clickAreaBack:active{
@@ -336,7 +337,7 @@ border-radius: 100px;
     width: 5%;
     height: 10%;
     position: absolute;
-    margin: 1em; 
+    margin: 1em;
 }
 .toggleTapButton{
     background-image: url(../images/Remote/mode_tap.svg);
@@ -344,7 +345,7 @@ border-radius: 100px;
     background-repeat: no-repeat;
     background-position: right middle;
     right: 18%;
-    cursor: pointer;  
+    cursor: pointer;
 }
 .toggleSwipeButton{
     background-image: url(../images/Remote/mode_swipe.svg);
@@ -352,7 +353,7 @@ border-radius: 100px;
     background-repeat: no-repeat;
     background-position: right middle;
     right: 12%;
-    cursor: pointer;  
+    cursor: pointer;
 }
 .toggleGyroButton{
     background-image: url(../images/Remote/mode_gyro.svg);
@@ -360,7 +361,7 @@ border-radius: 100px;
     background-repeat: no-repeat;
     background-position: right middle;
     right: 6%;
-    cursor: pointer;  
+    cursor: pointer;
 }
 .searchButton{
     background-image: url(../images/search.svg);
@@ -368,14 +369,14 @@ border-radius: 100px;
     background-repeat: no-repeat;
     background-position: right middle;
     right: 24%;
-    cursor: pointer;  
+    cursor: pointer;
 }
 .changeModeButton{
     background-image: url(../images/mode_selector.svg);
     background-size: contain;
     background-repeat: no-repeat;
     background-position: right middle;
-    cursor: pointer;  
+    cursor: pointer;
 }
 .logoArea{
     background-image: url(../images/webinos_logo.svg);
@@ -386,5 +387,5 @@ border-radius: 100px;
     width: 15%;
     height: 10%;
     position: absolute;
-    margin: 1em;  
+    margin: 1em;
 }
