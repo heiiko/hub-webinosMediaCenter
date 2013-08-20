@@ -25,7 +25,7 @@ walker.on('end', function() {
 	files =files.filter(function(el){return el.toLowerCase().endsWith(".svg") ||  el.toLowerCase().endsWith(".png") ||  el.toLowerCase().endsWith(".jpg") });
 	var html = "<html><head></head><body style='background-color:#000; color:#fff'>";
 	html += "<h2>"+files.length+" Images.</h2>";
-	files = files.map(function(el){return el+"<br/><img src='"+el+"'/><hr/>"})
+	files = files.map(function(el){return el+"<br/><img src='"+el+"' style='border:1px solid red;'/><hr/>"})
 	html += files.join("")+"</body>";
 	fs.writeFile("createdImageList.html", html, function(err) {
 	    if(err) {

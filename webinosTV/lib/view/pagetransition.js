@@ -12,22 +12,8 @@ function init() {
         var $page = $( this );
         $page.data( 'originalClassList', $page.attr( 'class' ) );
     } );
-
     $(current).addClass('pt-page-current');
-    $('#tosimplebrowserbutton').on('click', function(){ gotoPageById('#browser'); toggleMainmenu(); });
-    $('#toadvancedbrowserbutton').on('click', function(){ gotoPageById('#browser'); toggleMainmenu(); });
-    $('#torendererbutton').on('click', function(){ gotoPageById('#renderer'); toggleMainmenu(); });
-    $('#tocontrollerbutton').on('click', function(){ gotoPageById('#controller'); toggleMainmenu(); });
-    $('#leftfadeout').on('click', function(){ toggleMainmenu(); });
 }
-
-
-function toggleMainmenu (){
-        $('.mainmenu').animate({'width': 'toggle'});
-        $('.overlay').animate({'opacity': 'toggle'}, 1000);
-}
-
-
 
 function onEndAnimation($outpage, $inpage) {
     endCurrPage = false;
@@ -68,3 +54,5 @@ function gotoPageById(id) {
         });
     }
 }
+
+module.exports = gotoPageById;

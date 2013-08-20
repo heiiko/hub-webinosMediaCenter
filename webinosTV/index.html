@@ -11,17 +11,56 @@
         <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     </head>
     <body>
-        <div id="mainmenu">
-            <div class="overlay"></div>
-            <div class="mainmenu">
+        <div class="overlay"></div>
+            <div id="mainmenu" class="menu">
                 <div class="mm_button">
-                    <button id="tosimplebrowserbutton" class="mm_button browsermodebutton">simple<br>Browser</button><button id="toadvancedbrowserbutton" class="mm_button browsermodebutton">advance<br>Browser</button>
+                    <div id="tosimplebrowserbutton" class="mm_button mm_browsermodebutton">simple<br>Browser</div><div id="toadvancedbrowserbutton" class="mm_button mm_browsermodebutton">advance<br>Browser</div>
                 </div>
-                <button id="torendererbutton" class="mm_button">Renderer</button>
-                <button id="tocontrollerbutton" class="mm_button">Controller</button>
+                <div id="torendererbutton" class="mm_button">Renderer</div>
+                <div id="tocontrollerbutton" class="mm_button">Controller</div>
             </div>
-        </div>
-        
+            <div id="selecttarget" class="menu">
+                <div id="st_wrapper" class="wrapper selecttargetlist">
+                    <ul id="st_targetlist">
+                        <li>
+                            <img src="images/tv.svg">
+                            <p>Living Room</p>
+                        </li>
+                        <li>
+                            <img src="images/tv.svg">
+                            <p>Kittchen</p>
+                        </li>
+                        <li>
+                            <img src="images/tv.svg">
+                            <p>Bedroom</p>
+                        </li>
+                        <li>
+                            <img src="images/phone.svg">
+                            <p>My iPhone</p>
+                        </li>
+                        <li>
+                            <img src="images/pc.svg">
+                            <p>My Computer</p>
+                        </li>
+                        <li>
+                            <img src="images/laptop.svg">
+                            <p>My Laptop</p>
+                        </li>
+                        <li>
+                            <img src="images/tablet.svg">
+                            <p>My Tablet</p>
+                        </li>
+                        <li>
+                            <img src="images/phone.svg">
+                            <p>Ralph's Phone</p>
+                        </li>
+                        <li>
+                            <img src="images/tablet.svg">
+                            <p>Ralph's Tablet</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         <div id="startscreen" class="pt-page">
             <img src="images/webinosTV.jpg">
         </div>
@@ -30,27 +69,27 @@
                 <div id="horizontalscroller">
                     <div id="header">
                         <div class="listhead buttonlist">
-                            <p><img src="images/arrow_right.svg">Source Device</p>
+                            <p><img src="images/next_right_blue.svg">Source Device</p>
                             <div class="topfadeout buttonlist"></div>
                         </div>
                         <div class="listhead buttonlist">
-                            <p><img src="images/arrow_right.svg">Categories</p>
+                            <p><img src="images/next_right_blue.svg">Categories</p>
                             <div class="topfadeout buttonlist"></div>
                         </div>
                         <div class="listhead contentlist">
-                            <p><img src="images/arrow_right.svg">Select Files</p>
+                            <p><img src="images/next_right_blue.svg">Select Files</p>
                             <div class="topfadeout contentlist"></div>
                         </div>
                         <div class="listhead buttonlist">
-                            <p><img src="images/arrow_right.svg">Target Device</p>
+                            <p><img src="images/next_right_blue.svg">Target Device</p>
                             <div class="topfadeout buttonlist"></div>
                         </div>
                         <div class="listhead buttonlist">
-                            <p><img src="images/arrow_right.svg">Play Mode</p>
+                            <p><img src="images/next_right_blue.svg">Play Mode</p>
                             <div class="topfadeout buttonlist"></div>
                         </div>
                         <div class="listhead contentlist">
-                            <p><img src="images/arrow_right.svg">Queue: ...</p>
+                            <p><img src="images/next_right_blue.svg">Queue: ...</p>
                             <div class="topfadeout contentlist"></div>
                         </div>
                     </div>
@@ -130,7 +169,7 @@
                                     <div class="album">
                                         <div class="albumhead">
                                             <p>Artist - Album</p>
-                                            <img src="images/arrow_big_down.svg">
+                                            <img src="images/down_big.svg">
                                         </div>
                                         <ul class="albumsonglist">
                                             <li>song1</li>
@@ -146,24 +185,7 @@
                                     <div class="album">
                                         <div class="albumhead">
                                             <p>Artist - Album</p>
-                                            <img src="images/arrow_big_down.svg">
-                                        </div>
-                                        <ul class="albumsonglist">
-                                            <li>song1</li>
-                                            <li>song2</li>
-                                            <li>song3</li>
-                                            <li>song4</li>
-                                            <li>song5</li>
-                                            <li>song6</li>
-                                        </ul>
-
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="album">
-                                        <div class="albumhead">
-                                            <p>Artist - Album</p>
-                                            <img src="images/arrow_big_down.svg">
+                                            <img src="images/down_big.svg">
                                         </div>
                                         <ul class="albumsonglist">
                                             <li>song1</li>
@@ -180,7 +202,7 @@
                                     <div class="album">
                                         <div class="albumhead">
                                             <p>Artist - Album</p>
-                                            <img src="images/arrow_big_down.svg">
+                                            <img src="images/down_big.svg">
                                         </div>
                                         <ul class="albumsonglist">
                                             <li>song1</li>
@@ -197,7 +219,7 @@
                                     <div class="album">
                                         <div class="albumhead">
                                             <p>Artist - Album</p>
-                                            <img src="images/arrow_big_down.svg">
+                                            <img src="images/down_big.svg">
                                         </div>
                                         <ul class="albumsonglist">
                                             <li>song1</li>
@@ -214,7 +236,7 @@
                                     <div class="album">
                                         <div class="albumhead">
                                             <p>Artist - Album</p>
-                                            <img src="images/arrow_big_down.svg">
+                                            <img src="images/down_big.svg">
                                         </div>
                                         <ul class="albumsonglist">
                                             <li>song1</li>
@@ -231,7 +253,24 @@
                                     <div class="album">
                                         <div class="albumhead">
                                             <p>Artist - Album</p>
-                                            <img src="images/arrow_big_down.svg">
+                                            <img src="images/down_big.svg">
+                                        </div>
+                                        <ul class="albumsonglist">
+                                            <li>song1</li>
+                                            <li>song2</li>
+                                            <li>song3</li>
+                                            <li>song4</li>
+                                            <li>song5</li>
+                                            <li>song6</li>
+                                        </ul>
+
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="album">
+                                        <div class="albumhead">
+                                            <p>Artist - Album</p>
+                                            <img src="images/down_big.svg">
                                         </div>
                                         <ul class="albumsonglist">
                                             <li>song1</li>

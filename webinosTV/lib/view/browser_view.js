@@ -1,7 +1,6 @@
 var $ = require('jquery');
 var _ = require('underscore');
 var IScroll = require('iscroll');
-require('./pagetransition.js');
 
 var sourceScroll;
 var mediatypScroll;
@@ -17,9 +16,9 @@ $(window).resize(function() {
 $(document).ready(function() {
   $('.albumhead').click(function() {
     if ($(this).next('ul').is(":visible")) {
-      $(this).children('img').attr("src", "images/arrow_big_down.svg");
+      $(this).children('img').attr("src", "images/down_big.svg");
     } else {
-      $(this).children('img').attr("src", "images/arrow_big_up.svg");
+      $(this).children('img').attr("src", "images/up_big.svg");
     }
     $(this).next('ul').toggle();
     contentScroll.refresh();
