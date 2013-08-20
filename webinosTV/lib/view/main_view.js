@@ -27,17 +27,24 @@ function init() {
 }
 
 function toggleMainmenu(){
+    $('#mainmenu').stop(true,true);
+    $('.overlay').stop(true,true);
     $('#mainmenu').animate({'width': 'toggle'});
     $('.overlay').animate({'opacity': 'toggle'}, 1000);
 }
 
 function toggleSelectTarget(){
+    $('#mainmenu').stop(true,true);
+    $('.overlay').stop(true,true);
     $('#selecttarget').animate({'width': 'toggle'}, scrollrefresh());
     $('.overlay').animate({'opacity': 'toggle'}, 1000);
 }
 
 function scrollrefresh(){
 	setTimeout(function(){
-		electtargetScroll.refresh();
+		selecttargetScroll.refresh();
 	}, 0);
 }
+
+
+window.toggleMainmenu=toggleMainmenu;
