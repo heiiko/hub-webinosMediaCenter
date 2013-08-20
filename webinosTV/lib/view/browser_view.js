@@ -1,6 +1,9 @@
 var $ = require('jquery');
-var _ = require('underscore');
+var _ = require('../util/objectscore.coffee'); // require('underscore');
+var Bacon = require('baconjs');
 var IScroll = require('iscroll');
+var util = require('util');
+require('./pagetransition.js');
 
 var sourceScroll;
 var mediatypScroll;
@@ -53,81 +56,145 @@ function calcSize() {
     $('#horizontalscroller').width(buttonWidth * 8);
   }
 
-    //vertikal zentrieren
-    $('#horizontalwrapper').height(height * 0.9);
-    $('#horizontalwrapper').css('margin-top', -(height * 0.45));
+  //vertikal zentrieren
+  $('#horizontalwrapper').height(height * 0.9);
+  $('#horizontalwrapper').css('margin-top', -(height * 0.45));
 
-    $('#verticalwrapper').height(height * 0.9 - 20);
-    $('#playmodewrapper li').outerHeight((height * 0.45) - 5);
-  }
+  $('#verticalwrapper').height(height * 0.9 - 20);
+  $('#playmodewrapper li').outerHeight((height * 0.45) - 5);
+}
 
-  function loaded() {
-    //sourceScroll = new IScroll('#sourcewrapper', {snap: 'li', momentum: false});
-    mediatypScroll = new IScroll('#mediatypwrapper', {snap: 'li', momentum: false});
-    //contentScroll = new IScroll('#contentwrapper', {snap: 'li', momentum: false});
-    //targetScroll = new IScroll('#targetwrapper', {snap: 'li', momentum: false});
-    queueScroll = new IScroll('#queuewrapper', {snap: 'li', momentum: false});
-    horizontalScroll = new IScroll('#horizontalwrapper', {snap: 'ul', scrollX: true, scrollY: false, momentum: false});
-  }
+function loaded() {
+  //sourceScroll = new IScroll('#sourcewrapper', {snap: 'li', momentum: false});
+  // mediatypScroll = new IScroll('#mediatypwrapper', {snap: 'li', momentum: false});
+  //contentScroll = new IScroll('#contentwrapper', {snap: 'li', momentum: false});
+  //targetScroll = new IScroll('#targetwrapper', {snap: 'li', momentum: false});
+  queueScroll = new IScroll('#queuewrapper', {snap: 'li', momentum: false});
+  horizontalScroll = new IScroll('#horizontalwrapper', {snap: 'ul', scrollX: true, scrollY: false, momentum: false});
+}
 
-  document.addEventListener('touchmove', function(e) {
-    e.preventDefault();
-  }, false);
+document.addEventListener('touchmove', function(e) {
+  e.preventDefault();
+}, false);
 
-  document.addEventListener('DOMContentLoaded', function() {
-    setTimeout(loaded, 800);
-  }, false);
+document.addEventListener('DOMContentLoaded', function() {
+  setTimeout(loaded, 800);
+}, false);
 
-  function BrowserView(viewModel) {
-    this.viewModel = viewModel;
+function ListView(items, selection, list, wrapper) {
+  var self = this;
+  var scroll = undefined;
 
-    this.viewModel.sources().onValue(function (sources) {
-      var $sourceList = $('#sourcelist');
-      $sourceList.empty();
-
-      _.each(sources, function (source) {
-        $sourceList.append($('<li><img src="images/tv.svg"><p>' + source.address() + '</p></li>'));
-      });
-
-      if (sources.length > 0) {
-        if (!sourceScroll) {
-          sourceScroll = new IScroll('#sourcewrapper', {snap: 'li', momentum: false});
-        }
-        sourceScroll.refresh();
+  this.refresh = function () {
+    if ($(list).children().length > 0) {
+      if (typeof scroll === 'undefined') {
+        scroll = new IScroll(wrapper, {snap: 'li', momentum: false});
       }
+      scroll.refresh();
+    }
+  };
+
+  items.onValue(function (items) {
+    var $list = $(list);
+    $list.empty();
+
+    _.each(items, function (item) {
+      var $item = $(self.htmlify(item));
+      var id = self.identify(item);
+      $item.data('id', id);
+      $list.append($item);
     });
 
-    this.viewModel.content().onValue(function (content) {
-      var $contentList = $('#contentlist');
-      $contentList.empty();
+    self.refresh();
+  });
 
-      _.each(content, function (item) {
-        $contentList.append($('<li><p>' + item.title + '</p></li>'));
-      });
+  selection.apply(items.map(function (items) {
+    return function (selection) {
+      return _.ointersection(selection, _.map(items, function (item) {
+        return self.identify(item);
+      }));
+    };
+  }));
 
-      if (content.length > 0) {
-        if (!contentScroll) {
-          contentScroll = new IScroll('#contentwrapper', {snap: 'li', momentum: false});
-        }
-        contentScroll.refresh();
-      }
+  selection.apply($(list).asEventStream('click').map(function (event) {
+    return function (selection) {
+      var $item = $(event.target).closest('li');
+      var id = $item.data('id');
+      return (_.ocontains(selection, id) ? _.odifference : _.ounion)(selection, [id]);
+    };
+  }));
+
+  selection.onValue(function (selection) {
+    $('li', list).each(function () {
+      var $item = $(this);
+      var id = $item.data('id');
+      $item.toggleClass('selected', _.ocontains(selection, id));
     });
+  });
+}
 
-    this.viewModel.targets().onValue(function (targets) {
-      var $targetList = $('#targetlist');
-      $targetList.empty();
+util.inherits(DeviceListView, ListView);
+function DeviceListView(items, selection, list, wrapper) {
+  this.htmlify = function (device) {
+    return '<li><img src="images/tv.svg"><p>' + device.address() + '</p></li>';
+  };
 
-      _.each(targets, function (target) {
-        $targetList.append($('<li><img src="images/tv.svg"><p>' + target.address() + '</p></li>'));
-      });
+  this.identify = function (device) {
+    return device.address();
+  };
 
-      if (targets.length > 0) {
-        if (!targetScroll) {
-          targetScroll = new IScroll('#targetwrapper', {snap: 'li', momentum: false});
-        }
-        targetScroll.refresh();
+  ListView.call(this, items, selection, list, wrapper);
+}
+
+util.inherits(SourceListView, DeviceListView);
+function SourceListView(viewModel) {
+  DeviceListView.call(this, viewModel.sources(), viewModel.selectedSources(), '#sourcelist', '#sourcewrapper');
+}
+
+util.inherits(CategoryListView, ListView);
+function CategoryListView(viewModel) {
+  this.htmlify = function (category) {
+    return '<li><img src="' + category.image + '"><p>' + category.title + '</p></li>';
+  };
+
+  this.identify = function (category) {
+    return category.id;
+  };
+
+  ListView.call(this, viewModel.categories(), viewModel.selectedCategories(), '#mediatyplist', '#mediatypwrapper');
+}
+
+util.inherits(ContentListView, ListView);
+function ContentListView(viewModel) {
+  this.htmlify = function (value) {
+    return '<li><p>' + value.item.title + '</p></li>';
+  };
+
+  this.identify = function (value) {
+    return {
+      source: value.source.address(),
+      item: {
+        id: value.item.id,
+        title: value.item.title
       }
-    });
-  }
+    };
+  };
 
-  module.exports = BrowserView;
+  ListView.call(this, viewModel.content(), viewModel.selectedContent(), '#contentlist', '#contentwrapper');
+}
+
+util.inherits(TargetListView, DeviceListView);
+function TargetListView(viewModel) {
+  DeviceListView.call(this, viewModel.targets(), viewModel.selectedTargets(), '#targetlist', '#targetwrapper');
+}
+
+function BrowserView(viewModel) {
+  var sourceListView = new SourceListView(viewModel);
+  var categoryListView = new CategoryListView(viewModel);
+  var contentListView = new ContentListView(viewModel);
+  var targetListView = new TargetListView(viewModel);
+
+  viewModel.play().plug($('#play').asEventStream('click').map())
+}
+
+module.exports = BrowserView;

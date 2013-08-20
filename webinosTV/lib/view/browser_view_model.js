@@ -15,15 +15,49 @@ function BrowserViewModel(manager) {
     return sources;
   };
 
-  var content = bjq.Model({});
-  content.addSource(sources.map(function (sources) {
-    return _.chain(sources).map(function (source) {
-      return source.content()['media'];
+  var selectedSources = bjq.Model([]);
+  this.selectedSources = function () {
+    return selectedSources;
+  };
+
+  var categories = bjq.Model([
+    {id: 'movies', type: 'Video', title: 'Movies', image: 'images/movie.svg'},
+    {id: 'music', type: 'Audio', title: 'Music', image: 'images/music.svg'},
+    {id: 'images', type: 'Image', title: 'Images', image: 'images/image.svg'},
+    // {id: 'channels', type: undefined, title: 'Channels', image: 'images/tv_channels.svg'}
+  ]);
+  this.categories = function () {
+    return categories;
+  };
+
+  var selectedCategories = bjq.Model([]);
+  this.selectedCategories = function () {
+    return selectedCategories;
+  };
+
+  var content = bjq.Model([]);
+  content.addSource(Bacon.combineWith(function (sources, selectedSources, categories, selectedCategories) {
+    var types = _.map(selectedCategories, function (id) {
+      return _.findWhere(categories, {id: id}).type;
+    });
+    return _.chain(sources).filter(function (source) {
+      return !selectedSources.length || _.contains(selectedSources, source.address());
+    }).map(function (source) {
+      return _.chain(source.content()['media']).filter(function (item) {
+        return !types.length || _.contains(types, item.type);
+      }).map(function (item) {
+        return {source: source, item: item};
+      }).value();
     }).flatten().value();
-  }));
+  }, sources, selectedSources, categories, selectedCategories));
 
   this.content = function () {
     return content;
+  };
+
+  var selectedContent = bjq.Model([]);
+  this.selectedContent = function () {
+    return selectedContent;
   };
 
   var targets = bjq.Model({});
@@ -37,10 +71,15 @@ function BrowserViewModel(manager) {
     return targets;
   };
 
-  this.selectedSources = [];
-  this.selectedCategories = [];
-  this.selectedFiles = [];
-  this.selectedTargets = [];
+  var selectedTargets = bjq.Model([]);
+  this.selectedTargets = function () {
+    return selectedTargets;
+  };
+
+  var play = new Bacon.Bus();
+  this.play = function () {
+    return play;
+  };
 }
 
 module.exports = BrowserViewModel;
