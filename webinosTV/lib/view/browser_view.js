@@ -59,9 +59,12 @@ function calcSize() {
   //vertikal zentrieren
   $('#horizontalwrapper').height(height * 0.9);
   $('#horizontalwrapper').css('margin-top', -(height * 0.45));
-
+ 
   $('#verticalwrapper').height(height * 0.9 - 20);
   $('#playmodewrapper li').outerHeight((height * 0.45) - 5);
+  $('#queuewrapper').height( $('#verticalwrapper').height() - $('.queuecontrols').height() );
+  $('#queuetopfadeout').css('margin-top', '59px');
+
 }
 
 function loaded() {
@@ -70,8 +73,26 @@ function loaded() {
   //contentScroll = new IScroll('#contentwrapper', {snap: 'li', momentum: false});
   //targetScroll = new IScroll('#targetwrapper', {snap: 'li', momentum: false});
   queueScroll = new IScroll('#queuewrapper', {snap: 'li', momentum: false});
+  queueScroll.on('scrollEnd', function() {checkScrollFadeout(this);});
   horizontalScroll = new IScroll('#horizontalwrapper', {snap: 'ul', scrollX: true, scrollY: false, momentum: false});
 }
+
+function checkScrollFadeout(scroller) {
+  if(scroller.y >= (0)){
+    $('#queuetopfadeout').hide();
+    console.log(">10 = hide");
+  }else{
+    $('#queuetopfadeout').show();
+    console.log("!>10 = show");
+  }
+  if(scroller.y <= ($('#queuewrapper').height() - $('#queuelist').height())){
+    $('#queuebottomfadeout').hide();
+  }else{
+    $('#queuebottomfadeout').show();
+  }
+}
+
+
 
 document.addEventListener('touchmove', function(e) {
   e.preventDefault();

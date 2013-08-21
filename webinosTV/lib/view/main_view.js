@@ -46,5 +46,4 @@ function scrollrefresh(){
 	}, 0);
 }
 
-
 window.toggleMainmenu=toggleMainmenu;

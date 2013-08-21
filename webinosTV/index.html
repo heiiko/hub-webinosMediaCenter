@@ -14,10 +14,10 @@
         <div class="overlay"></div>
         <div id="mainmenu" class="menu">
             <div class="mm_button">
-                <div id="tosimplebrowserbutton" class="mm_button mm_browsermodebutton">simple<br>Browser</div><div id="toadvancedbrowserbutton" class="mm_button mm_browsermodebutton">advance<br>Browser</div>
+                <div id="tosimplebrowserbutton" class="mm_button mm_browsermodebutton"><p>simple<br>Browser</p></div><div id="toadvancedbrowserbutton" class="mm_button mm_browsermodebutton"><p>advance<br>Browser</p></div>
             </div>
-            <div id="torendererbutton" class="mm_button">Renderer</div>
-            <div id="tocontrollerbutton" class="mm_button">Controller</div>
+            <div id="torendererbutton" class="mm_button"><p>Renderer</p></div>
+            <div id="tocontrollerbutton" class="mm_button"><p>Controller</p></div>
         </div>
         <div id="selecttarget" class="menu">
             <div id="st_wrapper" class="wrapper selecttargetlist">
@@ -71,34 +71,34 @@
                 <div id="horizontalscroller">
                     <div id="header">
                         <div class="listhead buttonlist">
-                            <p><img src="images/next_right_blue.svg">Source Device</p>
-                            <div class="topfadeout buttonlist"></div>
+                            <img src="images/next_right_blue.svg"><p>Source Device</p>
+                            <div id="sourcetopfadeout" class="topfadeout buttonlist"></div>
                         </div>
                         <div class="listhead buttonlist">
-                            <p><img src="images/next_right_blue.svg">Categories</p>
-                            <div class="topfadeout buttonlist"></div>
+                            <img src="images/next_right_blue.svg"><p>Categories</p>
+                            <div id="categorytopfadeout" class="topfadeout buttonlist"></div>
                         </div>
                         <div class="listhead contentlist">
-                            <p><img src="images/next_right_blue.svg">Select Files</p>
-                            <div class="topfadeout contentlist"></div>
+                            <img src="images/next_right_blue.svg"><p>Select Files</p>
+                            <div id="contenttopfadeout" class="topfadeout contentlist"></div>
                         </div>
                         <div class="listhead buttonlist">
-                            <p><img src="images/next_right_blue.svg">Target Device</p>
-                            <div class="topfadeout buttonlist"></div>
+                            <img src="images/next_right_blue.svg"><p>Target Device</p>
+                            <div id="targettopfadeout" class="topfadeout buttonlist"></div>
                         </div>
                         <div class="listhead buttonlist">
-                            <p><img src="images/next_right_blue.svg">Play Mode</p>
-                            <div class="topfadeout buttonlist"></div>
+                            <img src="images/next_right_blue.svg"><p>Play Mode</p>
+                            <div id="playmodetopfadeout" class="topfadeout buttonlist"></div>
                         </div>
                         <div class="listhead contentlist">
-                            <p><img src="images/next_right_blue.svg">Queue: ...</p>
-                            <div class="topfadeout contentlist"></div>
+                            <img src="images/next_right_blue.svg"><p>Queue: ...</p>
+                            <div id="queuetopfadeout" class="topfadeout contentlist"></div>
                         </div>
                     </div>
                     <div id="verticalwrapper">
                         <div id="sourcewrapper" class="wrapper buttonlist">
                             <ul id="sourcelist">
-<!--                                <li>
+                               <li>
                                     <img src="images/tv.svg">
                                     <p>Living Room</p>
                                 </li>
@@ -134,11 +134,11 @@
                                     <img src="images/tablet.svg">
                                     <p>Ralph's Tablet</p>
                                 </li>
- -->                            </ul>
+                            </ul>
                         </div>
                         <div id="mediatypwrapper" class="wrapper buttonlist">
                             <ul id="mediatyplist">
-<!--                                 <li>
+                                <li>
                                     <img src="images/movie.svg">
                                     <p>Movies</p>
                                 </li>
@@ -162,12 +162,12 @@
                                 <li>
                                     <img src="images/apps.svg">
                                     <p>Apps</p>
-                                </li> -->
+                                </li>
                             </ul>
                         </div>
                         <div id="contentwrapper" class="wrapper contentlist">
                             <ul id="contentlist">
-<!--                                 <li>
+                                <li>
                                     <div class="album">
                                         <div class="albumhead">
                                             <p>Artist - Album</p>
@@ -290,14 +290,14 @@
                                 <li>songz</li>
                                 <li id="pullUp">
                                     <span class="pullUpIcon"></span><span class="pullUpLabel">Pull up to load more...</span>
-                                </li> -->
+                                </li>
                             </ul>
 
 
                         </div>
                         <div id="targetwrapper" class="wrapper buttonlist">
                             <ul id="targetlist">
-<!--                                 <li>
+                                <li>
                                     <img src="images/tv.svg">
                                     <p>Living Room</p>
                                 </li>
@@ -332,12 +332,12 @@
                                 <li>
                                     <img src="images/tablet.svg">
                                     <p>Ralph's Tablet</p>
-                                </li> -->
+                                </li>
                             </ul>
                         </div>
                         <div id="playmodewrapper" class="wrapper buttonlist">
                             <ul id="playmodelist">
-                                <li id="play">
+                                <li>
                                     <img src="images/play_on.svg">
                                     <p>Play now</p>
                                 </li>
@@ -347,35 +347,106 @@
                                 </li>
                             </ul>
                         </div>
-                        <div id="queuewrapper" class="wrapper contentlist">
-                            <ul id="queuelist">
-                                <li>song1</li>
-                                <li>song2</li>
-                                <li>song3</li>
-                                <li>song4</li>
-                                <li>song5</li>
-                                <li>song6</li>
-                            </ul>
+                        <div class="wrapper contentlist">
+                            <div class="queuecontrols">
+                                
+                            </div>
+                            <div id="queuewrapper" class="wrapper">
+                                <ul id="queuelist">
+                                    <li>song1</li>
+                                    <li>song2</li>
+                                    <li>song3</li>
+                                    <li>song4</li>
+                                    <li>song5</li>
+                                    <li>song6</li>
+                                    <li>song1</li>
+                                    <li>song2</li>
+                                    <li>song3</li>
+                                    <li>song4</li>
+                                    <li>song5</li>
+                                    <li>song6</li>
+                                    <li>song1</li>
+                                    <li>song2</li>
+                                    <li>song3</li>
+                                    <li>song4</li>
+                                    <li>song5</li>
+                                    <li>song6</li>
+                                    <li>song1</li>
+                                    <li>song2</li>
+                                    <li>song3</li>
+                                    <li>song4</li>
+                                    <li>song5</li>
+                                    <li>song6</li>
+                                    <li>song1</li>
+                                    <li>song2</li>
+                                    <li>song3</li>
+                                    <li>song4</li>
+                                    <li>song5</li>
+                                    <li>song6</li>
+                                    <li>song1</li>
+                                    <li>song2</li>
+                                    <li>song3</li>
+                                    <li>song4</li>
+                                    <li>song5</li>
+                                    <li>song6</li>
+                                    <li>song1</li>
+                                    <li>song2</li>
+                                    <li>song3</li>
+                                    <li>song4</li>
+                                    <li>song5</li>
+                                    <li>song6</li>
+                                    <li>song1</li>
+                                    <li>song2</li>
+                                    <li>song3</li>
+                                    <li>song4</li>
+                                    <li>song5</li>
+                                    <li>song6</li>
+                                    <li>song1</li>
+                                    <li>song2</li>
+                                    <li>song3</li>
+                                    <li>song4</li>
+                                    <li>song5</li>
+                                    <li>song6</li>
+                                    <li>song1</li>
+                                    <li>song2</li>
+                                    <li>song3</li>
+                                    <li>song4</li>
+                                    <li>song5</li>
+                                    <li>song6</li>
+                                    <li>song1</li>
+                                    <li>song2</li>
+                                    <li>song3</li>
+                                    <li>song4</li>
+                                    <li>song5</li>
+                                    <li>song6</li>
+                                    <li>song1</li>
+                                    <li>song2</li>
+                                    <li>song3</li>
+                                    <li>song4</li>
+                                    <li>song5</li>
+                                    <li>song6</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                     <div id="footer">
                         <div class="listfoot buttonlist">
-                            <div class="bottomfadeout buttonlist"></div>
+                            <div id="sourcebottomfadeout" class="bottomfadeout buttonlist"></div>
                         </div>
                         <div class="listfoot buttonlist">
-                            <div class="bottomfadeout buttonlist"></div>
+                            <div id="categorybottomfadeout" class="bottomfadeout buttonlist"></div>
                         </div>
                         <div class="listfoot contentlist">
-                            <div class="bottomfadeout contentlist"></div>
+                            <div id="contentbottomfadeout" class="bottomfadeout contentlist"></div>
                         </div>
                         <div class="listfoot buttonlist">
-                            <div class="bottomfadeout buttonlist"></div>
+                            <div id="targetbottomfadeout" class="bottomfadeout buttonlist"></div>
                         </div>
                         <div class="listfoot buttonlist">
-                            <div class="bottomfadeout buttonlist"></div>
+                            <div id="playmodebottomfadeout" class="bottomfadeout buttonlist"></div>
                         </div>
                         <div class="listfoot contentlist">
-                            <div class="bottomfadeout contentlist"></div>
+                            <div id="queuebottomfadeout" class="bottomfadeout contentlist"></div>
                         </div>
                     </div>
                 </div>
@@ -387,16 +458,16 @@
                 <source src="movies/movie.mp4" type="video/mp4">
             </video>
         </div>
-        
+
         <div id="controller" class="pt-page pageRemote landscape">
-            <div class="backButton"><div class="backButtonCaption" ></div> <div class="clickAreaBack"></div></div>
+            <div class="backButton"><div class="backButtonCaption" ></div> <div class="clickAreaBack"></div></div> 
             <div class="tapButton" ><div class="clickAreaUp"></div><div class="clickAreaDown"></div><div class="clickAreaLeft"></div><div class="clickAreaRight"></div><div class="clickAreaOk"></div></div>
-            <div class="switchButtons toggleTapButton" ></div>
-            <div class="switchButtons toggleSwipeButton" ></div>
-            <div class="switchButtons toggleGyroButton" ></div>
-            <div class="switchButtons searchButton" ></div>
-            <div class="switchButtons changeModeButton" ></div>
-            <div class="logoArea"></div>
+            <div class="switchButtons toggleTapButton" ></div>  
+            <div class="switchButtons toggleSwipeButton" ></div>  
+            <div class="switchButtons toggleGyroButton" ></div> 
+            <div class="switchButtons searchButton" ></div> 
+            <div class="switchButtons changeModeButton" ></div> 
+            <div class="logoArea"></div>  
         </div>
         <div id="leftfadeout"></div>
         <div id="rightfadeout"></div>
