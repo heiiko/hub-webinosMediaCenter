@@ -2,8 +2,13 @@ var $ = require('jquery');
 var _ = require('../util/objectscore.coffee'); // require('underscore');
 var Bacon = require('baconjs');
 var IScroll = require('iscroll');
+
 var util = require('util');
 require('./pagetransition.js');
+
+//todo: hookup controls to controller
+var ControlsView = require('./controls_view.js').ControlsView;
+
 
 var sourceScroll;
 var mediatypScroll;
@@ -28,6 +33,7 @@ $(document).ready(function() {
   });
 
   calcSize();
+  $(".topfadeout").hide();
 });
 
 function calcSize() {
@@ -85,10 +91,12 @@ function checkScrollFadeout(scroller) {
     $('#queuetopfadeout').show();
     console.log("!>10 = show");
   }
+
   if(scroller.y <= ($('#queuewrapper').height() - $('#queuelist').height())){
     $('#queuebottomfadeout').hide();
   }else{
     $('#queuebottomfadeout').show();
+
   }
 }
 

@@ -187,9 +187,9 @@ body {
 }
 
 .queuecontrols {
-    background: #f00;
+    
     width: 100%;
-    height:60px;
+    height:90px;
 }
 
 .focus {
@@ -409,4 +409,88 @@ border-radius: 100px;
     height: 10%;
     position: absolute;
     margin: 1em;
+}
+
+/* --- Controls --- */
+.controlButton{
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position-x: center;
+    width: 12%;
+    height: 100%;
+    float:left;
+    cursor: pointer;
+}
+
+.controlPrev{
+    background-image: url(../images/player_prev.svg);
+}
+.controlRewd{
+    background-image: url(../images/player_bwd.svg);
+}
+.controlPlay{
+    background-image: url(../images/player_play.svg);
+}
+.controlPaus{
+    background-image: url(../images/player_pause.svg);
+}
+.controlFwrd{
+    background-image: url(../images/player_fwd.svg);
+}
+.controlNext{
+    background-image: url(../images/player_next.svg);
+}
+.controlDele{
+    background-image: url(../images/trash_playlist.svg);
+}
+.controlFull{
+    background-image: url(../images/player_enter_fullscreen.svg);
+}
+.controlHres{
+    background-image: url(../images/player_hd.svg);
+}
+.controlSbar{
+    width: 96%;
+    height: 15%;
+    background-color: #4F4F4F;
+    position: relative;
+    margin-left: 2%;
+    margin-right: 2%;
+
+}
+.controlSbar div{
+        width: 0%;
+    height: 100%%;
+      transition: width 1s;
+    transition-timing-function: linear;
+    background-color: #00b6ff;  
+}
+
+
+.controlTime{
+    width: 10%;
+    height: 20%;
+    background-color: #4F4F4F;
+    position: relative;
+    bottom: 0;
+    margin-left: 45%;
+    margin-right: 45%; 
+    cursor: pointer;
+}
+
+.controlButtons{
+    width: 100%;
+    margin: 0 auto;
+    height: 60%;
+}
+
+.controlContainer{
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 90%;
+    background-color: #3f3f3f;
+    border-left: 3px solid #333;    
+    border-right: 3px solid #333;
 }
