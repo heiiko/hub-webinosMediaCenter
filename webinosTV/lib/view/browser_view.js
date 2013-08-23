@@ -6,9 +6,6 @@ var IScroll = require('iscroll');
 var util = require('util');
 require('./pagetransition.js');
 
-//todo: hookup controls to controller
-var ControlsView = require('./controls_view.js').ControlsView;
-
 
 var sourceScroll;
 var mediatypScroll;
@@ -223,7 +220,11 @@ function BrowserView(viewModel) {
   var contentListView = new ContentListView(viewModel);
   var targetListView = new TargetListView(viewModel);
 
-  viewModel.play().plug($('#play').asEventStream('click').map())
+  viewModel.play().plug($('#play').asEventStream('click').map());
+
+  this.getControlsSelector = function(){
+    return ".queuecontrols";
+  }
 }
 
 module.exports = BrowserView;
