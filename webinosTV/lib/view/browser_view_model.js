@@ -38,7 +38,7 @@ function BrowserViewModel(manager) {
   var content = bjq.Model([]);
   content.addSource(Bacon.combineWith(function (sources, selectedSources, categories, selectedCategories) {
     var types = _.map(selectedCategories, function (id) {
-      return _.findWhere(categories, {id: id}).type;
+      return (id)?_.findWhere(categories, {id: id}).type:id;
     });
     return _.chain(sources).filter(function (source) {
       return !selectedSources.length || _.contains(selectedSources, source.address());
