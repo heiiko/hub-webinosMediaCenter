@@ -30,7 +30,9 @@ $(document).ready(function() {
   });
 
   calcSize();
+
   $(".topfadeout").hide();
+  $("#playmodebottomfadeout").hide();
 });
 
 function calcSize() {
@@ -66,7 +68,7 @@ function calcSize() {
   $('#verticalwrapper').height(height * 0.9 - 20);
   $('#playmodewrapper li').outerHeight((height * 0.45) - 5);
   $('#queuewrapper').height( $('#verticalwrapper').height() - $('.queuecontrols').height() );
-  $('#queuetopfadeout').css('margin-top', '59px');
+  $('#queuetopfadeout').css('margin-top', $('.queuecontrols').height());
 
 }
 
@@ -83,12 +85,9 @@ function loaded() {
 function checkScrollFadeout(scroller) {
   if(scroller.y >= (0)){
     $('#queuetopfadeout').hide();
-    console.log(">10 = hide");
   }else{
     $('#queuetopfadeout').show();
-    console.log("!>10 = show");
   }
-
   if(scroller.y <= ($('#queuewrapper').height() - $('#queuelist').height())){
     $('#queuebottomfadeout').hide();
   }else{
@@ -107,7 +106,7 @@ document.addEventListener('DOMContentLoaded', function() {
   setTimeout(loaded, 800);
 }, false);
 
-function ListView(items, selection, list, wrapper) {
+function ListView(items, selection, list, wrapper, fadeout) {
   var self = this;
   var scroll = undefined;
 
@@ -115,6 +114,18 @@ function ListView(items, selection, list, wrapper) {
     if ($(list).children().length > 0) {
       if (typeof scroll === 'undefined') {
         scroll = new IScroll(wrapper, {snap: 'li', momentum: false});
+        scroll.on('scrollEnd', function(){
+          if(scroll.y >= 0){
+            $(fadeout + 'topfadeout').hide();
+          }else{
+            $(fadeout + 'topfadeout').show();
+          }
+          if(scroll.y <= ($(wrapper).height() - $(list).height())){
+            $(fadeout + 'bottomfadeout').hide();
+          }else{
+            $(fadeout + 'bottomfadeout').show();
+          }
+        });
       }
       scroll.refresh();
     }
@@ -160,7 +171,7 @@ function ListView(items, selection, list, wrapper) {
 }
 
 util.inherits(DeviceListView, ListView);
-function DeviceListView(items, selection, list, wrapper) {
+function DeviceListView(items, selection, list, wrapper, fadeout) {
   this.htmlify = function (device) {
     return '<li><img src="images/tv.svg"><p>' + device.address() + '</p></li>';
   };
@@ -169,12 +180,12 @@ function DeviceListView(items, selection, list, wrapper) {
     return device.address();
   };
 
-  ListView.call(this, items, selection, list, wrapper);
+  ListView.call(this, items, selection, list, wrapper, fadeout);
 }
 
 util.inherits(SourceListView, DeviceListView);
 function SourceListView(viewModel) {
-  DeviceListView.call(this, viewModel.sources(), viewModel.selectedSources(), '#sourcelist', '#sourcewrapper');
+  DeviceListView.call(this, viewModel.sources(), viewModel.selectedSources(), '#sourcelist', '#sourcewrapper', '#source');
 }
 
 util.inherits(CategoryListView, ListView);
@@ -187,7 +198,7 @@ function CategoryListView(viewModel) {
     return category.id;
   };
 
-  ListView.call(this, viewModel.categories(), viewModel.selectedCategories(), '#mediatyplist', '#mediatypwrapper');
+  ListView.call(this, viewModel.categories(), viewModel.selectedCategories(), '#mediatyplist', '#mediatypwrapper', '#category');
 }
 
 util.inherits(ContentListView, ListView);
@@ -206,12 +217,12 @@ function ContentListView(viewModel) {
     };
   };
 
-  ListView.call(this, viewModel.content(), viewModel.selectedContent(), '#contentlist', '#contentwrapper');
+  ListView.call(this, viewModel.content(), viewModel.selectedContent(), '#contentlist', '#contentwrapper', '#content');
 }
 
 util.inherits(TargetListView, DeviceListView);
 function TargetListView(viewModel) {
-  DeviceListView.call(this, viewModel.targets(), viewModel.selectedTargets(), '#targetlist', '#targetwrapper');
+  DeviceListView.call(this, viewModel.targets(), viewModel.selectedTargets(), '#targetlist', '#targetwrapper', '#target');
 }
 
 function BrowserView(viewModel) {
