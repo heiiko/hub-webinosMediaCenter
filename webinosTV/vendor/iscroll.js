@@ -405,8 +405,8 @@ IScroll.prototype = {
 		}
 
 		var point		= e.touches ? e.touches[0] : e,
-			deltaX		= this.hasHorizontalScroll ? point.pageX - this.pointX : 0,
-			deltaY		= this.hasVerticalScroll   ? point.pageY - this.pointY : 0,
+			deltaX		= point.pageX - this.pointX,
+			deltaY		= point.pageY - this.pointY,
 			timestamp	= utils.getTime(),
 			newX, newY,
 			absDistX, absDistY;
@@ -414,8 +414,8 @@ IScroll.prototype = {
 		this.pointX		= point.pageX;
 		this.pointY		= point.pageY;
 
-		this.distX		+= deltaX;
-		this.distY		+= deltaY;
+		this.distX		+= this.x + (this.hasHorizontalScroll ? deltaX : 0);
+		this.distY		+= this.y + (this.hasVerticalScroll ? deltaY : 0);
 		absDistX		= Math.abs(this.distX);
 		absDistY		= Math.abs(this.distY);
 
