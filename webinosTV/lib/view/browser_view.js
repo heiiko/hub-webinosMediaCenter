@@ -204,7 +204,7 @@ function CategoryListView(viewModel) {
 util.inherits(ContentListView, ListView);
 function ContentListView(viewModel) {
   this.htmlify = function (value) {
-    return '<li><p>' + value.item.title + '</p></li>';
+    return '<li><p>'+((value.item.type === "Image")?('<img src="' + value.item.thumbnailURIs[0] + '">'):(value.item.title)) + '</p></li>';
   };
 
   this.identify = function (value) {
