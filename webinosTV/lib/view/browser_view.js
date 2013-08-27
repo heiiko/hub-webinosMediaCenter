@@ -69,13 +69,15 @@ function calcSize() {
   $('#queuewrapper').height( $('#verticalwrapper').height() - $('.queuecontrols').height() );
   $('#queuetopfadeout').css('margin-top', $('.queuecontrols').outerHeight());
 
+  $('.searchfield input').width($('.searchfield').width() - 60);
+
 }
 
 function loaded() {
-  // sourceScroll = new IScroll('#sourcewrapper', {snap: 'li', momentum: false});
-  // mediatypScroll = new IScroll('#mediatypwrapper', {snap: 'li', momentum: false});
-  // contentScroll = new IScroll('#contentwrapper', {snap: 'li', momentum: false});
-  // targetScroll = new IScroll('#targetwrapper', {snap: 'li', momentum: false});
+  sourceScroll = new IScroll('#sourcewrapper', {snap: 'li', momentum: false});
+  mediatypScroll = new IScroll('#mediatypwrapper', {snap: 'li', momentum: false});
+  contentScroll = new IScroll('#contentwrapper', {snap: 'li', momentum: false});
+  targetScroll = new IScroll('#targetwrapper', {snap: 'li', momentum: false});
   queueScroll = new IScroll('#queuewrapper', {snap: 'li', momentum: false});
   queueScroll.on('scrollEnd', function() {checkScrollFadeout(this);});
   horizontalScroll = new IScroll('#horizontalwrapper', {snap: 'ul', scrollX: true, scrollY: false, momentum: false});
@@ -91,11 +93,8 @@ function checkScrollFadeout(scroller) {
     $('#queuebottomfadeout').hide();
   }else{
     $('#queuebottomfadeout').show();
-
   }
 }
-
-
 
 document.addEventListener('touchmove', function(e) {
   e.preventDefault();
@@ -225,10 +224,10 @@ function TargetListView(viewModel) {
 }
 
 function BrowserView(viewModel) {
-  var sourceListView = new SourceListView(viewModel);
-  var categoryListView = new CategoryListView(viewModel);
-  var contentListView = new ContentListView(viewModel);
-  var targetListView = new TargetListView(viewModel);
+  // var sourceListView = new SourceListView(viewModel);
+  // var categoryListView = new CategoryListView(viewModel);
+  // var contentListView = new ContentListView(viewModel);
+  // var targetListView = new TargetListView(viewModel);
 
   viewModel.play().plug($('#play').asEventStream('click').map());
 
