@@ -4,7 +4,6 @@ var Bacon = require('baconjs');
 var IScroll = require('iscroll');
 
 var util = require('util');
-require('./pagetransition.js');
 
 
 var sourceScroll;
@@ -68,15 +67,15 @@ function calcSize() {
   $('#verticalwrapper').height(height * 0.9 - 20);
   $('#playmodewrapper li').outerHeight((height * 0.45) - 5);
   $('#queuewrapper').height( $('#verticalwrapper').height() - $('.queuecontrols').height() );
-  $('#queuetopfadeout').css('margin-top', $('.queuecontrols').height());
+  $('#queuetopfadeout').css('margin-top', $('.queuecontrols').outerHeight());
 
 }
 
 function loaded() {
-  //sourceScroll = new IScroll('#sourcewrapper', {snap: 'li', momentum: false});
+  // sourceScroll = new IScroll('#sourcewrapper', {snap: 'li', momentum: false});
   // mediatypScroll = new IScroll('#mediatypwrapper', {snap: 'li', momentum: false});
-  //contentScroll = new IScroll('#contentwrapper', {snap: 'li', momentum: false});
-  //targetScroll = new IScroll('#targetwrapper', {snap: 'li', momentum: false});
+  // contentScroll = new IScroll('#contentwrapper', {snap: 'li', momentum: false});
+  // targetScroll = new IScroll('#targetwrapper', {snap: 'li', momentum: false});
   queueScroll = new IScroll('#queuewrapper', {snap: 'li', momentum: false});
   queueScroll.on('scrollEnd', function() {checkScrollFadeout(this);});
   horizontalScroll = new IScroll('#horizontalwrapper', {snap: 'ul', scrollX: true, scrollY: false, momentum: false});
@@ -235,7 +234,7 @@ function BrowserView(viewModel) {
 
   this.getControlsSelector = function(){
     return ".queuecontrols";
-  }
+  };
 }
 
 module.exports = BrowserView;

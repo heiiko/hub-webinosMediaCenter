@@ -19,31 +19,49 @@ function init() {
     $('#leftfadeout').on('click', function(){ toggleMainmenu(); });
     $('#rightfadeout').on('click', function(){ toggleSelectTarget(); });
     $('#closeselecttarget').on('click', function(){ toggleSelectTarget(); });
+    $('.overlay').on('click', function(){ closeMenus(); });
 
-	if (window.location.hash) {
+	if (window.location.hash){
 		gotoPageById(window.location.hash);
 		toggleMainmenu();
 	}
 }
 
+function closeMenus() {
+    $('#mainmenu').finish();
+    $('#selecttarget').finish();
+    $('.overlay').finish();
+    if($('#mainmenu').is(":visible")){
+        $('#mainmenu').animate({'width': 'toggle'});
+    }
+    if($('#selecttarget').is(":visible")){
+        $('#selecttarget').animate({'width': 'toggle'});
+    }
+    if($('.overlay').is(":visible")){
+        $('.overlay').animate({'opacity': 'toggle'}, 1000);
+    }
+}
+
+
+
 function toggleMainmenu(){
-    $('#mainmenu').stop(true,true);
-    $('.overlay').stop(true,true);
-    $('#mainmenu').animate({'width': 'toggle'});
-    $('.overlay').animate({'opacity': 'toggle'}, 1000);
+    $('#mainmenu').animate({'width': 'toggle'}, function() {toggleOverlay(); });
 }
 
 function toggleSelectTarget(){
-    $('#mainmenu').stop(true,true);
-    $('.overlay').stop(true,true);
-    $('#selecttarget').animate({'width': 'toggle'}, scrollrefresh());
-    $('.overlay').animate({'opacity': 'toggle'}, 1000);
+    $('#selecttarget').animate({'width': 'toggle'}, function() {toggleOverlay(); selecttargetScroll.refresh();});
 }
 
-function scrollrefresh(){
-	setTimeout(function(){
-		selecttargetScroll.refresh();
-	}, 0);
+function toggleOverlay(){
+        if(($('#mainmenu').is(":visible") || $('#selecttarget').is(":visible"))){
+            if($('.overlay').is(":hidden")){
+                $('.overlay').animate({'opacity': 'toggle'}, 1000);
+            }
+        }else if($('#mainmenu').is(":hidden") && $('#selecttarget').is(":hidden")){
+            if($('.overlay').is(":visible")){
+                $('.overlay').animate({'opacity': 'toggle'}, 1000);
+            }
+        }
 }
 
 window.toggleMainmenu=toggleMainmenu;

@@ -149,7 +149,6 @@ body {
 
 #queuewrapper {
     width: 100%;
-    margin-top: 1em;
 }
 
 .contentlist li{
@@ -188,9 +187,9 @@ body {
 }
 
 .queuecontrols {
-    
     width: 100%;
     height:90px;
+    padding-bottom: 10px;
 }
 
 .focus {
