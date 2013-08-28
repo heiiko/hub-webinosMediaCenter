@@ -86,7 +86,9 @@ class Channel extends Bacon.EventStream
           (error) -> resolver.reject(error))
     @send = (message) ->
       return Promise.reject("Channel not connected") unless connected
-      promisify('send', underlying)(message)
+      promise = promisify('send', underlying)(message)
+      promise.then(-> messages.push(message))
+      promise
     @sendTo = (client, message) ->
       return Promise.reject("Channel not connected") unless connected
       promisify('sendTo', underlying)(client, message)
