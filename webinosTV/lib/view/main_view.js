@@ -1,67 +1,38 @@
-var gotoPageById = require('./pagetransition.js');
-var IScroll = require('iscroll');
-
-var selecttargetScroll;
+var $ = require('jquery');
+var activemenu = '#menu-device';
+var currentpage = '#container-device';
 
 $(document).ready(function() {
 	init();
 });
 
 function init() {
-	$('#tosimplebrowserbutton').on('click', function(){ gotoPageById('#browser'); toggleMainmenu(); });
-    $('#toadvancedbrowserbutton').on('click', function(){ gotoPageById('#browser'); toggleMainmenu(); });
-    $('#torendererbutton').on('click', function(){ gotoPageById('#renderer'); toggleMainmenu(); });
-    $('#tocontrollerbutton').on('click', function(){ gotoPageById('#controller'); toggleMainmenu(); });
-
-	selecttargetScroll = new IScroll('#st_wrapper', {snap: 'li', momentum: false});
-    $('#selecttarget').toggle();
-
-    $('#leftfadeout').on('click', function(){ toggleMainmenu(); });
-    $('#rightfadeout').on('click', function(){ toggleSelectTarget(); });
-    $('#closeselecttarget').on('click', function(){ toggleSelectTarget(); });
-    $('.overlay').on('click', function(){ closeMenus(); });
+	$(activemenu).addClass('menu-active');
+	$(currentpage).addClass('subpage-current');
+	
+	$('#menu-device').on('click', function(){ gotoPageById('#container-device'); setActiveMenu('#menu-device');});
+    $('#menu-media').on('click', function(){ gotoPageById('#container-media'); setActiveMenu('#menu-media');});
+    $('#menu-queue').on('click', function(){ gotoPageById('#container-queue'); setActiveMenu('#menu-queue');});
 
 	if (window.location.hash){
 		gotoPageById(window.location.hash);
-		toggleMainmenu();
 	}
 }
 
-function closeMenus() {
-    $('#mainmenu').finish();
-    $('#selecttarget').finish();
-    $('.overlay').finish();
-    if($('#mainmenu').is(":visible")){
-        $('#mainmenu').animate({'width': 'toggle'});
-    }
-    if($('#selecttarget').is(":visible")){
-        $('#selecttarget').animate({'width': 'toggle'});
-    }
-    if($('.overlay').is(":visible")){
-        $('.overlay').animate({'opacity': 'toggle'}, 1000);
+function gotoPageById(id) {
+    if (currentpage != id) {
+        var $currPage = $(currentpage);
+        $(id).addClass('subpage-current');
+		$currPage.removeClass('subpage-current');
+        currentpage = id;
     }
 }
 
-
-
-function toggleMainmenu(){
-    $('#mainmenu').animate({'width': 'toggle'}, function() {toggleOverlay(); });
+function setActiveMenu(id) {
+    if (activemenu != id) {
+        var $currMenu = $(activemenu);
+        $(id).addClass('menu-active');
+		$currMenu.removeClass('menu-active');
+        activemenu = id;
+    }
 }
-
-function toggleSelectTarget(){
-    $('#selecttarget').animate({'width': 'toggle'}, function() {toggleOverlay(); selecttargetScroll.refresh();});
-}
-
-function toggleOverlay(){
-        if(($('#mainmenu').is(":visible") || $('#selecttarget').is(":visible"))){
-            if($('.overlay').is(":hidden")){
-                $('.overlay').animate({'opacity': 'toggle'}, 1000);
-            }
-        }else if($('#mainmenu').is(":hidden") && $('#selecttarget').is(":hidden")){
-            if($('.overlay').is(":visible")){
-                $('.overlay').animate({'opacity': 'toggle'}, 1000);
-            }
-        }
-}
-
-window.toggleMainmenu=toggleMainmenu;
