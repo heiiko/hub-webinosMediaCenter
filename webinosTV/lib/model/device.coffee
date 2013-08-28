@@ -130,7 +130,7 @@ class Device extends Bacon.EventStream
       else if service instanceof MediaContentService
         @refresh()
     @address = -> address
-    @self = -> address is webinos.session.getServiceLocation()
+    @self = -> address is webinos.session.getServiceLocation() # TODO: Check.
     @type = -> type
     @content = -> content
     @services = ->
