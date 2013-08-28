@@ -13,7 +13,7 @@ class Service extends Bacon.EventStream
         onFound: (service) ->
           op.found = no # Gimme that timeout!
           reply = sink new Bacon.Next(new Service(service))
-          unsub() if reply == Bacon.noMore
+          unsub() if reply is Bacon.noMore
         onError: (error) ->
           return if ended
           if (!_.contains(['AbortError', 'TimeoutError'], error.name))
@@ -32,7 +32,7 @@ class Service extends Bacon.EventStream
     super (newSink) =>
       sink = (event) ->
         reply = newSink event
-        unsub() if reply == Bacon.noMore or event.isEnd()
+        unsub() if reply is Bacon.noMore or event.isEnd()
       if bound
         sink? new Bacon.Next(new Bound(this))
       else if unbound

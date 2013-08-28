@@ -1,3 +1,5 @@
+$ = require('jquery')
+
 webinos = require('webinos')
 
 Bacon = require('baconjs')
@@ -10,6 +12,9 @@ class MessagingService extends Service
   @findServices: (options, filter) ->
     super(new ServiceType("http://webinos.org/api/app2app"), options, filter).map (service) ->
       new MessagingService(service.underlying())
+  constructor: (underlying) ->
+    super(underlying)
+    $(window).unload(=> @unbindService())
   createChannel: (configuration, requestCallback) ->
     return Promise.reject("Service not bound") unless @bound()
     new Promise (resolver) =>

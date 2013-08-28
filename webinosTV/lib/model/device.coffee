@@ -2,23 +2,41 @@ _ = require('underscore')
 
 Bacon = require('baconjs')
 
+webinos = require('webinos')
+
 DeviceStatusService = require('../service/devicestatus.coffee')
+MessagingService = require('../service/messaging.coffee')
+PeerService = require('../service/peer.coffee')
 MediaContentService = require('../service/mediacontent.coffee')
 MediaService = require('../service/media.coffee')
 
 class DeviceManager extends Bacon.EventStream
-  constructor: (interval = 60000, timeout = 60000) ->
+  constructor: (interval = 15000, timeout = 30000) ->
     devices = {}
     compound = new Bacon.Bus()
     compound.onValue (event) ->
       device = event.device()
       if event.isAvailable()
-        if event.service() instanceof DeviceStatusService
+        service = event.service()
+        if service instanceof DeviceStatusService
           sink? new Bacon.Next(new Found(device))
-        else if device.devicestatus()?
-          sink? new Bacon.Next(new Changed(device))
+        else
+          if service instanceof MessagingService
+            services.plug Bacon.fromPromise(service.createChannel(
+                namespace: 'urn:webinos:hub:media'
+                properties:
+                  mode: 'send-receive'
+                  reclaimIfExists: yes
+                -> yes).then(_.identity, -> Promise.reject(service)))
+              .map(Bacon.once)
+              .mapError((service) -> service.searchForChannels('urn:webinos:hub:media'))
+              .flatMap(_.identity)
+              .flatMap((channel) -> Bacon.fromPromise(channel.connect()))
+              .flatMap((channel) -> PeerService.findServices(channel, {interval}))
+          if device.devicestatus()?
+            sink? new Bacon.Next(new Changed(device))
       else if event.isUnavailable()
-        if _.size(device.services()) == 0
+        if _.size(device.services()) is 0
           devices[device.address()].discovery.end()
           delete devices[device.address()]
         if event.service() instanceof DeviceStatusService
@@ -27,9 +45,11 @@ class DeviceManager extends Bacon.EventStream
           sink? new Bacon.Next(new Changed(device))
       else if device.devicestatus()?
         sink? new Bacon.Next(event)
-    services = Bacon.once(Date.now()).concat(Bacon.fromPoll(interval, -> Date.now())).flatMap (now) ->
+    services = new Bacon.Bus()
+    services.plug Bacon.once(Date.now()).concat(Bacon.fromPoll(interval, -> Date.now())).flatMap (now) ->
       Bacon.mergeAll(
         DeviceStatusService.findServices(),
+        MessagingService.findServices(),
         MediaContentService.findServices(),
         MediaService.findServices())
     services
@@ -47,7 +67,7 @@ class DeviceManager extends Bacon.EventStream
     super (newSink) ->
       sink = (event) ->
         reply = newSink event
-        unsub() if reply == Bacon.noMore or event.isEnd()
+        unsub() if reply is Bacon.noMore or event.isEnd()
       unsub = ->
         sink = undefined
     @devices = ->
@@ -93,7 +113,7 @@ class Device extends Bacon.EventStream
     super (newSink) ->
       sink = (event) ->
         reply = newSink event
-        unsub() if reply == Bacon.noMore or event.isEnd()
+        unsub() if reply is Bacon.noMore or event.isEnd()
       unsub = ->
         sink = undefined
     @onValue (event) =>
@@ -110,6 +130,7 @@ class Device extends Bacon.EventStream
       else if service instanceof MediaContentService
         @refresh()
     @address = -> address
+    @self = -> address is webinos.session.getServiceLocation()
     @type = -> type
     @content = -> content
     @services = ->
@@ -127,8 +148,9 @@ class Device extends Bacon.EventStream
     @devicestatus = -> _.find(services, ({ref}) -> ref instanceof DeviceStatusService)?.ref
     @mediacontent = -> _.find(services, ({ref}) -> ref instanceof MediaContentService)?.ref
     @media = -> _.find(services, ({ref}) -> ref instanceof MediaService)?.ref
+    @peer = -> _.find(services, ({ref}) -> ref instanceof PeerService)?.ref
     @isSource = -> @mediacontent()?
-    @isTarget = -> @media()?
+    @isTarget = -> @media()? or @peer()?
     @refresh = (force = no) =>
       now = Date.now()
       return if refresh? and refresh >= (now - interval) and not force
