@@ -67,7 +67,7 @@ class Service extends Bacon.EventStream
           unbound = yes
           sink? new Bacon.Next(new Unbound(this))
           sink? new Bacon.End()
-        underlying.unbindService() # Call me maybe?!
+        underlying.unbindService((->), (->)) # Call me maybe?!
         unbind()
         resolver.fulfill(this)
 
