@@ -6,7 +6,7 @@ webinos = require('webinos')
 
 DeviceStatusService = require('../service/devicestatus.coffee')
 MessagingService = require('../service/messaging.coffee')
-PeerService = require('../service/peer.coffee')
+PeerService = require('./peer.coffee')
 MediaContentService = require('../service/mediacontent.coffee')
 MediaService = require('../service/media.coffee')
 
