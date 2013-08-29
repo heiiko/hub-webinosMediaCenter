@@ -16,28 +16,30 @@ class MediaService extends Service
       sink = (event) ->
         reply = newSink event
         unsub() if reply is Bacon.noMore or event.isEnd()
+      unsub = =>
+        sink = undefined
+        @underlying().unregisterListenersOnExit() if @bound()
       unless @bound()
         sink? new Bacon.End()
       else
-        promisify('registerListeners', @underlying())(
+        promisify('registerListeners', @underlying())({
           onPlay: ({currentMedia, volume}) => sink? new Bacon.Next(new Play(this, currentMedia, volume))
           onPause: => sink? new Bacon.Next(new Pause(this))
           onStop: => sink? new Bacon.Next(new Stop(this))
           onEnd: (currentMedia) => sink? new Bacon.Next(new End(this, currentMedia))
           onVolumeUP: (volume) => sink? new Bacon.Next(new Volume(this, volume))
           onVolumeDOWN: (volume) => sink? new Bacon.Next(new Volume(this, volume))
-          onVolumeSet: (volume) => sink? new Bacon.Next(new Volume(this, volume)))
-        .catch((error) ->
+          onVolumeSet: (volume) => sink? new Bacon.Next(new Volume(this, volume))
+        })
+        .catch (error) ->
           sink? new Bacon.Error(error)
-          sink? new Bacon.End())
-        .then(=> @isPlaying())
-        .then(({isPlaying, currentMedia, volume}) =>
-          sink? new Bacon.Next(new Playing(this, currentMedia, volume)) if isPlaying)
-      unsub = =>
-        sink = undefined
-        @underlying().unregisterListenersOnExit()
+          sink? new Bacon.End()
+        .then => @isPlaying()
+        .then ({isPlaying, currentMedia, volume}) =>
+          sink? new Bacon.Next(new Playing(this, currentMedia, volume)) if isPlaying
+      unsub
     super(underlying)
-    @filter('.isUnbind').onValue(-> sink? new Bacon.End())
+    @filter('.isUnbind').onValue -> sink? new Bacon.End()
     @events = -> events
   play: (path) ->
     return Promise.reject("Service not bound") unless @bound()

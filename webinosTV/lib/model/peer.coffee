@@ -1,8 +1,8 @@
-Bacon = require('baconjs')
-
 webinos = require('webinos')
 
-Service = require('./service.coffee')
+Bacon = require('baconjs')
+
+Service = require('../service/service.coffee')
 
 class PeerService extends Service
   @findServices: (channel, options = {interval: 15000}) ->
