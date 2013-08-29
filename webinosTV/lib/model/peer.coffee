@@ -47,10 +47,8 @@ class PeerService extends Service
     })
     channel.filter('.isDisconnect').onValue => @unbindService()
     messages = channel
-      .filter (event) ->
-        event.isMessage() and event.message().to is peer
-      .map (event) ->
-        event.message()
+      .filter (event) -> event.isMessage() and event.message().to is peer
+      .map('.message')
     @channel = -> channel
     @messages = -> messages
     @send = (type, content) ->
@@ -81,15 +79,17 @@ class LocalPeerService extends PeerService
     sink = undefined
     events = new Bacon.EventStream (newSink) ->
       sink = (event) ->
-        try reply = newSink event catch e then console.log('exception', e)
+        reply = newSink event
         unsub() if reply is Bacon.noMore or event.isEnd()
       unsub = =>
         sink = undefined
+      if channel.disconnected()
+        sink? new Bacon.End()
+      unsub
     super(channel, peer)
+    @filter('.isUnbind').onValue -> sink? new Bacon.End()
     apply = new Bacon.Bus()
-    apply.plug @messages()
-      .filter ({type}) ->
-        type isnt 'synchronize'
+    apply.plug @messages().filter ({type}) -> type isnt 'synchronize'
     state = apply.scan {
       playback:
         current: no
@@ -97,6 +97,9 @@ class LocalPeerService extends PeerService
         relative: 0
       queue: []
     }, ({playback, queue}, {type, content}) ->
+      next = (shift) ->
+        queue.shift() if shift
+        sink? new Bacon.Next(new Play(queue[0])) if queue.length > 0
       switch type
         when 'playback:started'
           playback = {current: yes, playing: yes, relative: 0}
@@ -104,32 +107,31 @@ class LocalPeerService extends PeerService
           playback.playing = no
         when 'playback:ended'
           playback = {current: no, playing: no, relative: 0}
-          queue.shift()
-          sink? new Bacon.Next(new Play(queue[0])) if queue.length > 0
+          next(yes)
         when 'playback:state'
           playback.relative = content.relative
         when 'playback:playOrPause'
           if playback.current
-            sink? new Bacon.Next(if playback.playing then new Pause() else new Resume())
-          else if queue.length > 0
-            sink? new Bacon.Next(new Play(queue[0]))
+            event = if playback.playing then new Pause() else new Resume()
+            sink? new Bacon.Next(event)
+          else
+            next(no)
         when 'playback:seek'
           sink? new Bacon.Next(new Seek(content.relative)) if playback.current
         when 'playback:next'
-          sink? new Bacon.Next(new Stop())
+          next(playback.current)
         when 'queue:prepend'
-          queue = queue[0..0].concat(content.items, queue[1..])
-          sink? new Bacon.Next(new Stop())
+          queue = content.items.concat(queue)
+          next(no) if content.items.length > 0
         when 'queue:append'
           queue = queue.concat(content.items)
-          sink? new Bacon.Next(new Play(queue[0])) if queue.length is content.items.length
+          next(no) if content.items.length is queue.length
         when 'queue:remove'
           for i in _.sortBy(content.items, _.identity).reverse()
             queue.splice(i, 1)
-          sink? new Bacon.Next(new Stop()) if 0 in content.items
+          next(no) if 0 in content.items
       {playback, queue}
-    state.onValue (state) =>
-      @send('synchronize', state)
+    state.onValue (state) => @send('synchronize', state)
     @apply = -> apply
     @state = -> state
     @events = -> events
@@ -140,7 +142,6 @@ class Event
   isSeek: -> no
   isPause: -> no
   isResume: -> no
-  isStop: -> no
 
 class Play extends Event
   constructor: (item) ->
@@ -158,17 +159,12 @@ class Pause extends Event
 class Resume extends Event
   isResume: -> yes
 
-class Stop extends Event
-  isStop: -> yes
-
 class RemotePeerService extends PeerService
   constructor: (channel, peer) ->
     super(channel, peer)
     state = @messages()
-      .filter ({type}) ->
-        type is 'synchronize'
-      .map ({content}) ->
-        content
+      .filter ({type}) -> type is 'synchronize'
+      .map('.content')
       .toProperty {
         playback:
           current: no
