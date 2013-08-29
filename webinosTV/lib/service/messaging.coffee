@@ -14,7 +14,7 @@ class MessagingService extends Service
       new MessagingService(service.underlying())
   constructor: (underlying) ->
     super(underlying)
-    $(window).unload(=> @unbindService())
+    $(window).unload => @unbindService()
   createChannel: (configuration, requestCallback) ->
     return Promise.reject("Service not bound") unless @bound()
     new Promise (resolver) =>
@@ -22,11 +22,16 @@ class MessagingService extends Service
       @underlying().createChannel(configuration, requestCallback,
         (message) -> messages.push(message)
         (channel) => resolver.fulfill(new Channel(this, channel, messages))
-        (error) -> resolver.reject(error))
+        (error) -> resolver.reject(error)
+      )
   searchForChannels: (namespace, zoneIds = [], timeout = 5000) ->
     return Bacon.once(new Bacon.Error("Service not bound")) unless @bound()
     new Bacon.EventStream (sink) =>
       ended = no
+      unsub = ->
+        return if ended
+        ended = yes
+        op.cancel()
       op = @underlying().searchForChannels(namespace, zoneIds,
         (channel) =>
           reply = sink new Bacon.Next(new Channel(this, channel))
@@ -36,41 +41,40 @@ class MessagingService extends Service
           return if ended
           sink new Bacon.Error(error)
           sink new Bacon.End()
-          unsub())
+          unsub()
+      )
       Bacon.later(timeout, null).onValue ->
         return if ended
         sink new Bacon.End()
         unsub()
-      unsub = ->
-        return if ended
-        ended = yes
-        op.cancel()
+      unsub
 
 class Channel extends Bacon.EventStream
   constructor: (service, underlying, messages) ->
     connected = if messages? then yes else no
     disconnected = no
-    messages ?= new Bacon.Bus()
+    service.filter('.isUnbind').onValue => @disconnect()
     sink = undefined
-    service.filter('.isUnbind').onValue(=> @disconnect())
+    messages ?= new Bacon.Bus()
     messages.onValue (message) =>
       sink? new Bacon.Next(new Message(this, message))
     super (newSink) => # auto(dis)connect
       sink = (event) ->
         reply = newSink event
         unsub() if reply is Bacon.noMore or event.isEnd()
+      unsub = =>
+        sink = undefined
+        @disconnect() if @automode and connected
       if connected
         sink? new Bacon.Next(new Connected(this))
       else if disconnected
         sink? new Bacon.Next(new Disconnected(this))
         sink? new Bacon.End()
       else if @automode # => not connected and not disconnected
-        @connect().catch((error) ->
+        @connect().catch (error) ->
           sink? new Bacon.Error(error)
-          sink? new Bacon.End())
-      unsub = =>
-        sink = undefined
-        @disconnect() if @automode and connected
+          sink? new Bacon.End()
+      unsub
     @automode = yes
     @service = -> service
     @underlying = -> underlying
@@ -88,11 +92,12 @@ class Channel extends Bacon.EventStream
         underlying.connect(requestInfo,
           (message) -> messages.push(message)
           => connect(); resolver.fulfill(this)
-          (error) -> resolver.reject(error))
+          (error) -> resolver.reject(error)
+        )
     @send = (message) ->
       return Promise.reject("Channel not connected") unless connected
       promise = promisify('send', underlying)(message)
-      promise.then(-> messages.push(message))
+      promise.then -> messages.push(message)
       promise
     @sendTo = (client, message) ->
       return Promise.reject("Channel not connected") unless connected
@@ -111,7 +116,8 @@ class Channel extends Bacon.EventStream
           sink? new Bacon.End()
         underlying.disconnect(
           => disconnect(); resolver.fulfill(this)
-          (error) -> disconnect(); resolver.reject(error))
+          (error) -> disconnect(); resolver.reject(error)
+        )
 
 class Event
   constructor: (channel) ->

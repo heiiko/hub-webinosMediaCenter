@@ -9,7 +9,11 @@ class Service extends Bacon.EventStream
   @findServices: (serviceType, options = {timeout: 5000}, filter) ->
     new Bacon.EventStream (sink) ->
       ended = no
-      op = webinos.discovery.findServices(serviceType,
+      unsub = ->
+        return if ended
+        ended = yes
+        op.cancel()
+      op = webinos.discovery.findServices(serviceType, {
         onFound: (service) ->
           op.found = no # Gimme that timeout!
           reply = sink new Bacon.Next(new Service(service))
@@ -20,11 +24,8 @@ class Service extends Bacon.EventStream
             sink new Bacon.Error(error)
           sink new Bacon.End()
           unsub()
-        options, filter)
-      unsub = ->
-        return if ended
-        ended = yes
-        op.cancel()
+      }, options, filter)
+      unsub
   constructor: (underlying) ->
     bound = no
     unbound = no
@@ -54,8 +55,9 @@ class Service extends Bacon.EventStream
           underlying = newUnderlying
           bound = yes
           sink? new Bacon.Next(new Bound(this))
-        underlying.bindService(
-          onBind: (newUnderlying) => bind(newUnderlying); resolver.fulfill(this))
+        underlying.bindService({
+          onBind: (newUnderlying) => bind(newUnderlying); resolver.fulfill(this)
+        })
     @unbindService = =>
       return Promise.fulfill(this) if unbound
       return Promise.reject("Service not bound") unless bound
