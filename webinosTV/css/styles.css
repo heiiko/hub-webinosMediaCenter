@@ -20,10 +20,9 @@ body {
     -webkit-user-select: none;
 }
 
-/*p {
-    font-size: 14px;
+p {
     margin: 0;
-}*/
+}
 
 .overlay {
     background: #000;
@@ -126,6 +125,7 @@ body {
     float: left;
     height: 100%;
     overflow: hidden;
+    position: relative;
 }
 
 .wrapper > ul {
@@ -160,7 +160,6 @@ body {
 .contentlist li{
     display: block;
     background-color: #3F3F3F;
-    font-size:12px;
 }
 
 .contentlist li:nth-child(2n){
@@ -169,23 +168,47 @@ body {
 
 
 .albumhead {
-    padding: 10px;
-    height: 30px;
-    text-align: left;
+    height: 60px;
+    padding: 5px;
 }
 
 .albumhead p {
+    padding: 10px;
+    margin: 0;
     float: left;
 }
 
-.albumhead img {
-    width: 16px;
+.albumToggleIcon {
+    position: relative;
+    width: 20px;
     float: right;
+    padding-left: 20px;
+    padding-bottom: 20px;
+}
+
+.albumcover {
+    height: 100%;
+    float: left;
 }
 
 .albumsonglist {
     padding: 0;
     display:none;
+}
+
+.albumsonglist > li, #contentlist > li:not(.album), #queuelist > li {
+    height: 20px;
+}
+
+.albumsonglist > li > p, #contentlist > li > p, #queuelist > li > p {
+    float: left;
+    padding-left: 20px;
+    padding-top: 1px;
+}
+
+.albumsonglist > li > img, #contentlist > li > img, #queuelist > li > img {
+    height: 100%;
+    float: right;
 }
 
 #playmodelist > li > img {
@@ -206,7 +229,6 @@ body {
     background-color: #666666 !important;
 }
 
-
 #header {
     height: 20px;
 }
@@ -225,8 +247,7 @@ body {
 }
 
 .listhead img {
-    margin-top: -11px;
-    margin-left: -10px;
+    height: 100%;
     float: left;
     padding: 0;
 
@@ -244,6 +265,7 @@ body {
 }
 .searchfield input[type=text] {
     float: right;
+    width: 70%;
     height: 30px;
     margin: 5px;
     padding: 0;

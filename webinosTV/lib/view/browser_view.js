@@ -18,18 +18,30 @@ $(window).resize(function() {
 });
 
 $(document).ready(function() {
-  $('.albumhead').click(function() {
-    if ($(this).next('ul').is(":visible")) {
-      $(this).children('img').attr("src", "images/down_big.svg");
+  $('.albumToggleIcon').click(function() {
+    if ($(this).parent("div").next('ul').is(":visible")) {
+      $(this).attr("src", "images/arrow_big_down.svg");
     } else {
-      $(this).children('img').attr("src", "images/up_big.svg");
+      $(this).attr("src", "images/arrow_big_up.svg");
     }
-    $(this).next('ul').toggle();
-    contentScroll.refresh();
+    $(this).parent().next('ul').slideToggle(250, function() { contentScroll.refresh(); });
+  });
+  $('.albumsonglist > li > img, #contentlist > li > img').click(function() {
+    var src = ($(this).attr('src') === 'images/add.svg')
+            ? 'images/add_blue.svg'
+            : 'images/add.svg';
+         $(this).attr('src', src);
+  });
+  $('#queuelist > li > img').click(function() {
+    var src = ($(this).attr('src') === 'images/remove.svg')
+            ? 'images/remove_blue.svg'
+            : 'images/remove.svg';
+         $(this).attr('src', src);
   });
 
-  calcSize();
 
+
+  calcSize();
   $(".topfadeout").hide();
   $("#playmodebottomfadeout").hide();
 });
@@ -70,13 +82,14 @@ function calcSize() {
   $('#queuetopfadeout').css('margin-top', $('.queuecontrols').outerHeight());
 
   $('.searchfield input').width($('.searchfield').width() - 60);
+  $('#contentwrapper').height( $('#verticalwrapper').height() - $('.searchfield').height() );
 
 }
 
 function loaded() {
   // sourceScroll = new IScroll('#sourcewrapper', {snap: 'li', momentum: false});
   // mediatypScroll = new IScroll('#mediatypwrapper', {snap: 'li', momentum: false});
-  // contentScroll = new IScroll('#contentwrapper', {snap: 'li', momentum: false});
+  // contentScroll = new IScroll('#contentwrapper', {snap: '#contentlist > li', momentum: false});
   // targetScroll = new IScroll('#targetwrapper', {snap: 'li', momentum: false});
   queueScroll = new IScroll('#queuewrapper', {snap: 'li', momentum: false});
   queueScroll.on('scrollEnd', function() {checkScrollFadeout(this);});
@@ -202,7 +215,7 @@ function CategoryListView(viewModel) {
 util.inherits(ContentListView, ListView);
 function ContentListView(viewModel) {
   this.htmlify = function (value) {
-    return '<li><p>'+((value.item.type === "Image")?('<img src="' + value.item.thumbnailURIs[0] + '">'):(value.item.title)) + '</p></li>';
+    return '<li><p>'+((value.item.type === "Image")?('<img src="' + value.item.thumbnailURIs[0] + '">'):(value.item.title)) + '</p><img src="images/add.svg"></li>';
   };
 
   this.identify = function (value) {
