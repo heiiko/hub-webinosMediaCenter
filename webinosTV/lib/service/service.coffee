@@ -9,22 +9,23 @@ class Service extends Bacon.EventStream
   @findServices: (serviceType, options = {timeout: 5000}, filter) ->
     new Bacon.EventStream (sink) ->
       ended = no
-      op = webinos.discovery.findServices(serviceType,
+      unsub = ->
+        return if ended
+        ended = yes
+        op.cancel()
+      op = webinos.discovery.findServices(serviceType, {
         onFound: (service) ->
           op.found = no # Gimme that timeout!
           reply = sink new Bacon.Next(new Service(service))
-          unsub() if reply == Bacon.noMore
+          unsub() if reply is Bacon.noMore
         onError: (error) ->
           return if ended
           if (!_.contains(['AbortError', 'TimeoutError'], error.name))
             sink new Bacon.Error(error)
           sink new Bacon.End()
           unsub()
-        options, filter)
-      unsub = ->
-        return if ended
-        ended = yes
-        op.cancel()
+      }, options, filter)
+      unsub
   constructor: (underlying) ->
     bound = no
     unbound = no
@@ -32,7 +33,7 @@ class Service extends Bacon.EventStream
     super (newSink) =>
       sink = (event) ->
         reply = newSink event
-        unsub() if reply == Bacon.noMore or event.isEnd()
+        unsub() if reply is Bacon.noMore or event.isEnd()
       if bound
         sink? new Bacon.Next(new Bound(this))
       else if unbound
@@ -54,8 +55,9 @@ class Service extends Bacon.EventStream
           underlying = newUnderlying
           bound = yes
           sink? new Bacon.Next(new Bound(this))
-        underlying.bindService(
-          onBind: (newUnderlying) => bind(newUnderlying); resolver.fulfill(this))
+        underlying.bindService({
+          onBind: (newUnderlying) => bind(newUnderlying); resolver.fulfill(this)
+        })
     @unbindService = =>
       return Promise.fulfill(this) if unbound
       return Promise.reject("Service not bound") unless bound
@@ -67,7 +69,7 @@ class Service extends Bacon.EventStream
           unbound = yes
           sink? new Bacon.Next(new Unbound(this))
           sink? new Bacon.End()
-        underlying.unbindService() # Call me maybe?!
+        underlying.unbindService((->), (->)) # Call me maybe?!
         unbind()
         resolver.fulfill(this)
 
