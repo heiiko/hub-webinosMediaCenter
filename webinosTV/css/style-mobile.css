@@ -25,6 +25,13 @@ body {
 	color: black;
 }
 
+.menu-border {
+	float: left;
+	height: 20px;
+	margin: 15px 2px 0px 2px;
+	border-left: 1px solid rgb(218,218,218);
+}
+
 .menu-item.menu-active {
 	border-bottom: 5px solid rgb(102, 156,8);
 	padding-bottom: 10px;
