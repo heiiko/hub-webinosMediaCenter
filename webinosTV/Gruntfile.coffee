@@ -49,7 +49,7 @@ module.exports = (grunt) ->
           external: deps.concat _.pluck(shim, 'path')
 
     clean:
-      dist: ['dist']
+      dist: ['dist', 'css']
 
     watch:
       app:
