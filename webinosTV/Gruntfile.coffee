@@ -55,10 +55,14 @@ module.exports = (grunt) ->
       app:
         files: ['lib/**/*.coffee', 'lib/**/*.js']
         tasks: ['browserify:app']
+    compass:
+      options:
+        config: 'config/config.rb'
 
   grunt.loadNpmTasks 'grunt-browserify'
   grunt.loadNpmTasks 'grunt-contrib-clean'
   grunt.loadNpmTasks 'grunt-contrib-watch'
+  grunt.loadNpmTasks 'grunt-contrib-compass'
 
   grunt.registerTask 'dist', ['clean:dist', 'browserify:wrt', 'browserify:deps', 'browserify:app']
   grunt.registerTask 'default', ['dist']
