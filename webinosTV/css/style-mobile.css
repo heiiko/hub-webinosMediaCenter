@@ -7,6 +7,7 @@ body {
 
 ul {
 	list-style-type:none;
+	padding: 0px;
 }
 
 .menu {
@@ -104,8 +105,15 @@ ul {
 
 .device-type {
 	color: rgb(119,119,119);
+	padding-left: 15px;
 }
 
 .device-image {
 	float: right;
+}
+
+.device-name {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	padding-left: 15px;
 }
