@@ -71,9 +71,20 @@ ul {
 	box-sizing: border-box;
 
 	width: 50%;
+	height: 70px;
 	float: left;
 	text-align: center;
 	padding: 15px 2px 15px 2px;
+}
+
+#current-source-logo {
+	vertical-align: middle;
+	height: 40px;
+}
+
+#current-source-name {
+	display: inline-block;
+	vertical-align: middle;
 }
 
 .header-item-media {
@@ -132,4 +143,35 @@ ul {
 .device-name {
 	overflow: hidden;
 	text-overflow: ellipsis;
+}
+
+#selected-source {
+	vertical-align: middle;
+	height: 40px;
+}
+
+#selected-source-intro {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+#selected-source-name {
+	display: inline-block;
+	vertical-align: middle;
+	color: rgb(17,135,193);
+}
+
+#categorywrapper {
+	height: 100%;
+	
+	@media screen and (min-width: 1200px) {
+		background-color: rgb(237,237,237);
+		text-align: center;
+		width: 18%;
+		border-right: 2px solid rgb(180,180,180);
+	}
+}
+
+.category {
+	padding: 30px;
 }

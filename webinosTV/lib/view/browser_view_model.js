@@ -21,10 +21,10 @@ function BrowserViewModel(manager) {
   };
 
   var categories = bjq.Model([
-    {id: 'movies', type: 'Video', title: 'Movies', image: 'images/movie.svg'},
-    {id: 'music', type: 'Audio', title: 'Music', image: 'images/music.svg'},
-    {id: 'images', type: 'Image', title: 'Images', image: 'images/image.svg'},
-    // {id: 'channels', type: undefined, title: 'Channels', image: 'images/tv_channels.svg'}
+	{id: 'music', type: 'Audio', title: 'Music', image: 'images/music.svg'},
+    {id: 'movies', type: 'Video', title: 'Video', image: 'images/movie.svg'},
+    {id: 'images', type: 'Image', title: 'Pictures', image: 'images/image.svg'},
+    //{id: 'channels', type: undefined, title: 'Channels', image: 'images/tv_channels.svg'}
   ]);
   this.categories = function () {
     return categories;
