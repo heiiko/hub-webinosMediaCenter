@@ -4,10 +4,10 @@
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="48px"
 	 height="40px" viewBox="0 0 48 40" style="enable-background:new 0 0 48 40;" xml:space="preserve">
 <g id="pc">
-	<rect x="19" y="25" style="fill:#FFFFFF;" width="10" height="3"/>
-	<path style="fill:#FFFFFF;" d="M38,4H10C8.896,4,8,4.896,8,6v17c0,1.104,0.896,2,2,2h28c1.104,0,2-0.896,2-2V6
+	<rect x="19" y="25" style="fill:#383838;" width="10" height="3"/>
+	<path style="fill:#383838;" d="M38,4H10C8.896,4,8,4.896,8,6v17c0,1.104,0.896,2,2,2h28c1.104,0,2-0.896,2-2V6
 		C40,4.896,39.104,4,38,4z M38,23H10V6h28V23z"/>
-	<path style="fill:#FFFFFF;" d="M33,29H15l-6,6v2h3h24h3v-2L33,29z M15,31h18v1H15V31z M35,35H13v-1h22V35z"/>
+	<path style="fill:#383838;" d="M33,29H15l-6,6v2h3h24h3v-2L33,29z M15,31h18v1H15V31z M35,35H13v-1h22V35z"/>
 </g>
 <g id="Ebene_1">
 </g>

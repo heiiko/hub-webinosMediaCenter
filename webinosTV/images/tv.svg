@@ -4,8 +4,8 @@
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="48px"
 	 height="40px" viewBox="0 0 48 40" style="enable-background:new 0 0 48 40;" xml:space="preserve">
 <g id="tv">
-	<polygon style="fill:#FFFFFF;" points="30,33 18,33 16,36 32,36 	"/>
-	<path style="fill:#FFFFFF;" d="M38,10H28c0-0.741-0.215-1.425-0.565-2.02l5.101-5.101l-1.414-1.415l-5.101,5.101
+	<polygon style="fill:#383838;" points="30,33 18,33 16,36 32,36 	"/>
+	<path style="fill:#383838;" d="M38,10H28c0-0.741-0.215-1.425-0.565-2.02l5.101-5.101l-1.414-1.415l-5.101,5.101
 		C25.426,6.215,24.741,6,24,6s-1.425,0.215-2.02,0.565l-5.101-5.101l-1.415,1.414l5.101,5.101C20.215,8.574,20,9.259,20,10H10
 		c-1.104,0-2,0.896-2,2v17c0,1.104,0.896,2,2,2h28c1.104,0,2-0.896,2-2V12C40,10.896,39.104,10,38,10z M38,29H10V12h28V29z"/>
 </g>
