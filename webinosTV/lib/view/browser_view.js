@@ -14,36 +14,34 @@ var horizontalScroll;
 var contentScroll;
 
 $(window).resize(function() {
-  calcSize();
+  //calcSize();
 });
 
 $(document).ready(function() {
-  $('.albumToggleIcon').click(function() {
-    if ($(this).parent("div").next('ul').is(":visible")) {
-      $(this).attr("src", "images/arrow_big_down.svg");
-    } else {
-      $(this).attr("src", "images/arrow_big_up.svg");
-    }
-    $(this).parent().next('ul').slideToggle(250, function() { contentScroll.refresh(); });
-  });
-  $('.albumsonglist > li > img, #contentlist > li > img').click(function() {
-    var src = ($(this).attr('src') === 'images/add.svg')
-            ? 'images/add_blue.svg'
-            : 'images/add.svg';
-         $(this).attr('src', src);
-  });
-  $('#queuelist > li > img').click(function() {
-    var src = ($(this).attr('src') === 'images/remove.svg')
-            ? 'images/remove_blue.svg'
-            : 'images/remove.svg';
-         $(this).attr('src', src);
-  });
+  //$('.albumToggleIcon').click(function() {
+   // if ($(this).parent("div").next('ul').is(":visible")) {
+   //   $(this).attr("src", "images/arrow_big_down.svg");
+   // } else {
+   //   $(this).attr("src", "images/arrow_big_up.svg");
+   // }
+   // $(this).parent().next('ul').slideToggle(250, function() { contentScroll.refresh(); });
+  //});
+  //$('.albumsonglist > li > img, #contentlist > li > img').click(function() {
+  //  var src = ($(this).attr('src') === 'images/add.svg')
+  //          ? 'images/add_blue.svg'
+  //          : 'images/add.svg';
+  //       $(this).attr('src', src);
+  //});
+  //$('#queuelist > li > img').click(function() {
+  //  var src = ($(this).attr('src') === 'images/remove.svg')
+  //         ? 'images/remove_blue.svg'
+  //          : 'images/remove.svg';
+  //       $(this).attr('src', src);
+  //});
 
-
-
-  calcSize();
-  $(".topfadeout").hide();
-  $("#playmodebottomfadeout").hide();
+  //calcSize();
+  //$(".topfadeout").hide();
+  //$("#playmodebottomfadeout").hide();
 });
 
 function calcSize() {
@@ -91,9 +89,9 @@ function loaded() {
   // mediatypScroll = new IScroll('#mediatypwrapper', {snap: 'li', momentum: false});
   // contentScroll = new IScroll('#contentwrapper', {snap: '#contentlist > li', momentum: false});
   // targetScroll = new IScroll('#targetwrapper', {snap: 'li', momentum: false});
-  queueScroll = new IScroll('#queuewrapper', {snap: 'li', momentum: false});
-  queueScroll.on('scrollEnd', function() {checkScrollFadeout(this);});
-  horizontalScroll = new IScroll('#horizontalwrapper', {snap: 'ul', scrollX: true, scrollY: false, momentum: false});
+  //queueScroll = new IScroll('#queuewrapper', {snap: 'li', momentum: false});
+  //queueScroll.on('scrollEnd', function() {checkScrollFadeout(this);});
+  //horizontalScroll = new IScroll('#horizontalwrapper', {snap: 'ul', scrollX: true, scrollY: false, momentum: false});
 }
 
 function checkScrollFadeout(scroller) {
@@ -127,14 +125,14 @@ function ListView(items, selection, list, wrapper, fadeout) {
         scroll = new IScroll(wrapper, {snap: 'li', momentum: false});
         scroll.on('scrollEnd', function(){
           if(scroll.y >= 0){
-            $(fadeout + 'topfadeout').hide();
+            //$(fadeout + 'topfadeout').hide();
           }else{
-            $(fadeout + 'topfadeout').show();
+            //$(fadeout + 'topfadeout').show();
           }
           if(scroll.y <= ($(wrapper).height() - $(list).height())){
-            $(fadeout + 'bottomfadeout').hide();
+            //$(fadeout + 'bottomfadeout').hide();
           }else{
-            $(fadeout + 'bottomfadeout').show();
+            //$(fadeout + 'bottomfadeout').show();
           }
         });
       }
@@ -184,7 +182,7 @@ function ListView(items, selection, list, wrapper, fadeout) {
 util.inherits(DeviceListView, ListView);
 function DeviceListView(items, selection, list, wrapper, fadeout) {
   this.htmlify = function (device) {
-    return '<li><img src="images/tv.svg"><p>' + device.address() + '</p></li>';
+    return '<li><img class="device-image" src="images/tv.svg"><p>' + device.address() + '</p></li>';
   };
 
   this.identify = function (device) {
@@ -202,7 +200,7 @@ function SourceListView(viewModel) {
 util.inherits(CategoryListView, ListView);
 function CategoryListView(viewModel) {
   this.htmlify = function (category) {
-    return '<li><img src="' + category.image + '"><p>' + category.title + '</p></li>';
+    return '<li><img class="category-image" src="' + category.image + '"><p>' + category.title + '</p></li>';
   };
 
   this.identify = function (category) {
@@ -238,15 +236,15 @@ function TargetListView(viewModel) {
 
 function BrowserView(viewModel) {
   var sourceListView = new SourceListView(viewModel);
-  var categoryListView = new CategoryListView(viewModel);
-  var contentListView = new ContentListView(viewModel);
+  //var categoryListView = new CategoryListView(viewModel);
+  //var contentListView = new ContentListView(viewModel);
   var targetListView = new TargetListView(viewModel);
 
-  viewModel.play().plug($('#play').asEventStream('click').map());
+  //viewModel.play().plug($('#play').asEventStream('click').map());
 
-  this.getControlsSelector = function(){
-    return ".queuecontrols";
-  };
+  //this.getControlsSelector = function(){
+  //  return ".queuecontrols";
+  //};
 }
 
 module.exports = BrowserView;
