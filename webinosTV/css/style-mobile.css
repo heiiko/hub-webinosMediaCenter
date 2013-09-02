@@ -8,6 +8,7 @@ body {
 ul {
 	list-style-type:none;
 	padding: 0px;
+	margin: 0px;
 }
 
 .menu {
@@ -61,7 +62,6 @@ ul {
 	background-color: white;
 	overflow: hidden;
 	border-bottom: 1px solid rgb(72, 179, 228);
-	margin-bottom: 10px;
 }
 
 .header-item-device {
@@ -103,9 +103,17 @@ ul {
 	float: left;
 }
 
+
+.device {
+	padding: 25px 15px 25px 15px;
+}
+
+.device.selected {
+	background-color: rgb(104,194,233);
+}
+
 .device-type {
 	color: rgb(119,119,119);
-	padding-left: 15px;
 }
 
 .device-image {
@@ -115,5 +123,4 @@ ul {
 .device-name {
 	overflow: hidden;
 	text-overflow: ellipsis;
-	padding-left: 15px;
 }

@@ -182,7 +182,7 @@ function ListView(items, selection, list, wrapper, fadeout) {
 util.inherits(DeviceListView, ListView);
 function DeviceListView(items, selection, list, wrapper, fadeout) {
   this.htmlify = function (device) {
-    return '<li><img class="device-image" src="images/' + device.type() + '.svg"><div class="device-name">' + device.address() + '</div><div class="device-type">' + device.type().charAt(0).toUpperCase() + device.type().slice(1) + '</div></li>';
+    return '<li class="device"><img class="device-image" src="images/' + device.type() + '.svg"><div class="device-name">' + device.address() + '</div><div class="device-type">' + device.type().charAt(0).toUpperCase() + device.type().slice(1) + '</div></li>';
   };
 
   this.identify = function (device) {
