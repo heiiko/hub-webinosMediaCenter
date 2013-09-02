@@ -200,14 +200,14 @@ function SourceListView(viewModel) {
 util.inherits(CategoryListView, ListView);
 function CategoryListView(viewModel) {
   this.htmlify = function (category) {
-    return '<li><img class="category-image" src="' + category.image + '"><p>' + category.title + '</p></li>';
+    return '<li class="category"><img class="category-image" src="' + category.image + '"><div class="category-name">' + category.title + '</div></li>';
   };
 
   this.identify = function (category) {
     return category.id;
   };
 
-  ListView.call(this, viewModel.categories(), viewModel.selectedCategories(), '#mediatyplist', '#mediatypwrapper', '#category');
+  ListView.call(this, viewModel.categories(), viewModel.selectedCategories(), '#categorylist', '#categorywrapper', '#category');
 }
 
 util.inherits(ContentListView, ListView);
@@ -236,7 +236,7 @@ function TargetListView(viewModel) {
 
 function BrowserView(viewModel) {
   var sourceListView = new SourceListView(viewModel);
-  //var categoryListView = new CategoryListView(viewModel);
+  var categoryListView = new CategoryListView(viewModel);
   //var contentListView = new ContentListView(viewModel);
   var targetListView = new TargetListView(viewModel);
 
