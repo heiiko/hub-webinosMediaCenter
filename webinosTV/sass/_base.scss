@@ -1,0 +1,19 @@
+
+
+// Variables
+$font-family: 'Open Sans', Actor, sans-serif;
+
+
+
+// Import compass partials
+
+@import "compass/support";  // Add Compass' IE and vendor prefix support variables.
+@import "compass/utilities/general/clearfix";
+@import "compass/utilities/sprites"; // See http://compass-style.org/help/tutorials/spriting/
+@import "compass/utilities";
+@import "compass/layout/grid-background";
+@import "compass/css3";     // Use one CSS3 mixin instead of multiple vendor prefixes.
+@import "compass/typography/vertical_rhythm"; // Helps set up a vertical rhythm.
+@import "compass/typography/links/link-colors"; // Helps set up a links color.
+@import "compass/layout/sticky-footer"; // Helps set up a footer region.
+@import "compass/css3/box-shadow";

@@ -1,134 +1,151 @@
 @charset "UTF-8";
-
+/* line 4, ../sass/style-mobile.scss */
 body {
-	margin: 0px;
-	font-family: 'Roboto', sans-serif;
-	color: rgb(51,51,51);
+  margin: 0px;
+  font-family: 'Roboto', sans-serif;
+  color: #333333;
 }
 
+/* line 10, ../sass/style-mobile.scss */
 ul {
-	list-style-type:none;
-	padding: 0px;
-	margin: 0px;
+  list-style-type: none;
+  padding: 0px;
+  margin: 0px;
 }
 
+/* line 16, ../sass/style-mobile.scss */
 .menu {
-	width: 100%;
-	background-color: rgb(241,241,241);
-	overflow: hidden;
-	border-bottom: 1px solid rgb(102, 156,8);
+  width: 100%;
+  background-color: #f1f1f1;
+  overflow: hidden;
+  border-bottom: 1px solid #669c08;
 }
 
+/* line 23, ../sass/style-mobile.scss */
 .menu-item {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box; 
-
-	width: 32%;
-	float: left;
-	text-align: center;
-	padding: 15px 2px 15px 2px;
-	text-decoration: none;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 32%;
+  float: left;
+  text-align: center;
+  padding: 15px 2px 15px 2px;
+  text-decoration: none;
 }
 
+/* line 35, ../sass/style-mobile.scss */
 .menu-border {
-	float: left;
-	height: 20px;
-	margin: 15px 2px 0px 2px;
-	border-left: 1px solid rgb(218,218,218);
+  float: left;
+  height: 20px;
+  margin: 15px 2px 0px 2px;
+  border-left: 1px solid #dadada;
 }
 
+/* line 42, ../sass/style-mobile.scss */
 .menu-item.menu-active {
-	border-bottom: 5px solid rgb(102, 156,8);
-	padding-bottom: 10px;
+  border-bottom: 5px solid #669c08;
+  padding-bottom: 10px;
 }
 
+/* line 47, ../sass/style-mobile.scss */
 .subpage {
-    overflow: hidden;
-    width: 100%;
-    height: 100%;
-    background-color: white;
-    visibility: hidden;
-    position: absolute;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  visibility: hidden;
+  position: absolute;
 }
 
+/* line 56, ../sass/style-mobile.scss */
 .subpage-current {
-    visibility: visible;
-    z-index: 1;
+  visibility: visible;
+  z-index: 1;
 }
 
+/* line 61, ../sass/style-mobile.scss */
 .header {
-	width: 100%;
-	background-color: white;
-	overflow: hidden;
-	border-bottom: 1px solid rgb(72, 179, 228);
+  width: 100%;
+  background-color: white;
+  overflow: hidden;
+  border-bottom: 1px solid #48b3e4;
 }
 
+/* line 68, ../sass/style-mobile.scss */
 .header-item-device {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box; 
-
-	width: 50%;
-	float: left;
-	text-align: center;
-	padding: 15px 2px 15px 2px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 50%;
+  float: left;
+  text-align: center;
+  padding: 15px 2px 15px 2px;
 }
 
+/* line 79, ../sass/style-mobile.scss */
 .header-item-media {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	padding: 15px 2px 15px 2px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 15px 2px 15px 2px;
 }
 
+/* line 86, ../sass/style-mobile.scss */
 .header-item-queue {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	padding: 15px 2px 15px 2px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 15px 2px 15px 2px;
 }
 
+/* line 93, ../sass/style-mobile.scss */
 .header-item-device.header-active {
-	border-bottom: 5px solid rgb(72, 179, 228);
-	padding-bottom: 10px;
+  border-bottom: 5px solid #48b3e4;
+  padding-bottom: 10px;
 }
 
+/* line 98, ../sass/style-mobile.scss */
 .device-column {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box; 
-
-	width: 50%;
-	float: left;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 50%;
+  float: left;
 }
 
+/* line 107, ../sass/style-mobile.scss */
 #sourcewrapper {
-	border-right: 1px solid rgb(218,218,218);
-	height: 100%;
+  border-right: 1px solid #dadada;
+  height: 100%;
 }
 
+/* line 112, ../sass/style-mobile.scss */
 #targetwrapper {
-	height: 100%;
+  height: 100%;
 }
 
+/* line 116, ../sass/style-mobile.scss */
 .device {
-	padding: 25px 30px 25px 30px;
+  padding: 25px 30px 25px 30px;
 }
 
+/* line 120, ../sass/style-mobile.scss */
 .device.selected {
-	background-color: rgb(104,194,233);
+  background-color: #68c2e9;
 }
 
+/* line 124, ../sass/style-mobile.scss */
 .device-type {
-	color: rgb(119,119,119);
+  color: #777777;
 }
 
+/* line 128, ../sass/style-mobile.scss */
 .device-image {
-	float: right;
+  float: right;
 }
 
+/* line 132, ../sass/style-mobile.scss */
 .device-name {
-	overflow: hidden;
-	text-overflow: ellipsis;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
