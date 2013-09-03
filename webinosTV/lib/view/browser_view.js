@@ -40,7 +40,7 @@ $(document).ready(function() {
 
   calcSize();
   $(".topfadeout").hide();
-  $("#playmodebottomfadeout").hide();
+  $(".bottomfadeout").hide();
 });
 
 function calcSize() {
@@ -94,19 +94,6 @@ function loaded() {
   horizontalScroll = new IScroll('#horizontalwrapper', {snap: '.listhead', scrollX: true, scrollY: false, momentum: false});
 }
 
-function checkScrollFadeout(scroller) {
-  if(scroller.y >= (0)){
-    $('#queuetopfadeout').hide();
-  }else{
-    $('#queuetopfadeout').show();
-  }
-  if(scroller.y <= ($('#queuewrapper').height() - $('#queuelist').height())){
-    $('#queuebottomfadeout').hide();
-  }else{
-    $('#queuebottomfadeout').show();
-  }
-}
-
 document.addEventListener('touchmove', function(e) {
   e.preventDefault();
 }, false);
@@ -123,18 +110,18 @@ function ListView(items, selection, list, wrapper, fadeout) {
     if ($(list).children().length > 0) {
       if (typeof scroll === 'undefined') {
         scroll = new IScroll(wrapper, {snap: 'li', momentum: false});
-        scroll.on('scrollEnd', function(){
-          if(scroll.y >= 0){
-            $(fadeout + 'topfadeout').hide();
-          }else{
-            $(fadeout + 'topfadeout').show();
-          }
-          if(scroll.y <= ($(wrapper).height() - $(list).height())){
-            $(fadeout + 'bottomfadeout').hide();
-          }else{
-            $(fadeout + 'bottomfadeout').show();
-          }
-        });
+        // scroll.on('scrollEnd', function(){
+        //   if(scroll.y >= 0){
+        //     $(fadeout + 'topfadeout').hide();
+        //   }else{
+        //     $(fadeout + 'topfadeout').show();
+        //   }
+        //   if(scroll.y <= ($(wrapper).height() - $(list).height())){
+        //     $(fadeout + 'bottomfadeout').hide();
+        //   }else{
+        //     $(fadeout + 'bottomfadeout').show();
+        //   }
+        // });
       }
       scroll.refresh();
     }
