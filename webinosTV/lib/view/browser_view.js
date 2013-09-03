@@ -21,22 +21,19 @@ $(document).ready(function() {
   $('.albumToggleIcon').click(function() {
     if ($(this).parent("div").next('ul').is(":visible")) {
       $(this).attr("src", "images/arrow_big_down.svg");
+      $(this).parent("div").next('ul').children('li').removeClass('nav_co');
     } else {
       $(this).attr("src", "images/arrow_big_up.svg");
+      $(this).parent("div").next('ul').children('li').addClass('nav_co');
     }
     $(this).parent().next('ul').slideToggle(250, function() { contentScroll.refresh(); });
   });
-  $('.albumsonglist > li > img, #contentlist > li > img').click(function() {
-    var src = ($(this).attr('src') === 'images/add.svg')
-            ? 'images/add_blue.svg'
-            : 'images/add.svg';
-         $(this).attr('src', src);
-  });
-  $('#queuelist > li > img').click(function() {
-    var src = ($(this).attr('src') === 'images/remove.svg')
+
+  $('#queuelist > li').click(function() {
+    var src = ($(this).children('.selectIcon').attr('src') === 'images/remove.svg')
             ? 'images/remove_blue.svg'
             : 'images/remove.svg';
-         $(this).attr('src', src);
+         $(this).children('.selectIcon').attr('src', src);
   });
 
 
@@ -77,13 +74,14 @@ function calcSize() {
   $('#horizontalwrapper').css('margin-top', -(height * 0.45));
  
   $('#verticalwrapper').height(height * 0.9 - 20);
-  $('#playmodewrapper li').outerHeight((height * 0.45) - 5);
-  $('#queuewrapper').height( $('#verticalwrapper').height() - $('.queuecontrols').height() );
+  $('#playmodewrapper li').outerHeight(((height-26) * 0.45));
+  $('#queuewrapper').height( $('#verticalwrapper').height() - $('.queuecontrols').outerHeight() );
   $('#queuetopfadeout').css('margin-top', $('.queuecontrols').outerHeight());
 
   $('.searchfield input').width($('.searchfield').width() - 60);
-  $('#contentwrapper').height( $('#verticalwrapper').height() - $('.searchfield').height() );
-
+  $('#contentwrapper').height( $('#verticalwrapper').height() - ($('.searchfield').height() + 10));
+  $('#contenttopfadeout').css('margin-top', $('.searchfield').height()+10);
+  $('.textContent > p').outerWidth($('#contentlist').width() - 25);
 }
 
 function loaded() {
@@ -176,33 +174,36 @@ function ListView(items, selection, list, wrapper, fadeout) {
     $('li', list).each(function () {
       var $item = $(this);
       var id = $item.data('id');
-      $item.toggleClass('selected', _.ocontains(selection, id));
+      if($item.hasClass('textContent') || $item.hasClass('imageContent')){
+        if(_.ocontains(selection, id)){
+          $item.children('.selectIcon').attr('src', 'images/add_blue.svg');
+        }else{
+          $item.children('.selectIcon').attr('src', 'images/add.svg');
+        }
+      }else{
+        $item.toggleClass('selected', _.ocontains(selection, id));
+      }
     });
   });
 }
 
-util.inherits(DeviceListView, ListView);
-function DeviceListView(items, selection, list, wrapper, fadeout) {
+util.inherits(SourceListView, ListView);
+function SourceListView(viewModel) {
   this.htmlify = function (device) {
-    return '<li><img src="images/tv.svg"><p>' + device.address() + '</p></li>';
+    return '<li class="nav_sl"><img src="images/tv.svg"><p>' + device.address() + '</p></li>';
   };
 
   this.identify = function (device) {
     return device.address();
   };
 
-  ListView.call(this, items, selection, list, wrapper, fadeout);
-}
-
-util.inherits(SourceListView, DeviceListView);
-function SourceListView(viewModel) {
-  DeviceListView.call(this, viewModel.sources(), viewModel.selectedSources(), '#sourcelist', '#sourcewrapper', '#source');
+  ListView.call(this, viewModel.sources(), viewModel.selectedSources(), '#sourcelist', '#sourcewrapper', '#source');
 }
 
 util.inherits(CategoryListView, ListView);
 function CategoryListView(viewModel) {
   this.htmlify = function (category) {
-    return '<li><img src="' + category.image + '"><p>' + category.title + '</p></li>';
+    return '<li class="nav_ca"><img src="' + category.image + '"><p>' + category.title + '</p></li>';
   };
 
   this.identify = function (category) {
@@ -215,7 +216,7 @@ function CategoryListView(viewModel) {
 util.inherits(ContentListView, ListView);
 function ContentListView(viewModel) {
   this.htmlify = function (value) {
-    return '<li><p>'+((typeof value.item.type=='string' && value.item.type.toLowerCase().indexOf("image")==0)?('<img src="' + value.item.thumbnailURIs[0] + '">'):(value.item.title)) + '</p><img src="images/add.svg"></li>';
+    return ((typeof value.item.type=='string' && value.item.type.toLowerCase().indexOf("image")===0)?('<li class="imageContent nav_co"><img src="' + value.item.thumbnailURIs[0] + '">'):('<li class="textContent nav_co"><p>' + value.item.title+ '</p>')) + '<img class="selectIcon" src="images/add.svg"></li>';
   };
 
   this.identify = function (value) {
@@ -227,13 +228,99 @@ function ContentListView(viewModel) {
       }
     };
   };
-
   ListView.call(this, viewModel.content(), viewModel.selectedContent(), '#contentlist', '#contentwrapper', '#content');
 }
 
-util.inherits(TargetListView, DeviceListView);
+util.inherits(TargetListView, ListView);
 function TargetListView(viewModel) {
-  DeviceListView.call(this, viewModel.targets(), viewModel.selectedTargets(), '#targetlist', '#targetwrapper', '#target');
+  this.htmlify = function (device) {
+    return '<li class="nav_tl"><img src="images/tv.svg"><p>' + device.address() + '</p></li>';
+  };
+
+  this.identify = function (device) {
+    return device.address();
+  };
+
+  ListView.call(this, viewModel.targets(), viewModel.selectedTargets(), '#targetlist', '#targetwrapper', '#target');
+}
+
+function NavigationView (viewModel) {
+  var columns = [".nav_sl", ".nav_ca", ".nav_co", ".nav_tl", ".nav_pm", ".nav_qu"];
+  var curCol = 0;
+  var curRow = [0, 0, 0, 0, 0, 0];
+  var navVisible = false;
+  var timeoutHandle;
+  
+
+  $(document).keydown(function(e) {
+    switch (e.keyCode) {
+      case 37:
+        Navigate('left');
+        navlog("nav_left");
+        return false;
+      case 38:
+        Navigate('up');
+        navlog("nav_up");
+        return false;
+      case 39:
+        Navigate('right');
+        navlog("nav_right");
+        return false;
+      case 40:
+        Navigate('down');
+        navlog("nav_down");
+        return false;
+      case 13:
+        if(navVisible)
+          $(columns[curCol]+".focus").click();
+        return false;
+    }
+  });
+
+  function navlog(direction) {
+    console.log(direction + "  col:" + curCol + " row:" + curRow);
+  }
+
+
+  function Navigate(direction) {
+    window.clearTimeout(timeoutHandle);
+    if(navVisible === false){
+      navVisible = true;
+    }else{
+      $(columns[curCol]+".focus").removeClass('focus');
+      switch(direction){
+        case 'down':
+        if(curRow[curCol] < $(columns[curCol]).length-1)
+          curRow[curCol]++;
+          break;
+        case 'up':
+        if(curRow[curCol] > 0)
+          curRow[curCol]--;
+          break;
+        case 'right':
+          if(curCol < 5)
+            curCol++;
+          else if(curCol == 5 && curRow[5] < 5)
+            curRow[5]++;
+          break;
+        case 'left':
+          if(curCol == 5 && curRow[5] < 6 && curRow[5] > 0)
+            curRow[5]--;
+          else if(curCol > 0)
+            curCol--;
+          break;
+      }
+    }
+    $(columns[curCol]).eq(curRow[curCol]).addClass('focus');
+    startNavVisibleTimeout();
+  }
+
+  function startNavVisibleTimeout(){
+    timeoutHandle = window.setTimeout(function(){
+      navVisible=false;
+      $(columns[curCol]).eq(curRow[curCol]).removeClass('focus');
+    }, 5000);
+  }
 }
 
 function BrowserView(viewModel) {
@@ -241,7 +328,9 @@ function BrowserView(viewModel) {
   var categoryListView = new CategoryListView(viewModel);
   var contentListView = new ContentListView(viewModel);
   var targetListView = new TargetListView(viewModel);
-
+  
+  var navigationView = new NavigationView(viewModel);
+  
   viewModel.play().plug($('#play').asEventStream('click').map());
 
   this.getControlsSelector = function(){

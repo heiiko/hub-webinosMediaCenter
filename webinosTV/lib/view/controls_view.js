@@ -18,14 +18,14 @@ function ControlsView(viewModel,commandBus) {
   	buttonCount = (config.fullscreen)?(++buttonCount):buttonCount;
   	buttonCount = (config.highdef)?(++buttonCount):buttonCount;
 
-  	var cprev = $("<div class='controlButton controlPrev'>");
-  	var crewd = $("<div class='controlButton controlRewd'>");
-  	var cplay = $("<div class='controlButton controlPlay'>");
-  	var cfwrd = $("<div class='controlButton controlFwrd'>");
-  	var cnext = $("<div class='controlButton controlNext'>");
-  	var cdele = $("<div class='controlButton controlDele'>");
-  	var cfull = $("<div class='controlButton controlFull'>");
-  	var chres = $("<div class='controlButton controlHres'>");
+  	var cprev = $("<div class='controlButton controlPrev nav_qu'>");
+  	var crewd = $("<div class='controlButton controlRewd nav_qu'>");
+  	var cplay = $("<div class='controlButton controlPlay nav_qu'>");
+  	var cfwrd = $("<div class='controlButton controlFwrd nav_qu'>");
+  	var cnext = $("<div class='controlButton controlNext nav_qu'>");
+  	var cdele = $("<div class='controlButton controlDele nav_qu'>");
+  	var cfull = $("<div class='controlButton controlFull nav_qu'>");
+  	var chres = $("<div class='controlButton controlHres nav_qu'>");
   	var csbar = $("<div class='controlSbar'><div></div></div>");
   	var ctime = $("<div class='controlTime'><div class='controlTimeSchnippel'></div><span>1:00</span></div>");
 

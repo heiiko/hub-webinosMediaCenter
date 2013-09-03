@@ -22,6 +22,9 @@ body {
 
 p {
     margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .overlay {
@@ -168,7 +171,7 @@ p {
 
 
 .albumhead {
-    height: 60px;
+    height: 96px;
     padding: 5px;
 }
 
@@ -196,23 +199,30 @@ p {
     display:none;
 }
 
-.albumsonglist > li, #contentlist > li:not(.album), #queuelist > li {
+.selectIcon {
+    float: right!important;
     height: 20px;
 }
+.imageContent > .selectIcon {
+    position: relative;
+    top: 38px;
+}
 
-.albumsonglist > li > p, #contentlist > li > p, #queuelist > li > p {
+.textContent {
+    height: 20px;
+}
+.textContent p{
+    text-align: left;
     float: left;
-    padding-left: 20px;
+    padding-left: 15px;
     padding-top: 1px;
+    width: 85%;
 }
 
-.albumsonglist > li > img, #contentlist > li > img, #queuelist > li > img {
-    height: 100%;
-    float: right;
-}
-
-#playmodelist > li > img {
-    margin-top: 50%;
+.imageContent {
+    position: relative;
+    height: 96px;
+    padding: 5px 0;
 }
 
 .queuecontrols {
@@ -221,12 +231,13 @@ p {
     padding-bottom: 10px;
 }
 
+.selected {
+    background-color: #666666 !important;
+}
+
 .focus {
     box-shadow: 8px 0 3px -2px #0089bf, -8px 0 3px -2px #99e2ff;
     background-color: #00b7ff !important;
-}
-.selected {
-    background-color: #666666 !important;
 }
 
 #header {
