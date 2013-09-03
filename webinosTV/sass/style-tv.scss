@@ -13,15 +13,27 @@ body {
   color: $tv_color;
 }
 
+#left-menu-wrapper {
+  float: left;
+  height: 100%;
+  width: 17%;
+  padding: 3%;
+}
+
 #topmenu {
   height: 100%;
-  float: left;
-  width: 20%;
-  clear: both;
+  width: 100%;
+}
+
+.menu-item-wrapper {
+  height: 33%;
+}
+
+.menu-item {
+
 }
 
 #container-device {
-
 }
 
 .subpage {
@@ -29,7 +41,7 @@ body {
     position: absolute;
     right: 0;
     top: 0;
-    width: 80%;
+    width: 83%;
     height: 100%;
     visibility: hidden;
 }
