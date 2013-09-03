@@ -90,7 +90,7 @@ function loaded() {
   // contentScroll = new IScroll('#contentwrapper', {snap: '#contentlist > li', momentum: false});
   // targetScroll = new IScroll('#targetwrapper', {snap: 'li', momentum: false});
   queueScroll = new IScroll('#queuewrapper', {snap: 'li', momentum: false});
-  queueScroll.on('scrollEnd', function() {checkScrollFadeout(this);});
+  // queueScroll.on('scrollEnd', function() {checkScrollFadeout(this);});
   horizontalScroll = new IScroll('#horizontalwrapper', {snap: '.listhead', scrollX: true, scrollY: false, momentum: false});
 }
 
