@@ -8,7 +8,10 @@ $ git clone https://github.com/webinos/webinos-api-mediaContent.git
 $ cd webinos-api-mediaContent
 $ npm install
 # In addition you need to install mediainfo (CLI)
+# on osx:
 $ brew install mediainfo 
+# on debian/ubuntu
+$ sudo apt-get install mediainfo imagemagick
 ```
 
 Notice: To avoid your System Media folders to be scanned (which may take long), 
@@ -35,7 +38,10 @@ $ git clone https://github.com/webinos/webinos-api-media.git
 $ cd webinos-api-media
 $ npm install
 # In addition you need to install mplayer
+# on osx:
 $ brew install mplayer 
+# on debian/ubuntu:
+$ sudo apt-get install mplayer
 ```
 
 ## DeviceStatus API
