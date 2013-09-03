@@ -1,10 +1,15 @@
 @charset "UTF-8";
 
+@font-face {
+    font-family: DroidSans;
+    src: url('css/DroidSans-webfont.woff') format('woff');
+} 
+
 body, li, ul {
     padding: 0;
     margin: 0;
     text-align: center;
-    font-family: helvetica;
+    font-family: DroidSans, sans-serif;
     color: white;
     font-size: 16px;
     background-color: #333;
@@ -202,6 +207,7 @@ p {
 .selectIcon {
     float: right!important;
     height: 20px;
+    padding-top: 4px; 
 }
 .imageContent > .selectIcon {
     position: relative;
@@ -209,13 +215,13 @@ p {
 }
 
 .textContent {
-    height: 20px;
+    height: 28px;
 }
 .textContent p{
     text-align: left;
     float: left;
     padding-left: 15px;
-    padding-top: 1px;
+    padding-top: 5px;
     width: 85%;
 }
 

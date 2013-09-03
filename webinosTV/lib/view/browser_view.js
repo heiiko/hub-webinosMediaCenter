@@ -91,7 +91,7 @@ function loaded() {
   // targetScroll = new IScroll('#targetwrapper', {snap: 'li', momentum: false});
   queueScroll = new IScroll('#queuewrapper', {snap: 'li', momentum: false});
   queueScroll.on('scrollEnd', function() {checkScrollFadeout(this);});
-  horizontalScroll = new IScroll('#horizontalwrapper', {snap: 'ul', scrollX: true, scrollY: false, momentum: false});
+  horizontalScroll = new IScroll('#horizontalwrapper', {snap: '.listhead', scrollX: true, scrollY: false, momentum: false});
 }
 
 function checkScrollFadeout(scroller) {
