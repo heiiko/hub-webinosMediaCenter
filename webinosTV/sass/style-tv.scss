@@ -7,12 +7,31 @@ html {
 
 body {
   margin: 0px;
-  font-family: 'Roboto', sans-serif;
+  font-family: $font-family;
   height: 100%;
+  background-color: $tv_background_color;
 }
 
 #topmenu {
   height: 100%;
   float: left;
   width: 20%;
+}
+
+#container-device {
+
+}
+
+.subpage {
+    overflow: hidden;
+    float: left;
+    width: 80%;
+    height: 100%;
+    visibility: hidden;
+    position: absolute;
+}
+
+.subpage-current {
+    visibility: visible;
+    z-index: 1;
 }
