@@ -44,6 +44,20 @@ ul {
 	padding-bottom: 10px;
 }
 
+#menu-device:before {
+	@media screen and (min-width: 551px) {
+		content: 'Source and Target';
+	}
+	
+	@media screen and (max-width: 550px) {
+		content: 'Source & Target';
+	}
+	
+	@media screen and (max-width: 410px) {
+		content: 'Devices';
+	}
+}
+
 .subpage {
     overflow: hidden;
     width: 100%;
@@ -196,6 +210,10 @@ ul {
 		float: left;
 		display: inline-block;
 		text-align: center;
+		width: 50%;
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
 	}
 }
 

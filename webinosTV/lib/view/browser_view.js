@@ -203,7 +203,7 @@ function TargetListView(viewModel) {
     	}
     	else if(selection.length == 0) {
     		$('#current-target-logo').attr('src', '');
-    		$('#current-target-name').html('Source device');
+    		$('#current-target-name').html('Target device');
     	}
     	else {
     		$('#current-target-logo').attr('src', '');
