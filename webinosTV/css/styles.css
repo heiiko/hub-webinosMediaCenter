@@ -2,7 +2,7 @@
 
 @font-face {
     font-family: DroidSans;
-    src: url('css/DroidSans-webfont.woff') format('woff');
+    src: url('DroidSans-webfont.woff') format('woff');
 } 
 
 body, li, ul {
