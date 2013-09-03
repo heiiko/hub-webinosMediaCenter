@@ -317,10 +317,11 @@ function BrowserView(viewModel) {
   var categoryListView = new CategoryListView(viewModel);
   var contentListView = new ContentListView(viewModel);
   var targetListView = new TargetListView(viewModel);
-  
+
   var navigationView = new NavigationView(viewModel);
-  
-  viewModel.play().plug($('#play').asEventStream('click').map());
+
+  viewModel.prepend().plug($('#prepend').asEventStream('click'));
+  viewModel.append().plug($('#append').asEventStream('click'));
 
   this.getControlsSelector = function(){
     return ".queuecontrols";

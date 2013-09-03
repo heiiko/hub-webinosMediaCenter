@@ -36,12 +36,15 @@ function BrowserViewModel(manager) {
   };
 
   var content = bjq.Model([]);
-  content.addSource(Bacon.combineWith(function (sources, selectedSources, categories, selectedCategories) {
-    var types = _.map(selectedCategories, function (id) {
-      return (id)?_.findWhere(categories, {id: id}).type:id;
+  content.addSource(Bacon.combineTemplate({
+    sources: sources, selectedSources: selectedSources,
+    categories: categories, selectedCategories: selectedCategories
+  }).map(function (state) {
+    var types = _.map(state.selectedCategories, function (id) {
+      return id ? _.findWhere(state.categories, {id: id}).type : id;
     });
-    return _.chain(sources).filter(function (source) {
-      return !selectedSources.length || _.contains(selectedSources, source.address());
+    return _.chain(state.sources).filter(function (source) {
+      return !state.selectedSources.length || _.contains(state.selectedSources, source.address());
     }).map(function (source) {
       return _.chain(source.content()['media']).filter(function (item) {
         return !types.length || _.contains(types, item.type);
@@ -49,7 +52,7 @@ function BrowserViewModel(manager) {
         return {source: source, item: item};
       }).value();
     }).flatten().value();
-  }, sources, selectedSources, categories, selectedCategories));
+  }));
 
   this.content = function () {
     return content;
@@ -76,9 +79,14 @@ function BrowserViewModel(manager) {
     return selectedTargets;
   };
 
-  var play = new Bacon.Bus();
-  this.play = function () {
-    return play;
+  var prepend = new Bacon.Bus();
+  this.prepend = function () {
+    return prepend;
+  };
+
+  var append = new Bacon.Bus();
+  this.append = function () {
+    return append;
   };
 }
 

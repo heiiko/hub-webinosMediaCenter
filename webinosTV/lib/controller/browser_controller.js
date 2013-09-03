@@ -1,38 +1,58 @@
 var _ = require('underscore');
 var Bacon = require('baconjs');
+var Promise = require('promise');
 
 var BrowserViewModel = require('../view/browser_view_model.js');
 var BrowserView = require('../view/browser_view.js');
 var ControlsView = require('../view/controls_view.js');
 
 function BrowserController(manager) {
-  manager = manager;
+  var viewModel = new BrowserViewModel(manager);
 
-  viewModel = new BrowserViewModel(manager);
+  var queue = Bacon.mergeAll(
+    viewModel.prepend().map('prepend'),
+    viewModel.append().map('append')
+  );
 
   Bacon.combineTemplate({
     devices: manager.toProperty(),
     selectedContent: viewModel.selectedContent(),
     selectedTargets: viewModel.selectedTargets()
-  }).sampledBy(viewModel.play()).onValue(function (play) {
-    if (!play.selectedContent.length) return;
-    var selectedItem = play.selectedContent[0];
+  }).sampledBy(queue, function (state, type) {
+    return {type: type, state: state};
+  }).onValue(function (command) {
+    var type  = command.type;
+    var state = command.state;
 
-    var source = play.devices[selectedItem.source];
-    var item = _.findWhere(source.content()['media'], {
-      id: selectedItem.item.id,
-      title: selectedItem.item.title
+    if (!state.selectedContent.length) return;
+    var items = _.map(state.selectedContent, function (selectedItem) {
+      var source = state.devices[selectedItem.source];
+      var item   = _.findWhere(source.content()['media'], {
+        id: selectedItem.item.id,
+        title: selectedItem.item.title
+      });
+      return {source: source, item: item};
     });
 
-    if (!play.selectedTargets.length) return;
-    var selectedTarget = play.selectedTargets[0];
-    var target = play.devices[selectedTarget];
+    if (!state.selectedTargets.length) return;
+    var targets = _.map(state.selectedTargets, function (selectedTarget) {
+      return state.devices[selectedTarget];
+    });
 
-    source.mediacontent().getLink({
-      folderId: item.id,
-      fileName: item.title
-    }).then(function (link) {
-      target.media().play(link);
+    var promises = _.map(items, function (item) {
+      return item.source.mediacontent().getLink({
+        folderId: item.item.id,
+        fileName: item.item.title
+      }).then(function (link) {
+        return {item: item.item, link: link};
+      });
+    });
+
+    Promise.every.apply(Promise, promises).then(function (values) {
+      _.each(targets, function (target) {
+        var peer = target.peers()[0];
+        (type === 'prepend' ? peer.prepend : peer.append).call(peer, values);
+      });
     });
   });
 
