@@ -132,12 +132,14 @@ function SourceListView(viewModel) {
 	DeviceListView.call(this, viewModel.sources(), viewModel.selectedSources(), '#sourcelist', '#sourcewrapper', '#source');
   
 	viewModel.selectedSources().onValue(function (selection) {
-		//console.log(selection);
     	if(selection.length == 1) {
     		var device = selection[0];
     		$('#selected-source').attr('src', 'images/' + device.type + '-selected.svg');
     		$('#selected-source-name').html(device.address);
     		$('#selected-source-intro').html('You can select media from');
+    		
+    		$('#wrapper-selected-source').removeClass('header-active');
+    		$('#wrapper-selected-target').addClass('header-active');
     		
     		$('#current-source-logo').attr('src', 'images/' + device.type + '.svg');
     		$('#current-source-name').html(device.address);
@@ -146,6 +148,9 @@ function SourceListView(viewModel) {
     		$('#selected-source').attr('src', '');
     		$('#selected-source-name').html('');
     		$('#selected-source-intro').html('');
+    		
+    		$('#wrapper-selected-source').addClass('header-active');
+    		$('#wrapper-selected-target').removeClass('header-active');
     		
     		$('#current-source-logo').attr('src', '');
     		$('#current-source-name').html('Source device');
@@ -188,6 +193,23 @@ function ContentListView(viewModel) {
 util.inherits(TargetListView, DeviceListView);
 function TargetListView(viewModel) {
   DeviceListView.call(this, viewModel.targets(), viewModel.selectedTargets(), '#targetlist', '#targetwrapper', '#target');
+
+  viewModel.selectedTargets().onValue(function (selection) {
+    	if(selection.length == 1) {
+    		var device = selection[0];
+    		
+    		$('#current-target-logo').attr('src', 'images/' + device.type + '.svg');
+    		$('#current-target-name').html(device.address);
+    	}
+    	else if(selection.length == 0) {
+    		$('#current-target-logo').attr('src', '');
+    		$('#current-target-name').html('Source device');
+    	}
+    	else {
+    		$('#current-target-logo').attr('src', '');
+    		$('#current-target-name').html(selection.length + ' Target devices');
+    	}
+  	});
 }
 
 function BrowserView(viewModel) {
