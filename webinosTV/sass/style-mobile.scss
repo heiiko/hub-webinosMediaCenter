@@ -8,6 +8,9 @@ $darkgray: #777777;
 $mediumgray: #dadada;
 $lightgray: #f1f1f1;
 
+$mintabletwidth: 1200px;
+$headerheight: 70px;
+
 body {
 	margin: 0px;
 	font-family: 'Roboto', sans-serif;
@@ -89,10 +92,23 @@ ul {
 	@include box-sizing(border-box);
 
 	width: 50%;
-	height: 70px;
+	height: $headerheight;
 	float: left;
 	text-align: center;
 	padding: 15px 2px 15px 2px;
+}
+
+#device-arrow {
+	width: 40px;
+	height: 14px;
+	background-image: url('../images/device-arrow.svg');
+	position: absolute;
+	left: 49%;
+	top: $headerheight / 2 - 7;
+	
+	@media screen and (max-width: $mintabletwidth) {
+		display: none;
+	}
 }
 
 #current-source-logo {
@@ -172,15 +188,47 @@ ul {
 	.device-image.type-laptop {
 		background-image: url('../images/laptop.svg');
 	}
+	
+	.device-image.type-pc {
+		background-image: url('../images/pc.svg');
+	}
+	
+	.device-image.type-phone {
+		background-image: url('../images/phone.svg');
+	}
+	
+	.device-image.type-tablet {
+		background-image: url('../images/tablet.svg');
+	}
+	
+	.device-image.type-tv {
+		background-image: url('../images/tv.svg');
+	}
 }
 
 .device.selected {
+	.device-name {
+		color: $blue;
+	}
+	
 	.device-image.type-laptop {
 		background-image: url('../images/laptop-selected.svg');
 	}
 	
-	.device-name {
-		color: $blue;
+	.device-image.type-pc {
+		background-image: url('../images/pc-selected.svg');
+	}
+	
+	.device-image.type-phone {
+		background-image: url('../images/phone-selected.svg');
+	}
+	
+	.device-image.type-tablet {
+		background-image: url('../images/tablet-selected.svg');
+	}
+	
+	.device-image.type-tv {
+		background-image: url('../images/tv-selected.svg');
 	}
 }
 
@@ -208,24 +256,24 @@ ul {
 #categorywrapper {
 	height: 100%;
 	
-	@media screen and (min-width: 1200px) {
+	@media screen and (min-width: $mintabletwidth) {
 		background-color: $lightgray;
 		text-align: center;
 		width: 150px;
 		border-right: 2px solid $mediumgray;
 	}
 	
-	@media screen and (max-width: 1199px) {
+	@media screen and (max-width: $mintabletwidth - 1) {
 		width: 100%;
 	}
 }
 
 .category {
-	@media screen and (min-width: 1200px) {
+	@media screen and (min-width: $mintabletwidth) {
 		padding: 15px;
 	}
 	
-	@media screen and (max-width: 1199px) {
+	@media screen and (max-width: $mintabletwidth - 1) {
 		@include box-sizing(border-box);
 		padding: 15px 30px 0px 30px;
 		float: left;
@@ -236,7 +284,7 @@ ul {
 }
 
 .category-name {
-	@media screen and (max-width: 1199px) {
+	@media screen and (max-width: $mintabletwidth - 1) {
 		display: none;
 	}
 }
