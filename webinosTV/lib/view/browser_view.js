@@ -295,6 +295,8 @@ function NavigationView (viewModel) {
             curRow[5]--;
           else if(curCol > 0)
             curCol--;
+          else if(curCol === 0)
+            window.toggleMainmenu();
           break;
       }
     }

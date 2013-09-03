@@ -38,11 +38,9 @@ function closeMenus() {
         $('#selecttarget').animate({'width': 'toggle'});
     }
     if($('.overlay').is(":visible")){
-        $('.overlay').animate({'opacity': 'toggle'}, 1000);
+        $('.overlay').toggle();
     }
 }
-
-
 
 function toggleMainmenu(){
     $('#mainmenu').animate({'width': 'toggle'}, function() {toggleOverlay(); });
@@ -55,11 +53,11 @@ function toggleSelectTarget(){
 function toggleOverlay(){
         if(($('#mainmenu').is(":visible") || $('#selecttarget').is(":visible"))){
             if($('.overlay').is(":hidden")){
-                $('.overlay').animate({'opacity': 'toggle'}, 1000);
+                $('.overlay').toggle();
             }
         }else if($('#mainmenu').is(":hidden") && $('#selecttarget').is(":hidden")){
             if($('.overlay').is(":visible")){
-                $('.overlay').animate({'opacity': 'toggle'}, 1000);
+                $('.overlay').toggle();
             }
         }
 }
