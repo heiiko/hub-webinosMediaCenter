@@ -26,19 +26,26 @@ body {
   height: 100%;
 }
 
-#topmenu {
-  height: 33%
-}
-
 .menu-item-wrapper {
-  height: 33%;
+  position: relative;
+  height: 31%;
+  margin: 20px;
+  border: 3px white solid;
 }
 
 .menu-item {
-
 }
 
 #container-device {
+  position: absolute;
+  margin: auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 80%;
+  font-size: 20px;
+  padding: 20px;
 }
 
 .subpage {
