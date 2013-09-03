@@ -10,12 +10,14 @@ body {
   font-family: $font-family;
   height: 100%;
   background-color: $tv_background_color;
+  color: $tv_color;
 }
 
 #topmenu {
   height: 100%;
   float: left;
   width: 20%;
+  clear: both;
 }
 
 #container-device {
@@ -24,11 +26,12 @@ body {
 
 .subpage {
     overflow: hidden;
-    float: left;
+    position: absolute;
+    right: 0;
+    top: 0;
     width: 80%;
     height: 100%;
     visibility: hidden;
-    position: absolute;
 }
 
 .subpage-current {
