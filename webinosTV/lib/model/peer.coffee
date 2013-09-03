@@ -47,7 +47,9 @@ class PeerService extends Service
     })
     channel.filter('.isDisconnect').onValue => @unbindService()
     messages = channel
-      .filter (event) -> event.isMessage() and event.message().to is peer
+      .filter (event) ->
+        event.isMessage() and event.message().to.address is peer.address and
+                              event.message().to.id is peer.id
       .map('.message')
     @channel = -> channel
     @messages = -> messages

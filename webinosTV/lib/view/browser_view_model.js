@@ -4,6 +4,16 @@ var Bacon = require('baconjs');
 var bjq = require('bacon.jquery');
 
 function BrowserViewModel(manager) {
+  var peer = bjq.Model(null);
+  peer.addSource(manager.filter(function (event) {
+    return event.device().isLocal() && event.device().peers().length;
+  }).map(function (event) {
+    return event.device().peers()[0];
+  }));
+  this.peer = function () {
+    return peer;
+  };
+
   var sources = bjq.Model({});
   sources.addSource(manager.toProperty().map(function (devices) {
     return _.filter(devices, function (device) {
@@ -77,6 +87,18 @@ function BrowserViewModel(manager) {
   var selectedTargets = bjq.Model([]);
   this.selectedTargets = function () {
     return selectedTargets;
+  };
+
+  var selectedPeer = bjq.Model(null);
+  selectedPeer.addSource(Bacon.combineTemplate({
+    devices: manager.toProperty(),
+    selectedTargets: selectedTargets
+  }).map(function (state) {
+    if (!state.selectedTargets.length || state.selectedTargets.length > 1) return null;
+    return state.devices[state.selectedTargets[0]].peers()[0];
+  }));
+  this.selectedPeer = function () {
+    return selectedPeer;
   };
 
   var prepend = new Bacon.Bus();

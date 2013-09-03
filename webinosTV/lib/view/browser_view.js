@@ -323,6 +323,18 @@ function BrowserView(viewModel) {
   viewModel.prepend().plug($('#prepend').asEventStream('click'));
   viewModel.append().plug($('#append').asEventStream('click'));
 
+  viewModel.peer().onValue(function (peer) {
+    console.log('peer', peer);
+  });
+
+  viewModel.selectedPeer().flatMapLatest(function (selectedPeer) {
+    return selectedPeer === null ? Bacon.once(null) : selectedPeer.state().map(function (state) {
+      return {peer: selectedPeer, state: state};
+    });
+  }).onValue(function (current) {
+    console.log('current', current);
+  })
+
   this.getControlsSelector = function(){
     return ".queuecontrols";
   };
