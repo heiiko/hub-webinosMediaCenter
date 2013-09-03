@@ -17,16 +17,17 @@ body {
   float: left;
   height: 100%;
   width: 17%;
-  padding: 3%;
 }
 
 #left-menu {
+  @include display-box;
+  @include box-orient(vertical);
+  @include box-align(stretch);
   height: 100%;
 }
 
 #topmenu {
-  height: 100%;
-  width: 100%;
+  height: 33%
 }
 
 .menu-item-wrapper {
