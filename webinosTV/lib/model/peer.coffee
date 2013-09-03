@@ -47,9 +47,9 @@ class PeerService extends Service
     })
     channel.filter('.isDisconnect').onValue => @unbindService()
     messages = channel
-      .filter (event) ->
+      .filter((event) ->
         event.isMessage() and event.message().to.address is peer.address and
-                              event.message().to.id is peer.id
+                              event.message().to.id is peer.id)
       .map('.message')
     @channel = -> channel
     @messages = -> messages
@@ -107,6 +107,8 @@ class LocalPeerService extends PeerService
           playback = {current: yes, playing: yes, relative: 0}
         when 'playback:paused'
           playback.playing = no
+        when 'playback:resumed'
+          playback.playing = yes
         when 'playback:ended'
           playback = {current: no, playing: no, relative: 0}
           next(yes)

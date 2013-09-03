@@ -43,10 +43,12 @@ function closeMenus() {
 }
 
 function toggleMainmenu(){
+    $('#mainmenu').finish();
     $('#mainmenu').animate({'width': 'toggle'}, function() {toggleOverlay(); });
 }
 
 function toggleSelectTarget(){
+    $('#selecttarget').finish();
     $('#selecttarget').animate({'width': 'toggle'}, function() {toggleOverlay(); selecttargetScroll.refresh();});
 }
 

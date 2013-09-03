@@ -62,45 +62,87 @@ function BrowserController(manager) {
   var controlsView = new ControlsView(null,commands);
   controlsView.renderControls(view.getControlsSelector());
 
-  //test
-  var mediaLen = 60000, mediaPos=0, isPlaying=false;
-  var mediaRunHandle = setInterval(function(commands){
-    if(!isPlaying){
-      return;
-    }
-    if(mediaPos==0){
-      commands.push({cmd:"play",value:mediaLen});
-    }
-    if(mediaPos>=mediaLen){
-      commands.push({cmd:"pause"});
-      isPlaying=false;
-      return;
-    }
-    
-    
-    mediaPos+=1000;
-    commands.push({cmd:"setPlayPosition",value:mediaPos});
-    
+  var selectedPeer = viewModel.selectedPeer().flatMapLatest(function (selectedPeer) {
+    return selectedPeer === null ? Bacon.once(null) : selectedPeer.state().map(function (state) {
+      return {peer: selectedPeer, state: state};
+    });
+  }).toProperty(null);
 
-  },1000,commands);
+  selectedPeer.onValue(function (current) {
+    if (current === null) {
+      commands.push({cmd: 'pause'});
+      commands.push({cmd: 'setPlayPosition', value: 0});
+    } else if (current.state.playback.playing) {
+      commands.push({cmd: 'play', value: 120000});
+      commands.push({cmd: 'setPlayPosition', value: 120000 * current.state.playback.relative});
+    } else {
+      commands.push({cmd: 'pause'});
+      commands.push({cmd: 'setPlayPosition', value: 0});
+    }
+  });
 
-  controlsView.getStream().onValue(function(e){if(e.cmd==="seekRequest"){
-    mediaPos=mediaLen*e.value;
-  } });
+  selectedPeer.sampledBy(controlsView.getStream(), function (selectedPeer, event) {
+    return {selectedPeer: selectedPeer, event: event};
+  }).filter(function (op) {
+    return op.selectedPeer !== null;
+  }).map(function (op) {
+    return {peer: op.selectedPeer.peer, state: op.selectedPeer.state, event: op.event};
+  }).onValue(function (op) {
+    switch (op.event.cmd) {
+      case 'playpauseRequest':
+        op.peer.playOrPause();
+        break;
+      case 'previousRequest':
+        op.peer.seek(0);
+        break;
+      case 'nextRequest':
+        op.peer.next();
+        break;
+      case 'seekRequest':
+        op.peer.seek(op.event.value);
+        break;
+      case 'rewindRequest':
+        op.peer.seek(Math.max(0, op.state.playback.relative - 0.10));
+        break;
+      case 'forwardRequest':
+        op.peer.seek(Math.min(1, op.state.playback.relative + 0.10));
+        break;
+    }
+  });
 
-  controlsView.getStream().onValue(function(e){if(e.cmd==="playpauseRequest"){
-    isPlaying=!isPlaying;
-    if(isPlaying){
-      if(mediaPos>=mediaLen){
-        mediaPos=0;
-        commands.push({cmd:"setPlayPosition",value:mediaPos});
+  viewModel.peer().filter(function (peer) {
+    return peer !== null;
+  }).onValue(function (peer) {
+    var length = 120000, position = 0, playing = false;
+    peer.events().onValue(function (event) {
+      if (event.isPlay()) {
+        playing = true;
+        position = 0;
+        peer.apply().push({type: 'playback:started'});
+        peer.apply().push({type: 'playback:state', content: {relative: 0}});
+      } else if (event.isSeek()) {
+        position = length * event.relative();
+        peer.apply().push({type: 'playback:state', content: {relative: event.relative()}});
+      } else if (event.isPause()) {
+        playing = false;
+        peer.apply().push({type: 'playback:paused'});
+      } else if (event.isResume()) {
+        playing = true;
+        peer.apply().push({type: 'playback:resumed'});
       }
-      commands.push({cmd:"play",value:mediaLen});
-    }else{
-      commands.push({cmd:"pause"});
-    }
-  } });
-  
+    });
+
+    setInterval(function () {
+      if (!playing) return;
+      position += 1000;
+      peer.apply().push({type: 'playback:state', content: {relative: position/length}});
+      if (position >= length) {
+        playing = false;
+        peer.apply().push({type: 'playback:ended'});
+      }
+    }, 1000);
+    peer.play();
+  });
 }
 
 module.exports = BrowserController;
