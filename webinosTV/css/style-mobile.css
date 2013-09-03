@@ -112,21 +112,27 @@ ul {
 #current-source-name {
   display: inline-block;
   vertical-align: middle;
+  width: 70%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-/* line 104, ../sass/style-mobile.scss */
+/* line 107, ../sass/style-mobile.scss */
 #current-target-logo {
   vertical-align: middle;
   height: 40px;
 }
 
-/* line 109, ../sass/style-mobile.scss */
+/* line 112, ../sass/style-mobile.scss */
 #current-target-name {
   display: inline-block;
   vertical-align: middle;
+  width: 70%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-/* line 114, ../sass/style-mobile.scss */
+/* line 120, ../sass/style-mobile.scss */
 .header-item-media {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -134,7 +140,7 @@ ul {
   padding: 15px 2px 15px 2px;
 }
 
-/* line 121, ../sass/style-mobile.scss */
+/* line 127, ../sass/style-mobile.scss */
 .header-item-queue {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -142,13 +148,13 @@ ul {
   padding: 15px 2px 15px 2px;
 }
 
-/* line 128, ../sass/style-mobile.scss */
+/* line 134, ../sass/style-mobile.scss */
 .header-item-device.header-active {
   border-bottom: 5px solid #48b3e4;
   padding-bottom: 10px;
 }
 
-/* line 133, ../sass/style-mobile.scss */
+/* line 139, ../sass/style-mobile.scss */
 .device-column {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -157,68 +163,83 @@ ul {
   float: left;
 }
 
-/* line 142, ../sass/style-mobile.scss */
+/* line 148, ../sass/style-mobile.scss */
 #sourcewrapper {
   border-right: 1px solid #dadada;
   height: 100%;
 }
 
-/* line 147, ../sass/style-mobile.scss */
+/* line 153, ../sass/style-mobile.scss */
 #targetwrapper {
   height: 100%;
 }
 
-/* line 151, ../sass/style-mobile.scss */
+/* line 157, ../sass/style-mobile.scss */
 .device {
   padding: 25px 30px 25px 30px;
+  border-bottom: 1px;
+  border-top: 0px;
+  border-image: -webkit-linear-gradient(0deg, transparent, transparent 5%, #dadada 6%, #dadada 94%, transparent 95%, transparent) 1 stretch;
 }
 
-/* line 155, ../sass/style-mobile.scss */
-.device.selected {
-  background-color: #68c2e9;
-}
-
-/* line 159, ../sass/style-mobile.scss */
+/* line 164, ../sass/style-mobile.scss */
 .device-type {
   color: #777777;
 }
 
-/* line 163, ../sass/style-mobile.scss */
-.device-image {
+/* line 168, ../sass/style-mobile.scss */
+.device > .device-image {
   float: right;
+  height: 40px;
+  width: 48px;
 }
 
-/* line 167, ../sass/style-mobile.scss */
+/* line 174, ../sass/style-mobile.scss */
+.device > .device-image.type-laptop {
+  background-image: url("../images/laptop.svg");
+}
+
+/* line 178, ../sass/style-mobile.scss */
+.device.selected > .device-image.type-laptop {
+  background-image: url("../images/laptop-selected.svg");
+}
+
+/* line 182, ../sass/style-mobile.scss */
+.device.selected > .device-name {
+  color: #68c2e9;
+}
+
+/* line 186, ../sass/style-mobile.scss */
 .device-name {
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-/* line 172, ../sass/style-mobile.scss */
+/* line 191, ../sass/style-mobile.scss */
 #selected-source {
   vertical-align: middle;
   height: 40px;
 }
 
-/* line 177, ../sass/style-mobile.scss */
+/* line 196, ../sass/style-mobile.scss */
 #selected-source-intro {
   display: inline-block;
   vertical-align: middle;
 }
 
-/* line 182, ../sass/style-mobile.scss */
+/* line 201, ../sass/style-mobile.scss */
 #selected-source-name {
   display: inline-block;
   vertical-align: middle;
   color: #1187c1;
 }
 
-/* line 188, ../sass/style-mobile.scss */
+/* line 207, ../sass/style-mobile.scss */
 #categorywrapper {
   height: 100%;
 }
 @media screen and (min-width: 1200px) {
-  /* line 188, ../sass/style-mobile.scss */
+  /* line 207, ../sass/style-mobile.scss */
   #categorywrapper {
     background-color: #ededed;
     text-align: center;
@@ -227,20 +248,20 @@ ul {
   }
 }
 @media screen and (max-width: 1199px) {
-  /* line 188, ../sass/style-mobile.scss */
+  /* line 207, ../sass/style-mobile.scss */
   #categorywrapper {
     width: 100%;
   }
 }
 
 @media screen and (min-width: 1200px) {
-  /* line 203, ../sass/style-mobile.scss */
+  /* line 222, ../sass/style-mobile.scss */
   .category {
     padding: 15px;
   }
 }
 @media screen and (max-width: 1199px) {
-  /* line 203, ../sass/style-mobile.scss */
+  /* line 222, ../sass/style-mobile.scss */
   .category {
     padding: 15px 30px 0px 30px;
     float: left;
@@ -254,13 +275,13 @@ ul {
 }
 
 @media screen and (min-width: 1200px) {
-  /* line 220, ../sass/style-mobile.scss */
+  /* line 239, ../sass/style-mobile.scss */
   .category-name {
     visibility: visible;
   }
 }
 @media screen and (max-width: 1199px) {
-  /* line 220, ../sass/style-mobile.scss */
+  /* line 239, ../sass/style-mobile.scss */
   .category-name {
     visibility: hidden;
   }

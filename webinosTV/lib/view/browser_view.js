@@ -114,7 +114,7 @@ function ListView(items, selection, list, wrapper, fadeout) {
 util.inherits(DeviceListView, ListView);
 function DeviceListView(items, selection, list, wrapper, fadeout) {
   this.htmlify = function (device) {
-    return '<li class="device"><img class="device-image" src="images/' + device.type() + '.svg"><div class="device-name">' + device.address() + '</div><div class="device-type">' + device.type().charAt(0).toUpperCase() + device.type().slice(1) + '</div></li>';
+    return '<li class="device"><div class="device-image type-' + device.type() + '"></div><div class="device-name">' + device.address() + '</div><div class="device-type">' + device.type().charAt(0).toUpperCase() + device.type().slice(1) + '</div></li>';
   };
 
   this.identify = function (device) {
@@ -144,7 +144,7 @@ function SourceListView(viewModel) {
     		$('#current-source-logo').attr('src', 'images/' + device.type + '.svg');
     		$('#current-source-name').html(device.address);
     	}
-    	else {
+    	else if(selection.length == 0) {
     		$('#selected-source').attr('src', '');
     		$('#selected-source-name').html('');
     		$('#selected-source-intro').html('');
@@ -154,6 +154,10 @@ function SourceListView(viewModel) {
     		
     		$('#current-source-logo').attr('src', '');
     		$('#current-source-name').html('Source device');
+    	}
+    	else {
+    		$('#current-source-logo').attr('src', '');
+    		$('#current-source-name').html(selection.length + ' Source devices');
     	}
   	});
 }

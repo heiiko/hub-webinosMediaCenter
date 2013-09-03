@@ -99,6 +99,9 @@ ul {
 #current-source-name {
 	display: inline-block;
 	vertical-align: middle;
+	width: 70%;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 #current-target-logo {
@@ -109,6 +112,9 @@ ul {
 #current-target-name {
 	display: inline-block;
 	vertical-align: middle;
+	width: 70%;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .header-item-media {
@@ -150,18 +156,31 @@ ul {
 
 .device {
 	padding: 25px 30px 25px 30px;
-}
-
-.device.selected {
-	background-color: rgb(104,194,233);
+	border-bottom: 1px;
+	border-top: 0px;
+	border-image: -webkit-linear-gradient(0deg, transparent, transparent 5%, #dadada 6%, #dadada 94%, transparent 95%, transparent) 1 stretch;
 }
 
 .device-type {
 	color: rgb(119,119,119);
 }
 
-.device-image {
+.device > .device-image {
 	float: right;
+	height: 40px;
+	width: 48px;
+}
+
+.device > .device-image.type-laptop {
+	background-image: url('../images/laptop.svg');
+}
+
+.device.selected > .device-image.type-laptop {
+	background-image: url('../images/laptop-selected.svg');
+}
+
+.device.selected > .device-name {
+	color: rgb(104,194,233);
 }
 
 .device-name {
