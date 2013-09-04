@@ -38,15 +38,7 @@ $(document).ready(function() {
          $(this).children('.selectIcon').attr('src', src);
   });
 
-<<<<<<< HEAD
-  calcSize();
-  setTimeout(function() {
-    calcSize();
-  console.log("calcSize");
-  }, 100);
-  
-=======
->>>>>>> 89ec1c4b6aa2f8749e1fca5db74ef631cc51b34b
+
   $(".topfadeout").hide();
   $(".bottomfadeout").hide();
 });
@@ -67,14 +59,9 @@ function calcSize() {
     $('#horizontalscroller').width(buttonWidth * 8);
   } else if (width < 960) {
     buttonWidth = width * 0.9 / 4;
-<<<<<<< HEAD
-    $('.buttonlist li').outerHeight(buttonWidth / 1.6);
-    $('#horizontalscroller').width(buttonWidth * 8);    
-=======
     buttonHeight = buttonWidth / 1.6;
     $('.buttonlist li').height(buttonHeight);
     $('#horizontalscroller').width(buttonWidth * 8);
->>>>>>> 89ec1c4b6aa2f8749e1fca5db74ef631cc51b34b
   } else if (width < 1200) {
     buttonWidth = width * 0.9 / 6;
     buttonHeight = buttonWidth / 1.6;
