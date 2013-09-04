@@ -6,6 +6,8 @@ Bacon = require('baconjs')
 
 Service = require('../service/service.coffee')
 
+generalizeAddr = (addr) ->  addr.substr(0, addr.indexOf('/'))
+
 class PeerService extends Service
   @findServices: (channel, options = {interval: 15000}) ->
     new Bacon.EventStream (newSink) ->
@@ -22,7 +24,7 @@ class PeerService extends Service
             sink? new Bacon.Next(PeerService.create(channel, event.message().from))
           else if event.isDisconnect()
             sink? new Bacon.End()
-        if channel.service().address() is webinos.session.getServiceLocation() # TODO: Check.
+        if channel.service().address() is generalizeAddr(webinos.session.getServiceLocation()) # TODO: Check.
           unsubPoll = Bacon.once(Date.now()).concat(Bacon.fromPoll(options.interval, -> Date.now())).onValue (now) ->
             channel.send({
               type: 'hello'
