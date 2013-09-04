@@ -5,6 +5,13 @@
     src: url('DroidSans-webfont.woff') format('woff');
 }
 
+* {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    outline:none;
+}
+
 body, li, ul {
     padding: 0;
     margin: 0;
@@ -22,7 +29,6 @@ body {
     right: 0;
     bottom: 0;
     left: 0;
-    -webkit-user-select: none;
 }
 
 p {

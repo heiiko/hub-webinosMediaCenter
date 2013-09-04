@@ -13,6 +13,8 @@ var queueScroll;
 var horizontalScroll;
 var contentScroll;
 
+var refreshListsCB = [], buttonHeight=0;
+
 $(window).resize(function() {
   calcSize();
 });
@@ -36,12 +38,15 @@ $(document).ready(function() {
          $(this).children('.selectIcon').attr('src', src);
   });
 
+<<<<<<< HEAD
   calcSize();
   setTimeout(function() {
     calcSize();
   console.log("calcSize");
   }, 100);
   
+=======
+>>>>>>> 89ec1c4b6aa2f8749e1fca5db74ef631cc51b34b
   $(".topfadeout").hide();
   $(".bottomfadeout").hide();
 });
@@ -52,23 +57,33 @@ function calcSize() {
   var buttonWidth;
   if (width <= 400) {
     buttonWidth = width * 0.9 / 2;
-    $('.buttonlist li').outerHeight(buttonWidth / 1.6);
+    buttonHeight = buttonWidth / 1.6;
+    $('.buttonlist li').height(buttonHeight);
     $('#horizontalscroller').width(buttonWidth * 8);
   } else if (width < 600) {
     buttonWidth = width * 0.9 / 3;
-    $('.buttonlist li').outerHeight(buttonWidth / 1.6);
+    buttonHeight = buttonWidth / 1.6;
+    $('.buttonlist li').height(buttonHeight);
     $('#horizontalscroller').width(buttonWidth * 8);
   } else if (width < 960) {
     buttonWidth = width * 0.9 / 4;
+<<<<<<< HEAD
     $('.buttonlist li').outerHeight(buttonWidth / 1.6);
     $('#horizontalscroller').width(buttonWidth * 8);    
+=======
+    buttonHeight = buttonWidth / 1.6;
+    $('.buttonlist li').height(buttonHeight);
+    $('#horizontalscroller').width(buttonWidth * 8);
+>>>>>>> 89ec1c4b6aa2f8749e1fca5db74ef631cc51b34b
   } else if (width < 1200) {
     buttonWidth = width * 0.9 / 6;
-    $('.buttonlist li').outerHeight(buttonWidth / 1.6);
+    buttonHeight = buttonWidth / 1.6;
+    $('.buttonlist li').height(buttonHeight);
     $('#horizontalscroller').width(buttonWidth * 8);
   } else {
     buttonWidth = width * 0.9 / 8;
-    $('.buttonlist li').outerHeight(buttonWidth / 1.6);
+    buttonHeight = buttonWidth / 1.6;
+    $('.buttonlist li').height(buttonHeight);
     $('#horizontalscroller').width(buttonWidth * 8);
   }
 
@@ -90,6 +105,10 @@ function calcSize() {
   $('#contenttopfadeout').css('margin-top', $('.searchfield').height()+10);
 
   $('.textContent > p').outerWidth($('#contentlist').width() - 25);
+
+  refreshListsCB.forEach(function(listRefreshCB){
+    listRefreshCB();
+  });
 }
 
 function loaded() {
@@ -135,6 +154,8 @@ function ListView(items, selection, list, wrapper, fadeout) {
     }
   };
 
+  refreshListsCB.push(self.refresh);
+
   items.onValue(function (items) {
     var $list = $(list);
     $list.empty();
@@ -145,7 +166,6 @@ function ListView(items, selection, list, wrapper, fadeout) {
       $item.data('id', id);
       $list.append($item);
     });
-
     self.refresh();
   });
 
@@ -185,7 +205,7 @@ function ListView(items, selection, list, wrapper, fadeout) {
 util.inherits(SourceListView, ListView);
 function SourceListView(viewModel) {
   this.htmlify = function (device) {
-    return '<li class="nav_sl"><img src="images/tv.svg"><p>' + device.address() + '</p></li>';
+    return '<li class="nav_sl" style="height:'+buttonHeight+'px"><img src="images/tv.svg"><p>' + device.address() + '</p></li>';
   };
 
   this.identify = function (device) {
@@ -198,7 +218,7 @@ function SourceListView(viewModel) {
 util.inherits(CategoryListView, ListView);
 function CategoryListView(viewModel) {
   this.htmlify = function (category) {
-    return '<li class="nav_ca"><img src="' + category.image + '"><p>' + category.title + '</p></li>';
+    return '<li class="nav_ca" style="height:'+buttonHeight+'px"><img src="' + category.image + '"><p>' + category.title + '</p></li>';
   };
 
   this.identify = function (category) {
@@ -229,7 +249,7 @@ function ContentListView(viewModel) {
 util.inherits(TargetListView, ListView);
 function TargetListView(viewModel) {
   this.htmlify = function (device) {
-    return '<li class="nav_tl"><img src="images/tv.svg"><p>' + device.address() + '</p></li>';
+    return '<li class="nav_tl" style="height:'+buttonHeight+'px"><img src="images/tv.svg"><p>' + device.address() + '</p></li>';
   };
 
   this.identify = function (device) {
@@ -328,14 +348,29 @@ function BrowserView(viewModel) {
   var categoryListView = new CategoryListView(viewModel);
   var contentListView = new ContentListView(viewModel);
   var targetListView = new TargetListView(viewModel);
-  
+
   var navigationView = new NavigationView(viewModel);
-  
-  viewModel.play().plug($('#play').asEventStream('click').map());
+
+  viewModel.prepend().plug($('#prepend').asEventStream('click'));
+  viewModel.append().plug($('#append').asEventStream('click'));
+
+  viewModel.peer().onValue(function (peer) {
+    console.log('peer', peer);
+  });
+
+  viewModel.selectedPeer().flatMapLatest(function (selectedPeer) {
+    return selectedPeer === null ? Bacon.once(null) : selectedPeer.state().map(function (state) {
+      return {peer: selectedPeer, state: state};
+    });
+  }).onValue(function (current) {
+    console.log('current', current);
+  })
 
   this.getControlsSelector = function(){
     return ".queuecontrols";
   };
+
+  calcSize();
 }
 
 module.exports = BrowserView;
