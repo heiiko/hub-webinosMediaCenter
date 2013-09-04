@@ -240,7 +240,7 @@ function IScroll (el, options) {
 		startX: 0,
 		startY: 0,
 		scrollY: true,
-		directionLockThreshold: 15,
+		directionLockThreshold: 5,
 		momentum: true,
 
 		bounce: true,
@@ -414,8 +414,8 @@ IScroll.prototype = {
 		this.pointX		= point.pageX;
 		this.pointY		= point.pageY;
 
-		this.distX		+= this.x + (this.hasHorizontalScroll ? deltaX : 0);
-		this.distY		+= this.y + (this.hasVerticalScroll ? deltaY : 0);
+		this.distX		+= deltaX;
+		this.distY		+= deltaY;
 		absDistX		= Math.abs(this.distX);
 		absDistY		= Math.abs(this.distY);
 
@@ -455,8 +455,8 @@ IScroll.prototype = {
 			deltaX = 0;
 		}
 
-		newX = this.x + deltaX;
-		newY = this.y + deltaY;
+		newX = this.x + (this.hasHorizontalScroll ? deltaX : 0);
+		newY = this.y + (this.hasVerticalScroll ? deltaY : 0);
 
 		// Slow down if outside of the boundaries
 		if ( newX > 0 || newX < this.maxScrollX ) {
