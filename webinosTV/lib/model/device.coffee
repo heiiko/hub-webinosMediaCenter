@@ -27,7 +27,8 @@ class DeviceManager extends Bacon.EventStream
                 properties:
                   mode: 'send-receive'
                   reclaimIfExists: yes
-                -> yes).then(_.identity, -> Promise.reject(service)))
+                null # requestCallback
+              ).then(_.identity, -> Promise.reject(service)))
               .map(Bacon.once)
               .mapError((service) -> service.searchForChannels('urn:webinos:hub:media'))
               .flatMap(_.identity)
