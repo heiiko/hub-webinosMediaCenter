@@ -7,7 +7,8 @@ Bacon = require('baconjs')
 Service = require('../service/service.coffee')
 
 generalizeAddress = (address) ->
-  address.substr(0, address.indexOf('/'))
+  index = address.indexOf('/')
+  if index is -1 then address else address.substr(0, index)
 
 class PeerService extends Service
   @findServices: (channel, options = {interval: 15000}) ->
