@@ -103,7 +103,7 @@ function loaded() {
   // mediatypScroll = new IScroll('#mediatypwrapper', {snap: 'li', momentum: false});
   // contentScroll = new IScroll('#contentwrapper', {snap: '#contentlist > li', momentum: false});
   // targetScroll = new IScroll('#targetwrapper', {snap: 'li', momentum: false});
-  queueScroll = new IScroll('#queuewrapper', {snap: 'li', momentum: false});
+  // queueScroll = new IScroll('#queuewrapper', {snap: 'li', momentum: false});
   // queueScroll.on('scrollEnd', function() {checkScrollFadeout(this);});
   horizontalScroll = new IScroll('#horizontalwrapper', {snap: '.listhead', scrollX: true, scrollY: false, momentum: false});
 }
@@ -219,7 +219,14 @@ function CategoryListView(viewModel) {
 util.inherits(ContentListView, ListView);
 function ContentListView(viewModel) {
   this.htmlify = function (value) {
-    return ((typeof value.item.type=='string' && value.item.type.toLowerCase().indexOf("image")===0)?('<li class="imageContent nav_co"><img src="' + value.item.thumbnailURIs[0] + '">'):('<li class="textContent nav_co"><p>' + value.item.title+ '</p>')) + '<img class="selectIcon" src="images/add.svg"></li>';
+    var html;
+    if (typeof value.item.type === 'string' && value.item.type.toLowerCase().indexOf('image') === 0) {
+      html = '<li class="imageContent nav_co"><img src="' + value.item.thumbnailURIs[0] + '">';
+    } else {
+      html = '<li class="textContent nav_co"><p>' + value.item.title + '</p>'
+    }
+    html += '<img class="selectIcon" src="images/add.svg"></li>';
+    return html;
   };
 
   this.identify = function (value) {
@@ -231,6 +238,7 @@ function ContentListView(viewModel) {
       }
     };
   };
+
   ListView.call(this, viewModel.content(), viewModel.selectedContent(), '#contentlist', '#contentwrapper', '#content');
 }
 
@@ -247,13 +255,32 @@ function TargetListView(viewModel) {
   ListView.call(this, viewModel.targets(), viewModel.selectedTargets(), '#targetlist', '#targetwrapper', '#target');
 }
 
+util.inherits(QueueListView, ListView);
+function QueueListView(viewModel) {
+  this.htmlify = function (value) {
+    var html;
+    if (typeof value.item.type === 'string' && value.item.type.toLowerCase().indexOf('image') === 0) {
+      html = '<li class="imageContent nav_qu"><img src="' + value.item.thumbnailURIs[0] + '">';
+    } else {
+      html = '<li class="textContent nav_qu"><p>' + value.item.title + '</p>'
+    }
+    html += '<img class="selectIcon" src="images/remove.svg"></li>';
+    return html;
+  };
+
+  this.identify = function (value) {
+    return value.link;
+  };
+
+  ListView.call(this, viewModel.queue(), viewModel.selectedQueue(), '#queuelist', '#queuewrapper', '#queue');
+}
+
 function NavigationView (viewModel) {
   var columns = [".nav_sl", ".nav_ca", ".nav_co", ".nav_tl", ".nav_pm", ".nav_qu"];
   var curCol = 0;
   var curRow = [0, 0, 0, 0, 0, 0];
   var navVisible = false;
   var timeoutHandle;
-  
 
   $(document).keydown(function(e) {
     switch (e.keyCode) {
@@ -336,23 +363,12 @@ function BrowserView(viewModel) {
   var categoryListView = new CategoryListView(viewModel);
   var contentListView = new ContentListView(viewModel);
   var targetListView = new TargetListView(viewModel);
+  var queueListView = new QueueListView(viewModel);
 
   var navigationView = new NavigationView(viewModel);
 
   viewModel.prepend().plug($('#prepend').asEventStream('click'));
   viewModel.append().plug($('#append').asEventStream('click'));
-
-  viewModel.peer().onValue(function (peer) {
-    console.log('peer', peer);
-  });
-
-  viewModel.selectedPeer().flatMapLatest(function (selectedPeer) {
-    return selectedPeer === null ? Bacon.once(null) : selectedPeer.state().map(function (state) {
-      return {peer: selectedPeer, state: state};
-    });
-  }).onValue(function (current) {
-    console.log('current', current);
-  })
 
   this.getControlsSelector = function(){
     return ".queuecontrols";

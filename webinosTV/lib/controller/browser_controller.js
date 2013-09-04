@@ -62,6 +62,24 @@ function BrowserController(manager) {
   var controlsView = new ControlsView(null,commands);
   controlsView.renderControls(view.getControlsSelector());
 
+  Bacon.combineTemplate({
+    selectedPeer: viewModel.selectedPeer(),
+    queue: viewModel.queue(), selectedQueue: viewModel.selectedQueue()
+  }).sampledBy(controlsView.getStream().filter(function (event) {
+    return event.cmd === 'deleteRequest';
+  })).onValue(function (state) {
+    if (state.selectedPeer === null || !state.selectedQueue.length) return;
+
+    var indexes = [];
+    _.each(state.selectedQueue, function (link) {
+      _.each(state.queue, function (item, index) {
+        if (link === item.link) indexes.push(index);
+      });
+    });
+
+    state.selectedPeer.remove(indexes);
+  });
+
   var selectedPeer = viewModel.selectedPeer().flatMapLatest(function (selectedPeer) {
     return selectedPeer === null ? Bacon.once(null) : selectedPeer.state().map(function (state) {
       return {peer: selectedPeer, state: state};
@@ -110,7 +128,16 @@ function BrowserController(manager) {
     }
   });
 
-  viewModel.peer().filter(function (peer) {
+  var peer = manager.toProperty().map(function (devices) {
+    var local = _.find(devices, function (device) {
+      return device.isLocal();
+    });
+
+    if (typeof local === 'undefined' || !local.peers().length) return null;
+    return local.peers()[0];
+  });
+
+  peer.filter(function (peer) {
     return peer !== null;
   }).onValue(function (peer) {
     var length = 120000, position = 0, playing = false;

@@ -4,22 +4,11 @@ var Bacon = require('baconjs');
 var bjq = require('bacon.jquery');
 
 function BrowserViewModel(manager) {
-  var peer = bjq.Model(null);
-  peer.addSource(manager.filter(function (event) {
-    return event.device().isLocal() && event.device().peers().length;
-  }).map(function (event) {
-    return event.device().peers()[0];
-  }));
-  this.peer = function () {
-    return peer;
-  };
-
-  var sources = bjq.Model({});
-  sources.addSource(manager.toProperty().map(function (devices) {
+  var sources = manager.toProperty().map(function (devices) {
     return _.filter(devices, function (device) {
       return device.isSource();
     });
-  }));
+  });
 
   this.sources = function () {
     return sources;
@@ -30,7 +19,7 @@ function BrowserViewModel(manager) {
     return selectedSources;
   };
 
-  var categories = bjq.Model([
+  var categories = Bacon.constant([
     {id: 'movies', type: 'Video', title: 'Movies', image: 'images/movie.svg'},
     {id: 'music', type: 'Audio', title: 'Music', image: 'images/music.svg'},
     {id: 'images', type: 'Image', title: 'Images', image: 'images/image.svg'},
@@ -41,6 +30,7 @@ function BrowserViewModel(manager) {
     {id: 'images6', type: 'Image', title: 'Images6', image: 'images/image.svg'},
     // {id: 'channels', type: undefined, title: 'Channels', image: 'images/tv_channels.svg'}
   ]);
+
   this.categories = function () {
     return categories;
   };
@@ -50,8 +40,7 @@ function BrowserViewModel(manager) {
     return selectedCategories;
   };
 
-  var content = bjq.Model([]);
-  content.addSource(Bacon.combineTemplate({
+  var content = Bacon.combineTemplate({
     sources: sources, selectedSources: selectedSources,
     categories: categories, selectedCategories: selectedCategories
   }).map(function (state) {
@@ -67,7 +56,7 @@ function BrowserViewModel(manager) {
         return {source: source, item: item};
       }).value();
     }).flatten().value();
-  }));
+  });
 
   this.content = function () {
     return content;
@@ -78,12 +67,11 @@ function BrowserViewModel(manager) {
     return selectedContent;
   };
 
-  var targets = bjq.Model({});
-  targets.addSource(manager.toProperty().map(function (devices) {
+  var targets = manager.toProperty().map(function (devices) {
     return _.filter(devices, function (device) {
       return device.isTarget();
     });
-  }));
+  });
 
   this.targets = function () {
     return targets;
@@ -94,18 +82,6 @@ function BrowserViewModel(manager) {
     return selectedTargets;
   };
 
-  var selectedPeer = bjq.Model(null);
-  selectedPeer.addSource(Bacon.combineTemplate({
-    devices: manager.toProperty(),
-    selectedTargets: selectedTargets
-  }).map(function (state) {
-    if (!state.selectedTargets.length || state.selectedTargets.length > 1) return null;
-    return state.devices[state.selectedTargets[0]].peers()[0];
-  }));
-  this.selectedPeer = function () {
-    return selectedPeer;
-  };
-
   var prepend = new Bacon.Bus();
   this.prepend = function () {
     return prepend;
@@ -114,6 +90,30 @@ function BrowserViewModel(manager) {
   var append = new Bacon.Bus();
   this.append = function () {
     return append;
+  };
+
+  var selectedPeer = manager.toProperty().sampledBy(selectedTargets, function (devices, selectedTargets) {
+    if (!selectedTargets.length || selectedTargets.length > 1) return null;
+    // Assumption: Only devices with a peer service are recognized as targets.
+    return devices[selectedTargets[0]].peers()[0];
+  });
+
+  this.selectedPeer = function () {
+    return selectedPeer;
+  };
+
+  var queue = selectedPeer.flatMapLatest(function (selectedPeer) {
+    if (selectedPeer === null) return Bacon.once([]);
+    return selectedPeer.state().map('.queue').skipDuplicates(_.isEqual);
+  }).toProperty([]);
+
+  this.queue = function () {
+    return queue;
+  };
+
+  var selectedQueue = bjq.Model([]);
+  this.selectedQueue = function () {
+    return selectedQueue;
   };
 }
 
