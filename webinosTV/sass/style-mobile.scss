@@ -1,6 +1,16 @@
 @charset "UTF-8";
 @import "base";
 
+$green: #669c08;
+$blue: #48b3e4;
+$fontcolor: #333333;
+$darkgray: #777777;
+$mediumgray: #dadada;
+$lightgray: #f1f1f1;
+
+$mintabletwidth: 1200px;
+$headerheight: 70px;
+$menuheight: 50px;
 $category-wrapper-width-largescreen:150px;
 
 body {
@@ -51,11 +61,11 @@ ul {
 		@media screen and (min-width: 551px) {
 			content: 'Source and Target';
 		}
-	
+
 		@media screen and (max-width: 550px) {
 			content: 'Source & Target';
 		}
-	
+
 		@media screen and (max-width: 410px) {
 			content: 'Devices';
 		}
@@ -100,7 +110,7 @@ ul {
 	position: absolute;
 	left: 49%;
 	top: $headerheight / 2 - 7;
-	
+
 	@media screen and (max-width: $mintabletwidth) {
 		display: none;
 	}
@@ -184,19 +194,19 @@ ul {
 	.device-image.type-laptop {
 		background-image: url('../images/laptop.svg');
 	}
-	
+
 	.device-image.type-pc {
 		background-image: url('../images/pc.svg');
 	}
-	
+
 	.device-image.type-phone {
 		background-image: url('../images/phone.svg');
 	}
-	
+
 	.device-image.type-tablet {
 		background-image: url('../images/tablet.svg');
 	}
-	
+
 	.device-image.type-tv {
 		background-image: url('../images/tv.svg');
 	}
@@ -206,23 +216,23 @@ ul {
 	.device-name {
 		color: $blue;
 	}
-	
+
 	.device-image.type-laptop {
 		background-image: url('../images/laptop-selected.svg');
 	}
-	
+
 	.device-image.type-pc {
 		background-image: url('../images/pc-selected.svg');
 	}
-	
+
 	.device-image.type-phone {
 		background-image: url('../images/phone-selected.svg');
 	}
-	
+
 	.device-image.type-tablet {
 		background-image: url('../images/tablet-selected.svg');
 	}
-	
+
 	.device-image.type-tv {
 		background-image: url('../images/tv-selected.svg');
 	}
@@ -260,7 +270,7 @@ ul {
 		width: 150px;
 		border-right: 2px solid $mediumgray;
 	}
-	
+
 	@media screen and (max-width: $mintabletwidth - 1) {
 		width: 100%;
 	}
@@ -274,7 +284,7 @@ ul {
 	@media screen and (min-width: $mintabletwidth) {
 		padding: 15px;
 	}
-	
+
 	@media screen and (max-width: $mintabletwidth - 1) {
 		@include box-sizing(border-box);
 		padding: 15px 30px 0px 30px;
