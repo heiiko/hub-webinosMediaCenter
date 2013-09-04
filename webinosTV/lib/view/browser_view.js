@@ -116,18 +116,18 @@ function SourceListView(viewModel) {
     		$('#current-source-name').html(device.address);
     	}
     	else if(selection.length == 0) {
-    		$('#selected-source').attr('src', '');
+    		$('#selected-source').attr('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==');
     		$('#selected-source-name').html('');
     		$('#selected-source-intro').html('');
     		
     		$('#wrapper-selected-source').addClass('header-active');
     		$('#wrapper-selected-target').removeClass('header-active');
     		
-    		$('#current-source-logo').attr('src', '');
+    		$('#current-source-logo').attr('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==');
     		$('#current-source-name').html('Source device');
     	}
     	else {
-    		$('#current-source-logo').attr('src', '');
+    		$('#current-source-logo').attr('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==');
     		$('#current-source-name').html(selection.length + ' Source devices');
     	}
   	});
@@ -177,11 +177,11 @@ function TargetListView(viewModel) {
     		$('#current-target-name').html(device.address);
     	}
     	else if(selection.length == 0) {
-    		$('#current-target-logo').attr('src', '');
+    		$('#current-target-logo').attr('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==');
     		$('#current-target-name').html('Target device');
     	}
     	else {
-    		$('#current-target-logo').attr('src', '');
+    		$('#current-target-logo').attr('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==');
     		$('#current-target-name').html(selection.length + ' Target devices');
     	}
   	});

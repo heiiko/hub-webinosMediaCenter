@@ -3,7 +3,7 @@
 
 $green: #669c08;
 $blue: #48b3e4;
-$font: #333333;
+$fontcolor: #333333;
 $darkgray: #777777;
 $mediumgray: #dadada;
 $lightgray: #f1f1f1;
@@ -13,8 +13,9 @@ $headerheight: 70px;
 
 body {
 	margin: 0px;
+	padding: 0px;
 	font-family: 'Roboto', sans-serif;
-	color: $font;
+	color: $fontcolor;
 }
 
 ul {
@@ -148,7 +149,7 @@ ul {
 }
 
 .header-item-device.header-active {
-	border-bottom: 5px solid $blue;
+	border-bottom: 3px solid $blue;
 	padding-bottom: 10px;
 }
 
