@@ -349,6 +349,16 @@ p {
     position: absolute;
     margin: 1em;
 }
+
+.protrait .backButton{
+    background-image: url(../images/Remote/back_area_portrait.svg);
+    background-size: contain;
+    background-repeat: no-repeat;
+    top: 0px; bottom: 0px; left: 0px; right: 0px;
+    position: absolute;
+    margin: 1em;
+}
+
 .backButton .backButtonCaption {
     background-image: url(../images/Remote/back.svg);
     background-size: contain;
@@ -600,4 +610,16 @@ border-radius: 100px;
     background-color: #3f3f3f;
     border-left: 3px solid #333;    
     border-right: 3px solid #333;
+}
+
+
+/* Renderer */
+
+.rendererControlls {
+    background-color: rgba(50,0,0,0.4);
+    position: absolute;
+    bottom: 5%;
+    height: 15%;
+    left: 20%;
+    right: 20%;
 }
