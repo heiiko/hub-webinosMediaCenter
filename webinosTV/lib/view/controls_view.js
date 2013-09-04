@@ -40,8 +40,8 @@ function ControlsView(parent, config, viewModel) {
   viewModel.playOrPause().plug(cplay.asEventStream('click'));
   viewModel.previous().plug(cprev.asEventStream('click'));
   viewModel.next().plug(cnext.asEventStream('click'));
-  viewModel.rewind().plug(crewd.asEventStream('click'));
-  viewModel.forward().plug(cfwrd.asEventStream('click'));
+  viewModel.rewind().plug(crewd.asEventStream('click').map(undefined));
+  viewModel.forward().plug(cfwrd.asEventStream('click').map(undefined));
   viewModel.remove().plug(cdele.asEventStream('click'));
 
   $(parent).append(controls);
