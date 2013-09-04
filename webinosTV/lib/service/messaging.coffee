@@ -57,7 +57,7 @@ class Channel extends Bacon.EventStream
     sink = undefined
     messages ?= new Bacon.Bus()
     messages.onValue (message) =>
-      sink? new Bacon.Next(new Message(this, message))
+      sink? new Bacon.Next(new Message(this, message.contents))
     super (newSink) => # auto(dis)connect
       sink = (event) ->
         reply = newSink event
@@ -97,7 +97,7 @@ class Channel extends Bacon.EventStream
     @send = (message) ->
       return Promise.reject("Channel not connected") unless connected
       promise = promisify('send', underlying)(message)
-      promise.then -> messages.push(message)
+      promise.then -> messages.push({contents: message})
       promise
     @sendTo = (client, message) ->
       return Promise.reject("Channel not connected") unless connected
