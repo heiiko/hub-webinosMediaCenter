@@ -1,18 +1,20 @@
-/* line 6, ../sass/style-mobile.scss */
+@charset "UTF-8";
+/* line 14, ../sass/style-mobile.scss */
 body {
   margin: 0px;
+  padding: 0px;
   font-family: 'Roboto', sans-serif;
   color: #333333;
 }
 
-/* line 12, ../sass/style-mobile.scss */
+/* line 21, ../sass/style-mobile.scss */
 ul {
   list-style-type: none;
   padding: 0px;
   margin: 0px;
 }
 
-/* line 18, ../sass/style-mobile.scss */
+/* line 27, ../sass/style-mobile.scss */
 .menu {
   width: 100%;
   background-color: #f1f1f1;
@@ -20,7 +22,7 @@ ul {
   border-bottom: 1px solid #669c08;
 }
 
-/* line 25, ../sass/style-mobile.scss */
+/* line 34, ../sass/style-mobile.scss */
 .menu-item {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -32,7 +34,7 @@ ul {
   text-decoration: none;
 }
 
-/* line 37, ../sass/style-mobile.scss */
+/* line 44, ../sass/style-mobile.scss */
 .menu-border {
   float: left;
   height: 20px;
@@ -40,32 +42,32 @@ ul {
   border-left: 1px solid #dadada;
 }
 
-/* line 44, ../sass/style-mobile.scss */
+/* line 51, ../sass/style-mobile.scss */
 .menu-item.menu-active {
   border-bottom: 5px solid #669c08;
   padding-bottom: 10px;
 }
 
 @media screen and (min-width: 551px) {
-  /* line 49, ../sass/style-mobile.scss */
+  /* line 58, ../sass/style-mobile.scss */
   #menu-device:before {
     content: 'Source and Target';
   }
 }
 @media screen and (max-width: 550px) {
-  /* line 49, ../sass/style-mobile.scss */
+  /* line 58, ../sass/style-mobile.scss */
   #menu-device:before {
     content: 'Source & Target';
   }
 }
 @media screen and (max-width: 410px) {
-  /* line 49, ../sass/style-mobile.scss */
+  /* line 58, ../sass/style-mobile.scss */
   #menu-device:before {
     content: 'Devices';
   }
 }
 
-/* line 63, ../sass/style-mobile.scss */
+/* line 73, ../sass/style-mobile.scss */
 .subpage {
   overflow: hidden;
   width: 100%;
@@ -75,13 +77,13 @@ ul {
   position: absolute;
 }
 
-/* line 72, ../sass/style-mobile.scss */
+/* line 81, ../sass/style-mobile.scss */
 .subpage-current {
   visibility: visible;
   z-index: 1;
 }
 
-/* line 77, ../sass/style-mobile.scss */
+/* line 86, ../sass/style-mobile.scss */
 .header {
   width: 100%;
   background-color: white;
@@ -89,7 +91,7 @@ ul {
   border-bottom: 1px solid #48b3e4;
 }
 
-/* line 84, ../sass/style-mobile.scss */
+/* line 92, ../sass/style-mobile.scss */
 .header-item-device {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -101,13 +103,29 @@ ul {
   padding: 15px 2px 15px 2px;
 }
 
-/* line 96, ../sass/style-mobile.scss */
+/* line 102, ../sass/style-mobile.scss */
+#device-arrow {
+  width: 40px;
+  height: 14px;
+  background-image: url("../images/device-arrow.svg");
+  position: absolute;
+  left: 49%;
+  top: 28px;
+}
+@media screen and (max-width: 1200px) {
+  /* line 102, ../sass/style-mobile.scss */
+  #device-arrow {
+    display: none;
+  }
+}
+
+/* line 115, ../sass/style-mobile.scss */
 #current-source-logo {
   vertical-align: middle;
   height: 40px;
 }
 
-/* line 101, ../sass/style-mobile.scss */
+/* line 120, ../sass/style-mobile.scss */
 #current-source-name {
   display: inline-block;
   vertical-align: middle;
@@ -116,13 +134,13 @@ ul {
   text-overflow: ellipsis;
 }
 
-/* line 109, ../sass/style-mobile.scss */
+/* line 128, ../sass/style-mobile.scss */
 #current-target-logo {
   vertical-align: middle;
   height: 40px;
 }
 
-/* line 114, ../sass/style-mobile.scss */
+/* line 133, ../sass/style-mobile.scss */
 #current-target-name {
   display: inline-block;
   vertical-align: middle;
@@ -131,7 +149,7 @@ ul {
   text-overflow: ellipsis;
 }
 
-/* line 122, ../sass/style-mobile.scss */
+/* line 141, ../sass/style-mobile.scss */
 .header-item-media {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -139,7 +157,7 @@ ul {
   padding: 15px 2px 15px 2px;
 }
 
-/* line 129, ../sass/style-mobile.scss */
+/* line 146, ../sass/style-mobile.scss */
 .header-item-queue {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -147,13 +165,13 @@ ul {
   padding: 15px 2px 15px 2px;
 }
 
-/* line 136, ../sass/style-mobile.scss */
+/* line 151, ../sass/style-mobile.scss */
 .header-item-device.header-active {
-  border-bottom: 5px solid #48b3e4;
+  border-bottom: 3px solid #48b3e4;
   padding-bottom: 10px;
 }
 
-/* line 141, ../sass/style-mobile.scss */
+/* line 156, ../sass/style-mobile.scss */
 .device-column {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -162,18 +180,18 @@ ul {
   float: left;
 }
 
-/* line 150, ../sass/style-mobile.scss */
+/* line 162, ../sass/style-mobile.scss */
 #sourcewrapper {
   border-right: 1px solid #dadada;
   height: 100%;
 }
 
-/* line 155, ../sass/style-mobile.scss */
+/* line 167, ../sass/style-mobile.scss */
 #targetwrapper {
   height: 100%;
 }
 
-/* line 159, ../sass/style-mobile.scss */
+/* line 171, ../sass/style-mobile.scss */
 .device {
   padding: 25px 30px 25px 30px;
   border-bottom: 1px;
@@ -181,87 +199,120 @@ ul {
   border-image: -webkit-linear-gradient(0deg, transparent, transparent 5%, #dadada 6%, #dadada 94%, transparent 95%, transparent) 1 stretch;
 }
 
-/* line 166, ../sass/style-mobile.scss */
+/* line 178, ../sass/style-mobile.scss */
 .device-type {
   color: #777777;
 }
 
-/* line 170, ../sass/style-mobile.scss */
-.device > .device-image {
+/* line 183, ../sass/style-mobile.scss */
+.device .device-image {
   float: right;
   height: 40px;
   width: 48px;
 }
-
-/* line 176, ../sass/style-mobile.scss */
-.device > .device-image.type-laptop {
+/* line 189, ../sass/style-mobile.scss */
+.device .device-image.type-laptop {
   background-image: url("../images/laptop.svg");
 }
+/* line 193, ../sass/style-mobile.scss */
+.device .device-image.type-pc {
+  background-image: url("../images/pc.svg");
+}
+/* line 197, ../sass/style-mobile.scss */
+.device .device-image.type-phone {
+  background-image: url("../images/phone.svg");
+}
+/* line 201, ../sass/style-mobile.scss */
+.device .device-image.type-tablet {
+  background-image: url("../images/tablet.svg");
+}
+/* line 205, ../sass/style-mobile.scss */
+.device .device-image.type-tv {
+  background-image: url("../images/tv.svg");
+}
 
-/* line 180, ../sass/style-mobile.scss */
-.device.selected > .device-image.type-laptop {
+/* line 211, ../sass/style-mobile.scss */
+.device.selected .device-name {
+  color: #48b3e4;
+}
+/* line 215, ../sass/style-mobile.scss */
+.device.selected .device-image.type-laptop {
   background-image: url("../images/laptop-selected.svg");
 }
-
-/* line 184, ../sass/style-mobile.scss */
-.device.selected > .device-name {
-  color: #68c2e9;
+/* line 219, ../sass/style-mobile.scss */
+.device.selected .device-image.type-pc {
+  background-image: url("../images/pc-selected.svg");
+}
+/* line 223, ../sass/style-mobile.scss */
+.device.selected .device-image.type-phone {
+  background-image: url("../images/phone-selected.svg");
+}
+/* line 227, ../sass/style-mobile.scss */
+.device.selected .device-image.type-tablet {
+  background-image: url("../images/tablet-selected.svg");
+}
+/* line 231, ../sass/style-mobile.scss */
+.device.selected .device-image.type-tv {
+  background-image: url("../images/tv-selected.svg");
 }
 
-/* line 188, ../sass/style-mobile.scss */
+/* line 236, ../sass/style-mobile.scss */
 .device-name {
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-/* line 193, ../sass/style-mobile.scss */
+/* line 241, ../sass/style-mobile.scss */
 #selected-source {
   vertical-align: middle;
   height: 40px;
 }
 
-/* line 198, ../sass/style-mobile.scss */
+/* line 246, ../sass/style-mobile.scss */
 #selected-source-intro {
   display: inline-block;
   vertical-align: middle;
 }
 
-/* line 203, ../sass/style-mobile.scss */
+/* line 251, ../sass/style-mobile.scss */
 #selected-source-name {
   display: inline-block;
   vertical-align: middle;
-  color: #1187c1;
+  color: #48b3e4;
 }
 
-/* line 209, ../sass/style-mobile.scss */
+/* line 257, ../sass/style-mobile.scss */
 #categorywrapper {
   height: 100%;
 }
 @media screen and (min-width: 1200px) {
-  /* line 209, ../sass/style-mobile.scss */
+  /* line 257, ../sass/style-mobile.scss */
   #categorywrapper {
-    background-color: #ededed;
+    background-color: #f1f1f1;
     text-align: center;
     width: 150px;
-    border-right: 2px solid #b4b4b4;
+    border-right: 2px solid #dadada;
   }
 }
 @media screen and (max-width: 1199px) {
-  /* line 209, ../sass/style-mobile.scss */
+  /* line 257, ../sass/style-mobile.scss */
   #categorywrapper {
     width: 100%;
   }
 }
 
 @media screen and (min-width: 1200px) {
-  /* line 224, ../sass/style-mobile.scss */
+  /* line 272, ../sass/style-mobile.scss */
   .category {
     padding: 15px;
   }
 }
 @media screen and (max-width: 1199px) {
-  /* line 224, ../sass/style-mobile.scss */
+  /* line 272, ../sass/style-mobile.scss */
   .category {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
     padding: 15px 30px 0px 30px;
     float: left;
     display: inline-block;
@@ -274,119 +325,14 @@ ul {
 }
 
 @media screen and (min-width: 1200px) {
-  /* line 241, ../sass/style-mobile.scss */
+  /* line 239, ../sass/style-mobile.scss */
   .category-name {
     visibility: visible;
   }
 }
 @media screen and (max-width: 1199px) {
-  /* line 241, ../sass/style-mobile.scss */
+  /* line 287, ../sass/style-mobile.scss */
   .category-name {
-    visibility: hidden;
-  }
-}
-
-@media screen and (min-width: 1200px) {
-  /*category-selection arrow*/
-  /* line 253, ../sass/style-mobile.scss */
-  .arrow_box {
-    position: relative;
-    background: transparent;
-  }
-
-  /* line 257, ../sass/style-mobile.scss */
-  .arrow_box:after, .arrow_box:before {
-    right: 100%;
-    border: solid transparent;
-    content: " ";
-    height: 0;
-    width: 0;
-    position: absolute;
-    pointer-events: none;
-  }
-
-  /* line 267, ../sass/style-mobile.scss */
-  .arrow_box:after {
-    border-color: rgba(136, 183, 213, 0);
-    border-right-color: white;
-    border-width: 13px;
-    margin-top: -13px;
-  }
-
-  /* line 274, ../sass/style-mobile.scss */
-  .arrow_box:before {
-    border-color: rgba(194, 225, 245, 0);
-    border-right-color: gray;
-    border-width: 16px;
-    margin-top: -16px;
-  }
-
-  /* line 282, ../sass/style-mobile.scss */
-  #categorycontentlist {
-    height: 100%;
-  }
-
-  /* line 286, ../sass/style-mobile.scss */
-  #categorycontentlist li.category-content {
-    /*    background:red;
-        border:1px solid yellow;*/
-    background: white;
-    border-left: 1px solid gray;
     display: none;
-    height: 100%;
-  }
-
-  /* line 295, ../sass/style-mobile.scss */
-  #categorycontentwrapper {
-    /*    background:lime;
-        box-shadow: inset 5px 5px purple;*/
-    width: auto;
-    position: relative;
-    height: 100%;
-    top: -100%;
-    left: 150px;
-  }
-
-  /*  .category-content{
-      height:100%;
-      width:100%;
-      background:white;
-    }*/
-  /* line 311, ../sass/style-mobile.scss */
-  .media_item {
-    background: red;
-    color: yellow;
-  }
-
-  /* line 316, ../sass/style-mobile.scss */
-  #contentwrapper {
-    position: relative;
-    top: -100%;
-    left: 150px;
-    height: 100%;
-    width: auto;
-    background: white;
-    border-left: 2px solid gray;
-  }
-
-  /* line 326, ../sass/style-mobile.scss */
-  #contentlist {
-    height: 100%;
-    width: 100%;
-  }
-
-  /*  .content-wrapper{
-      height:100%;
-      width:100%;
-    }
-  
-    .content-list{
-      height:100%;
-      width:100%;
-    }*/
-  /* line 341, ../sass/style-mobile.scss */
-  #selectmediawrapper {
-    height: 100%;
-    width: 100%;
   }
 }

@@ -27,7 +27,8 @@ class DeviceManager extends Bacon.EventStream
                 properties:
                   mode: 'send-receive'
                   reclaimIfExists: yes
-                -> yes).then(_.identity, -> Promise.reject(service)))
+                null # requestCallback
+              ).then(_.identity, -> Promise.reject(service)))
               .map(Bacon.once)
               .mapError((service) -> service.searchForChannels('urn:webinos:hub:media'))
               .flatMap(_.identity)
@@ -130,7 +131,7 @@ class Device extends Bacon.EventStream
       else if service instanceof MediaContentService
         @refresh()
     @address = -> address
-    @isLocal = -> address is webinos.session.getServiceLocation() # TODO: Check.
+    @isLocal = -> address is webinos.session.getServiceLocation()
     @isRemote = => not @isLocal()
     @type = -> type
     @content = -> content
@@ -151,7 +152,7 @@ class Device extends Bacon.EventStream
     @media = -> _.find(services, ({ref}) -> ref instanceof MediaService)?.ref
     @peers = -> _.chain(services).filter(({ref}) -> ref instanceof PeerService).pluck('ref').value()
     @isSource = => @mediacontent()?
-    @isTarget = => @media()? or @peers().length > 0
+    @isTarget = => @peers().length > 0
     @refresh = (force = no) =>
       now = Date.now()
       return if refresh? and refresh >= (now - interval) and not force

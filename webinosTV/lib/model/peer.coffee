@@ -6,6 +6,10 @@ Bacon = require('baconjs')
 
 Service = require('../service/service.coffee')
 
+generalizeAddress = (address) ->
+  index = address.indexOf('/')
+  if index is -1 then address else address.substr(0, index)
+
 class PeerService extends Service
   @findServices: (channel, options = {interval: 15000}) ->
     new Bacon.EventStream (newSink) ->
@@ -22,11 +26,11 @@ class PeerService extends Service
             sink? new Bacon.Next(PeerService.create(channel, event.message().from))
           else if event.isDisconnect()
             sink? new Bacon.End()
-        if channel.service().address() is webinos.session.getServiceLocation() # TODO: Check.
+        if channel.service().address() is generalizeAddress(webinos.session.getServiceLocation())
           unsubPoll = Bacon.once(Date.now()).concat(Bacon.fromPoll(options.interval, -> Date.now())).onValue (now) ->
             channel.send({
               type: 'hello'
-              from: # TODO: Check.
+              from:
                 address: webinos.session.getServiceLocation()
                 id: webinos.session.getSessionId()
             })
@@ -47,13 +51,15 @@ class PeerService extends Service
     })
     channel.filter('.isDisconnect').onValue => @unbindService()
     messages = channel
-      .filter (event) -> event.isMessage() and event.message().to is peer
+      .filter((event) ->
+        event.isMessage() and event.message().to.address is peer.address and
+                              event.message().to.id is peer.id)
       .map('.message')
     @channel = -> channel
     @messages = -> messages
     @send = (type, content) ->
       channel.send({
-        from: # TODO: Check.
+        from:
           address: webinos.session.getServiceLocation()
           id: webinos.session.getSessionId()
         to: peer
@@ -105,6 +111,8 @@ class LocalPeerService extends PeerService
           playback = {current: yes, playing: yes, relative: 0}
         when 'playback:paused'
           playback.playing = no
+        when 'playback:resumed'
+          playback.playing = yes
         when 'playback:ended'
           playback = {current: no, playing: no, relative: 0}
           next(yes)
