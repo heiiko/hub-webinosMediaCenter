@@ -35,12 +35,12 @@ function init() {
 function calcSize(){
     var width = $(window).innerWidth();
     var height = $(window).innerHeight();
-    var margin = 0;    
+    var margin = 0;
     if(height < width){
-        var margin = height*0.03;    
+        margin = height*0.03;
     }else{
-        var margin = width*0.03;    
-    }   
+        margin = width*0.03;
+    }
     $('.mm_button').height((height-4*margin)/3);
     $('.mm_button').css("margin", margin);
     $('.mm_button').width($('.menu').width()-2*margin);
@@ -48,14 +48,11 @@ function calcSize(){
 
 
 function closeMenus() {
-    $('#mainmenu').finish();
-    $('#selecttarget').finish();
-    $('.overlay').finish();
     if($('#mainmenu').is(":visible")){
-        $('#mainmenu').animate({'width': 'toggle'});
+        $('#mainmenu').toggle();
     }
     if($('#selecttarget').is(":visible")){
-        $('#selecttarget').animate({'width': 'toggle'});
+        $('#selecttarget').toggle();
     }
     if($('.overlay').is(":visible")){
         $('.overlay').toggle();
@@ -63,13 +60,13 @@ function closeMenus() {
 }
 
 function toggleMainmenu(){
-    $('#mainmenu').finish();
-    $('#mainmenu').animate({'width': 'toggle'}, function() {toggleOverlay(); });
+    $('#mainmenu').toggle();
+    toggleOverlay();
 }
 
 function toggleSelectTarget(){
-    $('#selecttarget').finish();
-    $('#selecttarget').animate({'width': 'toggle'}, function() {toggleOverlay(); selecttargetScroll.refresh();});
+    $('#selecttarget').toggle();
+    toggleOverlay();
 }
 
 function toggleOverlay(){
