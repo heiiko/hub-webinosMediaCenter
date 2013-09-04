@@ -79,7 +79,7 @@ function calcSize() {
   //vertikal zentrieren
   $('#horizontalwrapper').height(height * 0.9);
   $('#horizontalwrapper').css('margin-top', -(height * 0.45));
- 
+
   $('#verticalwrapper').height(height * 0.9 - 20);
   $('#playmodewrapper li').outerHeight(((height-26) * 0.45));
 
@@ -167,6 +167,7 @@ function ListView(items, selection, list, wrapper, fadeout) {
   selection.apply($(list).asEventStream('click').map(function (event) {
     return function (selection) {
       var $item = $(event.target).closest('li');
+      if (!$item.length) return selection;
       var id = $item.data('id');
       return (_.ocontains(selection, id) ? _.odifference : _.ounion)(selection, [id]);
     };
