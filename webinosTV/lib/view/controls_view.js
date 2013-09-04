@@ -1,156 +1,145 @@
 var $ = require('jquery');
+var _ = require('underscore');
+
 var Bacon = require('baconjs');
 
+function ControlsView(parent, config, viewModel) {
+  parent = $(parent) || $('body');
+  config = _.extend(config || {}, {
+    style: 'slim',
+    remove: true,
+    fullscreen: false,
+    highdef: false
+  });
 
-function ControlsView(viewModel,commandBus) {
-  var that = this;
+  var buttonCount = 5;
+  if (config.remove) buttonCount++;
+  if (config.fullscreen) buttonCount++;
+  if (config.highdef) buttonCount++;
 
-  this.viewModel = viewModel;
-  this.renderControls = function(parent, config){
-  	parent = $(parent) || $("body");
-  	config = config || {style:'slim', delete:true, fullscreen:false, highdef:false};
+  var cprev = $('<div class="controlButton controlPrev nav_qu">');
+  var crewd = $('<div class="controlButton controlRewd nav_qu">');
+  var cplay = $('<div class="controlButton controlPlay nav_qu">');
+  var cfwrd = $('<div class="controlButton controlFwrd nav_qu">');
+  var cnext = $('<div class="controlButton controlNext nav_qu">');
+  var cdele = $('<div class="controlButton controlDele nav_qu">');
+  var cfull = $('<div class="controlButton controlFull nav_qu">');
+  var chres = $('<div class="controlButton controlHres nav_qu">');
+  var csbar = $('<div class="controlSbar"><div></div></div>');
+  var ctime = $('<div class="controlTime"><div class="controlTimeSchnippel"></div><span>1:00</span></div>');
 
-    var seekStateBus = new Bacon.Bus();
-    seekStateBus.plug($(window).asEventStream('resize').map({cmd:"uiResized"}));
+  var controls = $('<div class="' + (config.style || 'slim') + ' controlContainer">');
+  var container = $('<div class="controlButtons">');
 
-  	var buttonCount = 5;
-  	buttonCount = (config.delete)?(++buttonCount):buttonCount;
-  	buttonCount = (config.fullscreen)?(++buttonCount):buttonCount;
-  	buttonCount = (config.highdef)?(++buttonCount):buttonCount;
+  container.append([cprev, crewd, cplay, cfwrd, cnext]);
+  if (config.remove) container.append(cdele)
+  if (config.fullscreen) container.append(cfull);
+  if (config.highdef) container.append(chres);
+  controls.append([container, csbar, ctime]);
 
-  	var cprev = $("<div class='controlButton controlPrev nav_qu'>");
-  	var crewd = $("<div class='controlButton controlRewd nav_qu'>");
-  	var cplay = $("<div class='controlButton controlPlay nav_qu'>");
-  	var cfwrd = $("<div class='controlButton controlFwrd nav_qu'>");
-  	var cnext = $("<div class='controlButton controlNext nav_qu'>");
-  	var cdele = $("<div class='controlButton controlDele nav_qu'>");
-  	var cfull = $("<div class='controlButton controlFull nav_qu'>");
-  	var chres = $("<div class='controlButton controlHres nav_qu'>");
-  	var csbar = $("<div class='controlSbar'><div></div></div>");
-  	var ctime = $("<div class='controlTime'><div class='controlTimeSchnippel'></div><span>1:00</span></div>");
+  viewModel.playOrPause().plug(cplay.asEventStream('click'));
+  viewModel.previous().plug(cprev.asEventStream('click'));
+  viewModel.next().plug(cnext.asEventStream('click'));
+  viewModel.rewind().plug(crewd.asEventStream('click'));
+  viewModel.forward().plug(cfwrd.asEventStream('click'));
+  viewModel.remove().plug(cdele.asEventStream('click'));
 
-    var controls = $("<div class='"+((config.style)?config.style:'slim')+" controlContainer'>");
-  	var container = $("<div class='controlButtons'>");
-  	container.append(cprev);
-  	container.append(crewd);
-  	container.append(cplay);
-  	container.append(cfwrd);
-  	container.append(cnext);
-  	container.append(cdele);
-  	(config.fullscreen)?container.append(cfull):0;
-  	(config.highdef)?container.append(chres):0;
-  	controls.append(container);
-  	controls.append(csbar);
-  	controls.append(ctime);
+  $(parent).append(controls);
 
-    var controlsStream = $(cprev).asEventStream('click').map({cmd:'previousRequest'})
-    .merge($(crewd).asEventStream('click').map({cmd:'rewindRequest'}))
-    .merge($(cplay).asEventStream('click').map({cmd:'playpauseRequest'}))
-    .merge($(cfwrd).asEventStream('click').map({cmd:'forwardRequest'}))
-    .merge($(cnext).asEventStream('click').map({cmd:'nextRequest'}))
-    .merge($(cdele).asEventStream('click').map({cmd:'deleteRequest'}))
-    .merge($(cfull).asEventStream('click').map({cmd:'fullscreenRequest'}))
-    .merge($(chres).asEventStream('click').map({cmd:'highresRequest'}))
-    .merge(seekStateBus);
-    if(commandBus) controlsStream = controlsStream.merge(commandBus);
+  // $('.controlSbar div').css({transition: 'width 1s linear'});
+  $('.controlButton', controls).css({width: (100 / buttonCount) + '%'});
 
-    controlsStream.log("Controls&Commands:");
+  var length = 0, last = 0;
 
-  	$(parent).append(controls);
-
-    var seeker = $('.controlTime').drags({seekBar:".controlSbar",seekStateBus:seekStateBus});
-
-    //one time adjustment to style, based on number of controls
-    $(".controlButton").css({width:(100/buttonCount)+"%"});
-
-  	this.play = function(){
-  		$(cplay).removeClass("controlPlay");
-  		$(cplay).addClass("controlPaus");
-  	}
-
-  	this.pause = function(){
-  		$(cplay).removeClass("controlPaus");
-  		$(cplay).addClass("controlPlay");
-  	}
-
-    var lastKnownPercentage=0;
-
-   // $('.controlSbar div').css({"transition": "width 1s linear"});
-
-  	this.updatePlaytime = function(percentage){
-      percentage=(typeof percentage !== 'undefined')?Math.round(percentage*1000)/1000:lastKnownPercentage;
-		  $(".controlSbar div").css({"width": ((typeof percentage !== 'undefined')?percentage*parseInt($(".controlSbar").width()):$(".controlSbar").width())});
-      $(".controlTime span").text(Math.round(percentage*playTimeMS/1000));
-      lastKnownPercentage=percentage;
-  	}
-
-    var seekTimerHandle;
-    var playTimeMS=0;
-    var isSeeking=false;
-    controlsStream.onValue(function(e){
-        if(e.cmd){
-          switch(e.cmd){
-            case "uiResized":
-              //$('.controlSbar div').css({"transition": "width 0.0s linear"});
-              that.updatePlaytime();
-              //$('.controlSbar div').css({"transition": "width 1s linear"});
-              break;
-            case "_seekRequest"://internal ui event
-              that.updatePlaytime(e.value);
-              //dont flood with seek events
-              if(seekTimerHandle) clearTimeout(seekTimerHandle);
-              seekTimerHandle = setTimeout(function(percentage){
-                seekStateBus.push({cmd:'seekRequest',value:percentage});
-              },200,e.value);
-              break;
-            case "play":
-            console.log(e.value);
-              //$('.controlSbar div').css({"transition": "width 0.0s linear"});
-              that.updatePlaytime(0);
-             // $('.controlSbar div').css({"transition": "width 1s linear"});
-              that.play();
-              playTimeMS = (e.value)?e.value:0; //media length in ms
-              break;
-            case "pause":
-              that.pause();
-              break;
-            case "setPlayPosition":
-              if (typeof e.value !== 'undefined') {
-                if (isSeeking) break;
-
-                var percentage = 0;
-
-                if (e.value >= 0 && e.value < 1) {
-                  percentage = e.value;
-                } else if (e.value > 1) {
-                  percentage = Math.min(1, (e.value / playTimeMS));
-                }
-
-                that.updatePlaytime(percentage);
-                seekStateBus.push({cmd: '_setPlayPosition', value: percentage});
-              }
-              break;
-            case "_seekStartRequest":
-              isSeeking=true;
-              break;
-            case "_seekEndRequest":
-              isSeeking=false;
-              break;
-          }
-        }
-    });
-
-    this.getStream = function(){
-      return controlsStream;
-    };
-  	that=this;
+  function play() {
+    $(cplay).removeClass('controlPlay');
+    $(cplay).addClass('controlPaus');
   }
+
+  function pause() {
+    $(cplay).removeClass('controlPaus');
+    $(cplay).addClass('controlPlay');
+  }
+
+  function update(relative) {
+    if (typeof relative !== 'undefined') {
+      relative = Math.round(relative * 1000) / 1000;
+    } else {
+      relative = last;
+    }
+
+    $('.controlSbar div').css({width: relative * $('.controlSbar').width()});
+    $('.controlTime span').text(Math.round(relative * length / 1000));
+
+    last = relative;
+  }
+
+  var seeking = false;
+  function seek(value) {
+    if (seeking) return;
+
+    var relative = 0;
+
+    if (value >= 0 && value < 1) {
+      relative = value;
+    } else if (value > 1) {
+      relative = Math.min(1, (value / length));
+    }
+
+    update(relative);
+    bus.push({type: 'set', content: {relative: relative}});
+  }
+
+  var bus = new Bacon.Bus(), timer;
+  bus.plug($(window).asEventStream('resize').map({type: 'resize'}));
+  bus.onValue(function (event) {
+    switch (event.type) {
+      case 'resize':
+        // $('.controlSbar div').css({transition: 'width 0.0s linear'});
+        update();
+        // $('.controlSbar div').css({transition: 'width 1s linear'});
+        break;
+      case 'start':
+        seeking = true;
+        break;
+      case 'seek':
+        update(event.content.relative);
+        // dont flood with seek events
+        if (timer) clearTimeout(timer);
+        timer = setTimeout(function (relative) {
+          viewModel.seek().push(relative);
+        }, 200, event.content.relative);
+        break;
+      case 'end':
+        seeking = false;
+        break;
+    }
+  });
+
+  var seeker = $('.controlTime').drags({
+    seekBar: '.controlSbar',
+    seekStateBus: bus
+  });
+
+  viewModel.state().onValue(function (state) {
+    if (state === null) {
+      seek(0); pause();
+    } else if (state.playback.current) {
+      if (state.playback.playing) {
+        play();
+        length = 120000; // TODO: Get length from `state.queue[0].item`.
+      } else {
+        pause();
+      }
+
+      seek(length * state.playback.relative);
+    } else {
+      seek(0); pause();
+    }
+  });
 }
 
 module.exports = ControlsView;
-
-
-
 
 //draggable seekbar plugin
 (function($) {
@@ -181,9 +170,9 @@ module.exports = ControlsView;
             } else {
                 $($el).removeClass('active-handle').parent().removeClass('draggable');
             }
-            opt.seekStateBus.push({cmd:'_seekEndRequest'});
+            opt.seekStateBus.push({type: 'end'});
             if((width/2+positionOffset)/width){
-              opt.seekStateBus.push({cmd:'_seekRequest',value:(width/2+positionOffset)/width});
+              opt.seekStateBus.push({type: 'seek', content: {relative: (width / 2 + positionOffset) / width}});
             }
         };
 
@@ -200,7 +189,7 @@ module.exports = ControlsView;
             offset = e.pageX + pos_x - drg_w - (positionOffset),
             $drag.css('z-index', 10001);
             e.preventDefault(); // disable selection
-            opt.seekStateBus.push({cmd:'_seekStartRequest'});
+            opt.seekStateBus.push({type: 'start'});
         };
 
         var mouseMoveHandler = function(e) {
@@ -217,15 +206,15 @@ module.exports = ControlsView;
                       left:newOffset
                   });
                   //send the user's seek request to the state bus
-                  opt.seekStateBus.push({cmd:'_seekRequest',value:(width/2+positionOffset)/width});
+                  opt.seekStateBus.push({type: 'seek', content: {relative: (width / 2 + positionOffset) / width}});
                 }
                 e.stopPropagation(); //prevent page movement
             };
 
         opt.seekStateBus.onValue(function(e){
-        if(e.cmd){
-          switch(e.cmd){
-            case "uiResized":
+        if(e.type){
+          switch(e.type){
+            case "resize":
               positionOffset = positionOffset * $(opt.seekBar).width()/width;
               width=$(opt.seekBar).width();
             //  $('.controlSbar div').css({"transition": "width 0s linear"});
@@ -234,11 +223,11 @@ module.exports = ControlsView;
                   });
             //  $('.controlSbar div').css({"transition": "width 1s linear"});
               break;
-            case "_setPlayPosition":
-              if(e.value){
-                if(e.value>=0 && e.value<1){//percentage case
+            case "set":
+              if(e.content.relative){
+                if(e.content.relative>=0 && e.content.relative<1){//percentage case
                   width=$(opt.seekBar).width();
-                  positionOffset = e.value * width - width/2;
+                  positionOffset = e.content.relative * width - width/2;
                   $($el).css({
                       left:positionOffset
                   });

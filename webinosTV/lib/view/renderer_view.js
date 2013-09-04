@@ -1,56 +1,64 @@
 var $ = require('jquery');
 var Bacon = require('baconjs');
 
+var ControlsView = require('./controls_view.js');
+
 $(window).resize(function() {
-  
+
 });
 
 $(document).ready(function() {
-  
+
 });
 
 
 function RendererView(viewModel) {
 	var self = this;
-  this.viewModel = viewModel;
+  self.viewModel = viewModel;
 
-  this.videoRenderer = $("#renderer video");
-  this.audioRenderer = $("#renderer audio");
-  this.rendererControlls = $(".rendererControlls");
+  var controlsViewModel = viewModel.controls();
+  var controlsView = new ControlsView('.rendererControlls', {
+    remove: false,
+    fullscreen: true,
+    highdef: true
+  }, controlsViewModel);
+
+  self.videoRenderer = $("#renderer video");
+  self.audioRenderer = $("#renderer audio");
 
   var isResume = false;
 
-  return;
-
   //event sources
-  viewModel.started().plug($(this.videoRenderer).asEventStream('play').filter(function(){ 
-  	return !isResume; 
+  viewModel.started().plug($(self.videoRenderer).asEventStream('play').filter(function(){
+  	return !isResume;
   }));
-  viewModel.paused().plug($(this.videoRenderer).asEventStream('pause'));
-  viewModel.resumed().plug($(this.videoRenderer).asEventStream('play').filter(function(){ 
-  	return isResume; 
+  viewModel.paused().plug($(self.videoRenderer).asEventStream('pause'));
+  viewModel.resumed().plug($(self.videoRenderer).asEventStream('play').filter(function(){
+  	return isResume;
   }));
-  viewModel.ended().plug($(this.videoRenderer).asEventStream('ended'));
-  viewModel.state().plug($(this.videoRenderer).asEventStream('timeupdate')
-  	.merge($(this.videoRenderer).asEventStream('seeked'))
+  viewModel.ended().plug($(self.videoRenderer).asEventStream('ended'));
+  viewModel.state().plug($(self.videoRenderer).asEventStream('timeupdate')
+  	.merge($(self.videoRenderer).asEventStream('seeked'))
   	.map(function(event){
   		return {relative: event.target.currentTime/event.target.duration};
   }));
 
   //command
   viewModel.events().onValue(function(event){
+    console.log('renderer view', 'events', event.isPlay(), event.isPause(), event.isSeek(), event.isResume())
   	if(event.isPlay()){
   		isResume=false;
-  		this.videoRenderer.length?this.videoRenderer[0].pause():void 0;
+      console.log('renderer', self.videoRenderer, self.videoRenderer[0])
+  		self.videoRenderer.length?self.videoRenderer[0].pause():void 0;
   		self.playItem("video",event.item().link);
-  		this.videoRenderer.length?this.videoRenderer[0].play():void 0;
+  		self.videoRenderer.length?self.videoRenderer[0].play():void 0;
   	} else if(event.isPause()){
-  		this.videoRenderer.length?this.videoRenderer[0].pause():void 0;
+  		self.videoRenderer.length?self.videoRenderer[0].pause():void 0;
   	} else if(event.isSeek()){
-  		this.videoRenderer.length?this.videoRenderer[0].currentTime=this.videoRenderer[0].duration*event.relative():void 0;
+  		self.videoRenderer.length?self.videoRenderer[0].currentTime=self.videoRenderer[0].duration*event.relative():void 0;
   	} else if(event.isResume()){
   		isResume=true;
-  		this.videoRenderer.length?this.videoRenderer[0].play():void 0;
+  		self.videoRenderer.length?self.videoRenderer[0].play():void 0;
   	}
   })
 }
@@ -58,18 +66,14 @@ function RendererView(viewModel) {
 RendererView.prototype.playItem = function(type, url){
 	switch(type){
 		case "video":
-			$(this.videoRenderer).attr("src",url);
+			this.videoRenderer[0].src = url;
 		break;
 		case "audio":
-			$(this.audioRenderer).attr("src",url);
+			this.audioRenderer[0].src = url;
 		break;
 		default:
 			console.log("Unknown type.");
 	}
 }
 
-RendererView.prototype.getControlsSelector = function(){
-	return ".rendererControlls";
-}
-
-module.exports = RendererView; 
+module.exports = RendererView;

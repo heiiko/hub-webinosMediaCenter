@@ -4,6 +4,8 @@ var Bacon = require('baconjs');
 var IScroll = require('iscroll');
 var util = require('util');
 
+var ControlsView = require('./controls_view.js');
+
 var buttonHeight=0;
 
 function ListView(items, selection, list, wrapper, fadeout) {
@@ -274,9 +276,8 @@ function BrowserView(viewModel) {
     $('#peer').text(selectedPeer === null ? "Select a target" : selectedPeer.address());
   });
 
-  this.getControlsSelector = function(){
-    return ".queuecontrols";
-  };
+  var controlsViewModel = viewModel.controls();
+  var controlsView = new ControlsView('.queuecontrols', null, controlsViewModel);
 
   function calcSize() {
     var width = $(window).innerWidth();
@@ -328,7 +329,7 @@ function BrowserView(viewModel) {
 
   calcSize();
 
-  
+
   $(window).resize(function() {
     calcSize();
   });
