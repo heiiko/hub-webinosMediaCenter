@@ -14,27 +14,33 @@ body {
 }
 
 #left-menu-wrapper {
-  float: left;
-  height: 100%;
-  width: 17%;
 }
 
 #left-menu {
-  @include display-box;
-  @include box-orient(vertical);
-  @include box-align(stretch);
+  float: left;
   height: 100%;
+  width: 17%;
+  position: relative;
+
+  div:nth-child(1) {
+    top: 2%;
+  }
+
+  div:nth-child(2) {
+    top: 35%;
+  }
+
+  div:nth-child(3) {
+    top: 68%;
+  }
 }
 
 .menu-item-wrapper {
-  position: relative;
-  height: 33%;
-}
-
-.menu-item-wrapper-inner {
-  margin: 20px;
+  position: absolute;
+  height: 30%;
+  margin-left: 2%;
+  margin-right: 3%;
   border: 3px solid white;
-  height: 90%;
 }
 
 .menu-item {
