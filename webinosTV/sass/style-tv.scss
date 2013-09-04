@@ -20,6 +20,7 @@ body {
   float: left;
   height: 100%;
   width: 17%;
+  margin: 0 3%;
   position: relative;
 
   div:nth-child(1) {
@@ -38,9 +39,8 @@ body {
 .menu-item-wrapper {
   position: absolute;
   height: 30%;
-  margin-left: 2%;
-  margin-right: 3%;
-  border: 3px solid white;
+  width; 96%
+  border: 2px solid $tv_background_color;
 }
 
 .menu-item {
@@ -64,7 +64,7 @@ body {
     position: absolute;
     right: 0;
     top: 0;
-    width: 83%;
+    width: 77%;
     height: 100%;
     visibility: hidden;
 }
