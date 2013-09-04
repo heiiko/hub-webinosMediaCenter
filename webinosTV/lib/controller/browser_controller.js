@@ -13,7 +13,7 @@ function BrowserController(manager) {
     viewModel.prepend().map('prepend'),
     viewModel.append().map('append')
   );
-  
+
   Bacon.combineTemplate({
     devices: manager.toProperty(),
     selectedContent: viewModel.selectedContent(),
@@ -23,8 +23,8 @@ function BrowserController(manager) {
   }).onValue(function (command) {
     var type  = command.type;
     var state = command.state;
-  
-  	if (!state.selectedContent.length) return;
+
+    if (!state.selectedContent.length) return;
     var items = _.map(state.selectedContent, function (selectedItem) {
       var source = state.devices[selectedItem.source];
       var item   = _.findWhere(source.content()['media'], {
@@ -47,7 +47,7 @@ function BrowserController(manager) {
         return {item: item.item, link: link};
       });
     });
-    
+
     Promise.every.apply(Promise, promises).then(function (values) {
       _.each(targets, function (target) {
         var peer = target.peers()[0];
@@ -57,11 +57,29 @@ function BrowserController(manager) {
   });
 
   var view = new BrowserView(viewModel);
-    
+
   var commands = new Bacon.Bus();
   var controlsView = new ControlsView(null,commands);
-  controlsView.renderControls(view.getControlsSelector());  
-    
+  controlsView.renderControls(view.getControlsSelector());
+
+  Bacon.combineTemplate({
+    selectedPeer: viewModel.selectedPeer(),
+    queue: viewModel.queue(), selectedQueue: viewModel.selectedQueue()
+  }).sampledBy(controlsView.getStream().filter(function (event) {
+    return event.cmd === 'deleteRequest';
+  })).onValue(function (state) {
+    if (state.selectedPeer === null || !state.selectedQueue.length) return;
+
+    var indexes = [];
+    _.each(state.selectedQueue, function (link) {
+      _.each(state.queue, function (item, index) {
+        if (link === item.link) indexes.push(index);
+      });
+    });
+
+    state.selectedPeer.remove(indexes);
+  });
+
   var selectedPeer = viewModel.selectedPeer().flatMapLatest(function (selectedPeer) {
     return selectedPeer === null ? Bacon.once(null) : selectedPeer.state().map(function (state) {
       return {peer: selectedPeer, state: state};
@@ -80,7 +98,7 @@ function BrowserController(manager) {
       commands.push({cmd: 'setPlayPosition', value: 0});
     }
   });
-  
+
   selectedPeer.sampledBy(controlsView.getStream(), function (selectedPeer, event) {
     return {selectedPeer: selectedPeer, event: event};
   }).filter(function (op) {
@@ -109,8 +127,17 @@ function BrowserController(manager) {
         break;
     }
   });
-  
-  viewModel.peer().filter(function (peer) {
+
+  var peer = manager.toProperty().map(function (devices) {
+    var local = _.find(devices, function (device) {
+      return device.isLocal();
+    });
+
+    if (typeof local === 'undefined' || !local.peers().length) return null;
+    return local.peers()[0];
+  });
+
+  peer.filter(function (peer) {
     return peer !== null;
   }).onValue(function (peer) {
     var length = 120000, position = 0, playing = false;
@@ -131,8 +158,8 @@ function BrowserController(manager) {
         peer.apply().push({type: 'playback:resumed'});
       }
     });
-    
-  setInterval(function () {
+
+    setInterval(function () {
       if (!playing) return;
       position += 1000;
       peer.apply().push({type: 'playback:state', content: {relative: position/length}});

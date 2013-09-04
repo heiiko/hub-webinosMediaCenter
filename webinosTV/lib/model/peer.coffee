@@ -104,7 +104,7 @@ class LocalPeerService extends PeerService
       queue: []
     }, ({playback, queue}, {type, content}) ->
       next = (shift) ->
-        queue.shift() if shift
+        queue = _.tail(queue) if shift
         sink? new Bacon.Next(new Play(queue[0])) if queue.length > 0
       switch type
         when 'playback:started'
@@ -135,6 +135,7 @@ class LocalPeerService extends PeerService
           queue = queue.concat(content.items)
           next(no) if content.items.length is queue.length
         when 'queue:remove'
+          queue = _.clone(queue)
           for i in _.sortBy(content.items, _.identity).reverse()
             queue.splice(i, 1)
           next(no) if 0 in content.items
