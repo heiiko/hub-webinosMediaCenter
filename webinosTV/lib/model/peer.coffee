@@ -52,8 +52,8 @@ class PeerService extends Service
     channel.filter('.isDisconnect').onValue => @unbindService()
     messages = channel
       .filter((event) ->
-        event.isMessage() and event.message().to.address is peer.address and
-                              event.message().to.id is peer.id)
+        event.isMessage() and event.message().to?.address is peer.address and
+                              event.message().to?.id is peer.id)
       .map('.message')
     @channel = -> channel
     @messages = -> messages
@@ -172,7 +172,7 @@ class RemotePeerService extends PeerService
   constructor: (channel, peer) ->
     super(channel, peer)
     state = @messages()
-      .filter ({type}) -> type is 'synchronize'
+      .filter(({type}) -> type is 'synchronize')
       .map('.content')
       .toProperty {
         playback:
