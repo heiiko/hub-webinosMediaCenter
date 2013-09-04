@@ -24,6 +24,11 @@ function BrowserViewModel(manager) {
     {id: 'movies', type: 'Video', title: 'Movies', image: 'images/movie.svg'},
     {id: 'music', type: 'Audio', title: 'Music', image: 'images/music.svg'},
     {id: 'images', type: 'Image', title: 'Images', image: 'images/image.svg'},
+    {id: 'images2', type: 'Image', title: 'Images2', image: 'images/image.svg'},
+    {id: 'images3', type: 'Image', title: 'Images3', image: 'images/image.svg'},
+    {id: 'images4', type: 'Image', title: 'Images4', image: 'images/image.svg'},
+    {id: 'images5', type: 'Image', title: 'Images5', image: 'images/image.svg'},
+    {id: 'images6', type: 'Image', title: 'Images6', image: 'images/image.svg'},
     // {id: 'channels', type: undefined, title: 'Channels', image: 'images/tv_channels.svg'}
   ]);
   this.categories = function () {

@@ -5,6 +5,11 @@ var selecttargetScroll;
 
 $(document).ready(function() {
 	init();
+    calcSize();
+});
+
+$(window).resize(function() {
+  calcSize();
 });
 
 function init() {
@@ -26,6 +31,25 @@ function init() {
 		toggleMainmenu();
 	}
 }
+
+function calcSize(){
+    var width = $(window).innerWidth();
+    var height = $(window).innerHeight();
+
+    // if(width <= 320){
+    //     $('.menu').outerWidth(300);
+    // }else if(width > 600){
+    //     $('.menu').outerWidth(400);
+    // }else{
+    //     if(width * 0.666 > 300){
+    //         $('.menu').outerWidth(width*0.666);
+    //     }
+    // }
+
+
+   
+}
+
 
 function closeMenus() {
     $('#mainmenu').finish();

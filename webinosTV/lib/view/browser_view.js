@@ -36,9 +36,12 @@ $(document).ready(function() {
          $(this).children('.selectIcon').attr('src', src);
   });
 
-
-
   calcSize();
+  setTimeout(function() {
+    calcSize();
+  console.log("calcSize");
+  }, 100);
+  
   $(".topfadeout").hide();
   $(".bottomfadeout").hide();
 });
@@ -58,7 +61,7 @@ function calcSize() {
   } else if (width < 960) {
     buttonWidth = width * 0.9 / 4;
     $('.buttonlist li').outerHeight(buttonWidth / 1.6);
-    $('#horizontalscroller').width(buttonWidth * 8);
+    $('#horizontalscroller').width(buttonWidth * 8);    
   } else if (width < 1200) {
     buttonWidth = width * 0.9 / 6;
     $('.buttonlist li').outerHeight(buttonWidth / 1.6);
@@ -69,18 +72,23 @@ function calcSize() {
     $('#horizontalscroller').width(buttonWidth * 8);
   }
 
+  console.log("w:"+width + " h:"+height + " bw:"+buttonWidth + " bh:"+$('.buttonlist li').outerHeight());
+
   //vertikal zentrieren
   $('#horizontalwrapper').height(height * 0.9);
   $('#horizontalwrapper').css('margin-top', -(height * 0.45));
  
   $('#verticalwrapper').height(height * 0.9 - 20);
   $('#playmodewrapper li').outerHeight(((height-26) * 0.45));
+
   $('#queuewrapper').height( $('#verticalwrapper').height() - $('.queuecontrols').outerHeight() );
   $('#queuetopfadeout').css('margin-top', $('.queuecontrols').outerHeight());
 
+  $('.searchfield').width((buttonWidth*2)-6);
   $('.searchfield input').width($('.searchfield').width() - 60);
   $('#contentwrapper').height( $('#verticalwrapper').height() - ($('.searchfield').height() + 10));
   $('#contenttopfadeout').css('margin-top', $('.searchfield').height()+10);
+
   $('.textContent > p').outerWidth($('#contentlist').width() - 25);
 }
 
@@ -109,7 +117,7 @@ function ListView(items, selection, list, wrapper, fadeout) {
   this.refresh = function () {
     if ($(list).children().length > 0) {
       if (typeof scroll === 'undefined') {
-        scroll = new IScroll(wrapper, {snap: 'li', momentum: false});
+        scroll = new IScroll(wrapper, {snap: list +' li', momentum: false});
         // scroll.on('scrollEnd', function(){
         //   if(scroll.y >= 0){
         //     $(fadeout + 'topfadeout').hide();
@@ -299,6 +307,9 @@ function NavigationView (viewModel) {
             window.toggleMainmenu();
           break;
       }
+    }
+    if($(columns[curCol]).length-1 < curRow[curCol]){
+      curRow[curCol] = 0;
     }
     $(columns[curCol]).eq(curRow[curCol]).addClass('focus');
     startNavVisibleTimeout();
