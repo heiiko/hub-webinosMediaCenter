@@ -6,46 +6,17 @@ var IScroll = require('iscroll');
 var util = require('util');
 
 $(document).ready(function() {
-  //$('.albumToggleIcon').click(function() {
-   // if ($(this).parent("div").next('ul').is(":visible")) {
-   //   $(this).attr("src", "images/arrow_big_down.svg");
-   // } else {
-   //   $(this).attr("src", "images/arrow_big_up.svg");
-   // }
-   // $(this).parent().next('ul').slideToggle(250, function() { contentScroll.refresh(); });
-  //});
-  //$('.albumsonglist > li > img, #contentlist > li > img').click(function() {
-  //  var src = ($(this).attr('src') === 'images/add.svg')
-  //          ? 'images/add_blue.svg'
-  //          : 'images/add.svg';
-  //       $(this).attr('src', src);
-  //});
-  //$('#queuelist > li > img').click(function() {
-  //  var src = ($(this).attr('src') === 'images/remove.svg')
-  //         ? 'images/remove_blue.svg'
-  //          : 'images/remove.svg';
-  //       $(this).attr('src', src);
-  //});
+
 });
 
 
 function loaded() {
-  // sourceScroll = new IScroll('#sourcewrapper', {snap: 'li', momentum: false});
-  // mediatypScroll = new IScroll('#mediatypwrapper', {snap: 'li', momentum: false});
-  // contentScroll = new IScroll('#contentwrapper', {snap: '#contentlist > li', momentum: false});
-  // targetScroll = new IScroll('#targetwrapper', {snap: 'li', momentum: false});
-  //queueScroll = new IScroll('#queuewrapper', {snap: 'li', momentum: false});
-  //queueScroll.on('scrollEnd', function() {checkScrollFadeout(this);});
-  //horizontalScroll = new IScroll('#horizontalwrapper', {snap: 'ul', scrollX: true, scrollY: false, momentum: false});
+
 }
 
 document.addEventListener('touchmove', function(e) {
   e.preventDefault();
 }, false);
-
-//document.addEventListener('DOMContentLoaded', function() {
-//  setTimeout(loaded, 800);
-//}, false);
 
 function ListView(items, selection, list, wrapper, fadeout) {
   var self = this;
@@ -55,18 +26,18 @@ function ListView(items, selection, list, wrapper, fadeout) {
     if ($(list).children().length > 0) {
       if (typeof scroll === 'undefined') {
         scroll = new IScroll(wrapper, {snap: 'li', momentum: false});
-        scroll.on('scrollEnd', function(){
-          if(scroll.y >= 0){
+        //scroll.on('scrollEnd', function(){
+         // if(scroll.y >= 0){
             //$(fadeout + 'topfadeout').hide();
-          }else{
+         // }else{
             //$(fadeout + 'topfadeout').show();
-          }
-          if(scroll.y <= ($(wrapper).height() - $(list).height())){
+         // }
+          //if(scroll.y <= ($(wrapper).height() - $(list).height())){
             //$(fadeout + 'bottomfadeout').hide();
-          }else{
+          //}else{
             //$(fadeout + 'bottomfadeout').show();
-          }
-        });
+          //}
+        //});
       }
       scroll.refresh();
     }
