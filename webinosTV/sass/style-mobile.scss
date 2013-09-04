@@ -73,9 +73,11 @@ ul {
 .subpage {
     overflow: hidden;
     width: 100%;
-    height: 100%;
+    height: auto;
     visibility: hidden;
     position: absolute;
+    top: 52px;
+    bottom: 0;
 }
 
 .subpage-current {
@@ -155,17 +157,18 @@ ul {
 
 .device-column {
 	@include box-sizing(border-box);
+	position: absolute;
+	bottom: 0;
+	top: 71px;
 	width: 50%;
-	float: left;
 }
 
 #sourcewrapper {
   border-right: 1px solid $mediumgray;
-  height: 100%;
 }
 
 #targetwrapper {
-  height: 100%;
+	left: 50%;
 }
 
 .device {
@@ -255,8 +258,10 @@ ul {
 }
 
 #categorywrapper {
-	height: 100%;
-	
+	position: absolute;
+	bottom: 0;
+	top: 71px;
+
 	@media screen and (min-width: $mintabletwidth) {
 		background-color: $lightgray;
 		text-align: center;
@@ -267,6 +272,10 @@ ul {
 	@media screen and (max-width: $mintabletwidth - 1) {
 		width: 100%;
 	}
+}
+
+#categorylist {
+	height: 100%;
 }
 
 .category {
