@@ -222,11 +222,23 @@ function BrowserView(viewModel) {
   //var contentListView = new ContentListView(viewModel);
   var targetListView = new TargetListView(viewModel);
 
-  //viewModel.play().plug($('#play').asEventStream('click').map());
-
-  //this.getControlsSelector = function(){
-  //  return ".queuecontrols";
-  //};
+  //var navigationView = new NavigationView(viewModel);
+  
+  viewModel.peer().onValue(function (peer) {
+    console.log('peer', peer);
+  });
+  
+  viewModel.selectedPeer().flatMapLatest(function (selectedPeer) {
+    return selectedPeer === null ? Bacon.once(null) : selectedPeer.state().map(function (state) {
+      return {peer: selectedPeer, state: state};
+    });
+  }).onValue(function (current) {
+    console.log('current', current);
+  });
+  
+  this.getControlsSelector = function(){
+    return ".queuecontrols";
+  };
 }
 
 module.exports = BrowserView;
