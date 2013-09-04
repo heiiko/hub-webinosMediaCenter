@@ -309,6 +309,7 @@ p {
 }
 
 .topfadeout, .bottomfadeout{
+    display: none;
     z-index: 2;
     position: fixed;
     height: 40px;
