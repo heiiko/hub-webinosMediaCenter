@@ -130,7 +130,7 @@ class Device extends Bacon.EventStream
       else if service instanceof MediaContentService
         @refresh()
     @address = -> address
-    @isLocal = -> address is webinos.session.getServiceLocation() # TODO: Check.
+    @isLocal = -> address is webinos.session.getServiceLocation()
     @isRemote = => not @isLocal()
     @type = -> type
     @content = -> content
