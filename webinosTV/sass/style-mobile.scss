@@ -1,15 +1,7 @@
 @charset "UTF-8";
 @import "base";
 
-$green: #669c08;
-$blue: #48b3e4;
-$fontcolor: #333333;
-$darkgray: #777777;
-$mediumgray: #dadada;
-$lightgray: #f1f1f1;
-
-$mintabletwidth: 1200px;
-$headerheight: 70px;
+$category-wrapper-width-largescreen:150px;
 
 body {
 	margin: 0px;
@@ -294,7 +286,107 @@ ul {
 }
 
 .category-name {
-	@media screen and (max-width: $mintabletwidth - 1) {
-		display: none;
-	}
+  @media screen and (min-width: 1200px) {
+    visibility: visible;
+  }
+
+  @media screen and (max-width: 1199px) {
+    visibility: hidden;
+  }
+}
+
+@media screen and (min-width: 1200px){
+  /*category-selection arrow*/
+  .arrow_box {
+    position: relative;
+    background: transparent;
+  }
+  .arrow_box:after, .arrow_box:before {
+    right: 100%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+  }
+
+  .arrow_box:after {
+    border-color: rgba(136, 183, 213, 0);
+    border-right-color: white;
+    border-width: 13px;
+
+    margin-top: -13px;
+  }
+  .arrow_box:before {
+    border-color: rgba(194, 225, 245, 0);
+    border-right-color: gray;
+    border-width: 16px;
+
+    margin-top: -16px;
+  }
+
+  #categorycontentlist{
+    height: 100%;
+  }
+
+  #categorycontentlist li.category-content{
+/*    background:red;
+    border:1px solid yellow;*/
+    background:white;
+    border-left:1px solid gray;
+    display:none;
+    height:100%;
+  }
+
+  #categorycontentwrapper{
+/*    background:lime;
+    box-shadow: inset 5px 5px purple;*/
+    width:auto;
+    position: relative;
+    height:100%;
+    top: -100%;
+    left: $category-wrapper-width-largescreen;
+  }
+
+/*  .category-content{
+    height:100%;
+    width:100%;
+    background:white;
+  }*/
+
+  .media_item{
+    background:red;
+    color:yellow;
+  }
+
+  #contentwrapper{
+    position: relative;
+    top: -100%;
+    left: $category-wrapper-width-largescreen;
+    height: 100%;
+    width: auto;
+    background: white;
+    border-left: 2px solid gray;
+  }
+
+  #contentlist{
+    height:100%;
+    width:100%;
+  }
+
+/*  .content-wrapper{
+    height:100%;
+    width:100%;
+  }
+
+  .content-list{
+    height:100%;
+    width:100%;
+  }*/
+
+  #selectmediawrapper{
+    height:100%;
+    width:100%;
+  }
 }
