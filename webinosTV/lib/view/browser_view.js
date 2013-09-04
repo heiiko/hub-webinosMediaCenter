@@ -137,6 +137,7 @@ function ListView(items, selection, list, wrapper, fadeout) {
         //   }
         // });
       }
+      scroll.options.snap = document.querySelectorAll(list +' li');
       scroll.refresh();
     }
   };
