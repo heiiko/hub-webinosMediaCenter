@@ -71,25 +71,27 @@ ul {
 .subpage {
   overflow: hidden;
   width: 100%;
-  height: 100%;
+  height: auto;
   visibility: hidden;
   position: absolute;
+  top: 52px;
+  bottom: 0;
 }
 
-/* line 81, ../sass/style-mobile.scss */
+/* line 83, ../sass/style-mobile.scss */
 .subpage-current {
   visibility: visible;
   z-index: 1;
 }
 
-/* line 86, ../sass/style-mobile.scss */
+/* line 88, ../sass/style-mobile.scss */
 .header {
   width: 100%;
   overflow: hidden;
   border-bottom: 1px solid #48b3e4;
 }
 
-/* line 92, ../sass/style-mobile.scss */
+/* line 94, ../sass/style-mobile.scss */
 .header-item-device {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -101,7 +103,7 @@ ul {
   padding: 15px 2px 15px 2px;
 }
 
-/* line 102, ../sass/style-mobile.scss */
+/* line 104, ../sass/style-mobile.scss */
 #device-arrow {
   width: 40px;
   height: 14px;
@@ -111,19 +113,19 @@ ul {
   top: 28px;
 }
 @media screen and (max-width: 1200px) {
-  /* line 102, ../sass/style-mobile.scss */
+  /* line 104, ../sass/style-mobile.scss */
   #device-arrow {
     display: none;
   }
 }
 
-/* line 115, ../sass/style-mobile.scss */
+/* line 117, ../sass/style-mobile.scss */
 #current-source-logo {
   vertical-align: middle;
   height: 40px;
 }
 
-/* line 120, ../sass/style-mobile.scss */
+/* line 122, ../sass/style-mobile.scss */
 #current-source-name {
   display: inline-block;
   vertical-align: middle;
@@ -132,13 +134,13 @@ ul {
   text-overflow: ellipsis;
 }
 
-/* line 128, ../sass/style-mobile.scss */
+/* line 130, ../sass/style-mobile.scss */
 #current-target-logo {
   vertical-align: middle;
   height: 40px;
 }
 
-/* line 133, ../sass/style-mobile.scss */
+/* line 135, ../sass/style-mobile.scss */
 #current-target-name {
   display: inline-block;
   vertical-align: middle;
@@ -147,7 +149,7 @@ ul {
   text-overflow: ellipsis;
 }
 
-/* line 141, ../sass/style-mobile.scss */
+/* line 143, ../sass/style-mobile.scss */
 .header-item-media {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -155,7 +157,7 @@ ul {
   padding: 15px 2px 15px 2px;
 }
 
-/* line 146, ../sass/style-mobile.scss */
+/* line 148, ../sass/style-mobile.scss */
 .header-item-queue {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -163,33 +165,34 @@ ul {
   padding: 15px 2px 15px 2px;
 }
 
-/* line 151, ../sass/style-mobile.scss */
+/* line 153, ../sass/style-mobile.scss */
 .header-item-device.header-active {
   border-bottom: 3px solid #48b3e4;
   padding-bottom: 10px;
 }
 
-/* line 156, ../sass/style-mobile.scss */
+/* line 158, ../sass/style-mobile.scss */
 .device-column {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+  position: absolute;
+  bottom: 0;
+  top: 71px;
   width: 50%;
-  float: left;
 }
 
-/* line 162, ../sass/style-mobile.scss */
+/* line 166, ../sass/style-mobile.scss */
 #sourcewrapper {
   border-right: 1px solid #dadada;
-  height: 100%;
 }
 
-/* line 167, ../sass/style-mobile.scss */
+/* line 170, ../sass/style-mobile.scss */
 #targetwrapper {
-  height: 100%;
+  left: 50%;
 }
 
-/* line 171, ../sass/style-mobile.scss */
+/* line 174, ../sass/style-mobile.scss */
 .device {
   padding: 25px 30px 25px 30px;
   border-bottom: 1px;
@@ -197,94 +200,96 @@ ul {
   border-image: -webkit-linear-gradient(0deg, transparent, transparent 5%, #dadada 6%, #dadada 94%, transparent 95%, transparent) 1 stretch;
 }
 
-/* line 178, ../sass/style-mobile.scss */
+/* line 181, ../sass/style-mobile.scss */
 .device-type {
   color: #777777;
 }
 
-/* line 183, ../sass/style-mobile.scss */
+/* line 186, ../sass/style-mobile.scss */
 .device .device-image {
   float: right;
   height: 40px;
   width: 48px;
 }
-/* line 189, ../sass/style-mobile.scss */
+/* line 192, ../sass/style-mobile.scss */
 .device .device-image.type-laptop {
   background-image: url("../images/laptop.svg");
 }
-/* line 193, ../sass/style-mobile.scss */
+/* line 196, ../sass/style-mobile.scss */
 .device .device-image.type-pc {
   background-image: url("../images/pc.svg");
 }
-/* line 197, ../sass/style-mobile.scss */
+/* line 200, ../sass/style-mobile.scss */
 .device .device-image.type-phone {
   background-image: url("../images/phone.svg");
 }
-/* line 201, ../sass/style-mobile.scss */
+/* line 204, ../sass/style-mobile.scss */
 .device .device-image.type-tablet {
   background-image: url("../images/tablet.svg");
 }
-/* line 205, ../sass/style-mobile.scss */
+/* line 208, ../sass/style-mobile.scss */
 .device .device-image.type-tv {
   background-image: url("../images/tv.svg");
 }
 
-/* line 211, ../sass/style-mobile.scss */
+/* line 214, ../sass/style-mobile.scss */
 .device.selected .device-name {
   color: #48b3e4;
 }
-/* line 215, ../sass/style-mobile.scss */
+/* line 218, ../sass/style-mobile.scss */
 .device.selected .device-image.type-laptop {
   background-image: url("../images/laptop-selected.svg");
 }
-/* line 219, ../sass/style-mobile.scss */
+/* line 222, ../sass/style-mobile.scss */
 .device.selected .device-image.type-pc {
   background-image: url("../images/pc-selected.svg");
 }
-/* line 223, ../sass/style-mobile.scss */
+/* line 226, ../sass/style-mobile.scss */
 .device.selected .device-image.type-phone {
   background-image: url("../images/phone-selected.svg");
 }
-/* line 227, ../sass/style-mobile.scss */
+/* line 230, ../sass/style-mobile.scss */
 .device.selected .device-image.type-tablet {
   background-image: url("../images/tablet-selected.svg");
 }
-/* line 231, ../sass/style-mobile.scss */
+/* line 234, ../sass/style-mobile.scss */
 .device.selected .device-image.type-tv {
   background-image: url("../images/tv-selected.svg");
 }
 
-/* line 236, ../sass/style-mobile.scss */
+/* line 239, ../sass/style-mobile.scss */
 .device-name {
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-/* line 241, ../sass/style-mobile.scss */
+/* line 244, ../sass/style-mobile.scss */
 #selected-source {
   vertical-align: middle;
   height: 40px;
 }
 
-/* line 246, ../sass/style-mobile.scss */
+/* line 249, ../sass/style-mobile.scss */
 #selected-source-intro {
   display: inline-block;
   vertical-align: middle;
 }
 
-/* line 251, ../sass/style-mobile.scss */
+/* line 254, ../sass/style-mobile.scss */
 #selected-source-name {
   display: inline-block;
   vertical-align: middle;
   color: #48b3e4;
 }
 
-/* line 257, ../sass/style-mobile.scss */
+/* line 260, ../sass/style-mobile.scss */
 #categorywrapper {
-  height: 100%;
+  position: absolute;
+  bottom: 0;
+  top: 71px;
 }
 @media screen and (min-width: 1200px) {
-  /* line 257, ../sass/style-mobile.scss */
+  /* line 260, ../sass/style-mobile.scss */
   #categorywrapper {
     background-color: #f1f1f1;
     text-align: center;
@@ -293,20 +298,25 @@ ul {
   }
 }
 @media screen and (max-width: 1199px) {
-  /* line 257, ../sass/style-mobile.scss */
+  /* line 260, ../sass/style-mobile.scss */
   #categorywrapper {
     width: 100%;
   }
 }
 
+/* line 277, ../sass/style-mobile.scss */
+#categorylist {
+  height: 100%;
+}
+
 @media screen and (min-width: 1200px) {
-  /* line 272, ../sass/style-mobile.scss */
+  /* line 281, ../sass/style-mobile.scss */
   .category {
     padding: 15px;
   }
 }
 @media screen and (max-width: 1199px) {
-  /* line 272, ../sass/style-mobile.scss */
+  /* line 281, ../sass/style-mobile.scss */
   .category {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -320,7 +330,7 @@ ul {
 }
 
 @media screen and (max-width: 1199px) {
-  /* line 287, ../sass/style-mobile.scss */
+  /* line 296, ../sass/style-mobile.scss */
   .category-name {
     display: none;
   }
