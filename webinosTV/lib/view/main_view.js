@@ -35,19 +35,15 @@ function init() {
 function calcSize(){
     var width = $(window).innerWidth();
     var height = $(window).innerHeight();
-
-    // if(width <= 320){
-    //     $('.menu').outerWidth(300);
-    // }else if(width > 600){
-    //     $('.menu').outerWidth(400);
-    // }else{
-    //     if(width * 0.666 > 300){
-    //         $('.menu').outerWidth(width*0.666);
-    //     }
-    // }
-
-
-   
+    var margin = 0;    
+    if(height < width){
+        var margin = height*0.03;    
+    }else{
+        var margin = width*0.03;    
+    }   
+    $('.mm_button').height((height-4*margin)/3);
+    $('.mm_button').css("margin", margin);
+    $('.mm_button').width($('.menu').width()-2*margin);
 }
 
 
