@@ -270,6 +270,10 @@ function BrowserView(viewModel) {
   viewModel.prepend().plug($('#prepend').asEventStream('click'));
   viewModel.append().plug($('#append').asEventStream('click'));
 
+  viewModel.selectedPeer().onValue(function (selectedPeer) {
+    $('#peer').text(selectedPeer === null ? "Select a target" : selectedPeer.address());
+  });
+
   this.getControlsSelector = function(){
     return ".queuecontrols";
   };

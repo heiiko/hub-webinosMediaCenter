@@ -60,7 +60,7 @@ function ControlsView(viewModel,commandBus) {
 
     var seeker = $('.controlTime').drags({seekBar:".controlSbar",seekStateBus:seekStateBus});
 
-    //one time adjustment to style, based on number of controls 
+    //one time adjustment to style, based on number of controls
     $(".controlButton").css({width:(100/buttonCount)+"%"});
 
   	this.play = function(){
@@ -75,11 +75,11 @@ function ControlsView(viewModel,commandBus) {
 
     var lastKnownPercentage=0;
 
-   // $('.controlSbar div').css({"transition": "width 1s linear"}); 
+   // $('.controlSbar div').css({"transition": "width 1s linear"});
 
   	this.updatePlaytime = function(percentage){
-      percentage=(percentage)?Math.round(percentage*1000)/1000:lastKnownPercentage;
-		  $(".controlSbar div").css({"width": ((percentage)?percentage*parseInt($(".controlSbar").width()):$(".controlSbar").width())});
+      percentage=(typeof percentage !== 'undefined')?Math.round(percentage*1000)/1000:lastKnownPercentage;
+		  $(".controlSbar div").css({"width": ((typeof percentage !== 'undefined')?percentage*parseInt($(".controlSbar").width()):$(".controlSbar").width())});
       $(".controlTime span").text(Math.round(percentage*playTimeMS/1000));
       lastKnownPercentage=percentage;
   	}
@@ -91,13 +91,13 @@ function ControlsView(viewModel,commandBus) {
         if(e.cmd){
           switch(e.cmd){
             case "uiResized":
-              //$('.controlSbar div').css({"transition": "width 0.0s linear"}); 
+              //$('.controlSbar div').css({"transition": "width 0.0s linear"});
               that.updatePlaytime();
-              //$('.controlSbar div').css({"transition": "width 1s linear"});  
+              //$('.controlSbar div').css({"transition": "width 1s linear"});
               break;
             case "_seekRequest"://internal ui event
               that.updatePlaytime(e.value);
-              //dont flood with seek events 
+              //dont flood with seek events
               if(seekTimerHandle) clearTimeout(seekTimerHandle);
               seekTimerHandle = setTimeout(function(percentage){
                 seekStateBus.push({cmd:'seekRequest',value:percentage});
@@ -105,9 +105,9 @@ function ControlsView(viewModel,commandBus) {
               break;
             case "play":
             console.log(e.value);
-              //$('.controlSbar div').css({"transition": "width 0.0s linear"}); 
+              //$('.controlSbar div').css({"transition": "width 0.0s linear"});
               that.updatePlaytime(0);
-             // $('.controlSbar div').css({"transition": "width 1s linear"});  
+             // $('.controlSbar div').css({"transition": "width 1s linear"});
               that.play();
               playTimeMS = (e.value)?e.value:0; //media length in ms
               break;
@@ -115,25 +115,27 @@ function ControlsView(viewModel,commandBus) {
               that.pause();
               break;
             case "setPlayPosition":
-              if(e.value){
-                if(e.value>=0 && e.value<1){//percentage case
+              if (typeof e.value !== 'undefined') {
+                if (isSeeking) break;
 
+                var percentage = 0;
+
+                if (e.value >= 0 && e.value < 1) {
+                  percentage = e.value;
+                } else if (e.value > 1) {
+                  percentage = Math.min(1, (e.value / playTimeMS));
                 }
-                if(e.value>1){//explicit millis case
-                  if(!isSeeking){
-                    var percentage = (e.value/playTimeMS<=1)?e.value/playTimeMS:1;
-                    that.updatePlaytime(percentage);
-                    seekStateBus.push({cmd:'_setPlayPosition',value:percentage});
-                  }
-                }
+
+                that.updatePlaytime(percentage);
+                seekStateBus.push({cmd: '_setPlayPosition', value: percentage});
               }
-              break;    
+              break;
             case "_seekStartRequest":
               isSeeking=true;
               break;
             case "_seekEndRequest":
               isSeeking=false;
-              break;          
+              break;
           }
         }
     });
@@ -172,7 +174,7 @@ module.exports = ControlsView;
             if(!$($el).hasClass('draggable')){
               return;
             }
-           // $('.controlSbar div').css({"transition": "width 1s linear"}); 
+           // $('.controlSbar div').css({"transition": "width 1s linear"});
             $($el).removeClass('draggable').css('z-index', z_idx_save);
             if(opt.handle === "") {
                 $($el).removeClass('draggable');
@@ -191,7 +193,7 @@ module.exports = ControlsView;
             } else {
                 var $drag = $($el).addClass('active-handle').parent().addClass('draggable');
             }
-            //$('.controlSbar div').css({"transition": "width 0s linear"}); 
+            //$('.controlSbar div').css({"transition": "width 0s linear"});
             var z_idx = z_idx_save = $drag.css('z-index');
             drg_w = $drag.outerWidth(),
             pos_x = $drag.offset().left + drg_w - e.pageX;
@@ -209,7 +211,7 @@ module.exports = ControlsView;
                 width = $(opt.seekBar).width()+borderWidth*2;
                 newOffset = e.pageX + pos_x - drg_w;
                 if( 2*(newOffset-offset)+width>0  && 2*(newOffset-offset)-width<0 ){
-                  
+
                   positionOffset = newOffset-offset;
                   $drag.offset({
                       left:newOffset
@@ -226,11 +228,11 @@ module.exports = ControlsView;
             case "uiResized":
               positionOffset = positionOffset * $(opt.seekBar).width()/width;
               width=$(opt.seekBar).width();
-            //  $('.controlSbar div').css({"transition": "width 0s linear"}); 
+            //  $('.controlSbar div').css({"transition": "width 0s linear"});
               $($el).css({
                       left:positionOffset
                   });
-            //  $('.controlSbar div').css({"transition": "width 1s linear"}); 
+            //  $('.controlSbar div').css({"transition": "width 1s linear"});
               break;
             case "_setPlayPosition":
               if(e.value){
@@ -242,7 +244,7 @@ module.exports = ControlsView;
                   });
                 }
               }
-              break;  
+              break;
           }
         }
         });

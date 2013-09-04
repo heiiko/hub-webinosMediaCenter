@@ -81,21 +81,26 @@ function BrowserController(manager) {
   });
 
   var selectedPeer = viewModel.selectedPeer().flatMapLatest(function (selectedPeer) {
-    return selectedPeer === null ? Bacon.once(null) : selectedPeer.state().map(function (state) {
+    if (selectedPeer === null) return Bacon.once(null);
+    return selectedPeer.state().map(function (state) {
       return {peer: selectedPeer, state: state};
     });
   }).toProperty(null);
 
   selectedPeer.onValue(function (current) {
     if (current === null) {
-      commands.push({cmd: 'pause'});
       commands.push({cmd: 'setPlayPosition', value: 0});
-    } else if (current.state.playback.playing) {
-      commands.push({cmd: 'play', value: 120000});
+      commands.push({cmd: 'pause'});
+    } else if (current.state.playback.current) {
+      if (current.state.playback.playing) {
+        commands.push({cmd: 'play', value: 120000});
+      } else {
+        commands.push({cmd: 'pause'});
+      }
       commands.push({cmd: 'setPlayPosition', value: 120000 * current.state.playback.relative});
     } else {
-      commands.push({cmd: 'pause'});
       commands.push({cmd: 'setPlayPosition', value: 0});
+      commands.push({cmd: 'pause'});
     }
   });
 
