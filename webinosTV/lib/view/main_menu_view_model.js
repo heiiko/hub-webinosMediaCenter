@@ -1,11 +1,10 @@
 var _ = require('underscore');
 
-var Bacon = require('baconjs');
 var bjq = require('bacon.jquery');
 
-function MainmenuViewModel(manager, input) {
+function MainMenuViewModel(manager, input) {
   input = input.filter(function () {
-    return $('.menu').is(":visible") || $('.pt-page-current').attr('id') === 'startscreen';
+    return $('.pt-page-current').attr('id') === 'startscreen' || $('.menu').is(':visible');
   });
 
   this.input = function () {
@@ -21,6 +20,11 @@ function MainmenuViewModel(manager, input) {
   this.targets = function () {
     return targets;
   };
+
+  var selectedTarget = bjq.Model('<no-target>');
+  this.selectedTarget = function () {
+    return selectedTarget;
+  };
 }
 
-module.exports = MainmenuViewModel;
+module.exports = MainMenuViewModel;

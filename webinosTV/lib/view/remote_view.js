@@ -38,9 +38,14 @@ function NavigationView (viewModel) {
 }
 
 
-function RCView(viewModel) {
-  this.viewModel = viewModel;
+function RemoteView(viewModel) {
   var navigationView = new NavigationView(viewModel);
+
+  viewModel.enter().plug($('.clickAreaOk').asEventStream('click').merge($('.clickAreaOk').asEventStream('touchend')));
+  viewModel.left().plug($('.clickAreaLeft').asEventStream('click').merge($('.clickAreaLeft').asEventStream('touchend')));
+  viewModel.up().plug($('.clickAreaUp').asEventStream('click').merge($('.clickAreaUp').asEventStream('touchend')));
+  viewModel.right().plug($('.clickAreaRight').asEventStream('click').merge($('.clickAreaRight').asEventStream('touchend')));
+  viewModel.down().plug($('.clickAreaDown').asEventStream('click').merge($('.clickAreaDown').asEventStream('touchend')));
 }
 
-module.exports = RCView;
+module.exports = RemoteView;

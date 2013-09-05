@@ -1,9 +1,10 @@
 var gotoPageById = require('./pagetransition.js');
 var IScroll = require('iscroll');
 var _ = require('../util/objectscore.coffee');
+var address = require('../util/address.coffee');
 
 
-function SelectTargetListView(items) {
+function SelectTargetListView(items, selection) {
   var self = this;
   this.scroll = undefined;
   this.tappedOn = 0;
@@ -19,7 +20,7 @@ function SelectTargetListView(items) {
   };
 
   this.htmlify = function (device) {
-    return '<li class="nav_st"><img src="images/'+(device.type()?device.type():'all_devices')+'.svg"><p>' + device.address() + '</p></li>';
+    return '<li class="nav_st"><img src="images/'+(device.type()?device.type():'all_devices')+'.svg"><p>' + address.friendlyName(device.address()) + '</p></li>';
   };
 
   this.identify = function (device) {
@@ -38,6 +39,14 @@ function SelectTargetListView(items) {
     });
     self.refresh();
   });
+
+  selection.apply($('#selecttargetlist').asEventStream('click').merge($('#selecttargetlist').asEventStream('touchend')).map(function (event) {
+    return function (selection) {
+      var $item = $(event.target).closest('li');
+      if (!$item.length) return selection;
+      return $item.data('id');
+    };
+  }));
 }
 
 function NavigationView (viewModel) {
@@ -51,7 +60,7 @@ function NavigationView (viewModel) {
   //   switch (e.keyCode) {
   //     case 38:
   //       Navigate('up');
-  //       navlog("nav_up");  
+  //       navlog("nav_up");
   //       return false;
   //     case 39:
   //       Navigate('right');
@@ -71,7 +80,7 @@ function NavigationView (viewModel) {
   viewModel.input().onValue(Navigate);
 
   function Navigate(direction) {
-    
+
     if($('#selecttarget').is(":visible")){
       window.clearTimeout(timeoutHandle);
       if(stNavVisible === false){
@@ -147,9 +156,9 @@ function NavigationView (viewModel) {
   }
 }
 
-function MainmenuView(viewModel){
+function MainMenuView(viewModel){
   var navigationView = new NavigationView(viewModel);
-  var selectTargetListView = new SelectTargetListView(viewModel.targets());
+  var selectTargetListView = new SelectTargetListView(viewModel.targets(), viewModel.selectedTarget());
 
 
   $('#toadvancedbrowserbutton').on('click', function(){ gotoPageById('#browser'); closeMainmenu(); });
@@ -158,7 +167,7 @@ function MainmenuView(viewModel){
 
   $('#leftfadeout').on('click', function(){ openMainmenu(); });
   $('.overlay').on('click', function(){ closeMenus(); });
-  
+
   closeSelectTarget();
   calcSize();
 
@@ -242,4 +251,4 @@ function MainmenuView(viewModel){
   window.closeSelectTarget=closeSelectTarget;
 }
 
-module.exports = MainmenuView;
+module.exports = MainMenuView;
