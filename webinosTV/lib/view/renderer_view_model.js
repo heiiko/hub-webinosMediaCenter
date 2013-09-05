@@ -4,7 +4,15 @@ var Bacon = require('baconjs');
 
 var ControlsViewModel = require('./controls_view_model.js');
 
-function RendererViewModel(manager) {
+function RendererViewModel(manager, input) {
+  input = input.filter(function () {
+    return $('.pt-page-current').attr('id') === 'renderer';
+  });
+
+  this.input = function () {
+    return input;
+  };
+
   var peer = manager.toProperty().map(function (devices) {
     var local = _.find(devices, function (device) {
       return device.isLocal();

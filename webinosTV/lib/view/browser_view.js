@@ -199,37 +199,39 @@ function NavigationView (viewModel, listViews) {
   var navVisible = false;
   var timeoutHandle;
 
-  $(document).keydown(function(e) {
-    switch (e.keyCode) {
-      case 37:
-        Navigate('left');
-        navlog("nav_left");
-        return false;
-      case 38:
-        Navigate('up');
-        navlog("nav_up");
-        return false;
-      case 39:
-        Navigate('right');
-        navlog("nav_right");
-        return false;
-      case 40:
-        Navigate('down');
-        navlog("nav_down");
-        return false;
-      case 13:
-        if(navVisible)
-          $(columns[curCol]+".focus").click();
-        return false;
-    }
-  });
+  // $(document).keydown(function(e) {
+  //   switch (e.keyCode) {
+  //     case 37:
+  //       Navigate('left');
+  //       navlog("nav_left");
+  //       return false;
+  //     case 38:
+  //       Navigate('up');
+  //       navlog("nav_up");
+  //       return false;
+  //     case 39:
+  //       Navigate('right');
+  //       navlog("nav_right");
+  //       return false;
+  //     case 40:
+  //       Navigate('down');
+  //       navlog("nav_down");
+  //       return false;
+  //     case 13:
+  //       if(navVisible)
+  //         $(columns[curCol]+".focus").click();
+  //       return false;
+  //   }
+  // });
+
+  viewModel.input().onValue(Navigate);
 
   function Navigate(direction) {
     window.clearTimeout(timeoutHandle);
     if(navVisible === false){
       navVisible = true;
     }else{
-      $(columns[curCol]+".focus").removeClass('focus');
+      if (direction !== 'enter') $(columns[curCol]+".focus").removeClass('focus');
       switch(direction){
         case 'down':
         if(curRow[curCol] < $(columns[curCol]).length-1)
@@ -254,6 +256,9 @@ function NavigationView (viewModel, listViews) {
             curCol--;
           else if(curCol === 0)
             window.toggleMainmenu();
+          break;
+        case 'enter':
+          if(navVisible) $(columns[curCol]+".focus").click();
           break;
       }
     }
@@ -292,7 +297,7 @@ function BrowserView(viewModel) {
   var queueListView = new QueueListView(viewModel);
 
   var listViews = [sourceListView, categoryListView, contentListView, targetListView, null, queueListView];
-  // var navigationView = new NavigationView(viewModel, listViews);
+  var navigationView = new NavigationView(viewModel, listViews);
 
   viewModel.prepend().plug($('#prepend').asEventStream('click').merge($('#prepend').asEventStream('touchend')));
   viewModel.append().plug($('#append').asEventStream('click').merge($('#append').asEventStream('touchend')));
