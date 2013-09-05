@@ -51,6 +51,13 @@ module.exports = (grunt) ->
     clean:
       dist: ['dist']
 
+    uglify:
+      dist:
+        files:
+          'dist/wrt.js':  'dist/wrt.js'
+          'dist/deps.js': 'dist/deps.js'
+          'dist/app.js':  'dist/app.js'
+
     watch:
       app:
         files: ['lib/**/*.coffee', 'lib/**/*.js']
@@ -58,6 +65,7 @@ module.exports = (grunt) ->
 
   grunt.loadNpmTasks 'grunt-browserify'
   grunt.loadNpmTasks 'grunt-contrib-clean'
+  grunt.loadNpmTasks 'grunt-contrib-uglify'
   grunt.loadNpmTasks 'grunt-contrib-watch'
 
   grunt.registerTask 'dist', ['clean:dist', 'browserify:wrt', 'browserify:deps', 'browserify:app']
