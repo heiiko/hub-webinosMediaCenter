@@ -10,7 +10,7 @@ function RendererViewModel(manager) {
       return device.isLocal();
     });
 
-    if (typeof local === 'undefined' || !local.peers().length) return null;
+    if (typeof local === 'undefined' || !local.peers().length) return '<no-peer>';
     return local.peers()[0];
   });
 
@@ -20,7 +20,7 @@ function RendererViewModel(manager) {
   };
 
   var events = peer.flatMapLatest(function (peer) {
-    if (peer === null) return Bacon.never();
+    if (peer === '<no-peer>') return Bacon.never();
     return peer.events();
   });
 
@@ -33,7 +33,7 @@ function RendererViewModel(manager) {
   peer.sampledBy(updates, function (peer, update) {
     return {peer: peer, update: update};
   }).filter(function (operation) {
-    return operation.peer !== null;
+    return operation.peer !== '<no-peer>';
   }).onValue(function (operation) {
     operation.peer.apply().push(operation.update);
   });

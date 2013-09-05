@@ -47,7 +47,7 @@ function ControlsView(parent, config, viewModel) {
 
   $(parent).append(controls);
 
-  // $('.controlSbar div').css({transition: 'width 1s linear'});
+  // $('.controlSbar div', controls).css({transition: 'width 1s linear'});
   $('.controlButton', controls).css({width: (100 / buttonCount) + '%'});
 
   var length = 0, last = 0;
@@ -69,8 +69,8 @@ function ControlsView(parent, config, viewModel) {
       relative = last;
     }
 
-    $('.controlSbar div').css({width: relative * $('.controlSbar').width()});
-    $('.controlTime span').text(Math.round(relative * length / 1000));
+    $('.controlSbar div', controls).css({width: relative * $('.controlSbar', controls).width()});
+    $('.controlTime span', controls).text(Math.round(relative * length / 1000));
 
     last = relative;
   }
@@ -96,9 +96,9 @@ function ControlsView(parent, config, viewModel) {
   bus.onValue(function (event) {
     switch (event.type) {
       case 'resize':
-        // $('.controlSbar div').css({transition: 'width 0.0s linear'});
+        // $('.controlSbar div', controls).css({transition: 'width 0.0s linear'});
         update();
-        // $('.controlSbar div').css({transition: 'width 1s linear'});
+        // $('.controlSbar div', controls).css({transition: 'width 1s linear'});
         break;
       case 'start':
         seeking = true;
@@ -117,13 +117,13 @@ function ControlsView(parent, config, viewModel) {
     }
   });
 
-  var seeker = $('.controlTime').drags({
-    seekBar: '.controlSbar',
+  var seeker = $('.controlTime', controls).drags({
+    seekBar: $('.controlSbar', controls),
     seekStateBus: bus
   });
 
   viewModel.state().onValue(function (state) {
-    if (state === null) {
+    if (state === '<no-state>') {
       seek(0); pause();
     } else if (state.playback.current) {
       if (state.playback.playing) {
@@ -146,11 +146,11 @@ module.exports = ControlsView;
 (function($) {
     $.fn.drags = function(opt) {
 
+        opt = $.extend({handle:"",cursor:"move", seekStateBus:null}, opt);
+
         var z_idx_save = 0,width=0, offset=0, positionOffset=0, drg_w=0, pos_x=0 ;
 
-        var borderWidth = parseInt($(".controlSbar").css("border-width"),10);
-
-        opt = $.extend({handle:"",cursor:"move", seekStateBus:null}, opt);
+        var borderWidth = parseInt($(opt.seekBar).css("border-width"),10);
 
         $(opt.seekBar).width();
 
@@ -164,7 +164,7 @@ module.exports = ControlsView;
             if(!$($el).hasClass('draggable')){
               return;
             }
-           // $('.controlSbar div').css({"transition": "width 1s linear"});
+            // $(opt.seekBar).css({"transition": "width 1s linear"});
             $($el).removeClass('draggable').css('z-index', z_idx_save);
             if(opt.handle === "") {
                 $($el).removeClass('draggable');
@@ -183,7 +183,7 @@ module.exports = ControlsView;
             } else {
                 var $drag = $($el).addClass('active-handle').parent().addClass('draggable');
             }
-            //$('.controlSbar div').css({"transition": "width 0s linear"});
+            // $(opt.seekBar).css({"transition": "width 0s linear"});
             var z_idx = z_idx_save = $drag.css('z-index');
             drg_w = $drag.outerWidth(),
             pos_x = $drag.offset().left + drg_w - e.pageX;
@@ -218,11 +218,11 @@ module.exports = ControlsView;
             case "resize":
               positionOffset = positionOffset * $(opt.seekBar).width()/width;
               width=$(opt.seekBar).width();
-            //  $('.controlSbar div').css({"transition": "width 0s linear"});
+              // $(opt.seekBar).css({"transition": "width 0s linear"});
               $($el).css({
                       left:positionOffset
                   });
-            //  $('.controlSbar div').css({"transition": "width 1s linear"});
+              // $(opt.seekBar).css({"transition": "width 1s linear"});
               break;
             case "set":
               if(e.content.relative){

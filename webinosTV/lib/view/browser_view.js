@@ -296,7 +296,7 @@ function BrowserView(viewModel) {
   viewModel.append().plug($('#append').asEventStream('click').merge($('#append').asEventStream('touchend')));
 
   viewModel.selectedPeer().onValue(function (selectedPeer) {
-    $('#peer').text(selectedPeer === null ? "Select a target" : selectedPeer.address());
+    $('#peer').text(selectedPeer === '<no-peer>' ? "Select a target" : selectedPeer.address());
   });
 
   var controlsViewModel = viewModel.controls();

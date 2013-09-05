@@ -153,7 +153,7 @@ function BrowserViewModel(manager) {
   };
 
   var selectedPeer = manager.toProperty().sampledBy(selectedTargets, function (devices, selectedTargets) {
-    if (!selectedTargets.length || selectedTargets.length > 1) return null;
+    if (!selectedTargets.length || selectedTargets.length > 1) return '<no-peer>';
     // Assumption: Only devices with a peer service are recognized as targets.
     return devices[selectedTargets[0]].peers()[0];
   });
@@ -168,7 +168,7 @@ function BrowserViewModel(manager) {
   };
 
   var queue = selectedPeer.flatMapLatest(function (selectedPeer) {
-    if (selectedPeer === null) return Bacon.once([]);
+    if (selectedPeer === '<no-peer>') return Bacon.once([]);
     return selectedPeer.state().map('.queue').skipDuplicates(_.isEqual);
   }).toProperty([]);
 
@@ -185,7 +185,7 @@ function BrowserViewModel(manager) {
     selectedPeer: selectedPeer,
     queue: queue, selectedQueue: selectedQueue
   }).sampledBy(controls.remove()).filter(function (state) {
-    return state.selectedPeer !== null && state.selectedQueue.length
+    return state.selectedPeer !== '<no-peer>' && state.selectedQueue.length
   }).onValue(function (state) {
     var indexes = [];
 
