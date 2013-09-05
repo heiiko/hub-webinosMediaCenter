@@ -9,7 +9,8 @@ function ControlsView(parent, config, viewModel) {
     style: 'slim',
     remove: true,
     fullscreen: false,
-    highdef: false
+    highdef: false,
+    navclass: 'nav_qu'
   }, config || {});
 
   var buttonCount = 5;
@@ -17,14 +18,14 @@ function ControlsView(parent, config, viewModel) {
   if (config.fullscreen) buttonCount++;
   if (config.highdef) buttonCount++;
 
-  var cprev = $('<div class="controlButton controlPrev nav_qu">');
-  var crewd = $('<div class="controlButton controlRewd nav_qu">');
-  var cplay = $('<div class="controlButton controlPlay nav_qu">');
-  var cfwrd = $('<div class="controlButton controlFwrd nav_qu">');
-  var cnext = $('<div class="controlButton controlNext nav_qu">');
-  var cdele = $('<div class="controlButton controlDele nav_qu">');
-  var cfull = $('<div class="controlButton controlFull nav_qu">');
-  var chres = $('<div class="controlButton controlHres nav_qu">');
+  var cprev = $('<div class="controlButton controlPrev '+config.navclass+'">');
+  var crewd = $('<div class="controlButton controlRewd '+config.navclass+'">');
+  var cplay = $('<div class="controlButton controlPlay '+config.navclass+'">');
+  var cfwrd = $('<div class="controlButton controlFwrd '+config.navclass+'">');
+  var cnext = $('<div class="controlButton controlNext '+config.navclass+'">');
+  var cdele = $('<div class="controlButton controlDele '+config.navclass+'">');
+  var cfull = $('<div class="controlButton controlFull '+config.navclass+'">');
+  var chres = $('<div class="controlButton controlHres '+config.navclass+'">');
   var csbar = $('<div class="controlSbar"><div></div></div>');
   var ctime = $('<div class="controlTime"><div class="controlTimeSchnippel"></div><span>1:00</span></div>');
 

@@ -21,7 +21,8 @@ function RendererView(viewModel) {
     remove: false,
     fullscreen: true,
     highdef: true,
-    style: 'full'
+    style: 'full',
+    navclass: 'nav_rd'
   }, controlsViewModel);
 
   self.videoRenderer = $("#renderer video");
