@@ -13,8 +13,6 @@ function RendererViewModel(manager, input) {
     return input;
   };
 
-  var self = this;
-
   var device = manager.toProperty().map(function (devices) {
     var local = _.find(devices, function (device) {
       return device.isLocal();
@@ -34,43 +32,64 @@ function RendererViewModel(manager, input) {
     return controls;
   };
 
-  this.renderer = "wrt";
+  var player = 'app';
 
   var events = peer.flatMapLatest(function (peer) {
     if (peer === '<no-peer>') return Bacon.never();
     return peer.events();
-  }).log('event').map(function (event) {
+  }).map(function (event) {
     if (event.isPlay()) {
-      if (event.item().link.indexOf("#live") !== -1) {
-        self.renderer = "mediaAPI";
-      }else{
-        self.renderer = "wrt";
+      if (event.item().link.indexOf('#live') !== -1) {
+        player = 'api';
+      } else {
+        player = 'app';
       }
     }
 
-    return {renderer: self.renderer, event: event};
-  }).log('event.map');
+    return {player: player, event: event};
+  });
 
   this.events = function () {
     return events.filter(function (event) {
-      return event.renderer === "wrt";
-    }).map('.event').log('event.wrt');
+      return event.player === 'app';
+    }).map('.event');
   };
 
-  //route live tv streams 
   device.sampledBy(events.filter(function (event) {
-    return event.renderer === "mediaAPI";
-  }).map('.event').log('event.media'), function (device, event) {
+    return event.player === 'api';
+  }).map('.event'), function (device, event) {
     return {device: device, event: event};
-  }).log('operation').filter(function (operation) {
-    console.log('services', operation.device.services())
+  }).filter(function (operation) {
     return operation.device !== '<no-device>' && typeof operation.device.media() !== 'undefined';
-  }).log('operation.filter').onValue(function (operation) {
+  }).onValue(function (operation) {
     if (operation.event.isPlay()) {
       var link = operation.event.item().link;
       var index = link.indexOf('#');
       if (index !== -1) link = link.substr(0, index);
-      operation.device.media().play(link);
+
+      operation.device.media().play(link).then(function () {
+        started.push();
+
+        operation.device.media().events().onValue(function (event) {
+          if (event.isPlay() || event.isPlaying()) {
+            started.push();
+          } else if (event.isPause()) {
+            paused.push();
+          } else if (event.isStop()) {
+            stopped.push();
+            return Bacon.noMore;
+          } else if (event.isEnd()) {
+            ended.push();
+            return Bacon.noMore;
+          }
+        });
+      });
+    } else if (operation.event.isPause()) {
+      operation.device.media().playPause();
+    } else if (operation.event.isResume()) {
+      operation.device.media().playPause();
+    } else if (operation.event.isStop()) {
+      operation.device.media().stop();
     }
   });
 
@@ -98,11 +117,11 @@ function RendererViewModel(manager, input) {
     return paused;
   };
 
-  var resumed = new Bacon.Bus();
-  updates.plug(resumed.map({type: 'playback:resumed'}));
+  var stopped = new Bacon.Bus();
+  updates.plug(stopped.map({type: 'playback:stopped'}));
 
-  this.resumed = function () {
-    return resumed;
+  this.stopped = function () {
+    return stopped;
   };
 
   var ended = new Bacon.Bus();
