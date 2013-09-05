@@ -59,7 +59,7 @@ function ListView(items, selection, list, wrapper, fadeout) {
     };
   }));
 
-  selection.apply($(list).asEventStream('click').map(function (event) {
+  selection.apply($(list).asEventStream('click').merge($(list).asEventStream('touchend')).map(function (event) {
     return function (selection) {
       var $item = $(event.target).closest('li');
       if (!$item.length) return selection;
@@ -179,7 +179,7 @@ function QueueListView(viewModel) {
   ListView.call(this, viewModel.queue(), viewModel.selectedQueue(), '#queuelist', '#queuewrapper', '#queue');
 }
 
-function NavigationView (viewModel) {
+function NavigationView (viewModel, listViews) {
   var columns = [".nav_sl", ".nav_ca", ".nav_co", ".nav_tl", ".nav_pm", ".nav_qu"];
   var curCol = 0;
   var curRow = [0, 0, 0, 0, 0, 0];
@@ -226,10 +226,12 @@ function NavigationView (viewModel) {
         case 'down':
         if(curRow[curCol] < $(columns[curCol]).length-1)
           curRow[curCol]++;
+          centerFocusedElement();
           break;
         case 'up':
         if(curRow[curCol] > 0)
           curRow[curCol]--;
+          centerFocusedElement();
           break;
         case 'right':
           if(curCol < 5)
@@ -254,6 +256,13 @@ function NavigationView (viewModel) {
     startNavVisibleTimeout();
   }
 
+  function centerFocusedElement(){
+    if(curCol != 4 && listViews[curCol].scroll.hasVerticalScroll){
+      listViews[curCol].scroll.scrollToElement($(columns[curCol]).eq(curRow[curCol]).get(0), null, null, true);
+    }
+
+  }
+
   function startNavVisibleTimeout(){
     timeoutHandle = window.setTimeout(function(){
       navVisible=false;
@@ -271,10 +280,11 @@ function BrowserView(viewModel) {
   var targetListView = new TargetListView(viewModel);
   var queueListView = new QueueListView(viewModel);
 
-  var navigationView = new NavigationView(viewModel);
+  var listViews = [sourceListView, categoryListView, contentListView, targetListView, null, queueListView];
+  var navigationView = new NavigationView(viewModel, listViews);
 
-  viewModel.prepend().plug($('#prepend').asEventStream('click'));
-  viewModel.append().plug($('#append').asEventStream('click'));
+  viewModel.prepend().plug($('#prepend').asEventStream('click').merge($('#prepend').asEventStream('touchend')));
+  viewModel.append().plug($('#append').asEventStream('click').merge($('#append').asEventStream('touchend')));
 
   viewModel.selectedPeer().onValue(function (selectedPeer) {
     $('#peer').text(selectedPeer === null ? "Select a target" : selectedPeer.address());
@@ -333,7 +343,6 @@ function BrowserView(viewModel) {
 
   calcSize();
 
-
   $(window).resize(function() {
     calcSize();
   });
@@ -346,5 +355,6 @@ function BrowserView(viewModel) {
     setTimeout(loaded, 800);
   }, false);
 }
+
 
 module.exports = BrowserView;

@@ -5,7 +5,6 @@ var selecttargetScroll;
 
 $(document).ready(function() {
 	init();
-    calcSize();
 });
 
 $(window).resize(function() {
@@ -17,12 +16,12 @@ function init() {
     $('#toadvancedbrowserbutton').on('click', function(){ gotoPageById('#browser'); toggleMainmenu(); });
     $('#torendererbutton').on('click', function(){ gotoPageById('#renderer'); toggleMainmenu(); });
     $('#tocontrollerbutton').on('click', function(){ gotoPageById('#controller'); toggleMainmenu(); });
-
+    
+    calcSize();
 	selecttargetScroll = new IScroll('#st_wrapper', {snap: 'li', momentum: false});
+    
     $('#selecttarget').toggle();
-
     $('#leftfadeout').on('click', function(){ toggleMainmenu(); });
-    $('#rightfadeout').on('click', function(){ toggleSelectTarget(); });
     $('#closeselecttarget').on('click', function(){ toggleSelectTarget(); });
     $('.overlay').on('click', function(){ closeMenus(); });
 
@@ -44,6 +43,10 @@ function calcSize(){
     $('.mm_button').height((height-4*margin)/3);
     $('.mm_button').css("margin", margin);
     $('.mm_button').width($('.menu').width()-2*margin);
+
+    $('.mainmenulist').height(height-2*margin);
+    $('.mainmenulist').css("margin", margin);
+    $('.mainmenulist').width($('.menu').width()-2*margin);
 }
 
 
@@ -66,6 +69,10 @@ function toggleMainmenu(){
 
 function toggleSelectTarget(){
     $('#selecttarget').toggle();
+    if($('#selecttarget').is(":visible")){
+        selecttargetScroll.options.snap = document.querySelectorAll('#st_wrapper li');
+        selecttargetScroll.refresh();
+    }
     toggleOverlay();
 }
 
@@ -82,3 +89,4 @@ function toggleOverlay(){
 }
 
 window.toggleMainmenu=toggleMainmenu;
+window.toggleSelectTarget=toggleSelectTarget;

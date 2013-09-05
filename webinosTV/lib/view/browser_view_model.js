@@ -25,12 +25,7 @@ function BrowserViewModel(manager) {
     {id: 'movies', type: 'Video', title: 'Movies', image: 'images/movie.svg'},
     {id: 'music', type: 'Audio', title: 'Music', image: 'images/music.svg'},
     {id: 'images', type: 'Image', title: 'Images', image: 'images/image.svg'},
-    {id: 'images2', type: 'Image', title: 'Images2', image: 'images/image.svg'},
-    {id: 'images3', type: 'Image', title: 'Images3', image: 'images/image.svg'},
-    {id: 'images4', type: 'Image', title: 'Images4', image: 'images/image.svg'},
-    {id: 'images5', type: 'Image', title: 'Images5', image: 'images/image.svg'},
-    {id: 'images6', type: 'Image', title: 'Images6', image: 'images/image.svg'},
-    // {id: 'channels', type: undefined, title: 'Channels', image: 'images/tv_channels.svg'}
+    {id: 'channels', type: 'Channel', title: 'Channels', image: 'images/tv_channels.svg'}
   ]);
 
   this.categories = function () {
@@ -53,7 +48,7 @@ function BrowserViewModel(manager) {
     return _.chain(state.sources).filter(function (source) {
       return !state.selectedSources.length || _.contains(state.selectedSources, source.address());
     }).map(function (source) {
-      return _.chain(source.content()['media']).filter(function (item) {
+      return _.chain(source.content()).values().flatten().filter(function (item) {
         return !types.length || _.contains(types, item.type);
       }).map(function (item) {
         return {source: source, item: item};
@@ -103,10 +98,10 @@ function BrowserViewModel(manager) {
   }).onValue(function (operation) {
     var items = _.map(operation.selectedContent, function (selectedItem) {
       var source = operation.devices[selectedItem.source];
-      var item   = _.findWhere(source.content()['media'], {
+      var item   = _.chain(source.content()).values().flatten().findWhere({
         id: selectedItem.item.id,
         title: selectedItem.item.title
-      });
+      }).value();
       return {source: source, item: item};
     });
 
@@ -115,6 +110,10 @@ function BrowserViewModel(manager) {
     });
 
     var promises = _.map(items, function (item) {
+      if (item.item.type === 'Channel') {
+        return Promise.fulfill({item: item.item, link: item.item.link})
+      }
+
       return item.source.mediacontent().getLink({
         folderId: item.item.id,
         fileName: item.item.title
