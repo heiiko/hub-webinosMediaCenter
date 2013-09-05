@@ -20,9 +20,33 @@ function calcSize() {
     $(".clickAreaOk").css({width: tapButtonheight*0.25, height: tapButtonheight*0.25, left: tapButtonheight*0.375, top:tapButtonheight*0.375});
 }
 
+function NavigationView (viewModel) {
+  $(document).keydown(function(e) {
+    switch (e.keyCode) {
+      case 37:
+        Navigate('left');
+        navlog("nav_left");
+        return false;
+    }
+  });
+
+  function Navigate(direction) {
+    switch(direction){
+      case 'left':
+        window.toggleMainmenu();
+        break;
+    }
+  }
+
+  function navlog(direction) {
+    console.log(direction);
+  }
+}
+
+
 function RCView(viewModel) {
   this.viewModel = viewModel;
- 
+  // var navigationView = new NavigationView(viewModel);
 }
 
 module.exports = RCView;

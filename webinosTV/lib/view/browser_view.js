@@ -220,11 +220,6 @@ function NavigationView (viewModel, listViews) {
     }
   });
 
-  function navlog(direction) {
-    console.log(direction + "  col:" + curCol + " row:" + curRow);
-  }
-
-
   function Navigate(direction) {
     window.clearTimeout(timeoutHandle);
     if(navVisible === false){
@@ -269,7 +264,6 @@ function NavigationView (viewModel, listViews) {
     if(curCol != 4 && listViews[curCol].scroll.hasVerticalScroll){
       listViews[curCol].scroll.scrollToElement($(columns[curCol]).eq(curRow[curCol]).get(0), null, null, true);
     }
-
   }
 
   function startNavVisibleTimeout(){
@@ -277,6 +271,10 @@ function NavigationView (viewModel, listViews) {
       navVisible=false;
       $(columns[curCol]).eq(curRow[curCol]).removeClass('focus');
     }, 5000);
+  }
+
+  function navlog(direction) {
+    console.log(direction + "  col:" + curCol + " row:" + curRow);
   }
 }
 
@@ -290,7 +288,7 @@ function BrowserView(viewModel) {
   var queueListView = new QueueListView(viewModel);
 
   var listViews = [sourceListView, categoryListView, contentListView, targetListView, null, queueListView];
-  var navigationView = new NavigationView(viewModel, listViews);
+  // var navigationView = new NavigationView(viewModel, listViews);
 
   viewModel.prepend().plug($('#prepend').asEventStream('click').merge($('#prepend').asEventStream('touchend')));
   viewModel.append().plug($('#append').asEventStream('click').merge($('#append').asEventStream('touchend')));
