@@ -31,15 +31,17 @@ ul {
 	background-color: $lightgray;
 	overflow: hidden;
 	border-bottom: 1px solid $green;
+	height: $menuheight;
 }
 
 .menu-item {
 	@include box-sizing(border-box);
 
 	width: 32%;
+	height:100%;
 	float: left;
 	text-align: center;
-	padding: 15px 2px 15px 2px;
+	padding: 14px 2px 15px 2px;
 	text-decoration: none;
 }
 
@@ -61,11 +63,11 @@ ul {
 		@media screen and (min-width: 551px) {
 			content: 'Source and Target';
 		}
-
+	
 		@media screen and (max-width: 550px) {
 			content: 'Source & Target';
 		}
-
+	
 		@media screen and (max-width: 410px) {
 			content: 'Devices';
 		}
@@ -78,7 +80,7 @@ ul {
     height: auto;
     visibility: hidden;
     position: absolute;
-    top: 52px;
+    top: $menuheight + 1;
     bottom: 0;
 }
 
@@ -89,6 +91,7 @@ ul {
 
 .header {
 	width: 100%;
+	height: $headerheight;
 	overflow: hidden;
 	border-bottom: 1px solid $blue;
 }
@@ -97,7 +100,7 @@ ul {
 	@include box-sizing(border-box);
 
 	width: 50%;
-	height: $headerheight;
+	height: 100%;
 	float: left;
 	text-align: center;
 	padding: 15px 2px 15px 2px;
@@ -161,7 +164,7 @@ ul {
 	@include box-sizing(border-box);
 	position: absolute;
 	bottom: 0;
-	top: 71px;
+	top: $headerheight + 1;
 	width: 50%;
 }
 
@@ -194,19 +197,19 @@ ul {
 	.device-image.type-laptop {
 		background-image: url('../images/laptop.svg');
 	}
-
+	
 	.device-image.type-pc {
 		background-image: url('../images/pc.svg');
 	}
-
+	
 	.device-image.type-phone {
 		background-image: url('../images/phone.svg');
 	}
-
+	
 	.device-image.type-tablet {
 		background-image: url('../images/tablet.svg');
 	}
-
+	
 	.device-image.type-tv {
 		background-image: url('../images/tv.svg');
 	}
@@ -216,23 +219,23 @@ ul {
 	.device-name {
 		color: $blue;
 	}
-
+	
 	.device-image.type-laptop {
 		background-image: url('../images/laptop-selected.svg');
 	}
-
+	
 	.device-image.type-pc {
 		background-image: url('../images/pc-selected.svg');
 	}
-
+	
 	.device-image.type-phone {
 		background-image: url('../images/phone-selected.svg');
 	}
-
+	
 	.device-image.type-tablet {
 		background-image: url('../images/tablet-selected.svg');
 	}
-
+	
 	.device-image.type-tv {
 		background-image: url('../images/tv-selected.svg');
 	}
@@ -262,7 +265,7 @@ ul {
 #categorywrapper {
 	position: absolute;
 	bottom: 0;
-	top: 71px;
+	top: $headerheight + 1;
 
 	@media screen and (min-width: $mintabletwidth) {
 		background-color: $lightgray;
@@ -270,7 +273,7 @@ ul {
 		width: 150px;
 		border-right: 2px solid $mediumgray;
 	}
-
+	
 	@media screen and (max-width: $mintabletwidth - 1) {
 		width: 100%;
 	}
@@ -284,7 +287,7 @@ ul {
 	@media screen and (min-width: $mintabletwidth) {
 		padding: 15px;
 	}
-
+	
 	@media screen and (max-width: $mintabletwidth - 1) {
 		@include box-sizing(border-box);
 		padding: 15px 30px 0px 30px;
@@ -296,9 +299,9 @@ ul {
 }
 
 .category-name {
-  @media screen and (min-width: 1200px) {
-    visibility: visible;
-  }
+	@media screen and (max-width: $mintabletwidth - 1) {
+		display: none;
+	}
 
   @media screen and (max-width: 1199px) {
     visibility: hidden;
