@@ -18,29 +18,31 @@ function NavigationView (viewModel) {
   var navVisible = false;
   var timeoutHandle;
 
-  $(document).keydown(function(e) {
-    switch (e.keyCode) {
-      case 37:
-        Navigate('left');
-        navlog("nav_left");
-        return false;
-      case 39:
-        Navigate('right');
-        navlog("nav_right");
-        return false;
-      case 13:
-        if(navVisible)
-          $(".nav_rd.focus").click();
-        return false;
-    }
-  });
+  // $(document).keydown(function(e) {
+  //   switch (e.keyCode) {
+  //     case 37:
+  //       Navigate('left');
+  //       navlog("nav_left");
+  //       return false;
+  //     case 39:
+  //       Navigate('right');
+  //       navlog("nav_right");
+  //       return false;
+  //     case 13:
+  //       if(navVisible)
+  //         $(".nav_rd.focus").click();
+  //       return false;
+  //   }
+  // });
+
+  viewModel.input().onValue(Navigate);
 
   function Navigate(direction) {
     window.clearTimeout(timeoutHandle);
     if(navVisible === false){
       navVisible = true;
     }else{
-      $(".nav_rd.focus").removeClass('focus');
+      if (direction !== 'enter') $(".nav_rd.focus").removeClass('focus');
       switch(direction){
         case 'right':
           if(curPos < 6)
@@ -51,6 +53,9 @@ function NavigationView (viewModel) {
             curPos--;
           else if(curPos === 0)
             window.toggleMainmenu();
+          break;
+        case 'enter':
+          if(navVisible) $(".nav_rd.focus").click();
           break;
       }
     }
@@ -124,7 +129,7 @@ function RendererView(viewModel) {
     }
   })
 
-  // var navigationView = new NavigationView(viewModel);
+  var navigationView = new NavigationView(viewModel);
 }
 
 RendererView.prototype.playItem = function(type, url){

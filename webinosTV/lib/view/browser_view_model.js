@@ -5,7 +5,15 @@ var bjq = require('bacon.jquery');
 
 var ControlsViewModel = require('./controls_view_model.js');
 
-function BrowserViewModel(manager) {
+function BrowserViewModel(manager, input) {
+  input = input.filter(function () {
+    return $('.pt-page-current').attr('id') === 'browser';
+  });
+
+  this.input = function () {
+    return input;
+  };
+
   var sources = manager.toProperty().map(function (devices) {
     return _.filter(devices, function (device) {
       return device.isSource();
