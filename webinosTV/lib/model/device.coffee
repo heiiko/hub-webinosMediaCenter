@@ -73,7 +73,7 @@ class DeviceManager extends Bacon.EventStream
         sink = undefined
     @devices = ->
       refs = {}
-      _.each(devices, ({ref}) -> refs[ref.id()] = ref if device.devicestatus()?)
+      _.each(devices, ({ref}) -> refs[ref.address()] = ref if ref.devicestatus()?)
       refs
     @toProperty = =>
       @scan @devices(), (devices, event) ->

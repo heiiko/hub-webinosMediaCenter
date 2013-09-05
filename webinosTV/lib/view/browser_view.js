@@ -148,13 +148,16 @@ function CategoryListView(viewModel) {
 
 util.inherits(ContentListView, ListView);
 function ContentListView(viewModel) {
-  console.warn("DAFUQ ContentListView", viewModel);
-  this.htmlify = function(value) {
-    console.warn("DAFUQ III", value);
-    return '<li>Cthulhu Fhtagn!< /li>';
-    //TODO define .media_item scss
-//    return '<li class="media_item"><p>' + ((typeof value.item.type === 'string' && value.item.type.toLowerCase().indexOf("image") === 0) ? ('<img src="' + value.item.thumbnailURIs[0] + '">') : (value.item.title)) + '</p><img src="images/add.svg"></li>';
-  };
+  this.htmlify = function (value) {
+  	var html;
+  	if (typeof value.item.type === 'string' && value.item.type.toLowerCase().indexOf('image') === 0) {
+  		html = '<li class="imageContent nav_co"><img src="' + value.item.thumbnailURIs[0] + '">';
+	} else {
+		html = '<li class="textContent nav_co"><p>' + value.item.title + '</p>'
+	}
+	html += '<img class="selectIcon" src="images/add.svg"></li>';
+    return html;
+ };
 
   this.identify = function (value) {
     return {
@@ -198,18 +201,6 @@ function BrowserView(viewModel) {
   var targetListView = new TargetListView(viewModel);
 
   //var navigationView = new NavigationView(viewModel);
-  
-  viewModel.peer().onValue(function (peer) {
-    console.log('peer', peer);
-  });
-  
-  viewModel.selectedPeer().flatMapLatest(function (selectedPeer) {
-    return selectedPeer === null ? Bacon.once(null) : selectedPeer.state().map(function (state) {
-      return {peer: selectedPeer, state: state};
-    });
-  }).onValue(function (current) {
-    console.log('current', current);
-  });
   
   this.getControlsSelector = function(){
     return ".queuecontrols";
