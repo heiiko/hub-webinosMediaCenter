@@ -80,13 +80,12 @@ function ListView(items, selection, list, wrapper, fadeout) {
   }));
 
   selection.onValue(function (selection) {
-  	console.log(selection);
     $('li', list).each(function () {
       var $item = $(this);
       var id = $item.data('id');
 	  $item.toggleClass('selected', _.ocontains(selection, id));
 	  
-      if($item.hasClass('source')){
+      if($item.hasClass('source') && $item.hasClass('selected')){
         if (selection.length == 1) {
       		var device = selection[0];
       		$('#selected-source').attr('src', 'images/' + device.type + '-selected.svg');
@@ -115,7 +114,7 @@ function ListView(items, selection, list, wrapper, fadeout) {
       		$('#current-source-name').html(selection.length + ' Source devices');
     	}
       }
-      else if($item.hasClass('target')){
+      else if($item.hasClass('target') && $item.hasClass('selected')){
     	if(selection.length == 1) {
         	var device = selection[0];
         
