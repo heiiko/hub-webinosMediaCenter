@@ -279,6 +279,19 @@ ul {
 	}
 }
 
+#contentwrapper {
+	@media screen and (min-width: $mintabletwidth) {
+		left: 151px;
+		position: absolute;
+		top: $headerheight + 1;
+		bottom: 0;
+	}
+	
+	@media screen and (max-width: $mintabletwidth - 1) {
+		width: 100%;
+	}
+}
+
 #categorylist {
 	height: 100%;
 }
