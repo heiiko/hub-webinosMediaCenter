@@ -98,6 +98,7 @@ function SourceListView(viewModel) {
   this.identify = function(device) {
     return {
       address: device.address(),
+      name: address.friendlyName(device.address()),
       type: device.type()
     };
   };
@@ -106,14 +107,14 @@ function SourceListView(viewModel) {
     if (selection.length == 1) {
       var device = selection[0];
       $('#selected-source').attr('src', 'images/' + device.type + '-selected.svg');
-      $('#selected-source-name').html(device.address);
+      $('#selected-source-name').html(device.name);
       $('#selected-source-intro').html('You can select media from');
 
       $('#wrapper-selected-source').removeClass('header-active');
       $('#wrapper-selected-target').addClass('header-active');
 
       $('#current-source-logo').attr('src', 'images/' + device.type + '.svg');
-      $('#current-source-name').html(device.address);
+      $('#current-source-name').html(device.name);
     }
     else if (selection.length == 0) {
       $('#selected-source').attr('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==');
@@ -128,7 +129,7 @@ function SourceListView(viewModel) {
     }
     else {
       $('#current-source-logo').attr('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==');
-      $('#current-source-name').html(selection.length + ' Source devices');
+      $('#current-source-name').html(selection.length + ' source devices');
     }
   });
 
@@ -198,6 +199,7 @@ function TargetListView(viewModel) {
   this.identify = function(device) {
     return {
       address: device.address(),
+      name: address.friendlyName(device.address()),
       type: device.type()
     };
   };
@@ -207,7 +209,7 @@ function TargetListView(viewModel) {
       var device = selection[0];
 
       $('#current-target-logo').attr('src', 'images/' + device.type + '.svg');
-      $('#current-target-name').html(device.address);
+      $('#current-target-name').html(device.name);
     }
     else if (selection.length == 0) {
       $('#current-target-logo').attr('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==');
@@ -215,7 +217,7 @@ function TargetListView(viewModel) {
     }
     else {
       $('#current-target-logo').attr('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==');
-      $('#current-target-name').html(selection.length + ' Target devices');
+      $('#current-target-name').html(selection.length + ' target devices');
     }
   });
 
