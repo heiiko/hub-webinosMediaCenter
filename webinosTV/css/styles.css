@@ -601,7 +601,7 @@ border-radius: 100px;
     height: 60%;
 }
 
-.controlContainer{
+.slim.controlContainer{
     position: relative;
     top: 0;
     left: 0;
@@ -612,11 +612,19 @@ border-radius: 100px;
     border-right: 3px solid #333;
 }
 
+.full.controlContainer {
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+}
+
 
 /* Renderer */
 
 .rendererControlls {
-    background-color: rgba(50,0,0,0.4);
+    background-color: rgba(50,50,50,0.5);
     position: absolute;
     bottom: 5%;
     height: 15%;

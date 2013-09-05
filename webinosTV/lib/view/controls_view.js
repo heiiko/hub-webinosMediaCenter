@@ -5,12 +5,12 @@ var Bacon = require('baconjs');
 
 function ControlsView(parent, config, viewModel) {
   parent = $(parent) || $('body');
-  config = _.extend(config || {}, {
+  config = _.extend({
     style: 'slim',
     remove: true,
     fullscreen: false,
     highdef: false
-  });
+  }, config || {});
 
   var buttonCount = 5;
   if (config.remove) buttonCount++;

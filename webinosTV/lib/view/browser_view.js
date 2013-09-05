@@ -1,4 +1,5 @@
 var $ = require('jquery');
+//require('jquery.fittext');
 var _ = require('../util/objectscore.coffee'); // require('underscore');
 var Bacon = require('baconjs');
 var IScroll = require('iscroll');
@@ -31,6 +32,9 @@ function ListView(items, selection, list, wrapper, fadeout) {
       }
       self.scroll.options.snap = document.querySelectorAll(list +' li');
       self.scroll.refresh();
+
+      //Fittext, currently to expensive.
+      //$("li p").fitText(0.8);
     }
   };
 

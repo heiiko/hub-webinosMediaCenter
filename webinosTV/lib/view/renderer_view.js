@@ -20,7 +20,8 @@ function RendererView(viewModel) {
   var controlsView = new ControlsView('.rendererControlls', {
     remove: false,
     fullscreen: true,
-    highdef: true
+    highdef: true,
+    style: 'full'
   }, controlsViewModel);
 
   self.videoRenderer = $("#renderer video");
@@ -39,6 +40,7 @@ function RendererView(viewModel) {
   viewModel.ended().plug($(self.videoRenderer).asEventStream('ended'));
   viewModel.state().plug($(self.videoRenderer).asEventStream('timeupdate')
   	.merge($(self.videoRenderer).asEventStream('seeked'))
+  	.throttle(1000)
   	.map(function(event){
   		return {relative: event.target.currentTime/event.target.duration};
   }));
