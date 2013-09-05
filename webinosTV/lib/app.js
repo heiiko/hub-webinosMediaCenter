@@ -42,5 +42,5 @@ $(document).ready(function () {
   new BrowserController(manager, input);
   new RendererController(manager, input);
   new RCController(manager, input);
-  new MainmenuController(manager);
+  new MainmenuController(manager, input);
 });

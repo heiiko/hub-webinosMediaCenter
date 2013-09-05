@@ -21,19 +21,13 @@ function calcSize() {
 }
 
 function NavigationView (viewModel) {
-  $(document).keydown(function(e) {
-    switch (e.keyCode) {
-      case 37:
-        Navigate('left');
-        navlog("nav_left");
-        return false;
-    }
-  });
+
+  viewModel.input().onValue(Navigate);
 
   function Navigate(direction) {
     switch(direction){
       case 'left':
-        window.toggleMainmenu();
+        window.openMainmenu();
         break;
     }
   }
@@ -46,7 +40,7 @@ function NavigationView (viewModel) {
 
 function RCView(viewModel) {
   this.viewModel = viewModel;
-  // var navigationView = new NavigationView(viewModel);
+  var navigationView = new NavigationView(viewModel);
 }
 
 module.exports = RCView;

@@ -6,7 +6,7 @@ var ControlsViewModel = require('./controls_view_model.js');
 
 function RendererViewModel(manager, input) {
   input = input.filter(function () {
-    return $('.pt-page-current').attr('id') === 'renderer';
+    return $('.pt-page-current').attr('id') === 'renderer' && !$('.menu').is(":visible");;
   });
 
   this.input = function () {

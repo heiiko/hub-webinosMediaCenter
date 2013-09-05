@@ -41,79 +41,122 @@ function SelectTargetListView(items) {
 }
 
 function NavigationView (viewModel) {
-  var curPos = 0;
-  var navVisible = false;
+  var mmCurPos = 0;
+  var stCurPos = 0;
+  var mmNavVisible = false;
+  var stNavVisible = false;
   var timeoutHandle;
 
-  $(document).keydown(function(e) {
-    switch (e.keyCode) {
-      case 38:
-        Navigate('up');
-        navlog("nav_up");
-        return false;
-      case 39:
-        Navigate('right');
-        navlog("nav_right");
-        return false;
-      case 40:
-        Navigate('down');
-        navlog("nav_down");
-        return false;
-      case 13:
-        if(navVisible)
-          $(".nav_mm.focus").click();
-        return false;
-    }
-  });
+  // $(document).keydown(function(e) {
+  //   switch (e.keyCode) {
+  //     case 38:
+  //       Navigate('up');
+  //       navlog("nav_up");  
+  //       return false;
+  //     case 39:
+  //       Navigate('right');
+  //       navlog("nav_right");
+  //       return false;
+  //     case 40:
+  //       Navigate('down');
+  //       navlog("nav_down");
+  //       return false;
+  //     case 13:
+  //       if(navVisible)
+  //         $(".nav_mm.focus").click();
+  //       return false;
+  //   }
+  // });
+
+  viewModel.input().onValue(Navigate);
 
   function Navigate(direction) {
-    window.clearTimeout(timeoutHandle);
-    if(navVisible === false){
-      navVisible = true;
-    }else{
-      $(".nav_mm.focus").removeClass('focus');
-      switch(direction){
-        case 'down':
-          if(curPos < 2)
-            curPos++;
-          break;
-        case 'up':
-          if(curPos > 0)
-            curPos--;
-          break;
-        case 'right':
-          window.toggleMainmenu();
-          break;
+    
+    if($('#selecttarget').is(":visible")){
+      window.clearTimeout(timeoutHandle);
+      if(stNavVisible === false){
+        stNavVisible = true;
+      }else{
+        if (direction !== 'enter') $(".nav_st.focus").removeClass('focus');
+        switch(direction){
+          case 'down':
+            if(stCurPos < $('.nav_st').length-1)
+              stCurPos++;
+            break;
+          case 'up':
+            if(stCurPos > 0)
+              stCurPos--;
+            break;
+          case 'left':
+            window.closeSelectTarget();
+            window.openMainmenu();
+            break;
+          case 'right':
+            window.closeSelectTarget();
+            break;
+          case 'enter':
+            $(".nav_st.focus").click();
+            break;
+        }
       }
+      $(".nav_st").eq(stCurPos).addClass('focus');
+      startNavVisibleTimeout();
+
+    }else{
+      window.clearTimeout(timeoutHandle);
+      if(mmNavVisible === false){
+        mmNavVisible = true;
+      }else{
+        if (direction !== 'enter') $(".nav_mm.focus").removeClass('focus');
+        switch(direction){
+          case 'down':
+            if(mmCurPos < 2)
+              mmCurPos++;
+            break;
+          case 'up':
+            if(mmCurPos > 0)
+              mmCurPos--;
+            break;
+          case 'left':
+            window.openMainmenu();
+            break;
+          case 'right':
+            window.closeMainmenu();
+            break;
+          case 'enter':
+            $(".nav_mm.focus").click();
+            break;
+        }
+      }
+      $(".nav_mm").eq(mmCurPos).addClass('focus');
+      startNavVisibleTimeout();
     }
-    $(".nav_mm").eq(curPos).addClass('focus');
-    startNavVisibleTimeout();
   }
 
   function startNavVisibleTimeout(){
     timeoutHandle = window.setTimeout(function(){
-      navVisible=false;
-      $(".nav_mm").eq(curPos).removeClass('focus');
+      mmNavVisible = false;
+      stNavVisible = false;
+      $(".nav_mm.focus").removeClass('focus');
+      $(".nav_st.focus").removeClass('focus');
     }, 5000);
   }
 
   function navlog(direction) {
-    console.log(direction + "  pos:" + curPos);
+    console.log(direction + "  pos:" + mmCurPos);
   }
 }
 
 function MainmenuView(viewModel){
-  // var navigationView = new NavigationView(viewModel);
+  var navigationView = new NavigationView(viewModel);
   var selectTargetListView = new SelectTargetListView(viewModel.targets());
 
 
   $('#toadvancedbrowserbutton').on('click', function(){ gotoPageById('#browser'); closeMainmenu(); });
   $('#torendererbutton').on('click', function(){ gotoPageById('#renderer'); closeMainmenu(); });
-  $('#tocontrollerbutton').on('click', function(){ closeMainmenu(); openSelectTarget();});   // gotoPageById('#controller'); toggleMainmenu();
+  $('#tocontrollerbutton').on('click', function(){ closeMainmenu(); openSelectTarget(); });   // gotoPageById('#controller'); toggleMainmenu();
 
-  $('#leftfadeout').on('click', function(){ toggleMainmenu(); });
-  $('#rightfadeout').on('click', function(){ toggleSelectTarget(); });
-  $('#closeselecttarget').on('click', function(){ toggleSelectTarget(); });
+  $('#leftfadeout').on('click', function(){ openMainmenu(); });
   $('.overlay').on('click', function(){ closeMenus(); });
   
   closeSelectTarget();
@@ -160,17 +203,9 @@ function MainmenuView(viewModel){
       toggleSelectTarget();
     }
   }
-
   function closeMenus() {
-    if($('#mainmenu').is(":visible")){
-      $('#mainmenu').toggle();
-    }
-    if($('#selecttarget').is(":visible")){
-      $('#selecttarget').toggle();
-    }
-    if($('.overlay').is(":visible")){
-      $('.overlay').toggle();
-    }
+    closeMainmenu();
+    closeSelectTarget();
   }
 
   function toggleMainmenu(){
@@ -178,33 +213,16 @@ function MainmenuView(viewModel){
     toggleOverlay();
   }
   function toggleSelectTarget(){
-    // if(!$('#selecttarget').is(":visible")){
-    //   $('#selecttargetlist').empty();
-    //   $('#selecttargetlist').append();
-    //   $('#selecttargetlist > li').filter(function() {
-    //     if($(this).data("local") === true){
-    //       return false;
-    //     }else{
-    //       $(this).removeClass('nav_tl');
-    //       $(this).addClass( "nav_st" );
-    //       return true;
-    //     }
-    //   });
-    //   if($('#selecttargetlist li').length > 0){
-    //     selecttargetScroll.options.snap = document.querySelectorAll('#selecttargetlist li');
-    //     selecttargetScroll.refresh();
-    //   }
-    // }
     selectTargetListView.refresh();
     $('#selecttarget').toggle();
     toggleOverlay();
   }
   function toggleOverlay(){
-    if(($('#mainmenu').is(":visible") || $('#selecttarget').is(":visible"))){
+    if($('.menu').is(":visible")){
       if($('.overlay').is(":hidden")){
         $('.overlay').toggle();
       }
-    }else if($('#mainmenu').is(":hidden") && $('#selecttarget').is(":hidden")){
+    }else{
       if($('.overlay').is(":visible")){
         $('.overlay').toggle();
       }
@@ -219,8 +237,9 @@ function MainmenuView(viewModel){
     gotoPageById(window.location.hash);
     toggleMainmenu();
   }
-  window.toggleMainmenu=toggleMainmenu;
-  window.toggleSelectTarget=toggleSelectTarget;
+  window.openMainmenu=openMainmenu;
+  window.closeMainmenu=closeMainmenu;
+  window.closeSelectTarget=closeSelectTarget;
 }
 
 module.exports = MainmenuView;

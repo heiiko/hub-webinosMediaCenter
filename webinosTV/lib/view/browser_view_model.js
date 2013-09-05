@@ -7,7 +7,7 @@ var ControlsViewModel = require('./controls_view_model.js');
 
 function BrowserViewModel(manager, input) {
   input = input.filter(function () {
-    return $('.pt-page-current').attr('id') === 'browser';
+    return $('.pt-page-current').attr('id') === 'browser' && !$('.menu').is(":visible");
   });
 
   this.input = function () {

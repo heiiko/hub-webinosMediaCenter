@@ -18,23 +18,6 @@ function NavigationView (viewModel) {
   var navVisible = false;
   var timeoutHandle;
 
-  // $(document).keydown(function(e) {
-  //   switch (e.keyCode) {
-  //     case 37:
-  //       Navigate('left');
-  //       navlog("nav_left");
-  //       return false;
-  //     case 39:
-  //       Navigate('right');
-  //       navlog("nav_right");
-  //       return false;
-  //     case 13:
-  //       if(navVisible)
-  //         $(".nav_rd.focus").click();
-  //       return false;
-  //   }
-  // });
-
   viewModel.input().onValue(Navigate);
 
   function Navigate(direction) {
@@ -52,7 +35,7 @@ function NavigationView (viewModel) {
           if(curPos > 0)
             curPos--;
           else if(curPos === 0)
-            window.toggleMainmenu();
+            window.openMainmenu();
           break;
         case 'enter':
           if(navVisible) $(".nav_rd.focus").click();
