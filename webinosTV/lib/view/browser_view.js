@@ -59,7 +59,7 @@ function ListView(items, selection, list, wrapper, fadeout) {
     };
   }));
 
-  selection.apply($(list).asEventStream('click').map(function (event) {
+  selection.apply($(list).asEventStream('click').merge($(list).asEventStream('touchend')).map(function (event) {
     return function (selection) {
       var $item = $(event.target).closest('li');
       if (!$item.length) return selection;
@@ -283,8 +283,8 @@ function BrowserView(viewModel) {
   var listViews = [sourceListView, categoryListView, contentListView, targetListView, null, queueListView];
   var navigationView = new NavigationView(viewModel, listViews);
 
-  viewModel.prepend().plug($('#prepend').asEventStream('click'));
-  viewModel.append().plug($('#append').asEventStream('click'));
+  viewModel.prepend().plug($('#prepend').asEventStream('click').merge($('#prepend').asEventStream('touchend')));
+  viewModel.append().plug($('#append').asEventStream('click').merge($('#append').asEventStream('touchend')));
 
   viewModel.selectedPeer().onValue(function (selectedPeer) {
     $('#peer').text(selectedPeer === null ? "Select a target" : selectedPeer.address());
