@@ -24,6 +24,7 @@ function init() {
       if ($(window).width() > 1199) { //wide screen
         $('#categorylist').show();
         $('#contentlist').show();
+        $('#topmenu').show();
         //Selection Arrow logic
         function getClassStyles(parentElem, selector, stylePropertyName) {
           var elemstr = '<div ' + selector + '></div>';
@@ -65,9 +66,18 @@ function init() {
       {
         $('#contentlist').hide(250);
         var selectMediaCategories = $('li.category').on('click', function() {
+          //push
           $('#categorylist').hide(250);
           $('#contentlist').show(250);
-          //TODO set bar "with back to device" button
+          $('#topmenu').hide();
+          $('#selected-source-intro').html('< ');
+          //pop
+          $('#container-media .header').one('click', function() {
+            $('#selected-source-intro').html('You can select media from');
+            $('#categorylist').show(250);
+            $('#topmenu').show(250);
+            $('#contentlist').hide(250);
+          });
         });
       }
     });
