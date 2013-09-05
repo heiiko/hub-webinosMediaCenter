@@ -69,16 +69,19 @@ function MainMenuView(viewModel){
   var selecttargetScroll;
 
   function init() {
-    $('#tosimplebrowserbutton').on('click', function(){ gotoPageById('#browser'); toggleMainmenu(); });
-    $('#toadvancedbrowserbutton').on('click', function(){ gotoPageById('#browser'); toggleMainmenu(); });
-    $('#torendererbutton').on('click', function(){ gotoPageById('#renderer'); toggleMainmenu(); });
-    $('#tocontrollerbutton').on('click', function(){ gotoPageById('#controller'); toggleMainmenu(); });
+    $('#toadvancedbrowserbutton').on('click', function(){ gotoPageById('#browser'); closeMainmenu(); });
+    $('#torendererbutton').on('click', function(){ gotoPageById('#renderer'); closeMainmenu(); });
+    $('#tocontrollerbutton').on('click', function(){ closeMainmenu(); openSelectTarget()});
     
+
+    // gotoPageById('#controller'); toggleMainmenu();
+
     calcSize();
     selecttargetScroll = new IScroll('#st_wrapper', {snap: 'li', momentum: false});
     
     closeSelectTarget();
     $('#leftfadeout').on('click', function(){ toggleMainmenu(); });
+    $('#rightfadeout').on('click', function(){ toggleSelectTarget(); });
     $('#closeselecttarget').on('click', function(){ toggleSelectTarget(); });
     $('.overlay').on('click', function(){ closeMenus(); });
 
@@ -108,23 +111,23 @@ function MainMenuView(viewModel){
 
   function openMainmenu(){
     if(!$('#mainmenu').is(":visible")){
-      $('#mainmenu').toggle();
+      toggleMainmenu();
     }
   }
   function closeMainmenu(){
     if($('#mainmenu').is(":visible")){
-      $('#mainmenu').toggle();
+      toggleMainmenu();
     }
   }
 
   function openSelectTarget(){
     if(!$('#selecttarget').is(":visible")){
-      $('#selecttarget').toggle();
+      toggleSelectTarget();
     }
   }
   function closeSelectTarget(){
     if($('#selecttarget').is(":visible")){
-      $('#selecttarget').toggle();
+      toggleSelectTarget();
     }
   }
 
@@ -145,11 +148,24 @@ function MainMenuView(viewModel){
     toggleOverlay();
   }
   function toggleSelectTarget(){
-    $('#selecttarget').toggle();
-    if($('#selecttarget').is(":visible")){
-      selecttargetScroll.options.snap = document.querySelectorAll('#st_wrapper li');
-      selecttargetScroll.refresh();
+    if(!$('#selecttarget').is(":visible")){
+      $('#selecttargetlist').empty();
+      $('#selecttargetlist').append(document.querySelectorAll('#targetlist li'));
+      $('#selecttargetlist > li').filter(function() {
+        if($(this).data("local") === true){
+          return false;
+        }else{
+          $(this).removeClass('nav_tl');
+          $(this).addClass( "nav_st" );
+          return true;
+        }
+      });
+      if($('#selecttargetlist li').length > 0){
+        selecttargetScroll.options.snap = document.querySelectorAll('#selecttargetlist li');
+        selecttargetScroll.refresh();
+      }
     }
+    $('#selecttarget').toggle();
     toggleOverlay();
   }
   function toggleOverlay(){
