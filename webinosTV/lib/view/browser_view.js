@@ -22,36 +22,36 @@ function ListView(items, selection, list, wrapper, fadeout) {
   var self = this;
   this.scroll = undefined;
 
-  this.refresh = function () {
+  this.refresh = function() {
     //if ($(list).children().length > 0) {
-      //if (typeof self.scroll === 'undefined') {
-        //self.scroll = new IScroll(wrapper, {snap: list +' li', momentum: false});
-        // scroll.on('scrollEnd', function(){
-        //   if(scroll.y >= 0){
-        //     $(fadeout + 'topfadeout').hide();
-        //   }else{
-        //     $(fadeout + 'topfadeout').show();
-        //   }
-        //   if(scroll.y <= ($(wrapper).height() - $(list).height())){
-        //     $(fadeout + 'bottomfadeout').hide();
-        //   }else{
-        //     $(fadeout + 'bottomfadeout').show();
-        //   }
-        // });
-      //}
-      //self.scroll.options.snap = document.querySelectorAll(list +' li');
-      //self.scroll.refresh();
+    //if (typeof self.scroll === 'undefined') {
+    //self.scroll = new IScroll(wrapper, {snap: list +' li', momentum: false});
+    // scroll.on('scrollEnd', function(){
+    //   if(scroll.y >= 0){
+    //     $(fadeout + 'topfadeout').hide();
+    //   }else{
+    //     $(fadeout + 'topfadeout').show();
+    //   }
+    //   if(scroll.y <= ($(wrapper).height() - $(list).height())){
+    //     $(fadeout + 'bottomfadeout').hide();
+    //   }else{
+    //     $(fadeout + 'bottomfadeout').show();
+    //   }
+    // });
+    //}
+    //self.scroll.options.snap = document.querySelectorAll(list +' li');
+    //self.scroll.refresh();
 
-      //Fittext, currently to expensive.
-      //$("li p").fitText(0.8);
+    //Fittext, currently to expensive.
+    //$("li p").fitText(0.8);
     //}
   };
 
-  items.onValue(function (items) {
+  items.onValue(function(items) {
     var $list = $(list);
     $list.empty();
 
-    _.each(items, function (item) {
+    _.each(items, function(item) {
       var $item = $(self.htmlify(item));
       var id = self.identify(item);
       $item.data('id', id);
@@ -61,25 +61,26 @@ function ListView(items, selection, list, wrapper, fadeout) {
     self.refresh();
   });
 
-  selection.apply(items.map(function (items) {
-    return function (selection) {
-      return _.ointersection(selection, _.map(items, function (item) {
+  selection.apply(items.map(function(items) {
+    return function(selection) {
+      return _.ointersection(selection, _.map(items, function(item) {
         return self.identify(item);
       }));
     };
   }));
 
-  selection.apply($(list).asEventStream('click').map(function (event) {
-    return function (selection) {
+  selection.apply($(list).asEventStream('click').map(function(event) {
+    return function(selection) {
       var $item = $(event.target).closest('li');
-      if (!$item.length) return selection;
+      if (!$item.length)
+        return selection;
       var id = $item.data('id');
       return (_.ocontains(selection, id) ? _.odifference : _.ounion)(selection, [id]);
     };
   }));
 
-  selection.onValue(function (selection) {
-    $('li', list).each(function () {
+  selection.onValue(function(selection) {
+    $('li', list).each(function() {
       var $item = $(this);
       var id = $item.data('id');
       $item.toggleClass('selected', _.ocontains(selection, id));
@@ -87,59 +88,59 @@ function ListView(items, selection, list, wrapper, fadeout) {
   });
 }
 
-util.inherits(DeviceListView, ListView);
-function DeviceListView(items, selection, list, wrapper, fadeout) {
-  this.htmlify = function (device) {
+util.inherits(SourceListView, ListView);
+function SourceListView(viewModel) {
+  this.htmlify = function(device) {
     return '<li class="device"><div class="device-image type-' + device.type() + '"></div><div class="device-name">' + device.address() + '</div><div class="device-type">' + device.type().charAt(0).toUpperCase() + device.type().slice(1) + '</div></li>';
   };
 
-  this.identify = function (device) {
+  this.identify = function(device) {
     return {
-    	address: device.address(),
-    	type: device.type()
+      address: device.address(),
+      type: device.type()
     };
   };
-  
-  viewModel.selectedSources().onValue(function (selection) {
-    	if(selection.length == 1) {
-    		var device = selection[0];
-    		$('#selected-source').attr('src', 'images/' + device.type + '-selected.svg');
-    		$('#selected-source-name').html(device.address);
-    		$('#selected-source-intro').html('You can select media from');
-    		
-    		$('#wrapper-selected-source').removeClass('header-active');
-    		$('#wrapper-selected-target').addClass('header-active');
-    		
-    		$('#current-source-logo').attr('src', 'images/' + device.type + '.svg');
-    		$('#current-source-name').html(device.address);
-    	}
-    	else if(selection.length == 0) {
-    		$('#selected-source').attr('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==');
-    		$('#selected-source-name').html('');
-    		$('#selected-source-intro').html('');
-    		
-    		$('#wrapper-selected-source').addClass('header-active');
-    		$('#wrapper-selected-target').removeClass('header-active');
-    		
-    		$('#current-source-logo').attr('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==');
-    		$('#current-source-name').html('Source device');
-    	}
-    	else {
-    		$('#current-source-logo').attr('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==');
-    		$('#current-source-name').html(selection.length + ' Source devices');
-    	}
-  	});
+
+  viewModel.selectedSources().onValue(function(selection) {
+    if (selection.length == 1) {
+      var device = selection[0];
+      $('#selected-source').attr('src', 'images/' + device.type + '-selected.svg');
+      $('#selected-source-name').html(device.address);
+      $('#selected-source-intro').html('You can select media from');
+
+      $('#wrapper-selected-source').removeClass('header-active');
+      $('#wrapper-selected-target').addClass('header-active');
+
+      $('#current-source-logo').attr('src', 'images/' + device.type + '.svg');
+      $('#current-source-name').html(device.address);
+    }
+    else if (selection.length == 0) {
+      $('#selected-source').attr('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==');
+      $('#selected-source-name').html('');
+      $('#selected-source-intro').html('');
+
+      $('#wrapper-selected-source').addClass('header-active');
+      $('#wrapper-selected-target').removeClass('header-active');
+
+      $('#current-source-logo').attr('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==');
+      $('#current-source-name').html('Source device');
+    }
+    else {
+      $('#current-source-logo').attr('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==');
+      $('#current-source-name').html(selection.length + ' Source devices');
+    }
+  });
 
   ListView.call(this, viewModel.sources(), viewModel.selectedSources(), '#sourcelist', '#sourcewrapper', '#source');
 }
 
 util.inherits(CategoryListView, ListView);
 function CategoryListView(viewModel) {
-  this.htmlify = function (category) {
+  this.htmlify = function(category) {
     return '<li class="category"><img class="category-image" src="' + category.image + '"><div class="category-name">' + category.title + '</div></li>';
   };
 
-  this.identify = function (category) {
+  this.identify = function(category) {
     return category.id;
   };
 
@@ -148,7 +149,7 @@ function CategoryListView(viewModel) {
 
 util.inherits(ContentListView, ListView);
 function ContentListView(viewModel) {
-  this.htmlify = function (value) {
+  this.htmlify = function(value) {
     var html;
     if (typeof value.item.type === 'string' && value.item.type.toLowerCase().indexOf('image') === 0) {
       html = '<li class="imageContent nav_co"><img src="' + value.item.thumbnailURIs[0] + '"><span>' + value.item.title + '</span>';
@@ -159,7 +160,7 @@ function ContentListView(viewModel) {
     return html;
   };
 
-  this.identify = function (value) {
+  this.identify = function(value) {
     return {
       source: value.source.address(),
       item: {
@@ -174,14 +175,14 @@ function ContentListView(viewModel) {
 
 util.inherits(TargetListView, ListView);
 function TargetListView(viewModel) {
-  this.htmlify = function (device) {
+  this.htmlify = function(device) {
     return '<li class="device"><div class="device-image type-' + device.type() + '"></div><div class="device-name">' + device.address() + '</div><div class="device-type">' + device.type().charAt(0).toUpperCase() + device.type().slice(1) + '</div></li>';
   };
 
-  this.identify = function (device) {
+  this.identify = function(device) {
     return {
-    	address: device.address(),
-    	type: device.type()
+      address: device.address(),
+      type: device.type()
     };
   };
 
@@ -195,8 +196,8 @@ function BrowserView(viewModel) {
   var targetListView = new TargetListView(viewModel);
 
   //var navigationView = new NavigationView(viewModel);
-  
-  this.getControlsSelector = function(){
+
+  this.getControlsSelector = function() {
     return ".queuecontrols";
   };
 }

@@ -28,6 +28,9 @@ function init() {
     }
 
     var moveCategorySelectionArrow = function(yposition) {
+      if ($('#sel-arrows-style').empty()) {
+        $('head').append('<style id="sel-arrows-style" type="text/css"></style>');
+      }
       $('#sel-arrows-style').html('@media screen and (min-width: 1200px){.arrow_box:after{top:' + yposition + 'px}.arrow_box:before{top:' + yposition + 'px}.yposition-reminder{top:' + yposition + 'px;display:none}}');
     };
     var selectMediaCategories = $('li.category');
