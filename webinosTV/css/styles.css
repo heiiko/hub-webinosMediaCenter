@@ -645,3 +645,14 @@ border-radius: 100px;
     left: 20%;
     right: 20%;
 }
+
+.imageContainer {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center center;
+}

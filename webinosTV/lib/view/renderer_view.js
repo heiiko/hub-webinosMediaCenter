@@ -11,10 +11,12 @@ $(document).ready(function() {
 
 });
 
+var IMAGE_SLIDESHOW_INTERVAL = 5000;
 
 function RendererView(viewModel) {
 	var self = this;
   self.viewModel = viewModel;
+  self.imageTimer =null;
 
   var controlsViewModel = viewModel.controls();
   var controlsView = new ControlsView('.rendererControlls', {
@@ -27,6 +29,7 @@ function RendererView(viewModel) {
 
   self.videoRenderer = $("#renderer video");
   self.audioRenderer = $("#renderer audio");
+  self.imageRenderer = $("#renderer .imageContainer");
 
   var isResume = false;
 
@@ -51,7 +54,7 @@ function RendererView(viewModel) {
   	if(event.isPlay()){
   		isResume=false;
   		self.videoRenderer.length?self.videoRenderer[0].pause():void 0;
-  		self.playItem("video",event.item().link);
+  		self.playItem(event.item().item.type,event.item().link);
   		self.videoRenderer.length?self.videoRenderer[0].play():void 0;
   	} else if(event.isPause()){
   		self.videoRenderer.length?self.videoRenderer[0].pause():void 0;
@@ -65,12 +68,29 @@ function RendererView(viewModel) {
 }
 
 RendererView.prototype.playItem = function(type, url){
+	var self = this;
+
+	if(self.imageTimer){
+		clearTimeout(self.imageTimer);
+		self.imageTimer=null;
+	}
+
+	type = type.split(" ")[0].toLowerCase();
 	switch(type){
 		case "video":
-			this.videoRenderer[0].src = url;
-		break;
 		case "audio":
-			this.audioRenderer[0].src = url;
+		case "channel":
+			$(self.videoRenderer).show();
+			$(self.imageRenderer).hide();
+			self.videoRenderer[0].src = url;
+		break;
+		case "image":
+			$(self.videoRenderer).hide();
+			$(self.imageRenderer).show();
+			$(self.imageRenderer).css("background-image", "url("+url+")");
+			self.imageTimer = setTimeout(function(){
+				self.viewModel.ended().push();
+			},IMAGE_SLIDESHOW_INTERVAL);
 		break;
 		default:
 			console.log("Unknown type.");
