@@ -109,7 +109,7 @@ function ListView(items, selection, list, wrapper, fadeout) {
 util.inherits(SourceListView, ListView);
 function SourceListView(viewModel) {
   this.htmlify = function (device) {
-    return '<li class="nav_sl" style="height:'+buttonHeight+'px"><img src="images/'+(device.type()?device.type():'all_devices')+'.svg"><p>' + device.address() + '</p></li>';
+    return '<li class="nav_sl" style="height:'+buttonHeight+'px"><img src="images/'+(device.type()?device.type():'all_devices')+'.svg"><p>' + address.friendlyName(device.address()) + '</p></li>';
   };
 
   this.identify = function (device) {
@@ -161,7 +161,7 @@ function ContentListView(viewModel) {
 util.inherits(TargetListView, ListView);
 function TargetListView(viewModel) {
   this.htmlify = function (device) {
-    return '<li class="nav_tl" style="height:'+buttonHeight+'px"><img src="images/'+(device.type()?device.type():'all_devices')+'.svg"><p>' + device.address() + '</p></li>';
+    return '<li class="nav_tl" style="height:'+buttonHeight+'px"><img src="images/'+(device.type()?device.type():'all_devices')+'.svg"><p>' + address.friendlyName(device.address()) + '</p></li>';
   };
 
   this.identify = function (device) {
