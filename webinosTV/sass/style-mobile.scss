@@ -7,6 +7,7 @@ $fontcolor: #333333;
 $darkgray: #777777;
 $mediumgray: #dadada;
 $lightgray: #f1f1f1;
+$bordergray: gray;
 
 $mintabletwidth: 1200px;
 $headerheight: 70px;
@@ -271,7 +272,7 @@ ul {
 		background-color: $lightgray;
 		text-align: center;
 		width: 150px;
-		border-right: 2px solid $mediumgray;
+		border-right: 2px solid $bordergray;
 	}
 
 	@media screen and (max-width: $mintabletwidth - 1) {
@@ -299,6 +300,9 @@ ul {
 .category {
 	@media screen and (min-width: $mintabletwidth) {
 		padding: 15px;
+		border-bottom: 2px;
+		border-top: 0;
+		border-image: -webkit-linear-gradient(0deg, transparent, transparent 5%, $mediumgray 6%, $mediumgray 94%, transparent 95%, transparent) 1 stretch;
 	}
 
 	@media screen and (max-width: $mintabletwidth - 1) {
@@ -346,7 +350,7 @@ ul {
   }
   .arrow_box:before {
     border-color: rgba(194, 225, 245, 0);
-    border-right-color: gray;
+    border-right-color: $bordergray;
     border-width: 16px;
 
     margin-top: -16px;
@@ -393,7 +397,7 @@ ul {
     height: 100%;
     width: auto;
     background: white;
-    border-left: 2px solid gray;
+    border-left: 2px solid $bordergray;
   }
 
   #contentlist{
@@ -421,7 +425,7 @@ ul {
 $content-list-min-size:40px;
 #contentlist li{
   height: $content-list-min-size;
-  border-bottom: 1px solid $mediumgray;
+  border-bottom: 1px solid $mediumgray;	
 }
 
 #contentlist li div{
