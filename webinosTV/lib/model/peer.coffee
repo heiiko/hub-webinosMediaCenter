@@ -41,17 +41,19 @@ class PeerService extends Service
     else
       new RemotePeerService(channel, peer)
   constructor: (channel, peer) ->
+    messages = new Bacon.Bus()
+    messages.plug channel
+      .filter (event) ->
+        return if not event.isMessage()
+        to = event.message().to
+        to?.address is peer.address and to?.id is peer.id
+      .map('.message')
     super({
       serviceAddress: peer.address, id: peer.id,
       bindService: ({onBind}) -> onBind(this)
-      unbindService: -> undefined
+      unbindService: -> messages.end()
     })
     channel.filter('.isDisconnect').onValue => @unbindService()
-    messages = channel
-      .filter((event) ->
-        event.isMessage() and event.message().to?.address is peer.address and
-                              event.message().to?.id is peer.id)
-      .map('.message')
     @channel = -> channel
     @messages = -> messages
     @send = (type, content) ->
@@ -137,7 +139,8 @@ class LocalPeerService extends PeerService
             queue.splice(i, 1)
           next(no) if 0 in content.items
       {playback, queue}
-    state.onValue (state) => @send('synchronize', state)
+    @initialize = =>
+      state.onValue (state) => @send('synchronize', state)
     @apply = -> apply
     @state = -> state
     @events = -> events
@@ -178,7 +181,8 @@ class RemotePeerService extends PeerService
           relative: 0
         queue: []
       }
-    state.onValue -> undefined
+    @initialize = ->
+      state.onValue -> undefined
     @state = -> state
   isRemote: -> yes
 

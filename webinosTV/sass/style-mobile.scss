@@ -253,8 +253,14 @@ ul {
 }
 
 #selected-source-intro {
-	display: inline-block;
-	vertical-align: middle;
+	@media screen and (min-width: $mintabletwidth) {
+		display: inline-block;
+		vertical-align: middle;
+	}
+
+	@media screen and (max-width: $mintabletwidth - 1) {
+		display: none;
+	}
 }
 
 #selected-source-name {
