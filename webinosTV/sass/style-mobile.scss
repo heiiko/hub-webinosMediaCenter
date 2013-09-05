@@ -63,11 +63,11 @@ ul {
 		@media screen and (min-width: 551px) {
 			content: 'Source and Target';
 		}
-	
+
 		@media screen and (max-width: 550px) {
 			content: 'Source & Target';
 		}
-	
+
 		@media screen and (max-width: 410px) {
 			content: 'Devices';
 		}
@@ -197,19 +197,19 @@ ul {
 	.device-image.type-laptop {
 		background-image: url('../images/laptop.svg');
 	}
-	
+
 	.device-image.type-pc {
 		background-image: url('../images/pc.svg');
 	}
-	
+
 	.device-image.type-phone {
 		background-image: url('../images/phone.svg');
 	}
-	
+
 	.device-image.type-tablet {
 		background-image: url('../images/tablet.svg');
 	}
-	
+
 	.device-image.type-tv {
 		background-image: url('../images/tv.svg');
 	}
@@ -219,23 +219,23 @@ ul {
 	.device-name {
 		color: $blue;
 	}
-	
+
 	.device-image.type-laptop {
 		background-image: url('../images/laptop-selected.svg');
 	}
-	
+
 	.device-image.type-pc {
 		background-image: url('../images/pc-selected.svg');
 	}
-	
+
 	.device-image.type-phone {
 		background-image: url('../images/phone-selected.svg');
 	}
-	
+
 	.device-image.type-tablet {
 		background-image: url('../images/tablet-selected.svg');
 	}
-	
+
 	.device-image.type-tv {
 		background-image: url('../images/tv-selected.svg');
 	}
@@ -273,7 +273,7 @@ ul {
 		width: 150px;
 		border-right: 2px solid $mediumgray;
 	}
-	
+
 	@media screen and (max-width: $mintabletwidth - 1) {
 		width: 100%;
 	}
@@ -286,7 +286,7 @@ ul {
 		top: $headerheight + 1;
 		bottom: 0;
 	}
-	
+
 	@media screen and (max-width: $mintabletwidth - 1) {
 		width: 100%;
 	}
@@ -300,7 +300,7 @@ ul {
 	@media screen and (min-width: $mintabletwidth) {
 		padding: 15px;
 	}
-	
+
 	@media screen and (max-width: $mintabletwidth - 1) {
 		@include box-sizing(border-box);
 		padding: 15px 30px 0px 30px;
@@ -415,4 +415,84 @@ ul {
     height:100%;
     width:100%;
   }
+}
+
+//Content list items
+$content-list-min-size:40px;
+#contentlist li{
+  height: $content-list-min-size;
+  border-bottom: 1px solid $mediumgray;
+}
+
+#contentlist li div{
+ line-height: $content-list-min-size/2;
+ height: 100%;
+ float: left;
+}
+
+.default-icon,.song-icon,.clip-icon{
+  -webkit-mask-image: url("../images/webinos_apps.svg");
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: $content-list-min-size;
+  background-color: $darkgray;
+  width: $content-list-min-size;
+}
+
+.song-icon{
+  -webkit-mask-image: url("../images/music.svg");
+}
+
+.clip-icon{
+  -webkit-mask-image: url("../images/movie.svg");
+}
+
+span.itemtitle{
+  font-size: 90%;
+  font-weight: bold;
+}
+span.itemartists{
+  display: block;
+  font-size: 75%;
+  color: $darkgray;
+}
+
+//item checkboxes
+
+#contentlist li input[type=checkbox]{
+  font-size: 16px;
+  position: relative;
+  border: 1px solid $mediumgray;
+  display: inline-block;
+  line-height: 1em;
+  margin: 12px 12px 0 12px;
+  padding: 0;
+  width: 1em;
+  height: 1em;
+  vertical-align: text-top;
+  background: -webkit-linear-gradient(
+    top, rgba(255,255,255,0.4), rgba(255,255,255,0.1)
+    );
+  -webkit-appearance: none;
+  -webkit-box-shadow: 0 1px 0 rgba(255,255,255, 0.1),
+    inset 0 0 1px rgba(255,255,255, 0.4);
+  /*-webkit-border-radius: 3px;*/
+}
+
+#contentlist li input[type=checkbox]:active {
+  background: -webkit-linear-gradient(
+    top, rgba(255,255,255,0.05), rgba(255,255,255,0.2)
+    );
+}
+
+#contentlist li input[type=checkbox]:checked::after {
+  position: absolute;
+  content: '';
+  left: 15%;
+  top: -10%;
+  height: 40%;
+  width: 90%;
+  border-bottom: 3px solid $blue;
+  border-left: 3px solid $blue;
+  -webkit-box-shadow: -1px 1px 0 rgba(0,0,0,0.8);
+  -webkit-transform: rotate(-45deg);
 }

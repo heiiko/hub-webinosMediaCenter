@@ -150,13 +150,28 @@ function CategoryListView(viewModel) {
 util.inherits(ContentListView, ListView);
 function ContentListView(viewModel) {
   this.htmlify = function(value) {
+    console.warn("value.item", value.item);
     var html;
     if (typeof value.item.type === 'string' && value.item.type.toLowerCase().indexOf('image') === 0) {
-      html = '<li class="imageContent nav_co"><img src="' + value.item.thumbnailURIs[0] + '"><span>' + value.item.title + '</span>';
+//      html = '<li class="imageContent nav_co"><img src="' + value.item.thumbnailURIs[0] + '"><span>' + value.item.title + '</span>';
+      html = '<li><div><input type="checkbox" /></div><div><img src="' + value.item.thumbnailURIs[0] + '"></div><div class="imageContent"><span class="imagetitle">' + value.item.title + '</span></div>';
     } else {
-      html = '<li class="textContent nav_co"><p>' + value.item.title + '</p>'
+//      html = '<li class="textContent nav_co"><p>' + value.item.title + '</p>';
+      var type = value.item.type.toLowerCase();
+      var iconClass;
+      switch (type) {
+        case 'audio':
+          iconClass = "song-icon";
+          break;
+        case 'video':
+          iconClass = "clip-icon";
+          break;
+        default:
+          iconClass = "default-icon";
+      }
+      html = '<li><div><input type="checkbox" /></div><div class="' + iconClass + '"></div><div class="imageContent"><span class="itemtitle">' + value.item.title + '</span><span class="itemartists">' + value.item.artists + '</span></div>';
     }
-    html += '<img class="selectIcon" src="images/add.svg"></li>';
+//    html += '<img class="selectIcon" src="images/add.svg"></li>';
     return html;
   };
 
