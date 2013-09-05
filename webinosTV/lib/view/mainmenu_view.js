@@ -1,5 +1,44 @@
 var gotoPageById = require('./pagetransition.js');
 var IScroll = require('iscroll');
+var _ = require('../util/objectscore.coffee');
+
+
+function SelectTargetListView(items) {
+  var self = this;
+  this.scroll = undefined;
+  this.tappedOn = 0;
+
+  this.refresh = function () {
+    if ($('#selecttargetlist').children().length > 0) {
+      if (typeof self.scroll === 'undefined') {
+        self.scroll = new IScroll('#st_wrapper', {snap: '#selecttargetlist li', momentum: false});
+      }
+      self.scroll.options.snap = document.querySelectorAll('#selecttargetlist li');
+      self.scroll.refresh();
+    }
+  };
+
+  this.htmlify = function (device) {
+    return '<li class="nav_st"><img src="images/'+(device.type()?device.type():'all_devices')+'.svg"><p>' + device.address() + '</p></li>';
+  };
+
+  this.identify = function (device) {
+    return device.address();
+  };
+
+  items.onValue(function (items) {
+    var $list = $('#selecttargetlist');
+    $list.empty();
+
+    _.each(items, function (item) {
+      var $item = $(self.htmlify(item));
+      var id = self.identify(item);
+      $item.data('id', id);
+      $list.append($item);
+    });
+    self.refresh();
+  });
+}
 
 function NavigationView (viewModel) {
   var curPos = 0;
@@ -63,33 +102,22 @@ function NavigationView (viewModel) {
   }
 }
 
-function MainMenuView(viewModel){
-
+function MainmenuView(viewModel){
   // var navigationView = new NavigationView(viewModel);
-  var selecttargetScroll;
+  var selectTargetListView = new SelectTargetListView(viewModel.targets());
 
-  function init() {
-    $('#toadvancedbrowserbutton').on('click', function(){ gotoPageById('#browser'); closeMainmenu(); });
-    $('#torendererbutton').on('click', function(){ gotoPageById('#renderer'); closeMainmenu(); });
-    $('#tocontrollerbutton').on('click', function(){ closeMainmenu(); openSelectTarget()});
-    
 
-    // gotoPageById('#controller'); toggleMainmenu();
+  $('#toadvancedbrowserbutton').on('click', function(){ gotoPageById('#browser'); closeMainmenu(); });
+  $('#torendererbutton').on('click', function(){ gotoPageById('#renderer'); closeMainmenu(); });
+  $('#tocontrollerbutton').on('click', function(){ closeMainmenu(); openSelectTarget();});   // gotoPageById('#controller'); toggleMainmenu();
 
-    calcSize();
-    selecttargetScroll = new IScroll('#st_wrapper', {snap: 'li', momentum: false});
-    
-    closeSelectTarget();
-    $('#leftfadeout').on('click', function(){ toggleMainmenu(); });
-    $('#rightfadeout').on('click', function(){ toggleSelectTarget(); });
-    $('#closeselecttarget').on('click', function(){ toggleSelectTarget(); });
-    $('.overlay').on('click', function(){ closeMenus(); });
-
-    if (window.location.hash){
-      gotoPageById(window.location.hash);
-      toggleMainmenu();
-    }
-  }
+  $('#leftfadeout').on('click', function(){ toggleMainmenu(); });
+  $('#rightfadeout').on('click', function(){ toggleSelectTarget(); });
+  $('#closeselecttarget').on('click', function(){ toggleSelectTarget(); });
+  $('.overlay').on('click', function(){ closeMenus(); });
+  
+  closeSelectTarget();
+  calcSize();
 
   function calcSize(){
     var width = $(window).innerWidth();
@@ -107,6 +135,8 @@ function MainMenuView(viewModel){
     $('.mainmenulist').height(height-2*margin);
     $('.mainmenulist').css("margin", margin);
     $('.mainmenulist').width($('.menu').width()-2*margin);
+
+    selectTargetListView.refresh();
   }
 
   function openMainmenu(){
@@ -148,23 +178,24 @@ function MainMenuView(viewModel){
     toggleOverlay();
   }
   function toggleSelectTarget(){
-    if(!$('#selecttarget').is(":visible")){
-      $('#selecttargetlist').empty();
-      $('#selecttargetlist').append(document.querySelectorAll('#targetlist li'));
-      $('#selecttargetlist > li').filter(function() {
-        if($(this).data("local") === true){
-          return false;
-        }else{
-          $(this).removeClass('nav_tl');
-          $(this).addClass( "nav_st" );
-          return true;
-        }
-      });
-      if($('#selecttargetlist li').length > 0){
-        selecttargetScroll.options.snap = document.querySelectorAll('#selecttargetlist li');
-        selecttargetScroll.refresh();
-      }
-    }
+    // if(!$('#selecttarget').is(":visible")){
+    //   $('#selecttargetlist').empty();
+    //   $('#selecttargetlist').append();
+    //   $('#selecttargetlist > li').filter(function() {
+    //     if($(this).data("local") === true){
+    //       return false;
+    //     }else{
+    //       $(this).removeClass('nav_tl');
+    //       $(this).addClass( "nav_st" );
+    //       return true;
+    //     }
+    //   });
+    //   if($('#selecttargetlist li').length > 0){
+    //     selecttargetScroll.options.snap = document.querySelectorAll('#selecttargetlist li');
+    //     selecttargetScroll.refresh();
+    //   }
+    // }
+    selectTargetListView.refresh();
     $('#selecttarget').toggle();
     toggleOverlay();
   }
@@ -180,16 +211,16 @@ function MainMenuView(viewModel){
     }
   }
 
-  $(document).ready(function() {
-    init();
-  });
-
   $(window).resize(function() {
     calcSize();
   });
 
+  if(window.location.hash){
+    gotoPageById(window.location.hash);
+    toggleMainmenu();
+  }
   window.toggleMainmenu=toggleMainmenu;
   window.toggleSelectTarget=toggleSelectTarget;
 }
 
-module.exports = MainMenuView;
+module.exports = MainmenuView;

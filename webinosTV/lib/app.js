@@ -7,7 +7,7 @@ var DeviceManager = require('./model/device.coffee');
 var BrowserController = require('./controller/browser_controller.js');
 var RendererController = require('./controller/renderer_controller.js');
 var RCController = require('./controller/rc_controller.js');
-var MainmenuView = require('./view/mainmenu_view.js');
+var MainmenuController = require('./controller/mainmenu_controller.js');
 
 $(document).ready(function () {
   var manager = new DeviceManager(30000, 60000);
@@ -42,5 +42,5 @@ $(document).ready(function () {
   new BrowserController(manager, input);
   new RendererController(manager, input);
   new RCController(manager, input);
-  new MainmenuView();
+  new MainmenuController(manager);
 });
