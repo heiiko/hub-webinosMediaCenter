@@ -12,7 +12,7 @@ var buttonHeight=0;
 function ListView(items, selection, list, wrapper, fadeout) {
   var self = this;
   this.scroll = undefined;
-  this.moved = false;
+  this.tappedOn = 0;
 
   this.refresh = function () {
     if ($(list).children().length > 0) {
@@ -60,14 +60,15 @@ function ListView(items, selection, list, wrapper, fadeout) {
     };
   }));
 
-  $(list).asEventStream('mousemove').merge($(list).asEventStream('touchmove')).onValue(function(){
-    self.moved = true;
+  $(list).asEventStream('mousedown').merge($(list).asEventStream('touchstart')).onValue(function(){
+    self.tappedOn=Date.now();
   });
 
+
+
   selection.apply($(list).asEventStream('click').merge($(list).asEventStream('touchend')).filter(function(){
-    var m = self.moved;
-    self.moved=false;
-    return !m;
+    var justClick = (Date.now()-self.tappedOn<250);
+    return justClick;
   }).map(function (event) {
     return function (selection) {
       var $item = $(event.target).closest('li');
