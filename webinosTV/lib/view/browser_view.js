@@ -8,12 +8,11 @@ var util = require('util');
 
 var ControlsView = require('./controls_view.js');
 
-var buttonHeight=0;
+var buttonHeight=0, tappedOn = 0;
 
 function ListView(items, selection, list, wrapper, fadeout) {
   var self = this;
   this.scroll = undefined;
-  this.tappedOn = 0;
 
   this.refresh = function () {
     if ($(list).children().length > 0) {
@@ -64,13 +63,13 @@ function ListView(items, selection, list, wrapper, fadeout) {
   }));
 
   $(list).asEventStream('mousedown').merge($(list).asEventStream('touchstart')).onValue(function(){
-    self.tappedOn=Date.now();
+    tappedOn=Date.now();
   });
 
 
 
   selection.apply($(list).asEventStream('click').merge($(list).asEventStream('touchend')).filter(function(){
-    var justClick = (Date.now()-self.tappedOn<250);
+    var justClick = (Date.now()-tappedOn<250);
     return justClick;
   }).map(function (event) {
     return function (selection) {
@@ -258,7 +257,10 @@ function NavigationView (viewModel, listViews) {
             window.toggleMainmenu();
           break;
         case 'enter':
-          if(navVisible) $(columns[curCol]+".focus").click();
+          if (navVisible) {
+            tappedOn=Date.now();
+            $(columns[curCol]+".focus").click();
+          }
           break;
       }
     }
