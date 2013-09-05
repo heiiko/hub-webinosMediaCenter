@@ -46,7 +46,7 @@ function BrowserViewModel(manager) {
     });
 
     return _.chain(state.sources).filter(function (source) {
-      return !state.selectedSources.length || _.contains(state.selectedSources, source.address());
+      return state.selectedSources.length || _.contains(state.selectedSources, source.address());
     }).map(function (source) {
       return _.chain(source.content()['media']).filter(function (item) {
         return !types.length || _.contains(types, item.type);
