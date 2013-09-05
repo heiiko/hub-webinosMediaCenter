@@ -1,6 +1,7 @@
 var $ = require('jquery');
 //require('jquery.fittext');
 var _ = require('../util/objectscore.coffee'); // require('underscore');
+var address = require('../util/address.coffee')
 var Bacon = require('baconjs');
 var IScroll = require('iscroll');
 var util = require('util');
@@ -106,7 +107,7 @@ function ListView(items, selection, list, wrapper, fadeout) {
 util.inherits(SourceListView, ListView);
 function SourceListView(viewModel) {
   this.htmlify = function (device) {
-    return '<li class="nav_sl" style="height:'+buttonHeight+'px"><img src="images/'+device.type()+'.svg"><p>' + device.address() + '</p></li>';
+    return '<li class="nav_sl" style="height:'+buttonHeight+'px"><img src="images/'+device.type()+'.svg"><p>' + address.friendlyName(device.address()) + '</p></li>';
   };
 
   this.identify = function (device) {
@@ -158,7 +159,7 @@ function ContentListView(viewModel) {
 util.inherits(TargetListView, ListView);
 function TargetListView(viewModel) {
   this.htmlify = function (device) {
-    return '<li class="nav_tl" style="height:'+buttonHeight+'px"><img src="images/'+device.type()+'.svg"><p>' + device.address() + '</p></li>';
+    return '<li class="nav_tl" style="height:'+buttonHeight+'px"><img src="images/'+device.type()+'.svg"><p>' + address.friendlyName(device.address()) + '</p></li>';
   };
 
   this.identify = function (device) {
@@ -294,7 +295,7 @@ function BrowserView(viewModel) {
   viewModel.append().plug($('#append').asEventStream('click').merge($('#append').asEventStream('touchend')));
 
   viewModel.selectedPeer().onValue(function (selectedPeer) {
-    $('#peer').text(selectedPeer === '<no-peer>' ? "Select a target" : selectedPeer.address());
+    $('#peer').text(selectedPeer === '<no-peer>' ? "Select a target" : address.friendlyName(selectedPeer.address()));
   });
 
   var controlsViewModel = viewModel.controls();
