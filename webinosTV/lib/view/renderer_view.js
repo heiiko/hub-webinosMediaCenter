@@ -47,10 +47,8 @@ function RendererView(viewModel) {
 
   //command
   viewModel.events().onValue(function(event){
-    console.log('renderer view', 'events', event.isPlay(), event.isPause(), event.isSeek(), event.isResume())
   	if(event.isPlay()){
   		isResume=false;
-      console.log('renderer', self.videoRenderer, self.videoRenderer[0])
   		self.videoRenderer.length?self.videoRenderer[0].pause():void 0;
   		self.playItem("video",event.item().link);
   		self.videoRenderer.length?self.videoRenderer[0].play():void 0;
