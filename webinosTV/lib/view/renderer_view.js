@@ -110,6 +110,7 @@ function RendererView(viewModel) {
   viewModel.events().onValue(function(event){
     if(event.isPlay()){
       isResume=false;
+      self.videoRenderer[0].src="";
       self.videoRenderer.length?self.videoRenderer[0].pause():void 0;
       self.playItem(event.item().item.type,event.item().link);
       self.videoRenderer.length?self.videoRenderer[0].play():void 0;
