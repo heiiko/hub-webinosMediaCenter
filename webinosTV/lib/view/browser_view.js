@@ -100,7 +100,7 @@ function SourceListView(viewModel) {
       type: device.type()
     };
   };
-  
+
   viewModel.selectedSources().onValue(function(selection) {
     if (selection.length == 1) {
       var device = selection[0];
@@ -150,7 +150,7 @@ function CategoryListView(viewModel) {
 util.inherits(ContentListView, ListView);
 function ContentListView(viewModel) {
   this.htmlify = function(value) {
-    console.warn("value.item", value.item);
+//    console.warn("value.item", value.item);
     var html;
     if (typeof value.item.type === 'string' && value.item.type.toLowerCase().indexOf('image') === 0) {
 //      html = '<li class="imageContent nav_co"><img src="' + value.item.thumbnailURIs[0] + '"><span>' + value.item.title + '</span>';
@@ -200,21 +200,21 @@ function TargetListView(viewModel) {
       type: device.type()
     };
   };
-  
+
   viewModel.selectedTargets().onValue(function(selection) {
-    if(selection.length == 1) {
-        var device = selection[0];
-        
-    	$('#current-target-logo').attr('src', 'images/' + device.type + '.svg');
-    	$('#current-target-name').html(device.address);
+    if (selection.length == 1) {
+      var device = selection[0];
+
+      $('#current-target-logo').attr('src', 'images/' + device.type + '.svg');
+      $('#current-target-name').html(device.address);
     }
-    else if(selection.length == 0) {
-        $('#current-target-logo').attr('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==');
-    	$('#current-target-name').html('Target device');
+    else if (selection.length == 0) {
+      $('#current-target-logo').attr('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==');
+      $('#current-target-name').html('Target device');
     }
     else {
-      	$('#current-target-logo').attr('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==');
-    	$('#current-target-name').html(selection.length + ' Target devices');
+      $('#current-target-logo').attr('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==');
+      $('#current-target-name').html(selection.length + ' Target devices');
     }
   });
 

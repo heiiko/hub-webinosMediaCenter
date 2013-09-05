@@ -425,7 +425,7 @@ ul {
 $content-list-min-size:40px;
 #contentlist li{
   height: $content-list-min-size;
-  border-bottom: 1px solid $mediumgray;	
+  border-bottom: 1px solid $mediumgray;
 }
 
 #contentlist li div{
@@ -499,4 +499,10 @@ span.itemartists{
   border-left: 3px solid $blue;
   -webkit-box-shadow: -1px 1px 0 rgba(0,0,0,0.8);
   -webkit-transform: rotate(-45deg);
+}
+
+@media screen and (max-width: 1199px) {
+  #contentlist{
+    display:none;
+  }
 }
