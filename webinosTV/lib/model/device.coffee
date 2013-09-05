@@ -99,19 +99,19 @@ class Device extends Bacon.EventStream
     discovery.onValue (service) =>
       if services[service.id()]?
         services[service.id()].seen = Date.now()
+        service.unbindService()
       else
         services[service.id()] = {ref: service, seen: Date.now()}
         compound.plug(service)
+        service.initialize?()
         sink? new Bacon.Next(new Available(this, service))
     discovery.onEnd ->
       unsubPoll()
       sink? new Bacon.End()
-    unsubPoll = Bacon.fromPoll(timeout, -> Date.now()).onValue (now) =>
+    unsubPoll = Bacon.fromPoll(timeout, -> Date.now()).onValue (now) ->
       for id, {ref, seen} of services
         continue if seen >= (now - timeout)
-        ref.unbindService() if ref.bound()
-        delete services[id]
-        sink? new Bacon.Next(new Unavailable(this, ref))
+        ref.unbindService()
     sink = undefined
     super (newSink) ->
       sink = (event) ->
