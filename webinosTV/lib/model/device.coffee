@@ -152,7 +152,7 @@ class Device extends Bacon.EventStream
     @media = -> _.find(services, ({ref}) -> ref instanceof MediaService)?.ref
     @peers = -> _.chain(services).filter(({ref}) -> ref instanceof PeerService).pluck('ref').value()
     @isSource = => @mediacontent()?
-    @isTarget = => @peers().length > 0
+    @isTarget = => @media()? or @peers().length > 0
     @refresh = (force = no) =>
       now = Date.now()
       return if refresh? and refresh >= (now - interval) and not force
