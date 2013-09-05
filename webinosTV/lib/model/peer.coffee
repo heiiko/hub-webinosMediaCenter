@@ -1,14 +1,11 @@
 _ = require('underscore')
 
 webinos = require('webinos')
+address = require('../util/address.coffee')
 
 Bacon = require('baconjs')
 
 Service = require('../service/service.coffee')
-
-generalizeAddress = (address) ->
-  index = address.indexOf('/')
-  if index is -1 then address else address.substr(0, index)
 
 class PeerService extends Service
   @findServices: (channel, options = {interval: 15000}) ->
@@ -26,7 +23,7 @@ class PeerService extends Service
             sink? new Bacon.Next(PeerService.create(channel, event.message().from))
           else if event.isDisconnect()
             sink? new Bacon.End()
-        if channel.service().address() is generalizeAddress(webinos.session.getServiceLocation())
+        if channel.service().address() is address.generalize(webinos.session.getServiceLocation())
           unsubPoll = Bacon.once(Date.now()).concat(Bacon.fromPoll(options.interval, -> Date.now())).onValue (now) ->
             channel.send({
               type: 'hello'
