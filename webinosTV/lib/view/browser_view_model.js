@@ -57,7 +57,7 @@ function BrowserViewModel(manager, input) {
       return !state.selectedSources.length || _.contains(state.selectedSources, source.address());
     }).map(function (source) {
       return _.chain(source.content()).values().flatten().filter(function (item) {
-        return !types.length || _.contains(types, item.type);
+        return !types.length || _.find(types, function(type) {return item.type.toLowerCase().indexOf(type.toLowerCase()) != -1 });
       }).map(function (item) {
         return {source: source, item: item};
       }).value();
