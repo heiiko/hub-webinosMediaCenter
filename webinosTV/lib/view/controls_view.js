@@ -62,6 +62,15 @@ function ControlsView(parent, config, viewModel) {
     $(cplay).addClass('controlPlay');
   }
 
+  function getFormatedTime(ms) {
+    var totalSec = ms / 1000;
+    var hours = parseInt( totalSec / 3600 ) % 24;
+    var minutes = parseInt( totalSec / 60 ) % 60;
+    var seconds = Math.round(totalSec % 60);
+
+    return hours?((hours < 10 ? "0" + hours : hours) + ":"):"" + (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds  < 10 ? "0" + seconds : seconds);
+  }
+
   function update(relative) {
     if (typeof relative !== 'undefined') {
       relative = Math.round(relative * 1000) / 1000;
@@ -70,7 +79,7 @@ function ControlsView(parent, config, viewModel) {
     }
 
     $('.controlSbar div', controls).css({width: relative * $('.controlSbar', controls).width()});
-    $('.controlTime span', controls).text(Math.round(relative * length / 1000));
+    $('.controlTime span', controls).text((length)?getFormatedTime(Math.round(relative * length)):"-");
 
     last = relative;
   }
@@ -128,7 +137,32 @@ function ControlsView(parent, config, viewModel) {
     } else if (state.playback.current) {
       if (state.playback.playing) {
         play();
-        length = 120000; // TODO: Get length from `state.queue[0].item`.
+        length = 0; // TODO: Get length from `state.queue[0].item`.
+        //TODO: move this nasty stuff away from view
+        if (state.queue[0].item.type.toLowerCase().indexOf("audio")!=-1 || state.queue[0].item.type.toLowerCase().indexOf("video")!=-1){
+          if (typeof state.queue[0].item.duration === "number") {
+            length = state.queue[0].item.duration;
+          } else if(state.queue[0].item.duration && state.queue[0].item.duration.length){
+            var itemlengthParsed = 0, itemlength = (state.queue[0].item.duration instanceof Array)?state.queue[0].item.duration[0]:state.queue[0].item.duration;
+            itemlength = itemlength.split(" ");
+            for (var i = 0; itemlength.length > i; i++) {
+              if (itemlength[i].indexOf("h") != -1) {
+                itemlengthParsed += 60 * 60 * parseInt(itemlength[i]);
+              }
+              if (itemlength[i].indexOf("mn") != -1) {
+                itemlengthParsed += 60 * parseInt(itemlength[i]);
+              }
+              if (itemlength[i].indexOf("s") != -1 && itemlength[i].indexOf("ms") == -1) {
+                itemlengthParsed += parseInt(itemlength[i]);
+              }
+              if (itemlength[i].indexOf("ms") != -1) {
+                itemlengthParsed += parseInt(itemlength[i])/1000;
+              }
+            };
+            length = itemlengthParsed * 1000;
+            state.queue[0].item.duration = length;
+          }
+        }
       } else {
         pause();
       }
