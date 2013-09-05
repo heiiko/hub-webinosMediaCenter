@@ -32,6 +32,8 @@ function RemoteViewModel(manager, input, mainMenuViewModel) {
     operation.peer.send('input', {key: operation.key});
   });
 
+  peer.onValue();
+
   var enter = new Bacon.Bus();
   keys.plug(enter.map('enter'));
 
