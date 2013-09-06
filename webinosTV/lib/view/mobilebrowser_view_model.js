@@ -54,7 +54,7 @@ function MobileBrowserViewModel(manager, input) {
     });
 
     return _.chain(state.sources).filter(function (source) {
-      return !state.selectedSources.length || _.contains(state.selectedSources, source.address());
+      return _.contains(_.map(state.selectedSources, function(selectedsource) { return selectedsource.address; }), source.address());
     }).map(function (source) {
       return _.chain(source.content()).values().flatten().filter(function (item) {
         return !types.length || _.find(types, function(type) {return item.type.toLowerCase().indexOf(type.toLowerCase()) != -1 });

@@ -95,26 +95,26 @@ function SourceListView(viewModel) {
     return '<li class="device source"><div class="device-image type-' + device.type() + '"></div><div class="device-name">' + address.friendlyName(device.address()) + '</div><div class="device-type">' + device.type().charAt(0).toUpperCase() + device.type().slice(1) + '</div></li>';
   };
 
-  this.identify = function(device) {
+  this.identify = function (device) {
     return {
-      address: device.address(),
-      name: address.friendlyName(device.address()),
-      type: device.type()
-    };
+    	address: device.address(),
+    	type: device.type()
+    }
   };
 
   viewModel.selectedSources().onValue(function(selection) {
     if (selection.length == 1) {
       var device = selection[0];
+
       $('#selected-source').attr('src', 'images/' + device.type + '-selected.svg');
-      $('#selected-source-name').html(device.name);
+      $('#selected-source-name').html(address.friendlyName(device.address));
       $('#selected-source-intro').html('You can select media from');
 
       $('#wrapper-selected-source').removeClass('header-active');
       $('#wrapper-selected-target').addClass('header-active');
 
       $('#current-source-logo').attr('src', 'images/' + device.type + '.svg');
-      $('#current-source-name').html(device.name);
+      $('#current-source-name').html(address.friendlyName(device.address));
     }
     else if (selection.length == 0) {
       $('#selected-source').attr('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==');
@@ -196,12 +196,11 @@ function TargetListView(viewModel) {
     return '<li class="device target"><div class="device-image type-' + device.type() + '"></div><div class="device-name">' + address.friendlyName(device.address()) + '</div><div class="device-type">' + device.type().charAt(0).toUpperCase() + device.type().slice(1) + '</div></li>';
   };
 
-  this.identify = function(device) {
+  this.identify = function (device) {
     return {
-      address: device.address(),
-      name: address.friendlyName(device.address()),
-      type: device.type()
-    };
+    	address: device.address(),
+    	type: device.type()
+    }
   };
 
   viewModel.selectedTargets().onValue(function(selection) {
@@ -209,7 +208,7 @@ function TargetListView(viewModel) {
       var device = selection[0];
 
       $('#current-target-logo').attr('src', 'images/' + device.type + '.svg');
-      $('#current-target-name').html(device.name);
+      $('#current-target-name').html(address.friendlyName(device));
     }
     else if (selection.length == 0) {
       $('#current-target-logo').attr('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==');
@@ -267,7 +266,7 @@ function MobileBrowserView(viewModel) {
   });
 
   var controlsViewModel = viewModel.controls();
-  var controlsView = new ControlsView('.queuecontrols', null, controlsViewModel);
+  var controlsView = new ControlsView('#mobilequeuecontrols', null, controlsViewModel);
 
   document.addEventListener('touchmove', function(e) {
     e.preventDefault();
