@@ -3,30 +3,18 @@ var _ = require('../util/objectscore.coffee'); // require('underscore');
 var address = require('../util/address.coffee');
 var Bacon = require('baconjs');
 var IScroll = require('iscroll');
-
 var util = require('util');
 
-$(document).ready(function() {
-
-});
-
-
-function loaded() {
-
-}
-
-document.addEventListener('touchmove', function(e) {
-  e.preventDefault();
-}, false);
+var ControlsView = require('./controls_view.js');
 
 function ListView(items, selection, list, wrapper, fadeout) {
   var self = this;
   this.scroll = undefined;
 
   this.refresh = function() {
-    //if ($(list).children().length > 0) {
-    //if (typeof self.scroll === 'undefined') {
-    //self.scroll = new IScroll(wrapper, {snap: list +' li', momentum: false});
+    if ($(list).children().length > 0) {
+    	if (typeof self.scroll === 'undefined') {
+    		self.scroll = new IScroll(wrapper, {snap: list +' li', momentum: false});
     // scroll.on('scrollEnd', function(){
     //   if(scroll.y >= 0){
     //     $(fadeout + 'topfadeout').hide();
@@ -39,26 +27,27 @@ function ListView(items, selection, list, wrapper, fadeout) {
     //     $(fadeout + 'bottomfadeout').show();
     //   }
     // });
-    //}
-    //self.scroll.options.snap = document.querySelectorAll(list +' li');
-    //self.scroll.refresh();
+    	}
+    	self.scroll.options.snap = document.querySelectorAll(list +' li');
+    	self.scroll.refresh();
 
     //Fittext, currently to expensive.
     //$("li p").fitText(0.8);
-    //}
+    }
   };
-
-  items.onValue(function(items) {
+  
+  items.onValue(function (items) {
     var $list = $(list);
     $list.empty();
 
-    _.each(items, function(item) {
+    _.each(items, function (item) {
       var $item = $(self.htmlify(item));
       var id = self.identify(item);
       $item.data('id', id);
+      if(list === '#targetlist')
+        $item.data('local', item.isLocal());
       $list.append($item);
     });
-
     self.refresh();
   });
 
@@ -69,12 +58,18 @@ function ListView(items, selection, list, wrapper, fadeout) {
       }));
     };
   }));
+  
+  $(list).asEventStream('mousedown').merge($(list).asEventStream('touchstart')).onValue(function(){
+    tappedOn=Date.now();
+  });
 
-  selection.apply($(list).asEventStream('click').map(function(event) {
-    return function(selection) {
+  selection.apply($(list).asEventStream('click').merge($(list).asEventStream('touchend')).filter(function(){
+    var justClick = (Date.now()-tappedOn<250);
+    return justClick;
+  }).map(function (event) {
+    return function (selection) {
       var $item = $(event.target).closest('li');
-      if (!$item.length)
-        return selection;
+      if (!$item.length) return selection;
       var id = $item.data('id');
       return (_.ocontains(selection, id) ? _.odifference : _.ounion)(selection, [id]);
     };
@@ -224,17 +219,62 @@ function TargetListView(viewModel) {
   ListView.call(this, viewModel.targets(), viewModel.selectedTargets(), '#mobiletargetlist', '#mobiletargetwrapper', '#mobiletarget');
 }
 
+util.inherits(QueueListView, ListView);
+function QueueListView(viewModel) {
+  this.htmlify = function (value) {
+    var html;
+    if (typeof value.item.type === 'string' && value.item.type.toLowerCase().indexOf('image') === 0) {
+      html = '<li class="mediaitemcontent nav_qu"><img src="' + value.item.thumbnailURIs[0] + '">';
+    } else {
+      html = '<li class="textContent nav_qu"><p>' + value.item.title + '</p>';
+    }
+    html += '<img class="selectIcon" src="images/remove.svg"></li>';
+    return html;
+  };
+
+  this.identify = function (value) {
+    return value.link;
+  };
+
+  ListView.call(this, viewModel.queue(), viewModel.selectedQueue(), '#mobilequeuelist', '#mobilequeuewrapper', '#mobilequeue');
+}
+
+
+
+
 function BrowserView(viewModel) {
+  var horizontalScroll = new IScroll('#horizontalwrapper', {snap: '.listhead', scrollX: true, scrollY: false, momentum: false});
+
   var sourceListView = new SourceListView(viewModel);
   var categoryListView = new CategoryListView(viewModel);
   var contentListView = new ContentListView(viewModel);
   var targetListView = new TargetListView(viewModel);
+  var queueListView = new QueueListView(viewModel);
 
-  //var navigationView = new NavigationView(viewModel);
+  //var listViews = [sourceListView, categoryListView, contentListView, targetListView, null, queueListView];
+  //var navigationView = new NavigationView(viewModel, listViews);
 
-  this.getControlsSelector = function() {
-    return ".queuecontrols";
-  };
+  viewModel.prepend().plug($('#prepend').asEventStream('click').merge($('#prepend').asEventStream('touchend')));
+  viewModel.append().plug($('#append').asEventStream('click').merge($('#append').asEventStream('touchend')));
+
+  viewModel.selectedPeer().onValue(function (selectedPeer) {
+    $('#peer').text(selectedPeer === '<no-peer>' ? "Select a target" : address.friendlyName(selectedPeer.address()));
+  });
+
+  var controlsViewModel = viewModel.controls();
+  var controlsView = new ControlsView('.queuecontrols', null, controlsViewModel);
+
+  document.addEventListener('touchmove', function(e) {
+    e.preventDefault();
+  }, false);
+
+  document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(loaded, 800);
+  }, false);
 }
+
+
+
+
 
 module.exports = BrowserView;
