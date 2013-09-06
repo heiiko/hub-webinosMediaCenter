@@ -6,9 +6,9 @@ function ControlsViewModel(peer) {
   };
 
   var state = peer.flatMapLatest(function (peer) {
-    if (peer === null) return Bacon.once(null);
+    if (peer === '<no-peer>') return Bacon.once('<no-state>');
     return peer.state();
-  }).toProperty(null);
+  }).toProperty('<no-state>');
 
   this.state = function () {
     return state;
@@ -21,7 +21,7 @@ function ControlsViewModel(peer) {
   }).sampledBy(commands, function (current, command) {
     return {peer: current.peer, state: current.state, command: command};
   }).filter(function (operation) {
-    return operation.peer !== null && operation.state !== null;
+    return operation.peer !== '<no-peer>' && operation.state !== '<no-state>';
   }).onValue(function (operation) {
     switch (operation.command.type) {
       case 'playOrPause':

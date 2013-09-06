@@ -1,11 +1,23 @@
 @charset "UTF-8";
 @import "base";
 
+@font-face {
+    font-family: 'Roboto', sans-serif;
+    src: url('DroidSans-webfont.woff') format('woff');
+}
+
+* {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    outline:none;
+}
+
 body, li, ul {
     padding: 0;
     margin: 0;
     text-align: center;
-    font-family: helvetica;
+    font-family: DroidSans, sans-serif;
     color: white;
     font-size: 16px;
     background-color: #333;
@@ -18,11 +30,13 @@ body {
     right: 0;
     bottom: 0;
     left: 0;
-    -webkit-user-select: none;
 }
 
 p {
     margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .overlay {
@@ -35,21 +49,18 @@ p {
 }
 
 .menu {
+    min-width: 300px;
     width: 25%;
-    height: 90%;
-    margin-top: 2.5%;
-    background: #333;
+    height: 100%;
     position: absolute;
-    top: 0; bottom: 0; left: 0; right: 0;
+    top: 0; left: 0;
     z-index: 11;
+    background: #333;
 }
 
 .mm_button {
+    position: relative;
     display: block;
-    width: 90%;
-    height: 150px;
-    padding: 0;
-    margin: 5%;
     background: #3F3F3F;
     border: none;
     cursor: pointer;
@@ -57,8 +68,10 @@ p {
 }
 
 .mm_button p{
-    margin: 0;
-    padding-top: 65px;
+    position: absolute;
+    margin: auto;
+    top: 0;left: 0;right: 0;bottom: 0;
+    height: 18px;
 }
 
 .mm_browsermodebutton {
@@ -67,26 +80,37 @@ p {
     margin: 0;
 }
 
-.selecttargetlist {
-    margin-left: 25%;
-    width: 50%;
-
+.mainmenulist {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
 }
-
-.selecttargetlist li {
+.mainmenulist li {
     display: block;
-    padding: 10px;
     margin-bottom: 6px;
     background-color:#3F3F3F;
-    height: 132px;
+    position: relative;
+    height: 130px;
+}
+.mainmenulist li img {
+    height: 60%;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 25%;
 }
 
-
-.selecttargetlist li img {
-    width: 35%;
-    padding: 5px;
+.mainmenulist li p {
+    height: 20%;
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    bottom: 5%;
 }
-
 
 .pt-page {
     position: absolute;
@@ -131,23 +155,37 @@ p {
 
 .wrapper > ul {
     padding: 0 3px;
+    position: relative;
 }
 
 .buttonlist {
     width: 12.5%;
 }
-
 .buttonlist li {
     display: block;
-    padding: 10px;
     margin-bottom: 6px;
     background-color:#3F3F3F;
+    position: relative;
+}
+.buttonlist li img {
+    width: 40%;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 25%;
+
+}
+.buttonlist li p {
+    height: 20%;
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    bottom: 5%;
 }
 
-.buttonlist li img {
-    width: 35%;
-    padding: 5px;
-}
 
 
 .contentlist {
@@ -169,7 +207,7 @@ p {
 
 
 .albumhead {
-    height: 60px;
+    height: 96px;
     padding: 5px;
 }
 
@@ -197,23 +235,31 @@ p {
     display:none;
 }
 
-.albumsonglist > li, #contentlist > li:not(.album), #queuelist > li {
+.selectIcon {
+    float: right!important;
     height: 20px;
+    padding-top: 4px; 
+}
+.imageContent > .selectIcon {
+    position: relative;
+    top: 38px;
 }
 
-.albumsonglist > li > p, #contentlist > li > p, #queuelist > li > p {
+.textContent {
+    height: 28px;
+}
+.textContent p{
+    text-align: left;
     float: left;
-    padding-left: 20px;
-    padding-top: 1px;
+    padding-left: 15px;
+    padding-top: 5px;
+    width: 85%;
 }
 
-.albumsonglist > li > img, #contentlist > li > img, #queuelist > li > img {
-    height: 100%;
-    float: right;
-}
-
-#playmodelist > li > img {
-    margin-top: 50%;
+.imageContent {
+    position: relative;
+    height: 96px;
+    padding: 5px 0;
 }
 
 .queuecontrols {
@@ -222,12 +268,13 @@ p {
     padding-bottom: 10px;
 }
 
+.selected {
+    background-color: #666666 !important;
+}
+
 .focus {
     box-shadow: 8px 0 3px -2px #0089bf, -8px 0 3px -2px #99e2ff;
     background-color: #00b7ff !important;
-}
-.selected {
-    background-color: #666666 !important;
 }
 
 #header {
@@ -259,6 +306,7 @@ p {
     height: 40px;
     background-color: #3F3F3F;
     margin-bottom: 10px;
+    margin-left: 3px;
 }
 .searchfield img {
     float: left;
@@ -277,6 +325,7 @@ p {
 }
 
 .topfadeout, .bottomfadeout{
+    display: none;
     z-index: 2;
     position: fixed;
     height: 40px;
@@ -296,7 +345,6 @@ p {
     background: -webkit-linear-gradient(right,  rgba(51,51,51,0) 0%,rgba(51,51,51,1) 100%);
 }
 #rightfadeout {
-    z-index: 12;
     right: 0px;
     background: -webkit-linear-gradient(left,  rgba(51,51,51,0) 0%,rgba(51,51,51,1) 100%);
 }
@@ -316,6 +364,16 @@ p {
     position: absolute;
     margin: 1em;
 }
+
+.protrait .backButton{
+    background-image: url(../images/Remote/back_area_portrait.svg);
+    background-size: contain;
+    background-repeat: no-repeat;
+    top: 0px; bottom: 0px; left: 0px; right: 0px;
+    position: absolute;
+    margin: 1em;
+}
+
 .backButton .backButtonCaption {
     background-image: url(../images/Remote/back.svg);
     background-size: contain;
@@ -515,7 +573,7 @@ border-radius: 100px;
     /*transition: width 1s;
     transition-timing-function: linear;
     -webkit-transition-timing-function: linear;*/
-    background-color: #00b6ff;
+    background-color: #00b6ff;  
 }
 
 
@@ -526,7 +584,7 @@ border-radius: 100px;
     position: relative;
     bottom: 0;
     margin-left: 40%;
-    margin-right: 40%;
+    margin-right: 40%; 
     border: 1px solid #3f3f3f;
     cursor: pointer;
 }
@@ -558,13 +616,44 @@ border-radius: 100px;
     height: 60%;
 }
 
-.controlContainer{
+.slim.controlContainer{
     position: relative;
     top: 0;
     left: 0;
     right: 0;
     height: 100%;
     background-color: #3f3f3f;
-    border-left: 3px solid #333;
+    border-left: 3px solid #333;    
     border-right: 3px solid #333;
+}
+
+.full.controlContainer {
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+}
+
+
+/* Renderer */
+
+.rendererControlls {
+    background-color: rgba(50,50,50,0.5);
+    position: absolute;
+    bottom: 5%;
+    height: 15%;
+    left: 20%;
+    right: 20%;
+}
+
+.imageContainer {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center center;
 }

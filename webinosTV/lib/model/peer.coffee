@@ -99,21 +99,29 @@ class LocalPeerService extends PeerService
       playback:
         current: no
         playing: no
+        stopping: no
         relative: 0
       queue: []
     }, ({playback, queue}, {type, content}) ->
       next = (shift) ->
+        if playback.current
+          playback.stopping = yes
+          sink? new Bacon.Next(new Stop())
         queue = _.tail(queue) if shift
         sink? new Bacon.Next(new Play(queue[0])) if queue.length > 0
       switch type
         when 'playback:started'
-          playback = {current: yes, playing: yes, relative: 0}
+          if playback.current and not playback.stopping
+            playback.playing = yes
+          else
+            playback = {current: yes, playing: yes, stopping: no, relative: 0}
         when 'playback:paused'
           playback.playing = no
-        when 'playback:resumed'
-          playback.playing = yes
+        when 'playback:stopped'
+          if playback.stopping
+            playback = {current: no, playing: no, stopping: no, relative: 0}
         when 'playback:ended'
-          playback = {current: no, playing: no, relative: 0}
+          playback = {current: no, playing: no, stopping: no, relative: 0}
           next(yes)
         when 'playback:state'
           playback.relative = content.relative
@@ -151,6 +159,7 @@ class Event
   isSeek: -> no
   isPause: -> no
   isResume: -> no
+  isStop: -> no
 
 class Play extends Event
   constructor: (item) ->
@@ -167,6 +176,9 @@ class Pause extends Event
 
 class Resume extends Event
   isResume: -> yes
+
+class Stop extends Event
+  isStop: -> yes
 
 class RemotePeerService extends PeerService
   constructor: (channel, peer) ->

@@ -5,26 +5,27 @@ var Bacon = require('baconjs');
 
 function ControlsView(parent, config, viewModel) {
   parent = $(parent) || $('body');
-  config = _.extend(config || {}, {
+  config = _.extend({
     style: 'slim',
     remove: true,
     fullscreen: false,
-    highdef: false
-  });
+    highdef: false,
+    navclass: 'nav_qu'
+  }, config || {});
 
   var buttonCount = 5;
   if (config.remove) buttonCount++;
   if (config.fullscreen) buttonCount++;
   if (config.highdef) buttonCount++;
 
-  var cprev = $('<div class="controlButton controlPrev nav_qu">');
-  var crewd = $('<div class="controlButton controlRewd nav_qu">');
-  var cplay = $('<div class="controlButton controlPlay nav_qu">');
-  var cfwrd = $('<div class="controlButton controlFwrd nav_qu">');
-  var cnext = $('<div class="controlButton controlNext nav_qu">');
-  var cdele = $('<div class="controlButton controlDele nav_qu">');
-  var cfull = $('<div class="controlButton controlFull nav_qu">');
-  var chres = $('<div class="controlButton controlHres nav_qu">');
+  var cprev = $('<div class="controlButton controlPrev '+config.navclass+'">');
+  var crewd = $('<div class="controlButton controlRewd '+config.navclass+'">');
+  var cplay = $('<div class="controlButton controlPlay '+config.navclass+'">');
+  var cfwrd = $('<div class="controlButton controlFwrd '+config.navclass+'">');
+  var cnext = $('<div class="controlButton controlNext '+config.navclass+'">');
+  var cdele = $('<div class="controlButton controlDele '+config.navclass+'">');
+  var cfull = $('<div class="controlButton controlFull '+config.navclass+'">');
+  var chres = $('<div class="controlButton controlHres '+config.navclass+'">');
   var csbar = $('<div class="controlSbar"><div></div></div>');
   var ctime = $('<div class="controlTime"><div class="controlTimeSchnippel"></div><span>1:00</span></div>');
 
@@ -37,16 +38,16 @@ function ControlsView(parent, config, viewModel) {
   if (config.highdef) container.append(chres);
   controls.append([container, csbar, ctime]);
 
-  viewModel.playOrPause().plug(cplay.asEventStream('click'));
-  viewModel.previous().plug(cprev.asEventStream('click'));
-  viewModel.next().plug(cnext.asEventStream('click'));
-  viewModel.rewind().plug(crewd.asEventStream('click').map(undefined));
-  viewModel.forward().plug(cfwrd.asEventStream('click').map(undefined));
-  viewModel.remove().plug(cdele.asEventStream('click'));
+  viewModel.playOrPause().plug(cplay.asEventStream('click').merge(cplay.asEventStream('touchend')));
+  viewModel.previous().plug(cprev.asEventStream('click').merge(cprev.asEventStream('touchend')));
+  viewModel.next().plug(cnext.asEventStream('click').merge(cnext.asEventStream('touchend')));
+  viewModel.rewind().plug(crewd.asEventStream('click').merge(crewd.asEventStream('touchend')).map(undefined));
+  viewModel.forward().plug(cfwrd.asEventStream('click').merge(cfwrd.asEventStream('touchend')).map(undefined));
+  viewModel.remove().plug(cdele.asEventStream('click').merge(cdele.asEventStream('touchend')));
 
   $(parent).append(controls);
 
-  // $('.controlSbar div').css({transition: 'width 1s linear'});
+  // $('.controlSbar div', controls).css({transition: 'width 1s linear'});
   $('.controlButton', controls).css({width: (100 / buttonCount) + '%'});
 
   var length = 0, last = 0;
@@ -61,6 +62,15 @@ function ControlsView(parent, config, viewModel) {
     $(cplay).addClass('controlPlay');
   }
 
+  function getFormatedTime(ms) {
+    var totalSec = ms / 1000;
+    var hours = parseInt( totalSec / 3600 ) % 24;
+    var minutes = parseInt( totalSec / 60 ) % 60;
+    var seconds = Math.round(totalSec % 60);
+
+    return hours?((hours < 10 ? "0" + hours : hours) + ":"):"" + (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds  < 10 ? "0" + seconds : seconds);
+  }
+
   function update(relative) {
     if (typeof relative !== 'undefined') {
       relative = Math.round(relative * 1000) / 1000;
@@ -68,8 +78,8 @@ function ControlsView(parent, config, viewModel) {
       relative = last;
     }
 
-    $('.controlSbar div').css({width: relative * $('.controlSbar').width()});
-    $('.controlTime span').text(Math.round(relative * length / 1000));
+    $('.controlSbar div', controls).css({width: relative * $('.controlSbar', controls).width()});
+    $('.controlTime span', controls).text((length)?getFormatedTime(Math.round(relative * length)):"-");
 
     last = relative;
   }
@@ -95,9 +105,9 @@ function ControlsView(parent, config, viewModel) {
   bus.onValue(function (event) {
     switch (event.type) {
       case 'resize':
-        // $('.controlSbar div').css({transition: 'width 0.0s linear'});
+        // $('.controlSbar div', controls).css({transition: 'width 0.0s linear'});
         update();
-        // $('.controlSbar div').css({transition: 'width 1s linear'});
+        // $('.controlSbar div', controls).css({transition: 'width 1s linear'});
         break;
       case 'start':
         seeking = true;
@@ -116,18 +126,43 @@ function ControlsView(parent, config, viewModel) {
     }
   });
 
-  var seeker = $('.controlTime').drags({
-    seekBar: '.controlSbar',
+  var seeker = $('.controlTime', controls).drags({
+    seekBar: $('.controlSbar', controls),
     seekStateBus: bus
   });
 
   viewModel.state().onValue(function (state) {
-    if (state === null) {
+    if (state === '<no-state>') {
       seek(0); pause();
     } else if (state.playback.current) {
       if (state.playback.playing) {
         play();
-        length = 120000; // TODO: Get length from `state.queue[0].item`.
+        length = 0; // TODO: Get length from `state.queue[0].item`.
+        //TODO: move this nasty stuff away from view
+        if (state.queue[0].item.type.toLowerCase().indexOf("audio")!=-1 || state.queue[0].item.type.toLowerCase().indexOf("video")!=-1){
+          if (typeof state.queue[0].item.duration === "number") {
+            length = state.queue[0].item.duration;
+          } else if(state.queue[0].item.duration && state.queue[0].item.duration.length){
+            var itemlengthParsed = 0, itemlength = (state.queue[0].item.duration instanceof Array)?state.queue[0].item.duration[0]:state.queue[0].item.duration;
+            itemlength = itemlength.split(" ");
+            for (var i = 0; itemlength.length > i; i++) {
+              if (itemlength[i].indexOf("h") != -1) {
+                itemlengthParsed += 60 * 60 * parseInt(itemlength[i]);
+              }
+              if (itemlength[i].indexOf("mn") != -1) {
+                itemlengthParsed += 60 * parseInt(itemlength[i]);
+              }
+              if (itemlength[i].indexOf("s") != -1 && itemlength[i].indexOf("ms") == -1) {
+                itemlengthParsed += parseInt(itemlength[i]);
+              }
+              if (itemlength[i].indexOf("ms") != -1) {
+                itemlengthParsed += parseInt(itemlength[i])/1000;
+              }
+            };
+            length = itemlengthParsed * 1000;
+            state.queue[0].item.duration = length;
+          }
+        }
       } else {
         pause();
       }
@@ -145,11 +180,11 @@ module.exports = ControlsView;
 (function($) {
     $.fn.drags = function(opt) {
 
+        opt = $.extend({handle:"",cursor:"move", seekStateBus:null}, opt);
+
         var z_idx_save = 0,width=0, offset=0, positionOffset=0, drg_w=0, pos_x=0 ;
 
-        var borderWidth = parseInt($(".controlSbar").css("border-width"),10);
-
-        opt = $.extend({handle:"",cursor:"move", seekStateBus:null}, opt);
+        var borderWidth = parseInt($(opt.seekBar).css("border-width"),10);
 
         $(opt.seekBar).width();
 
@@ -163,7 +198,7 @@ module.exports = ControlsView;
             if(!$($el).hasClass('draggable')){
               return;
             }
-           // $('.controlSbar div').css({"transition": "width 1s linear"});
+            // $(opt.seekBar).css({"transition": "width 1s linear"});
             $($el).removeClass('draggable').css('z-index', z_idx_save);
             if(opt.handle === "") {
                 $($el).removeClass('draggable');
@@ -182,7 +217,7 @@ module.exports = ControlsView;
             } else {
                 var $drag = $($el).addClass('active-handle').parent().addClass('draggable');
             }
-            //$('.controlSbar div').css({"transition": "width 0s linear"});
+            // $(opt.seekBar).css({"transition": "width 0s linear"});
             var z_idx = z_idx_save = $drag.css('z-index');
             drg_w = $drag.outerWidth(),
             pos_x = $drag.offset().left + drg_w - e.pageX;
@@ -217,11 +252,11 @@ module.exports = ControlsView;
             case "resize":
               positionOffset = positionOffset * $(opt.seekBar).width()/width;
               width=$(opt.seekBar).width();
-            //  $('.controlSbar div').css({"transition": "width 0s linear"});
+              // $(opt.seekBar).css({"transition": "width 0s linear"});
               $($el).css({
                       left:positionOffset
                   });
-            //  $('.controlSbar div').css({"transition": "width 1s linear"});
+              // $(opt.seekBar).css({"transition": "width 1s linear"});
               break;
             case "set":
               if(e.content.relative){

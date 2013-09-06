@@ -1,22 +1,81 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>webinosTV</title>
+        <title>Index</title>
         <script type="text/javascript" src="dist/wrt.js"></script>
         <script type="text/javascript" src="dist/deps.js"></script>
         <script type="text/javascript" src="dist/app.js"></script>
-    	<link href='css/roboto.css' rel='stylesheet' type='text/css'>
-    	<link href="css/style-mobile.css" rel="stylesheet" type="text/css" />
+        <link href='css/roboto.css' rel='stylesheet' type='text/css'>
+        <link href="css/styles.css" rel="stylesheet" type="text/css" />
+        <link href="css/style-mobile.css" rel="stylesheet" type="text/css" />
+        <link href="css/animations.css" rel="stylesheet" type="text/css" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     </head>
     <body>
-    	<div id="topmenu" class="menu">
-    		<div id="menu-device" class="menu-item" href=""></div>
-    		<div class="menu-border"></div>
-    		<div id="menu-media" class="menu-item" href="">Select Media</div>
-    		<div class="menu-border"></div>
-    		<div id="menu-queue" class="menu-item" href="">Media Queue</div>
+        <div class="overlay"></div>
+        <div id="mainmenu" class="menu">
+             <div id="tomobilebrowserbutton" class="mm_button nav_mm"><p>Mobile Browser</p></div>
+            <div id="toadvancedbrowserbutton" class="mm_button nav_mm"><p>Browser</p></div>
+            <div id="torendererbutton" class="mm_button nav_mm"><p>Renderer</p></div>
+            <div id="tocontrollerbutton" class="mm_button nav_mm"><p>Controller</p></div>
+        </div>
+        <div id="selecttarget" class="menu">
+            <div id="st_wrapper" class="mainmenulist">
+                <ul id="selecttargetlist">
+                    <li class="nav_st">
+                        <img src="images/tv.svg">
+                        <p>Living Room</p>
+                    </li>
+                    <li class="nav_st">
+                        <img src="images/tv.svg">
+                        <p>Kittchen</p>
+                    </li>
+                    <li class="nav_st">
+                        <img src="images/tv.svg">
+                        <p>Bedroom</p>
+                    </li>
+                    <li class="nav_st">
+                        <img src="images/phone.svg">
+                        <p>My iPhone</p>
+                    </li>
+                    <li class="nav_st">
+                        <img src="images/pc.svg">
+                        <p>My Computer</p>
+                    </li>
+                    <li class="nav_st">
+                        <img src="images/laptop.svg">
+                        <p>My Laptop</p>
+                    </li>
+                    <li class="nav_st">
+                        <img src="images/tablet.svg">
+                        <p>My Tablet</p>
+                    </li>
+                    <li class="nav_st">
+                        <img src="images/phone.svg">
+                        <p>Ralph's Phone</p>
+                    </li>
+                    <li class="nav_st">
+                        <img src="images/tablet.svg">
+                        <p>Ralph's Tablet</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="startscreen" class="pt-page">
+            <img src="images/webinosTV.jpg">
+        </div>
+		
+		<div id="mobilebrowser" class="pt-page">
+			
+			
+			<div id="topmenu" class="mobilemenu">
+    		<div id="menu-device" class="mobilemenu-item" href=""></div>
+    		<div class="mobilemenu-border"></div>
+    		<div id="menu-media" class="mobilemenu-item" href="">Select Media</div>
+    		<div class="mobilemenu-border"></div>
+    		<div id="menu-queue" class="mobilemenu-item" href="">Media Queue</div>
     	</div>
     	
     	<div id="container-device" class="subpage">
@@ -32,14 +91,14 @@
     			</div>
     		</div>
     		
-    		<div id="sourcewrapper" class="device-column">
-    			<ul id="sourcelist">
+    		<div id="mobilesourcewrapper" class="device-column">
+    			<ul id="mobilesourcelist">
     				<li>Loading...</li>
     			</ul>
     		</div>
     		
-    		<div id="targetwrapper" class="device-column">
-    			<ul id="targetlist">
+    		<div id="mobiletargetwrapper" class="device-column">
+    			<ul id="mobiletargetlist">
     				<li>Loading...</li>
     			</ul>
     		</div>
@@ -54,14 +113,14 @@
  		   		</div>
     		</div>
     		
-    		<div id="categorywrapper">
-    			<ul id="categorylist">
+    		<div id="mobilecategorywrapper">
+    			<ul id="mobilecategorylist">
     				<li>Loading...</li>
     			</ul>
     		</div>
     		
-    		<div id="contentwrapper">
-    			<ul id="contentlist">
+    		<div id="mobilecontentwrapper">
+    			<ul id="mobilecontentlist">
     				<li>Loading...</li>
     			</ul>
     		</div>
@@ -76,5 +135,305 @@
     		
     		TODO2
     	</div>
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+		</div>
+		
+        <div id="browser" class="pt-page">
+            <div id="horizontalwrapper">
+                <div id="horizontalscroller">
+                    <div id="header">
+                        <div class="listhead buttonlist">
+                            <img src="images/next_right_blue.svg"><p>Source Device</p>
+                            <div id="sourcetopfadeout" class="topfadeout buttonlist"></div>
+                        </div>
+                        <div class="listhead buttonlist">
+                            <img src="images/next_right_blue.svg"><p>Categories</p>
+                            <div id="categorytopfadeout" class="topfadeout buttonlist"></div>
+                        </div>
+                        <div class="listhead contentlist">
+                            <img src="images/next_right_blue.svg"><p>Select Files</p>
+                            <div id="contenttopfadeout" class="topfadeout contentlist"></div>
+                        </div>
+                        <div class="listhead buttonlist">
+                            <img src="images/next_right_blue.svg"><p>Target Device</p>
+                            <div id="targettopfadeout" class="topfadeout buttonlist"></div>
+                        </div>
+                        <div class="listhead buttonlist">
+                            <img src="images/next_right_blue.svg"><p>Play Mode</p>
+                            <div id="playmodetopfadeout" class="topfadeout buttonlist"></div>
+                        </div>
+                        <div class="listhead contentlist">
+                            <img src="images/next_right_blue.svg"><p>Queue: <span id="peer"></span></p>
+                            <div id="queuetopfadeout" class="topfadeout contentlist"></div>
+                        </div>
+                    </div>
+                    <div id="verticalwrapper">
+                        <div id="sourcewrapper" class="wrapper buttonlist">
+                            <ul id="sourcelist">
+                               <li class="nav_sl">
+                                    <img src="images/tv.svg">
+                                    <p>Living Room</p>
+                                </li>
+                                <li class="nav_sl">
+                                    <img src="images/tv.svg">
+                                    <p>Kittchen</p>
+                                </li>
+                                <li class="nav_sl">
+                                    <img src="images/tv.svg">
+                                    <p>Bedroom</p>
+                                </li>
+                                <li class="nav_sl">
+                                    <img src="images/phone.svg">
+                                    <p>My iPhone</p>
+                                </li>
+                                <li class="nav_sl">
+                                    <img src="images/pc.svg">
+                                    <p>My Computer</p>
+                                </li>
+                                <li class="nav_sl">
+                                    <img src="images/laptop.svg">
+                                    <p>My Laptop</p>
+                                </li>
+                                <li class="nav_sl">
+                                    <img src="images/tablet.svg">
+                                    <p>My Tablet</p>
+                                </li>
+                                <li class="nav_sl">
+                                    <img src="images/phone.svg">
+                                    <p>Ralph's Phone</p>
+                                </li>
+                                <li class="nav_sl">
+                                    <img src="images/tablet.svg">
+                                    <p>Ralph's Tablet</p>
+                                </li>
+                            </ul>
+                        </div>
+                        <div id="mediatypwrapper" class="wrapper buttonlist">
+                            <ul id="mediatyplist">
+                                <li class="nav_ca">
+                                    <img src="images/movie.svg">
+                                    <p>Movies</p>
+                                </li>
+                                <li class="nav_ca">
+                                    <img src="images/music.svg">
+                                    <p>Music</p>
+
+                                </li >
+                                <li class="nav_ca">
+                                    <img src="images/image.svg">
+                                    <p>Images</p>
+                                </li>
+                                <li class="nav_ca">
+                                    <img src="images/tv_channels.svg">
+                                    <p>Channels</p>
+                                </li>
+                                <li class="nav_ca">
+                                    <img src="images/folder.svg">
+                                    <p>Documents</p>
+                                </li>
+                                <li class="nav_ca">
+                                    <img src="images/apps.svg">
+                                    <p>Apps</p>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="wrapper contentlist">
+                                <div class="searchfield nav_co">
+                                    <img src="images/search.svg"><input type="text">
+                                </div>
+                                <div id="contentwrapper" class="wrapper">
+                                    <ul id="contentlist">
+                                        <li class="album">
+                                            <div>
+                                                <div class="albumhead nav_co">
+                                                    <img class="albumcover" src="">
+                                                    <p>Artist - Album</p>
+                                                    <img class="albumToggleIcon" src="images/arrow_big_down.svg">
+                                                </div>
+                                                <ul class="albumsonglist">
+                                                    <li class="textContent"><p>song1</p><img class="selectIcon" src="images/add.svg"></li>
+                                                    <li class="textContent"><p>song2</p><img class="selectIcon" src="images/add.svg"></li>
+                                                    <li class="textContent"><p>song3</p><img class="selectIcon" src="images/add.svg"></li>
+                                                    <li class="textContent"><p>song4</p><img class="selectIcon" src="images/add.svg"></li>
+                                                    <li class="textContent"><p>song5</p><img class="selectIcon" src="images/add.svg"></li>
+                                                    <li class="textContent"><p>song6</p><img class="selectIcon" src="images/add.svg"></li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                        <li class="album">
+                                            <div>
+                                                <div class="albumhead nav_co">
+                                                    <img class="albumcover" src="">
+                                                    <p>Artist - Album</p>
+                                                    <img class="albumToggleIcon" src="images/arrow_big_down.svg">
+                                                </div>
+                                                <ul class="albumsonglist">
+                                                    <li class="textContent"><p>song1</p><img class="selectIcon" src="images/add.svg"></li>
+                                                    <li class="textContent"><p>song2</p><img class="selectIcon" src="images/add.svg"></li>
+                                                    <li class="textContent"><p>song3</p><img class="selectIcon" src="images/add.svg"></li>
+                                                    <li class="textContent"><p>song4</p><img class="selectIcon" src="images/add.svg"></li>
+                                                    <li class="textContent"><p>song5</p><img class="selectIcon" src="images/add.svg"></li>
+                                                    <li class="textContent"><p>song6</p><img class="selectIcon" src="images/add.svg"></li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                        <li class="imageContent nav_co"><img src=""><img class="selectIcon" src="images/add.svg"></li>
+                                        <li class="imageContent nav_co"><img src=""><img class="selectIcon" src="images/add.svg"></li>
+                                        <li class="imageContent nav_co"><img src=""><img class="selectIcon" src="images/add.svg"></li>
+                                        <li class="imageContent nav_co"><img src=""><img class="selectIcon" src="images/add.svg"></li>
+                                        <li class="textContent nav_co"><p>songa</p><img class="selectIcon" src="images/add.svg"></li>
+                                        <li class="textContent nav_co"><p>songb</p><img class="selectIcon" src="images/add.svg"></li>
+                                        <li class="textContent nav_co"><p>songc</p><img class="selectIcon" src="images/add.svg"></li>
+                                        <li class="textContent nav_co"><p>songx</p><img class="selectIcon" src="images/add.svg"></li>
+                                        <li class="textContent nav_co"><p>songy</p><img class="selectIcon" src="images/add.svg"></li>
+                                        <li class="textContent nav_co"><p>songz</p><img class="selectIcon" src="images/add.svg"></li>
+                                    </ul>
+                                </div>
+                        </div>
+                        <div id="targetwrapper" class="wrapper buttonlist">
+                            <ul id="targetlist">
+                                <li class="nav_tl">
+                                    <img src="images/tv.svg">
+                                    <p>Living Room</p>
+                                </li>
+                                <li class="nav_tl">
+                                    <img src="images/tv.svg">
+                                    <p>Kittchen</p>
+                                </li>
+                                <li class="nav_tl">
+                                    <img src="images/tv.svg">
+                                    <p>Bedroom</p>
+                                </li>
+                                <li class="nav_tl">
+                                    <img src="images/phone.svg">
+                                    <p>My iPhone</p>
+                                </li>
+                                <li class="nav_tl">
+                                    <img src="images/pc.svg">
+                                    <p>My Computer</p>
+                                </li>
+                                <li class="nav_tl">
+                                    <img src="images/laptop.svg">
+                                    <p>My Laptop</p>
+                                </li>
+                                <li class="nav_tl">
+                                    <img src="images/tablet.svg">
+                                    <p>My Tablet</p>
+                                </li>
+                                <li class="nav_tl">
+                                    <img src="images/phone.svg">
+                                    <p>Ralph's Phone</p>
+                                </li>
+                                <li class="nav_tl">
+                                    <img src="images/tablet.svg">
+                                    <p>Ralph's Tablet</p>
+                                </li>
+                            </ul>
+                        </div>
+                        <div id="playmodewrapper" class="wrapper buttonlist">
+                            <ul id="playmodelist">
+                                <li id="prepend" class="nav_pm">
+                                    <img src="images/play_on.svg">
+                                    <p>Play now</p>
+                                </li>
+                                <li id="append" class="nav_pm">
+                                    <img src="images/queue.svg">
+                                    <p>Add to Queue</p>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="wrapper contentlist">
+                            <div class="queuecontrols">
+
+                            </div>
+                            <div id="queuewrapper" class="wrapper">
+                                <ul id="queuelist">
+                                    <li class="textContent nav_qu"><p>song1</p><img class="selectIcon" src="images/remove.svg"></li>
+                                    <li class="textContent nav_qu"><p>song2</p><img class="selectIcon" src="images/remove.svg"></li>
+                                    <li class="textContent nav_qu"><p>song3</p><img class="selectIcon" src="images/remove.svg"></li>
+                                    <li class="textContent nav_qu"><p>song4</p><img class="selectIcon" src="images/remove.svg"></li>
+                                    <li class="textContent nav_qu"><p>song5</p><img class="selectIcon" src="images/remove.svg"></li>
+                                    <li class="textContent nav_qu"><p>song6</p><img class="selectIcon" src="images/remove.svg"></li>
+                                    <li class="textContent nav_qu"><p>song7</p><img class="selectIcon" src="images/remove.svg"></li>
+                                    <li class="textContent nav_qu"><p>song8</p><img class="selectIcon" src="images/remove.svg"></li>
+                                    <li class="textContent nav_qu"><p>song9</p><img class="selectIcon" src="images/remove.svg"></li>
+                                    <li class="textContent nav_qu"><p>song10</p><img class="selectIcon" src="images/remove.svg"></li>
+                                    <li class="textContent nav_qu"><p>song11</p><img class="selectIcon" src="images/remove.svg"></li>
+                                    <li class="textContent nav_qu"><p>song12</p><img class="selectIcon" src="images/remove.svg"></li>
+                                    <li class="textContent nav_qu"><p>song13</p><img class="selectIcon" src="images/remove.svg"></li>
+                                    <li class="textContent nav_qu"><p>song14</p><img class="selectIcon" src="images/remove.svg"></li>
+                                    <li class="textContent nav_qu"><p>song15</p><img class="selectIcon" src="images/remove.svg"></li>
+                                    <li class="textContent nav_qu"><p>song16</p><img class="selectIcon" src="images/remove.svg"></li>
+                                    <li class="textContent nav_qu"><p>song17</p><img class="selectIcon" src="images/remove.svg"></li>
+                                    <li class="textContent nav_qu"><p>song18</p><img class="selectIcon" src="images/remove.svg"></li>
+                                    <li class="textContent nav_qu"><p>song19</p><img class="selectIcon" src="images/remove.svg"></li>
+                                    <li class="textContent nav_qu"><p>song20</p><img class="selectIcon" src="images/remove.svg"></li>
+                                    <li class="textContent nav_qu"><p>song21</p><img class="selectIcon" src="images/remove.svg"></li>
+                                    <li class="textContent nav_qu"><p>song22</p><img class="selectIcon" src="images/remove.svg"></li>
+                                    <li class="textContent nav_qu"><p>song23</p><img class="selectIcon" src="images/remove.svg"></li>
+                                    <li class="textContent nav_qu"><p>song24</p><img class="selectIcon" src="images/remove.svg"></li>
+                                    <li class="textContent nav_qu"><p>song25</p><img class="selectIcon" src="images/remove.svg"></li>
+                                    <li class="textContent nav_qu"><p>song26</p><img class="selectIcon" src="images/remove.svg"></li>
+                                    <li class="textContent nav_qu"><p>song27</p><img class="selectIcon" src="images/remove.svg"></li>
+                                    <li class="textContent nav_qu"><p>song28</p><img class="selectIcon" src="images/remove.svg"></li>
+                                    <li class="textContent nav_qu"><p>song29</p><img class="selectIcon" src="images/remove.svg"></li>
+                                    <li class="textContent nav_qu"><p>song30</p><img class="selectIcon" src="images/remove.svg"></li>
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="footer">
+                        <div class="listfoot buttonlist">
+                            <div id="sourcebottomfadeout" class="bottomfadeout buttonlist"></div>
+                        </div>
+                        <div class="listfoot buttonlist">
+                            <div id="categorybottomfadeout" class="bottomfadeout buttonlist"></div>
+                        </div>
+                        <div class="listfoot contentlist">
+                            <div id="contentbottomfadeout" class="bottomfadeout contentlist"></div>
+                        </div>
+                        <div class="listfoot buttonlist">
+                            <div id="targetbottomfadeout" class="bottomfadeout buttonlist"></div>
+                        </div>
+                        <div class="listfoot buttonlist">
+                            <div id="playmodebottomfadeout" class="bottomfadeout buttonlist"></div>
+                        </div>
+                        <div class="listfoot contentlist">
+                            <div id="queuebottomfadeout" class="bottomfadeout contentlist"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="renderer" class="pt-page">
+            <video  height="100%" > </video>
+            <audio ></audio>
+            <div class="imageContainer" width="100%" height="100%" ></div>
+            <div class="rendererControlls"></div>
+        </div>
+
+        <div id="controller" class="pt-page pageRemote landscape">
+            <div class="backButton"><div class="backButtonCaption" ></div> <div class="clickAreaBack"></div></div>
+            <div class="tapButton" ><div class="clickAreaUp"></div><div class="clickAreaDown"></div><div class="clickAreaLeft"></div><div class="clickAreaRight"></div><div class="clickAreaOk"></div></div>
+            <div class="switchButtons toggleTapButton" ></div>
+            <div class="switchButtons toggleSwipeButton" ></div>
+            <div class="switchButtons toggleGyroButton" ></div>
+            <div class="switchButtons searchButton" ></div>
+            <div class="switchButtons changeModeButton" ></div>
+            <div class="logoArea"></div>
+        </div>
+        <div id="leftfadeout"></div>
+        <div id="rightfadeout"></div>
     </body>
 </html>
