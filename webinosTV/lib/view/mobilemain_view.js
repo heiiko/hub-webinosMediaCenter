@@ -77,7 +77,7 @@ function setMediaSelectBehavior() {
   }
   else //small screen
   {
-    $('#contentlist').hide(250);
+    $('#mobilecontentlist').hide(250);
     var selectMediaCategories = $('li.category').on('click', function() {
       //push
       $('#mobilecategorylist').hide(250);

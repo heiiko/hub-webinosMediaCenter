@@ -95,15 +95,15 @@ function SourceListView(viewModel) {
     return '<li class="device source"><div class="device-image type-' + device.type() + '"></div><div class="device-name">' + address.friendlyName(device.address()) + '</div><div class="device-type">' + device.type().charAt(0).toUpperCase() + device.type().slice(1) + '</div></li>';
   };
 
-  this.identify = function (device) {
+  this.identify = function(device) {
     return {
-    	address: device.address(),
-    	type: device.type()
-    }
+      address: device.address(),
+      type: device.type()
+    };
   };
 
   viewModel.selectedSources().onValue(function(selection) {
-    if (selection.length == 1) {
+    if (selection.length === 1) {
       var device = selection[0];
 
       $('#selected-source').attr('src', 'images/' + device.type + '-selected.svg');
@@ -116,7 +116,7 @@ function SourceListView(viewModel) {
       $('#current-source-logo').attr('src', 'images/' + device.type + '.svg');
       $('#current-source-name').html(address.friendlyName(device.address));
     }
-    else if (selection.length == 0) {
+    else if (selection.length === 0) {
       $('#selected-source').attr('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==');
       $('#selected-source-name').html('');
       $('#selected-source-intro').html('');
@@ -196,21 +196,21 @@ function TargetListView(viewModel) {
     return '<li class="device target"><div class="device-image type-' + device.type() + '"></div><div class="device-name">' + address.friendlyName(device.address()) + '</div><div class="device-type">' + device.type().charAt(0).toUpperCase() + device.type().slice(1) + '</div></li>';
   };
 
-  this.identify = function (device) {
+  this.identify = function(device) {
     return {
-    	address: device.address(),
-    	type: device.type()
-    }
+      address: device.address(),
+      type: device.type()
+    };
   };
 
   viewModel.selectedTargets().onValue(function(selection) {
-    if (selection.length == 1) {
+    if (selection.length === 1) {
       var device = selection[0];
 
       $('#current-target-logo').attr('src', 'images/' + device.type + '.svg');
       $('#current-target-name').html(address.friendlyName(device));
     }
-    else if (selection.length == 0) {
+    else if (selection.length === 0) {
       $('#current-target-logo').attr('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==');
       $('#current-target-name').html('Target device');
     }
