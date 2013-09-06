@@ -332,7 +332,7 @@ li, ul {
 
 .category-name {
 	text-align: center;
-	
+
 	@media screen and (max-width: $mintabletwidth - 1) {
 		display: none;
 	}
@@ -523,4 +523,21 @@ span.itemartists{
     display:none;
   }
 }
+}
+
+#mobilecontentlist li.mobileselected{
+  animation: selection 1s;
+-webkit-animation: selection 1s;
+}
+
+@keyframes selection
+{
+from {background: $blue;}
+to {background: white;}
+}
+
+@-webkit-keyframes selection
+{
+from {background: $blue;}
+to {background: white;}
 }

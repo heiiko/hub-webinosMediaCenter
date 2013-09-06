@@ -13,38 +13,38 @@ function ListView(items, selection, list, wrapper, fadeout) {
 
   this.refresh = function() {
     if ($(list).children().length > 0) {
-    	if (typeof self.scroll === 'undefined') {
-    		self.scroll = new IScroll(wrapper, {snap: list +' li', momentum: false});
-    // scroll.on('scrollEnd', function(){
-    //   if(scroll.y >= 0){
-    //     $(fadeout + 'topfadeout').hide();
-    //   }else{
-    //     $(fadeout + 'topfadeout').show();
-    //   }
-    //   if(scroll.y <= ($(wrapper).height() - $(list).height())){
-    //     $(fadeout + 'bottomfadeout').hide();
-    //   }else{
-    //     $(fadeout + 'bottomfadeout').show();
-    //   }
-    // });
-    	}
-    	self.scroll.options.snap = document.querySelectorAll(list +' li');
-    	self.scroll.refresh();
+      if (typeof self.scroll === 'undefined') {
+        self.scroll = new IScroll(wrapper, {snap: list + ' li', momentum: false});
+        // scroll.on('scrollEnd', function(){
+        //   if(scroll.y >= 0){
+        //     $(fadeout + 'topfadeout').hide();
+        //   }else{
+        //     $(fadeout + 'topfadeout').show();
+        //   }
+        //   if(scroll.y <= ($(wrapper).height() - $(list).height())){
+        //     $(fadeout + 'bottomfadeout').hide();
+        //   }else{
+        //     $(fadeout + 'bottomfadeout').show();
+        //   }
+        // });
+      }
+      self.scroll.options.snap = document.querySelectorAll(list + ' li');
+      self.scroll.refresh();
 
-    //Fittext, currently to expensive.
-    //$("li p").fitText(0.8);
+      //Fittext, currently to expensive.
+      //$("li p").fitText(0.8);
     }
   };
-  
-  items.onValue(function (items) {
+
+  items.onValue(function(items) {
     var $list = $(list);
     $list.empty();
 
-    _.each(items, function (item) {
+    _.each(items, function(item) {
       var $item = $(self.htmlify(item));
       var id = self.identify(item);
       $item.data('id', id);
-      if(list === '#targetlist')
+      if (list === '#targetlist')
         $item.data('local', item.isLocal());
       $list.append($item);
     });
@@ -58,18 +58,19 @@ function ListView(items, selection, list, wrapper, fadeout) {
       }));
     };
   }));
-  
-  $(list).asEventStream('mousedown').merge($(list).asEventStream('touchstart')).onValue(function(){
-    tappedOn=Date.now();
+
+  $(list).asEventStream('mousedown').merge($(list).asEventStream('touchstart')).onValue(function() {
+    tappedOn = Date.now();
   });
 
-  selection.apply($(list).asEventStream('click').merge($(list).asEventStream('touchend')).filter(function(){
-    var justClick = (Date.now()-tappedOn<250);
+  selection.apply($(list).asEventStream('click').merge($(list).asEventStream('touchend')).filter(function() {
+    var justClick = (Date.now() - tappedOn < 250);
     return justClick;
-  }).map(function (event) {
-    return function (selection) {
+  }).map(function(event) {
+    return function(selection) {
       var $item = $(event.target).closest('li');
-      if (!$item.length) return selection;
+      if (!$item.length)
+        return selection;
       var id = $item.data('id');
       return (_.ocontains(selection, id) ? _.odifference : _.ounion)(selection, [id]);
     };
@@ -79,7 +80,11 @@ function ListView(items, selection, list, wrapper, fadeout) {
     $('li', list).each(function() {
       var $item = $(this);
       var id = $item.data('id');
-      $item.toggleClass('mobileselected', _.ocontains(selection, id));
+      var selected = _.ocontains(selection, id);
+      $item.toggleClass('mobileselected', selected).find('input:checkbox').prop('checked', function(idx, oldAttr) {
+        return selected;
+      });
+
     });
   });
 }
@@ -221,7 +226,7 @@ function TargetListView(viewModel) {
 
 util.inherits(QueueListView, ListView);
 function QueueListView(viewModel) {
-  this.htmlify = function (value) {
+  this.htmlify = function(value) {
     var html;
     if (typeof value.item.type === 'string' && value.item.type.toLowerCase().indexOf('image') === 0) {
       html = '<li class="mediaitemcontent nav_qu"><img src="' + value.item.thumbnailURIs[0] + '">';
@@ -232,7 +237,7 @@ function QueueListView(viewModel) {
     return html;
   };
 
-  this.identify = function (value) {
+  this.identify = function(value) {
     return value.link;
   };
 
@@ -257,7 +262,7 @@ function MobileBrowserView(viewModel) {
   viewModel.prepend().plug($('#prepend').asEventStream('click').merge($('#prepend').asEventStream('touchend')));
   viewModel.append().plug($('#append').asEventStream('click').merge($('#append').asEventStream('touchend')));
 
-  viewModel.selectedPeer().onValue(function (selectedPeer) {
+  viewModel.selectedPeer().onValue(function(selectedPeer) {
     $('#peer').text(selectedPeer === '<no-peer>' ? "Select a target" : address.friendlyName(selectedPeer.address()));
   });
 
