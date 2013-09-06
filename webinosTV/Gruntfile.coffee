@@ -58,13 +58,6 @@ module.exports = (grunt) ->
           'dist/deps.js': 'dist/deps.js'
           'dist/app.js':  'dist/app.js'
 
-    uglify:
-      dist:
-        files:
-          'dist/wrt.js':  'dist/wrt.js'
-          'dist/deps.js': 'dist/deps.js'
-          'dist/app.js':  'dist/app.js'
-
     watch:
       app:
         files: ['lib/**/*.coffee', 'lib/**/*.js']
