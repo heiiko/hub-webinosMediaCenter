@@ -5,9 +5,9 @@ var bjq = require('bacon.jquery');
 
 var ControlsViewModel = require('./controls_view_model.js');
 
-function BrowserViewModel(manager, input) {
+function MobileBrowserViewModel(manager, input) {
   input = input.filter(function () {
-    return $('.pt-page-current').attr('id') === 'browser' && !$('.menu').is(":visible");
+    return $('.pt-page-current').attr('id') === 'mobilebrowser' && !$('.menu').is(":visible");
   });
 
   this.input = function () {
@@ -207,4 +207,4 @@ function BrowserViewModel(manager, input) {
   });
 }
 
-module.exports = BrowserViewModel;
+module.exports = MobileBrowserViewModel;

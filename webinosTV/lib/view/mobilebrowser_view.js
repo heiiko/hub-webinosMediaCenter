@@ -242,8 +242,8 @@ function QueueListView(viewModel) {
 
 
 
-function BrowserView(viewModel) {
-  var horizontalScroll = new IScroll('#horizontalwrapper', {snap: '.listhead', scrollX: true, scrollY: false, momentum: false});
+function MobileBrowserView(viewModel) {
+  //var horizontalScroll = new IScroll('#horizontalwrapper', {snap: '.listhead', scrollX: true, scrollY: false, momentum: false});
 
   var sourceListView = new SourceListView(viewModel);
   var categoryListView = new CategoryListView(viewModel);
@@ -277,4 +277,4 @@ function BrowserView(viewModel) {
 
 
 
-module.exports = BrowserView;
+module.exports = MobileBrowserView;
