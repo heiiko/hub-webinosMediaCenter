@@ -287,14 +287,14 @@ li, ul {
 		background-color: $lightgray;
 		text-align: center;
 		width: 150px;
+		
+		ul,li {
+			background-color: $lightgray;
+		}
 	}
 
 	@media screen and (max-width: $mintabletwidth - 1) {
 		width: 100%;
-	}
-	
-	ul,li {
-		background-color: $lightgray;
 	}
 }
 
