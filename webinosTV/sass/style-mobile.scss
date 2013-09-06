@@ -287,20 +287,26 @@ li, ul {
 		background-color: $lightgray;
 		text-align: center;
 		width: 150px;
-		border-right: 2px solid $bordergray;
 	}
 
 	@media screen and (max-width: $mintabletwidth - 1) {
 		width: 100%;
 	}
+	
+	ul,li {
+		background-color: $lightgray;
+	}
 }
 
 #mobilecontentwrapper {
 	@media screen and (min-width: $mintabletwidth) {
-		left: 151px;
+		left: 150px;
 		position: absolute;
 		top: $headerheight + 1;
 		bottom: 0;
+		right: 0;
+    	background: white;
+    	border-left: 2px solid $bordergray;
 	}
 
 	@media screen and (max-width: $mintabletwidth - 1) {
@@ -405,16 +411,6 @@ li, ul {
   .media_item{
     background:red;
     color:yellow;
-  }
-
-  #mobilecontentwrapper{
-    position: relative;
-    top: -100%;
-    left: $category-wrapper-width-largescreen;
-    height: 100%;
-    width: auto;
-    background: white;
-    border-left: 2px solid $bordergray;
   }
 
   #mobilecontentlist{
