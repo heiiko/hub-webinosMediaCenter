@@ -82,7 +82,7 @@ function MobileBrowserViewModel(manager, input) {
     }).map(function(source) {
       return _.chain(source.content()).values().flatten().filter(function(item) {
         return !types.length || _.find(types, function(type) {
-          return item.type.toLowerCase().indexOf(type.toLowerCase()) != -1
+          return item.type.toLowerCase().indexOf(type.toLowerCase()) !== -1;
         });
       }).map(function(item) {
         return {source: source, item: item};
@@ -145,7 +145,7 @@ function MobileBrowserViewModel(manager, input) {
 
     var promises = _.map(items, function(item) {
       if (item.item.type === 'Channel') {
-        return Promise.fulfill({item: item.item, link: item.item.link})
+        return Promise.fulfill({item: item.item, link: item.item.link});
       }
 
       return item.source.mediacontent().getLink({
@@ -221,7 +221,7 @@ function MobileBrowserViewModel(manager, input) {
     selectedPeer: selectedPeer,
     queue: queue, selectedQueue: selectedQueue
   }).sampledBy(controls.remove()).filter(function(state) {
-    return state.selectedPeer !== '<no-peer>' && state.selectedQueue.length
+    return state.selectedPeer !== '<no-peer>' && state.selectedQueue.length;
   }).onValue(function(state) {
     var indexes = [];
 

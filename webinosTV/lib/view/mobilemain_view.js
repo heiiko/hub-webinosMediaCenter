@@ -65,11 +65,11 @@ function setMediaSelectBehavior() {
           var ypos = parseFloat(getClassStyles('body', 'class="yposition-reminder"', 'top'));
           var newYpos = i * clheight + imgHeight / 2 + clpadding;
           moveCategorySelectionArrow(newYpos);
-          if (ypos === newYpos && $('#mobilecontentlist').hasClass('arrow_box')) {
-            $('#mobilecontentlist').removeClass('arrow_box');
+          if (ypos === newYpos && $('#mobilecontentwrapper').hasClass('arrow_box')) {
+            $('#mobilecontentwrapper').removeClass('arrow_box');
           }
           else {
-            $('#mobilecontentlist').addClass('arrow_box');
+            $('#mobilecontentwrapper').addClass('arrow_box');
           }
         });
       })(i);
