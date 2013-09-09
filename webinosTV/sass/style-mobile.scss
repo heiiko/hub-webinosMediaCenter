@@ -154,9 +154,55 @@ li, ul {
 	text-overflow: ellipsis;
 }
 
+.header-media {
+	width: 100%;
+	height: $headerheight;
+	overflow: hidden;
+	border-bottom: 1px solid $blue;
+	@include display-box;
+	@include box-orient(horizontal);
+	@include box-pack(center);
+	@include box-align(center);
+}
+
 .header-item-media {
-	@include box-sizing(border-box);
-	padding: 15px 2px 15px 2px;
+}
+
+.header-item-media.separator {
+	@include box-flex(1);
+}
+
+.content-searchbox {
+	border-bottom: solid 1px $blue;
+  	border-left: solid 1px $blue;
+  	margin-right: 5px;
+  	margin-top: 14px;
+  	border-right: solid 1px $blue;
+  	overflow: visible;
+  	max-height: 0.15em;
+  	display: inline-block;
+  	padding: 2px;
+  	vertical-align: middle;
+}
+
+.content-searchbutton {
+	background-image: url('../images/magnifier.svg');
+	background-repeat: no-repeat;
+	background-position: center;
+	width: 40px;
+	height: 40px;
+	display: inline-block;
+	vertical-align: middle;	
+}
+
+input[type=text] {
+	outline: none;
+  	border: none;
+  	background: transparent;
+  	display: inline-block;
+  	position: relative;
+  	bottom: 1.1em;
+  	font-size: 15px;
 }
 
 .header-item-queue {
