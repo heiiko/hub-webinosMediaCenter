@@ -2,19 +2,17 @@ var $ = require('jquery');
 var _ = require('../util/objectscore.coffee'); // require('underscore');
 var address = require('../util/address.coffee');
 var Bacon = require('baconjs');
-var IScroll = require('iscroll');
 var util = require('util');
 
 var ControlsView = require('./controls_view.js');
 
 function ListView(items, selection, list, wrapper, fadeout) {
   var self = this;
-  this.scroll = undefined;
 
   this.refresh = function() {
     if ($(list).children().length > 0) {
-      if (typeof self.scroll === 'undefined') {
-        self.scroll = new IScroll(wrapper, {snap: list + ' li', momentum: false});
+      //if (typeof self.scroll === 'undefined') {
+        //self.scroll = new IScroll(wrapper, {snap: list + ' li', momentum: false});
         // scroll.on('scrollEnd', function(){
         //   if(scroll.y >= 0){
         //     $(fadeout + 'topfadeout').hide();
@@ -27,9 +25,9 @@ function ListView(items, selection, list, wrapper, fadeout) {
         //     $(fadeout + 'bottomfadeout').show();
         //   }
         // });
-      }
-      self.scroll.options.snap = document.querySelectorAll(list + ' li');
-      self.scroll.refresh();
+      //}
+      //self.scroll.options.snap = document.querySelectorAll(list + ' li');
+      //self.scroll.refresh();
 
       //Fittext, currently to expensive.
       //$("li p").fitText(0.8);
@@ -44,7 +42,7 @@ function ListView(items, selection, list, wrapper, fadeout) {
       var $item = $(self.htmlify(item));
       var id = self.identify(item);
       $item.data('id', id);
-      if (list === '#targetlist')
+      if (list === '#mobiletargetlist')
         $item.data('local', item.isLocal());
       $list.append($item);
     });
@@ -152,13 +150,10 @@ function CategoryListView(viewModel) {
 util.inherits(ContentListView, ListView);
 function ContentListView(viewModel) {
   this.htmlify = function(value) {
-//    console.warn("value.item", value.item);
     var html;
     if (typeof value.item.type === 'string' && value.item.type.toLowerCase().indexOf('image') === 0) {
-//      html = '<li class="imageContent nav_co"><img src="' + value.item.thumbnailURIs[0] + '"><span>' + value.item.title + '</span>';
-      html = '<li><div><input type="checkbox" /></div><div><img src="' + value.item.thumbnailURIs[0] + '"></div><div class="mediaitemcontent"><span class="imagetitle">' + value.item.title + '</span></div>';
+      html = '<li><div><input type="checkbox" /></div><div class="image-icon"><img src="' + value.item.thumbnailURIs[0] + '"></div><div class="mediaitemcontent"><span class="imagetitle">' + value.item.title + '</span></div>';
     } else {
-//      html = '<li class="textContent nav_co"><p>' + value.item.title + '</p>';
       var type = value.item.type.toLowerCase();
       var iconClass;
       switch (type) {
@@ -173,7 +168,6 @@ function ContentListView(viewModel) {
       }
       html = '<li><div><input type="checkbox" /></div><div class="' + iconClass + '"></div><div class="mediaitemcontent"><span class="itemtitle">' + value.item.title + '</span><span class="itemartists">' + value.item.artists + '</span></div>';
     }
-//    html += '<img class="selectIcon" src="images/add.svg"></li>';
     return html;
   };
 

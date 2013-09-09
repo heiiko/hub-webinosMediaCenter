@@ -299,6 +299,7 @@ li, ul {
 }
 
 #mobilecontentwrapper {
+	
 	@media screen and (min-width: $mintabletwidth) {
 		left: 150px;
 		position: absolute;
@@ -307,10 +308,18 @@ li, ul {
 		right: 0;
     	background: white;
     	border-left: 2px solid $bordergray;
+    	overflow-y: scroll;
 	}
 
 	@media screen and (max-width: $mintabletwidth - 1) {
-		width: 100%;
+		left: 0;
+		position: absolute;
+		top: $headerheight + 1;
+		bottom: 0;
+		right: 0;
+    	background: white;
+    	visibility: hidden;
+		overflow-y: scroll;
 	}
 }
 
@@ -442,7 +451,7 @@ $content-list-min-size:40px;
 }
 
 #mobilecontentlist li div{
- line-height: $content-list-min-size/2;
+ line-height: $content-list-min-size/2 - 2;
  height: 100%;
  float: left;
 }
@@ -463,14 +472,26 @@ $content-list-min-size:40px;
   -webkit-mask-image: url("../images/movie.svg");
 }
 
+.image-icon {
+	width: 40px;
+}
+
 span.itemtitle{
   font-size: 90%;
   font-weight: bold;
+  vertical-align: middle;
 }
 span.itemartists{
   display: block;
   font-size: 75%;
   color: $darkgray;
+  vertical-align: middle;
+}
+
+span.imagetitle {
+  font-size: 90%;
+  font-weight: bold;
+  vertical-align: middle;
 }
 
 //item checkboxes
