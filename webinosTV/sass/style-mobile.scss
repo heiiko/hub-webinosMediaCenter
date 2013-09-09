@@ -192,7 +192,7 @@ li, ul {
 	width: 40px;
 	height: 40px;
 	display: inline-block;
-	vertical-align: middle;	
+	vertical-align: middle;
 }
 
 input[type=text] {
@@ -398,12 +398,12 @@ input[type=text] {
 		display: none;
 	}
 
-  @media screen and (max-width: 1199px) {
+  @media screen and (max-width: $mintabletwidth - 1) {
     visibility: hidden;
   }
 }
 
-@media screen and (min-width: 1200px){
+@media screen and (min-width: $mintabletwidth){
   /*category-selection arrow*/
   .arrow_box {
     position: relative;
@@ -468,11 +468,7 @@ input[type=text] {
     color:yellow;
   }
 
-  #mobilecontentlist{
-    height:100%;
-    width:100%;
-    overflow-y: scroll;
-  }
+
 
 /*  .content-wrapper{
     height:100%;
@@ -489,6 +485,12 @@ input[type=text] {
     width:100%;
   }
 }
+
+  #mobilecontentlist{
+    height:100%;
+    width:100%;
+    overflow-y: scroll;
+  }
 
 //Content list items
 $content-list-min-size:40px;

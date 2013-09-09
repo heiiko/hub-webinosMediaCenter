@@ -32,9 +32,9 @@ function init() {
 }
 
 function setMediaSelectBehavior() {
-  console.warn("RESIZE ", $(window).width());
   var selectMediaCategories = $('li.category').off('click');
   if ($(window).width() > 1199) { //wide screen
+    $('#mobilecontentwrapper').css('visibility', 'visible');
     $('#mobilecategorylist').show();
     $('#mobilecontentlist').show();
     $('#topmenu').show();
@@ -84,10 +84,10 @@ function setMediaSelectBehavior() {
       $('#mobilecontentwrapper').css('visibility', 'visible');
       $('#mobilecontentlist').show(250);
       $('#topmenu').hide();
-      $('#selected-source-intro').html('< ');
+//      $('#selected-source-intro').html('< ');
       //pop
-      $('#container-media .header').one('click', function() {
-        $('#selected-source-intro').html('You can select media from');
+      $($('#container-media .header-item-media')[0]).one('click', function() {
+        //      $('#selected-source-intro').html('You can select media from');
         $('#mobilecategorylist').show(250);
         $('#topmenu').show(250);
         $('#mobilecontentlist').hide(250);
