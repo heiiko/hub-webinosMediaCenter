@@ -6,27 +6,6 @@ var bjq = require('bacon.jquery');
 var ControlsViewModel = require('./controls_view_model.js');
 
 function MobileBrowserViewModel(manager, input) {
-  /*Mobile browser view pull menu*/
-  $('#leftfadeout').unbind('click');
-  $('#leftfadeout').append('<div id="leftdragbar"><div class="verticalgrippie"></div></div>');
-
-  $('#leftdragbar').mousedown(function(e) {
-    e.preventDefault();
-    $(document).mousemove(function(e) {
-      $('#leftfadeout').css("width", e.pageX + 2);
-    });
-
-    $('#leftdragbar').mouseup(function(e) {
-      e.preventDefault();
-      $(document).unbind('mousemove');
-      $('#leftfadeout').animate({width: '100%'}, 300).one('dblclick', function() {
-        //rollback
-        $('#leftfadeout').animate({width: '0.5em'}, 300);
-      });
-    });
-  });
-
-
 
   input = input.filter(function() {
     return $('.pt-page-current').attr('id') === 'mobilebrowser' && !$('.menu').is(":visible");

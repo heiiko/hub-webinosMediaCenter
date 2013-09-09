@@ -12,19 +12,19 @@ function ListView(items, selection, list, wrapper, fadeout) {
   this.refresh = function() {
     if ($(list).children().length > 0) {
       //if (typeof self.scroll === 'undefined') {
-        //self.scroll = new IScroll(wrapper, {snap: list + ' li', momentum: false});
-        // scroll.on('scrollEnd', function(){
-        //   if(scroll.y >= 0){
-        //     $(fadeout + 'topfadeout').hide();
-        //   }else{
-        //     $(fadeout + 'topfadeout').show();
-        //   }
-        //   if(scroll.y <= ($(wrapper).height() - $(list).height())){
-        //     $(fadeout + 'bottomfadeout').hide();
-        //   }else{
-        //     $(fadeout + 'bottomfadeout').show();
-        //   }
-        // });
+      //self.scroll = new IScroll(wrapper, {snap: list + ' li', momentum: false});
+      // scroll.on('scrollEnd', function(){
+      //   if(scroll.y >= 0){
+      //     $(fadeout + 'topfadeout').hide();
+      //   }else{
+      //     $(fadeout + 'topfadeout').show();
+      //   }
+      //   if(scroll.y <= ($(wrapper).height() - $(list).height())){
+      //     $(fadeout + 'bottomfadeout').hide();
+      //   }else{
+      //     $(fadeout + 'bottomfadeout').show();
+      //   }
+      // });
       //}
       //self.scroll.options.snap = document.querySelectorAll(list + ' li');
       //self.scroll.refresh();

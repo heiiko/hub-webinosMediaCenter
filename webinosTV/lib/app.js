@@ -10,37 +10,40 @@ var BrowserViewModel = require('./view/browser_view_model.js');
 var BrowserView = require('./view/browser_view.js');
 var MobileBrowserViewModel = require('./view/mobilebrowser_view_model.js');
 var MobileBrowserView = require('./view/mobilebrowser_view.js');
+var MobileMainMenuView = require('./view/mobile_main_menu_view.js');
 var RendererViewModel = require('./view/renderer_view_model.js');
 var RendererView = require('./view/renderer_view.js');
 var RemoteView = require('./view/remote_view.js');
 var RemoteViewModel = require('./view/remote_view_model.js');
 require('./view/mobilemain_view.js');
 
-$(document).ready(function () {
+$(document).ready(function() {
   var manager = new DeviceManager(30000, 60000);
 
-  var peer = manager.toProperty().map(function (devices) {
-    var local = _.find(devices, function (device) {
+  var peer = manager.toProperty().map(function(devices) {
+    var local = _.find(devices, function(device) {
       return device.isLocal();
     });
 
-    if (typeof local === 'undefined' || !local.peers().length) return '<no-peer>';
+    if (typeof local === 'undefined' || !local.peers().length)
+      return '<no-peer>';
     return local.peers()[0];
   });
 
   var keyName = {13: 'enter', 37: 'left', 38: 'up', 39: 'right', 40: 'down'};
-  var local = $(window).asEventStream('keydown').filter(function (event) {
+  var local = $(window).asEventStream('keydown').filter(function(event) {
     return _.has(keyName, event.keyCode);
-  }).map(function (event) {
+  }).map(function(event) {
     return keyName[event.keyCode];
   });
 
-  var remote = peer.flatMapLatest(function (peer) {
-    if (peer === '<no-peer>') return Bacon.never();
+  var remote = peer.flatMapLatest(function(peer) {
+    if (peer === '<no-peer>')
+      return Bacon.never();
     return peer.messages();
-  }).filter(function (message) {
+  }).filter(function(message) {
     return message.type === 'input';
-  }).map(function (message) {
+  }).map(function(message) {
     return message.content.key;
   });
 
@@ -52,6 +55,7 @@ $(document).ready(function () {
   var browserView = new BrowserView(browserViewModel);
   var mobilebrowserViewModel = new MobileBrowserViewModel(manager, input);
   var mobilebrowserView = new MobileBrowserView(mobilebrowserViewModel);
+  var mobileMainMenuView = new MobileMainMenuView();
   var rendererViewModel = new RendererViewModel(manager, input);
   var rendererView = new RendererView(rendererViewModel);
   var remoteViewModel = new RemoteViewModel(manager, input, mainMenuViewModel);
