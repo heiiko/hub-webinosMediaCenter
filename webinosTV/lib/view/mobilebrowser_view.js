@@ -42,7 +42,7 @@ function ListView(items, selection, list, wrapper, fadeout) {
       var $item = $(self.htmlify(item));
       var id = self.identify(item);
       $item.data('id', id);
-      if (list === '#targetlist')
+      if (list === '#mobiletargetlist')
         $item.data('local', item.isLocal());
       $list.append($item);
     });
@@ -150,13 +150,10 @@ function CategoryListView(viewModel) {
 util.inherits(ContentListView, ListView);
 function ContentListView(viewModel) {
   this.htmlify = function(value) {
-//    console.warn("value.item", value.item);
     var html;
     if (typeof value.item.type === 'string' && value.item.type.toLowerCase().indexOf('image') === 0) {
-//      html = '<li class="imageContent nav_co"><img src="' + value.item.thumbnailURIs[0] + '"><span>' + value.item.title + '</span>';
       html = '<li><div><input type="checkbox" /></div><div><img src="' + value.item.thumbnailURIs[0] + '"></div><div class="mediaitemcontent"><span class="imagetitle">' + value.item.title + '</span></div>';
     } else {
-//      html = '<li class="textContent nav_co"><p>' + value.item.title + '</p>';
       var type = value.item.type.toLowerCase();
       var iconClass;
       switch (type) {
@@ -171,7 +168,6 @@ function ContentListView(viewModel) {
       }
       html = '<li><div><input type="checkbox" /></div><div class="' + iconClass + '"></div><div class="mediaitemcontent"><span class="itemtitle">' + value.item.title + '</span><span class="itemartists">' + value.item.artists + '</span></div>';
     }
-//    html += '<img class="selectIcon" src="images/add.svg"></li>';
     return html;
   };
 
