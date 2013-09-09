@@ -154,9 +154,22 @@ li, ul {
 	text-overflow: ellipsis;
 }
 
+.header-media {
+	width: 100%;
+	height: $headerheight;
+	overflow: hidden;
+	border-bottom: 1px solid $blue;
+	@include display-box;
+	@include box-orient(horizontal);
+	@include box-pack(center);
+	@include box-align(center);
+}
+
 .header-item-media {
-	@include box-sizing(border-box);
-	padding: 15px 2px 15px 2px;
+}
+
+.header-item-media.separator {
+	@include box-flex(1);
 }
 
 .header-item-queue {
