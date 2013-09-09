@@ -443,7 +443,7 @@ $content-list-min-size:40px;
 }
 
 #mobilecontentlist li div{
- line-height: $content-list-min-size/2;
+ line-height: $content-list-min-size/2 - 2;
  height: 100%;
  float: left;
 }
@@ -464,14 +464,26 @@ $content-list-min-size:40px;
   -webkit-mask-image: url("../images/movie.svg");
 }
 
+.image-icon {
+	width: 40px;
+}
+
 span.itemtitle{
   font-size: 90%;
   font-weight: bold;
+  vertical-align: middle;
 }
 span.itemartists{
   display: block;
   font-size: 75%;
   color: $darkgray;
+  vertical-align: middle;
+}
+
+span.imagetitle {
+  font-size: 90%;
+  font-weight: bold;
+  vertical-align: middle;
 }
 
 //item checkboxes

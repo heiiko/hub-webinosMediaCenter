@@ -152,7 +152,7 @@ function ContentListView(viewModel) {
   this.htmlify = function(value) {
     var html;
     if (typeof value.item.type === 'string' && value.item.type.toLowerCase().indexOf('image') === 0) {
-      html = '<li><div><input type="checkbox" /></div><div><img src="' + value.item.thumbnailURIs[0] + '"></div><div class="mediaitemcontent"><span class="imagetitle">' + value.item.title + '</span></div>';
+      html = '<li><div><input type="checkbox" /></div><div class="image-icon"><img src="' + value.item.thumbnailURIs[0] + '"></div><div class="mediaitemcontent"><span class="imagetitle">' + value.item.title + '</span></div>';
     } else {
       var type = value.item.type.toLowerCase();
       var iconClass;
