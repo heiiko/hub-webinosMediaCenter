@@ -299,6 +299,7 @@ li, ul {
 }
 
 #mobilecontentwrapper {
+	
 	@media screen and (min-width: $mintabletwidth) {
 		left: 150px;
 		position: absolute;
@@ -311,7 +312,14 @@ li, ul {
 	}
 
 	@media screen and (max-width: $mintabletwidth - 1) {
-		width: 100%;
+		left: 0;
+		position: absolute;
+		top: $headerheight + 1;
+		bottom: 0;
+		right: 0;
+    	background: white;
+    	visibility: hidden;
+		overflow-y: scroll;
 	}
 }
 

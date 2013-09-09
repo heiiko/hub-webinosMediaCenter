@@ -81,6 +81,7 @@ function setMediaSelectBehavior() {
     var selectMediaCategories = $('li.category').on('click', function() {
       //push
       $('#mobilecategorylist').hide(250);
+      $('#mobilecontentwrapper').css('visibility', 'visible');
       $('#mobilecontentlist').show(250);
       $('#topmenu').hide();
       $('#selected-source-intro').html('< ');
@@ -90,6 +91,7 @@ function setMediaSelectBehavior() {
         $('#mobilecategorylist').show(250);
         $('#topmenu').show(250);
         $('#mobilecontentlist').hide(250);
+        $('#mobilecontentwrapper').css('visibility', 'hidden');
       });
     });
   }
