@@ -307,6 +307,7 @@ li, ul {
 		right: 0;
     	background: white;
     	border-left: 2px solid $bordergray;
+    	overflow-y: scroll;
 	}
 
 	@media screen and (max-width: $mintabletwidth - 1) {

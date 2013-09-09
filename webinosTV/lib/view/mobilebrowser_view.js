@@ -2,19 +2,17 @@ var $ = require('jquery');
 var _ = require('../util/objectscore.coffee'); // require('underscore');
 var address = require('../util/address.coffee');
 var Bacon = require('baconjs');
-var IScroll = require('iscroll');
 var util = require('util');
 
 var ControlsView = require('./controls_view.js');
 
 function ListView(items, selection, list, wrapper, fadeout) {
   var self = this;
-  this.scroll = undefined;
 
   this.refresh = function() {
     if ($(list).children().length > 0) {
-      if (typeof self.scroll === 'undefined') {
-        self.scroll = new IScroll(wrapper, {snap: list + ' li', momentum: false});
+      //if (typeof self.scroll === 'undefined') {
+        //self.scroll = new IScroll(wrapper, {snap: list + ' li', momentum: false});
         // scroll.on('scrollEnd', function(){
         //   if(scroll.y >= 0){
         //     $(fadeout + 'topfadeout').hide();
@@ -27,9 +25,9 @@ function ListView(items, selection, list, wrapper, fadeout) {
         //     $(fadeout + 'bottomfadeout').show();
         //   }
         // });
-      }
-      self.scroll.options.snap = document.querySelectorAll(list + ' li');
-      self.scroll.refresh();
+      //}
+      //self.scroll.options.snap = document.querySelectorAll(list + ' li');
+      //self.scroll.refresh();
 
       //Fittext, currently to expensive.
       //$("li p").fitText(0.8);
