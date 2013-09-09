@@ -287,7 +287,7 @@ li, ul {
 		background-color: $lightgray;
 		text-align: center;
 		width: 150px;
-		
+
 		ul,li {
 			background-color: $lightgray;
 		}
@@ -536,4 +536,55 @@ to {background: white;}
 {
 from {background: $blue;}
 to {background: white;}
+}
+
+#leftfadeout{
+   background: rgba($darkgray,0.5);
+   width:0.5em;
+   z-index:2;
+   position: absolute;
+}
+
+#rightfadeout{
+  display:none
+}
+
+#leftdragbar{
+  background: rgba(black,0.75);
+  height:100%;
+  width:0.5em;
+  float:right;
+  cursor: col-resize;
+}
+
+.verticalgrippie{
+  position: relative;
+  top: 50%;
+  left: -0.6em;
+}
+
+.verticalgrippie:after{
+  content:'•••';
+  color:$lightgray;
+  position:absolute;
+  top:50%;
+  -webkit-transform:rotateZ(90deg);
+  -moz-transform:rotateZ(90deg);
+  -o-transform:rotateZ(90deg);
+  -ms-transform:rotateZ(90deg);
+  transform:rotateZ(90deg);
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  border-radius: 1px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 1px;
+  background: $blue;
 }

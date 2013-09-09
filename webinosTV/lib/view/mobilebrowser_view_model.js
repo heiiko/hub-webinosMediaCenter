@@ -6,26 +6,48 @@ var bjq = require('bacon.jquery');
 var ControlsViewModel = require('./controls_view_model.js');
 
 function MobileBrowserViewModel(manager, input) {
-  input = input.filter(function () {
+  /*Mobile browser view pull menu*/
+  $('#leftfadeout').unbind('click');
+  $('#leftfadeout').append('<div id="leftdragbar"><div class="verticalgrippie"></div></div>');
+
+  $('#leftdragbar').mousedown(function(e) {
+    e.preventDefault();
+    $(document).mousemove(function(e) {
+      $('#leftfadeout').css("width", e.pageX + 2);
+    });
+
+    $('#leftdragbar').mouseup(function(e) {
+      e.preventDefault();
+      $(document).unbind('mousemove');
+      $('#leftfadeout').animate({width: '100%'}, 300).one('dblclick', function() {
+        //rollback
+        $('#leftfadeout').animate({width: '0.5em'}, 300);
+      });
+    });
+  });
+
+
+
+  input = input.filter(function() {
     return $('.pt-page-current').attr('id') === 'mobilebrowser' && !$('.menu').is(":visible");
   });
 
-  this.input = function () {
+  this.input = function() {
     return input;
   };
 
-  var sources = manager.toProperty().map(function (devices) {
-    return _.filter(devices, function (device) {
+  var sources = manager.toProperty().map(function(devices) {
+    return _.filter(devices, function(device) {
       return device.isSource();
     });
   });
 
-  this.sources = function () {
+  this.sources = function() {
     return sources;
   };
 
   var selectedSources = bjq.Model([]);
-  this.selectedSources = function () {
+  this.selectedSources = function() {
     return selectedSources;
   };
 
@@ -36,55 +58,59 @@ function MobileBrowserViewModel(manager, input) {
     {id: 'channels', type: 'Channel', title: 'Channels', image: 'images/media-channels.svg'}
   ]);
 
-  this.categories = function () {
+  this.categories = function() {
     return categories;
   };
 
   var selectedCategories = bjq.Model([]);
-  this.selectedCategories = function () {
+  this.selectedCategories = function() {
     return selectedCategories;
   };
 
   var content = Bacon.combineTemplate({
     sources: sources, selectedSources: selectedSources,
     categories: categories, selectedCategories: selectedCategories
-  }).map(function (state) {
-    var types = _.map(state.selectedCategories, function (id) {
+  }).map(function(state) {
+    var types = _.map(state.selectedCategories, function(id) {
       return id ? _.findWhere(state.categories, {id: id}).type : id;
     });
 
-    return _.chain(state.sources).filter(function (source) {
-      return _.contains(_.map(state.selectedSources, function(selectedsource) { return selectedsource.address; }), source.address());
-    }).map(function (source) {
-      return _.chain(source.content()).values().flatten().filter(function (item) {
-        return !types.length || _.find(types, function(type) {return item.type.toLowerCase().indexOf(type.toLowerCase()) != -1 });
-      }).map(function (item) {
+    return _.chain(state.sources).filter(function(source) {
+      return _.contains(_.map(state.selectedSources, function(selectedsource) {
+        return selectedsource.address;
+      }), source.address());
+    }).map(function(source) {
+      return _.chain(source.content()).values().flatten().filter(function(item) {
+        return !types.length || _.find(types, function(type) {
+          return item.type.toLowerCase().indexOf(type.toLowerCase()) != -1
+        });
+      }).map(function(item) {
         return {source: source, item: item};
       }).value();
     }).flatten().value();
   });
 
-  this.content = function () {
+  this.content = function() {
     return content;
   };
 
   var selectedContent = bjq.Model([]);
-  this.selectedContent = function () {
+  this.selectedContent = function() {
     return selectedContent;
   };
 
-  var targets = manager.toProperty().map(function (devices) {
-    return _.filter(devices, function (device) {
+  var targets = manager.toProperty().map(function(devices) {
+    return _.filter(devices, function(device) {
       return device.isTarget();
     });
   });
 
-  this.targets = function () {
+  this.targets = function() {
     return targets;
   };
 
   var selectedTargets = bjq.Model([]);
-  this.selectedTargets = function () {
+  this.selectedTargets = function() {
     return selectedTargets;
   };
 
@@ -94,30 +120,30 @@ function MobileBrowserViewModel(manager, input) {
     devices: manager.toProperty(),
     selectedContent: selectedContent,
     selectedTargets: selectedTargets
-  }).sampledBy(queuing, function (current, command) {
+  }).sampledBy(queuing, function(current, command) {
     return {
       devices: current.devices,
       selectedContent: current.selectedContent,
       selectedTargets: current.selectedTargets,
       command: command
     };
-  }).filter(function (operation) {
+  }).filter(function(operation) {
     return operation.selectedContent.length && operation.selectedTargets.length;
-  }).onValue(function (operation) {
-    var items = _.map(operation.selectedContent, function (selectedItem) {
+  }).onValue(function(operation) {
+    var items = _.map(operation.selectedContent, function(selectedItem) {
       var source = operation.devices[selectedItem.source];
-      var item   = _.chain(source.content()).values().flatten().findWhere({
+      var item = _.chain(source.content()).values().flatten().findWhere({
         id: selectedItem.item.id,
         title: selectedItem.item.title
       }).value();
       return {source: source, item: item};
     });
 
-    var targets = _.map(operation.selectedTargets, function (selectedTarget) {
+    var targets = _.map(operation.selectedTargets, function(selectedTarget) {
       return operation.devices[selectedTarget];
     });
 
-    var promises = _.map(items, function (item) {
+    var promises = _.map(items, function(item) {
       if (item.item.type === 'Channel') {
         return Promise.fulfill({item: item.item, link: item.item.link})
       }
@@ -125,13 +151,13 @@ function MobileBrowserViewModel(manager, input) {
       return item.source.mediacontent().getLink({
         folderId: item.item.id,
         fileName: item.item.title
-      }).then(function (link) {
+      }).then(function(link) {
         return {item: item.item, link: link};
       });
     });
 
-    Promise.every.apply(Promise, promises).then(function (values) {
-      _.each(targets, function (target) {
+    Promise.every.apply(Promise, promises).then(function(values) {
+      _.each(targets, function(target) {
         // Assumption: Only devices with a peer service are recognized as targets.
         var peer = target.peers()[0];
         switch (operation.command.type) {
@@ -149,57 +175,60 @@ function MobileBrowserViewModel(manager, input) {
   var prepend = new Bacon.Bus();
   queuing.plug(prepend.map({type: 'prepend'}));
 
-  this.prepend = function () {
+  this.prepend = function() {
     return prepend;
   };
 
   var append = new Bacon.Bus();
   queuing.plug(append.map({type: 'append'}));
 
-  this.append = function () {
+  this.append = function() {
     return append;
   };
 
-  var selectedPeer = manager.toProperty().sampledBy(selectedTargets, function (devices, selectedTargets) {
-    if (!selectedTargets.length || selectedTargets.length > 1) return '<no-peer>';
+  var selectedPeer = manager.toProperty().sampledBy(selectedTargets, function(devices, selectedTargets) {
+    if (!selectedTargets.length || selectedTargets.length > 1)
+      return '<no-peer>';
     // Assumption: Only devices with a peer service are recognized as targets.
     return devices[selectedTargets[0]].peers()[0];
   });
 
-  this.selectedPeer = function () {
+  this.selectedPeer = function() {
     return selectedPeer;
   };
 
   var controls = new ControlsViewModel(selectedPeer);
-  this.controls = function () {
+  this.controls = function() {
     return controls;
   };
 
-  var queue = selectedPeer.flatMapLatest(function (selectedPeer) {
-    if (selectedPeer === '<no-peer>') return Bacon.once([]);
+  var queue = selectedPeer.flatMapLatest(function(selectedPeer) {
+    if (selectedPeer === '<no-peer>')
+      return Bacon.once([]);
     return selectedPeer.state().map('.queue').skipDuplicates(_.isEqual);
   }).toProperty([]);
 
-  this.queue = function () {
+  this.queue = function() {
     return queue;
   };
 
   var selectedQueue = bjq.Model([]);
-  this.selectedQueue = function () {
+  this.selectedQueue = function() {
     return selectedQueue;
   };
 
   Bacon.combineTemplate({
     selectedPeer: selectedPeer,
     queue: queue, selectedQueue: selectedQueue
-  }).sampledBy(controls.remove()).filter(function (state) {
+  }).sampledBy(controls.remove()).filter(function(state) {
     return state.selectedPeer !== '<no-peer>' && state.selectedQueue.length
-  }).onValue(function (state) {
+  }).onValue(function(state) {
     var indexes = [];
 
-    _.each(state.selectedQueue, function (link) {
-      _.each(state.queue, function (item, index) {
-        if (link === item.link) indexes.push(index);
+    _.each(state.selectedQueue, function(link) {
+      _.each(state.queue, function(item, index) {
+        if (link === item.link)
+          indexes.push(index);
       });
     });
 
