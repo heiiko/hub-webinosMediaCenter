@@ -78,6 +78,7 @@ function setMediaSelectBehavior() {
         });
       })(i);
     }
+    $('li.category.mobileselected').trigger('click');
   }
   else //small screen
   {
