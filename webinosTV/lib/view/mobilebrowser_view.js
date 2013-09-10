@@ -70,7 +70,12 @@ function ListView(items, selection, list, wrapper, fadeout) {
       if (!$item.length)
         return selection;
       var id = $item.data('id');
-      return (_.ocontains(selection, id) ? _.odifference : _.ounion)(selection, [id]);
+      if(list === '#mobilecategorylist') {
+	    return [id];
+      }
+      else {
+      	return (_.ocontains(selection, id) ? _.odifference : _.ounion)(selection, [id]);
+      }
     };
   }));
 
