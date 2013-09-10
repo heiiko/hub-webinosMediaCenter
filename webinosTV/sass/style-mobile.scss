@@ -354,7 +354,6 @@ input[type=text] {
 		right: 0;
     	background: white;
     	border-left: 2px solid $bordergray;
-    //	overflow-y: scroll; -  moved to #mobilecontentlist
 	}
 
 	@media screen and (max-width: $mintabletwidth - 1) {
@@ -365,7 +364,17 @@ input[type=text] {
 		right: 0;
     	background: white;
     	visibility: hidden;
-	//	overflow-y: scroll; -  moved to #mobilecontentlist
+    	
+		.show {
+			visibility: visible;
+		}
+	}
+}
+
+
+#mobilecontentwrapper.show {
+	@media screen and (max-width: $mintabletwidth - 1) {
+		visibility: visible;
 	}
 }
 
