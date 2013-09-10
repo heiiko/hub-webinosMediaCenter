@@ -10,7 +10,7 @@ $lightgray: #f1f1f1;
 $bordergray: gray;
 
 $mintabletwidth: 1200px;
-$headerheight: 70px;
+$headerheight: 56px;
 $menuheight: 50px;
 $category-wrapper-width-largescreen:150px;
 
@@ -103,6 +103,7 @@ $category-wrapper-width-largescreen:150px;
 		height: $headerheight;
 		overflow: hidden;
 		border-bottom: 1px solid $blue;
+		margin-left: 8px;
 	}
 
 	.header-item-device {
@@ -130,7 +131,7 @@ $category-wrapper-width-largescreen:150px;
 
 	#current-source-logo {
 		vertical-align: middle;
-		height: 40px;
+		height: 30px;
 	}
 
 	#current-source-name {
@@ -139,11 +140,12 @@ $category-wrapper-width-largescreen:150px;
 		width: 70%;
 		overflow: hidden;
 		text-overflow: ellipsis;
+		padding-bottom: 4px;
 	}
 
 	#current-target-logo {
 		vertical-align: middle;
-		height: 40px;
+		height: 30px;
 	}
 
 	#current-target-name {
@@ -152,6 +154,7 @@ $category-wrapper-width-largescreen:150px;
 		width: 70%;
 		overflow: hidden;
 		text-overflow: ellipsis;
+		padding-bottom: 4px;
 	}
 
 	.header-media {
@@ -166,6 +169,7 @@ $category-wrapper-width-largescreen:150px;
 	}
 
 	.header-item-media {
+		margin-left: 8px;
 	}
 
 	.header-item-media.separator {
@@ -265,8 +269,15 @@ $category-wrapper-width-largescreen:150px;
 		vertical-align: middle;
 	}
 
-	  .headerbutton,.content-searchbutton,.content-queuebutton {
-		$size:40px;
+	.header-menu-border {
+		height: 30px;
+		border-left: 1px solid $mediumgray;
+		display: inline-block;
+		vertical-align: middle;
+	}
+
+	.headerbutton,.content-searchbutton,.content-queuebutton {
+		$size:30px;
 		-webkit-mask-repeat: no-repeat;
 		-webkit-mask-size:$size;
 		width: $size;
@@ -278,10 +289,13 @@ $category-wrapper-width-largescreen:150px;
 
 	.content-searchbutton {
 		-webkit-mask-image: url('../images/magnifier.svg');
+		margin-right: 15px;
 	}
 
 	.content-queuebutton {
 		-webkit-mask-image: url('../images/add_to_playlist.svg');
+		margin-left: 15px;
+		margin-right: 30px;
 	}
 
 	input[type=text] {
@@ -314,6 +328,7 @@ $category-wrapper-width-largescreen:150px;
 
 	#mobilesourcewrapper {
 	  border-right: 1px solid $mediumgray;
+	  margin-left: 8px;
 	}
 
 	#mobiletargetwrapper {
@@ -393,7 +408,8 @@ $category-wrapper-width-largescreen:150px;
 
 	#selected-source {
 		vertical-align: middle;
-		height: 40px;
+		height: 30px;
+		margin-left: 8px;
 	}
 
 	#selected-source-intro {
@@ -422,6 +438,7 @@ $category-wrapper-width-largescreen:150px;
 			background-color: $lightgray;
 			text-align: center;
 			width: 150px;
+			margin-left: 4px;
 
 			ul,li {
 				background-color: $lightgray;
@@ -707,7 +724,7 @@ to {background: white;}
 }
 
 #leftfadeout{
-   background: rgba(black,0.65);
+   background: rgba($bordergray,0.65);
    width:0.5em;
    z-index:2;
    position: absolute;
@@ -718,7 +735,7 @@ to {background: white;}
 }
 
 #leftdragbar{
-  background: rgba(black,0.75);
+  background: black;
   height:100%;
   width:0.5em;
   float:right;
