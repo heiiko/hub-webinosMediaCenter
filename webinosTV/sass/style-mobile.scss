@@ -185,14 +185,23 @@ li, ul {
   	vertical-align: middle;
 }
 
+  .headerbutton,.content-searchbutton,.content-queuebutton {
+    $size:40px;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-size:$size;
+    width: $size;
+    height: $size;
+   	display: inline-block;
+  	vertical-align: middle;
+    background-color:$bordergray;
+  }
+
 .content-searchbutton {
-	background-image: url('../images/magnifier.svg');
-	background-repeat: no-repeat;
-	background-position: center;
-	width: 40px;
-	height: 40px;
-	display: inline-block;
-	vertical-align: middle;
+	-webkit-mask-image: url('../images/magnifier.svg');
+}
+
+.content-queuebutton {
+	-webkit-mask-image: url('../images/add_to_playlist.svg');
 }
 
 input[type=text] {
