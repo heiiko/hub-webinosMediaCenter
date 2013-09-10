@@ -103,6 +103,7 @@ $category-wrapper-width-largescreen:150px;
 		height: $headerheight;
 		overflow: hidden;
 		border-bottom: 1px solid $blue;
+		margin-left: 8px;
 	}
 
 	.header-item-device {
@@ -168,6 +169,7 @@ $category-wrapper-width-largescreen:150px;
 	}
 
 	.header-item-media {
+		margin-left: 8px;
 	}
 
 	.header-item-media.separator {
@@ -246,6 +248,7 @@ $category-wrapper-width-largescreen:150px;
 
 	#mobilesourcewrapper {
 	  border-right: 1px solid $mediumgray;
+	  margin-left: 8px;
 	}
 
 	#mobiletargetwrapper {
@@ -326,6 +329,7 @@ $category-wrapper-width-largescreen:150px;
 	#selected-source {
 		vertical-align: middle;
 		height: 30px;
+		margin-left: 8px;
 	}
 
 	#selected-source-intro {
@@ -354,6 +358,7 @@ $category-wrapper-width-largescreen:150px;
 			background-color: $lightgray;
 			text-align: center;
 			width: 150px;
+			margin-left: 4px;
 
 			ul,li {
 				background-color: $lightgray;
@@ -639,7 +644,7 @@ to {background: white;}
 }
 
 #leftfadeout{
-   background: rgba(black,0.65);
+   background: rgba($bordergray,0.65);
    width:0.5em;
    z-index:2;
    position: absolute;
@@ -650,7 +655,7 @@ to {background: white;}
 }
 
 #leftdragbar{
-  background: rgba(black,0.75);
+  background: black;
   height:100%;
   width:0.5em;
   float:right;
