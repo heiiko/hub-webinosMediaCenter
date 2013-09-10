@@ -41,27 +41,39 @@ function MobileBrowserViewModel(manager, input) {
     return categories;
   };
 
-  var selectedCategories = bjq.Model([]);
+  var selectedCategories = bjq.Model(['movies']);
   this.selectedCategories = function() {
     return selectedCategories;
   };
+  
+  var contentquery = bjq.textFieldValue($("#content-search"));
 
   var content = Bacon.combineTemplate({
-    sources: sources, selectedSources: selectedSources,
-    categories: categories, selectedCategories: selectedCategories
+    sources: sources, 
+    selectedSources: selectedSources,
+    categories: categories, 
+    selectedCategories: selectedCategories,
+    query: contentquery
   }).map(function(state) {
     var types = _.map(state.selectedCategories, function(id) {
       return id ? _.findWhere(state.categories, {id: id}).type : id;
     });
-
+	var querystring = _.chain(state.query).value();
+	
     return _.chain(state.sources).filter(function(source) {
       return _.contains(_.map(state.selectedSources, function(selectedsource) {
         return selectedsource.address;
       }), source.address());
     }).map(function(source) {
       return _.chain(source.content()).values().flatten().filter(function(item) {
-        return !types.length || _.find(types, function(type) {
-          return item.type.toLowerCase().indexOf(type.toLowerCase()) !== -1;
+        return _.find(types, function(type) {
+          var typematch = item.type.toLowerCase().indexOf(type.toLowerCase()) !== -1;
+          if(typematch) {
+          	var titlematch = (item.title !== 'undefined') ? (item.title.toLowerCase().indexOf(querystring.toLowerCase()) !== -1) : false;
+          	return titlematch;
+          }
+          return false;
+          
         });
       }).map(function(item) {
         return {source: source, item: item};
