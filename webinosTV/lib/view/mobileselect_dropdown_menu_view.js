@@ -1,16 +1,12 @@
 var $ = require('jquery');
 
 function selectAllItems() {
-  console.warn("select all");
-  $('#mobilecontentlist').children().addClass('mobileselected');
-  var count = $('#mobilecontentlist input:checkbox').prop("checked", true).length;
+  var count = $('#mobilecontentlist').children().addClass('mobileselected').find('input:checkbox').prop('checked', true).length;
   updateSelectedCount(count);
 }
 
 function deselectAllItems() {
-  console.warn("deselect all");
-  $('#mobilecontentlist').children().removeClass('mobileselected');
-  $('#mobilecontentlist input:checkbox').prop("checked", false);
+  $('#mobilecontentlist').children().removeClass('mobileselected').find('input:checkbox').prop('checked', false);
   updateSelectedCount(0);
 }
 

@@ -70,11 +70,11 @@ function ListView(items, selection, list, wrapper, fadeout) {
       if (!$item.length)
         return selection;
       var id = $item.data('id');
-      if(list === '#mobilecategorylist') {
-	    return [id];
+      if (list === '#mobilecategorylist') {
+        return [id];
       }
       else {
-      	return (_.ocontains(selection, id) ? _.odifference : _.ounion)(selection, [id]);
+        return (_.ocontains(selection, id) ? _.odifference : _.ounion)(selection, [id]);
       }
     };
   }));
@@ -85,6 +85,12 @@ function ListView(items, selection, list, wrapper, fadeout) {
       var id = $item.data('id');
       var selected = _.ocontains(selection, id);
       $item.toggleClass('mobileselected', selected).find('input:checkbox').prop('checked', function(idx, oldAttr) {
+        //counter logic
+        var count = parseInt($('#select-media-dd-count').text());
+        count = selected ? count + 1 : count - 1;
+        if (count >= 0)
+          $('#select-media-dd-count').text(count + ' files selected');
+        //end counter logic
         return selected;
       });
 
