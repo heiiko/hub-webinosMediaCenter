@@ -2,6 +2,8 @@ var $ = require('jquery');
 var activemenu = '#menu-device';
 var currentpage = '#container-device';
 var Toast = require('./toast_view.js');
+var SelectDropDown = require('./mobileselect_dropdown_menu_view.js');
+
 
 $(document).ready(function() {
   init();
@@ -30,6 +32,9 @@ function init() {
   $('.content-queuebutton').click(function() {
     var t = new Toast('Queue functionality not implemented yet');
   });
+
+  var ddmenu = new SelectDropDown();
+
   //END MOVE ME
   if (window.location.hash) {
     gotoPageById(window.location.hash);
