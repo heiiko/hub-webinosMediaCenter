@@ -34,14 +34,17 @@ body {
   div:nth-child(3) {
     top: 68%;
   }
-}
 
-.menu-item-wrapper {
-  position: absolute;
-  height: 30%;
-  width: 96%;
-  border: 2px solid $tv_background_color;
+  .menu-item-wrapper {
+    position: absolute;
+    height: 30%;
+    width: 96%;
+    border: 2px solid $tv_background_color;
+  }
 
+  .tv-component-focused {
+    border: 2px solid white;
+  }
 
   .menu-item {
     position: absolute;
@@ -54,10 +57,6 @@ body {
     height: 30%;
     font-size: 20px;
     padding: 20px;
-  }
-
-  .tv-component-focused {
-    border: 2px solid white;
   }
 }
 
