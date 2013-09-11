@@ -1,20 +1,33 @@
+var _ = require('underscore');
 var $ = require('jquery');
 
-function selectAllItems() {
-  var count = $('#mobilecontentlist').children().addClass('mobileselected').find('input:checkbox').prop('checked', true).length;
-  updateSelectedCount(count);
-}
+function SelectDropDown(items, selection) {
+  
+  function selectAllItems() {
+    
+    selection.apply(items.map(function(items) {
+    	return function(selection) {
+      		return _.ounion(_.map(items, function(value) {
+        		return {
+    				source: value.source.address(),
+      				item: {
+        				id: value.item.id,
+        				title: value.item.title
+      				}
+      			};
+      		}));
+		};
+	}));
+  }
 
-function deselectAllItems() {
-  $('#mobilecontentlist').children().removeClass('mobileselected').find('input:checkbox').prop('checked', false);
-  updateSelectedCount(0);
-}
-
-function updateSelectedCount(count) {
-  $('#select-media-dd-count').text(count + ' files selected');
-}
-
-function SelectDropDown() {
+  function deselectAllItems() {
+  	selection.apply(items.map(function(items) {
+    	return function(selection) {
+      		return [];
+ 	   };
+	}));
+  }
+  
   $('#select-media-dd-count').click(function() {
     $('#select-media-dd-menu li').removeClass('dd-selected');
     $('#select-media-dd-menu').toggle();

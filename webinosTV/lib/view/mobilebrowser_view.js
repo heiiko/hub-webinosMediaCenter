@@ -4,6 +4,7 @@ var address = require('../util/address.coffee');
 var Bacon = require('baconjs');
 var util = require('util');
 
+var SelectDropDown = require('./mobileselect_dropdown_menu_view.js');
 var ControlsView = require('./controls_view.js');
 
 function ListView(items, selection, list, wrapper, fadeout) {
@@ -256,7 +257,8 @@ function MobileBrowserView(viewModel) {
   var contentListView = new ContentListView(viewModel);
   var targetListView = new TargetListView(viewModel);
   var queueListView = new QueueListView(viewModel);
-
+  var ddmenu = new SelectDropDown(viewModel.content(), viewModel.selectedContent());
+  
   //var listViews = [sourceListView, categoryListView, contentListView, targetListView, null, queueListView];
   //var navigationView = new NavigationView(viewModel, listViews);
 
