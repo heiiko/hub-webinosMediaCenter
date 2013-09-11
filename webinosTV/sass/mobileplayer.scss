@@ -1,0 +1,119 @@
+@mixin mobile_player{
+
+  //mobile player
+  $tabletControlsMinHeight:150px;
+  $tabletControlBarsTop:$tabletControlsMinHeight/3*2;
+
+  #mobilequeuecontrols{
+    position:absolute;
+    width: 100%;
+    left:0px;
+    border-top:1px solid $bordergray;
+
+    //PHONE
+    @media screen and (max-width: $mintabletwidth - 1) {
+
+    }
+
+    //TABLET
+    @media screen and (min-width: $mintabletwidth - 1) {
+      bottom:0px;
+      min-height:$tabletControlsMinHeight;
+    }
+  }
+
+  .mobilequeuecontrols .slim.controlContainer{
+    position:absolute;
+    background-color:white;
+
+    //PHONE
+    @media screen and (max-width: $mintabletwidth - 1) {
+      width:80%;
+    }
+
+    //TABLET
+    @media screen and (min-width: $mintabletwidth - 1) {
+      width:100%;
+      min-height:$tabletControlsMinHeight;
+    }
+
+  }
+
+  .mobilequeuecontrols .controlButtons{
+    //PHONE
+    @media screen and (max-width: $mintabletwidth - 1) {
+      width:80%;
+    }
+
+    //TABLET
+    @media screen and (min-width: $mintabletwidth - 1) {
+      float:right;
+      width:30%;
+    }
+  }
+
+  .mobilequeuecontrols .controlButton{
+    background-color:$blue;
+    //PHONE
+    @media screen and (max-width: $mintabletwidth - 1) {
+
+    }
+    //TABLET
+    @media screen and (min-width: $mintabletwidth - 1) {
+      $radius:$tabletControlsMinHeight/3;
+      width:$radius;
+      height:$radius;
+      margin-top:$radius;
+      border-radius:$radius;
+      background-size: 50px 50px;
+      background-position-y: center;
+    }
+  }
+
+  .mobilequeuecontrols .controlSbar{
+    $barsize:2px;
+    height:$barsize;
+
+    //PHONE
+    @media screen and (max-width: $mintabletwidth - 1) {
+      width:80%;
+    }
+
+    //TABLET
+    @media screen and (min-width: $mintabletwidth - 1) {
+      width:64%;
+      top:$tabletControlBarsTop;
+      position:absolute;
+    }
+  }
+
+  $controlTimeSize:40px;
+  .mobilequeuecontrols .controlTimeSchnippel{
+    $timeSchnippelSize:4px;
+    width:$timeSchnippelSize;
+    height:$timeSchnippelSize;
+    background:$blue;
+    border:$timeSchnippelSize/2 solid $blue;
+    border-radius:$timeSchnippelSize;
+    position:absolute;
+    top:$controlTimeSize/2 - $timeSchnippelSize;
+    left:$controlTimeSize/2 - $timeSchnippelSize;
+    z-index:3;
+    margin:0;
+  }
+
+  .mobilequeuecontrols .controlTime{
+    $borderWidth:$controlTimeSize/10;
+    $top:$tabletControlBarsTop - ($controlTimeSize + $borderWidth)/2;
+    width:$controlTimeSize;
+    height:$controlTimeSize;
+    background: rgba($blue,0.7);
+    border:$borderWidth solid $blue;
+    border-radius:$controlTimeSize;
+    position:absolute;
+    top:$top;
+    margin-left: 33.3%;
+    margin-right: 33.3%;
+  }
+
+}

@@ -5,7 +5,7 @@ var Bacon = require('baconjs');
 var util = require('util');
 
 var SelectDropDown = require('./mobileselect_dropdown_menu_view.js');
-var ControlsView = require('./controls_view.js');
+var MobileControlsView = require('./mobile_controls_view.js');
 
 function ListView(items, selection, list, wrapper, fadeout) {
   var self = this;
@@ -258,7 +258,7 @@ function MobileBrowserView(viewModel) {
   var targetListView = new TargetListView(viewModel);
   var queueListView = new QueueListView(viewModel);
   var ddmenu = new SelectDropDown(viewModel.content(), viewModel.selectedContent());
-  
+
   //var listViews = [sourceListView, categoryListView, contentListView, targetListView, null, queueListView];
   //var navigationView = new NavigationView(viewModel, listViews);
 
@@ -270,7 +270,7 @@ function MobileBrowserView(viewModel) {
   });
 
   var controlsViewModel = viewModel.controls();
-  var controlsView = new ControlsView('#mobilequeuecontrols', null, controlsViewModel);
+  var controlsView = new MobileControlsView('.mobilequeuecontrols', null, controlsViewModel);
 
   document.addEventListener('touchmove', function(e) {
     e.preventDefault();

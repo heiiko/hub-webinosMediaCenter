@@ -1,5 +1,6 @@
 @charset "UTF-8";
 @import "base";
+@import 'mobileplayer';
 
 $green: #669c08;
 $blue: #48b3e4;
@@ -828,3 +829,6 @@ to {background: white;}
   position: relative;
   white-space: normal;
 }
+
+
+@include mobile_player;
