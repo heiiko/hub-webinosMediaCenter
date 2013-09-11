@@ -91,7 +91,6 @@ function ListView(items, selection, list, wrapper, fadeout) {
       if (list === '#mobilecontentlist') {
         $('#select-media-dd-count').text(selection.length + ' files selected');
       }
-
     });
   });
 }
@@ -152,6 +151,14 @@ function CategoryListView(viewModel) {
   this.identify = function(category) {
     return category.id;
   };
+  
+  viewModel.selectedCategories().onValue(function(selection) {
+    viewModel.selectedContent().apply(viewModel.content().map(function(items) {
+      return function(selection) {
+        return [];
+      };
+    }));
+  });
 
   ListView.call(this, viewModel.categories(), viewModel.selectedCategories(), '#mobilecategorylist', '#mobilecategorywrapper', '#mobilecategory');
 }
