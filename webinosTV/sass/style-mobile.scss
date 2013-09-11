@@ -9,6 +9,9 @@ $mediumgray: #dadada;
 $lightgray: #f1f1f1;
 $bordergray: gray;
 
+$fontsize: 16px;
+$fontsizemini: 13px;
+
 $mintabletwidth: 1200px;
 $headerheight: 56px;
 $menuheight: 50px;
@@ -344,6 +347,7 @@ $category-wrapper-width-largescreen:150px;
 
 	.device-type {
 		color: $darkgray;
+		font-size: $fontsizemini;
 	}
 
 	.device {
