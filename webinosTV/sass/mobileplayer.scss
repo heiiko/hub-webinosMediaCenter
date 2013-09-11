@@ -1,8 +1,11 @@
+//mobile player UI
 @mixin mobile_player{
-
-  //mobile player
   $tabletControlsMinHeight:150px;
   $tabletControlBarsTop:$tabletControlsMinHeight/3*2;
+
+  $phoneControlsMinHeight:150px;
+  $phoneControlBarsTop:$phoneControlsMinHeight/3;
+
 
   #mobilequeuecontrols{
     position:absolute;
@@ -12,7 +15,8 @@
 
     //PHONE
     @media screen and (max-width: $mintabletwidth - 1) {
-
+      bottom:0px;
+      min-height:$phoneControlsMinHeight;
     }
 
     //TABLET
@@ -28,7 +32,8 @@
 
     //PHONE
     @media screen and (max-width: $mintabletwidth - 1) {
-      width:80%;
+      width:100%;
+      min-height:$phoneControlsMinHeight;
     }
 
     //TABLET
@@ -42,7 +47,11 @@
   .mobilequeuecontrols .controlButtons{
     //PHONE
     @media screen and (max-width: $mintabletwidth - 1) {
-      width:80%;
+      width:50%;
+      left:50%;
+      min-height:$phoneControlsMinHeight/2;
+      top:$phoneControlsMinHeight/2;
+      position:absolute;
     }
 
     //TABLET
@@ -56,7 +65,14 @@
     background-color:$blue;
     //PHONE
     @media screen and (max-width: $mintabletwidth - 1) {
-
+      $radius:$phoneControlsMinHeight/4;
+      width:$radius;
+      height:$radius;
+      margin-top:$radius/3;
+      margin-right:$radius/6;
+      border-radius:$radius;
+      background-size: $radius $radius;
+      background-position-y: center;
     }
     //TABLET
     @media screen and (min-width: $mintabletwidth - 1) {
@@ -64,8 +80,9 @@
       width:$radius;
       height:$radius;
       margin-top:$radius;
+      margin-right: $radius/2;
       border-radius:$radius;
-      background-size: 50px 50px;
+      background-size: $radius $radius;
       background-position-y: center;
     }
   }
@@ -76,7 +93,10 @@
 
     //PHONE
     @media screen and (max-width: $mintabletwidth - 1) {
-      width:80%;
+      width:84%;
+      left:5%;
+      top:$phoneControlBarsTop;
+      position:absolute;
     }
 
     //TABLET
@@ -104,16 +124,29 @@
 
   .mobilequeuecontrols .controlTime{
     $borderWidth:$controlTimeSize/10;
-    $top:$tabletControlBarsTop - ($controlTimeSize + $borderWidth)/2;
+
     width:$controlTimeSize;
     height:$controlTimeSize;
     background: rgba($blue,0.7);
     border:$borderWidth solid $blue;
     border-radius:$controlTimeSize;
     position:absolute;
-    top:$top;
-    margin-left: 33.3%;
-    margin-right: 33.3%;
+
+    //PHONE
+    @media screen and (max-width: $mintabletwidth - 1) {
+      $top:28px;
+      top:$top;
+      margin-left: 45%;
+      margin-right: 30%;
+    }
+
+    //TABLET
+    @media screen and (min-width: $mintabletwidth - 1) {
+      $top:$tabletControlBarsTop - ($controlTimeSize + $borderWidth)/2;
+      top:$top;
+      margin-left: 33.3%;
+      margin-right: 33.3%;
+    }
   }
 
 }
