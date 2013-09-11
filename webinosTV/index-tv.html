@@ -28,7 +28,7 @@
     </head>
     <body>
       <div id="left-menu" class="menu tv-container-vertical buttons-container">
-        <div class="menu-item-wrapper tv-button">
+        <div class="menu-item-wrapper tv-button first-selected">
           <div id="menu-device"  class="menu-item" href="">Select a Source and Target device</div>
         </div>
         <div class="menu-item-wrapper tv-button">
@@ -90,7 +90,7 @@
         var decorateHandler = new tv.ui.DecorateHandler();
         // Capturing first component to be focused. We want it to be button.
         var firstNavItem;
-        decorateHandler.addClassHandler('tv-button', function(button) {
+        decorateHandler.addClassHandler('first-selected', function(button) {
            firstNavItem = button;
         });
         // Decorating whole document's body and adding dynamics to it.
