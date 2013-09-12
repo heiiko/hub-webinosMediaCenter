@@ -218,6 +218,10 @@ function ContentListView(viewModel) {
   	
   	if(selection.length >= 1) {      
       $('.content-queuebutton').removeClass('disabled');
+      
+      $('.content-queuebutton').click(function() {
+    	var t = new Toast(selection.length + ' media files are added to your queue');
+  	  });
     }
     else {
       $('.content-queuebutton').addClass('disabled');
@@ -298,11 +302,6 @@ function MobileBrowserView(viewModel) {
 
   //viewModel.prepend().plug($('#prepend').asEventStream('click').merge($('#prepend').asEventStream('touchend')));
   viewModel.append().plug($('#mobileappend').asEventStream('click').merge($('#mobileappend').asEventStream('touchend')));
-
-  viewModel.append().onValue(function(selection) {
-  	var count = selection.length;
-    var t = new Toast(count + 'files are added to your queue');
-  });
 
   viewModel.selectedPeer().onValue(function(selectedPeer) {
     $('#peer').text(selectedPeer === '<no-peer>' ? "Select a target" : address.friendlyName(selectedPeer.address()));

@@ -1,7 +1,6 @@
 var $ = require('jquery');
 var activemenu = '#menu-device';
 var currentpage = '#container-device';
-var Toast = require('./toast_view.js');
 
 $(document).ready(function() {
   init();
@@ -26,12 +25,7 @@ function init() {
     gotoPageById('#container-queue');
     setActiveMenu('#menu-queue');
   });
-  //MOVE ME
-  $('.content-queuebutton').click(function() {
-    var t = new Toast('Queue functionality not implemented yet');
-  });
 
-  //END MOVE ME
   if (window.location.hash) {
     gotoPageById(window.location.hash);
   }
