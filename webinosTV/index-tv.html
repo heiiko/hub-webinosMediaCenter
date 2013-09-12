@@ -26,7 +26,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     </head>
-    <body>
+    <body class="tv-container-horizontal main-container">
       <div id="left-menu" class="menu tv-container-vertical buttons-container">
         <div class="menu-item-wrapper tv-button first-selected">
           <div id="menu-device"  class="menu-item" href="">Select a Source and Target device</div>
@@ -39,23 +39,23 @@
         </div>
       </div>
 
-      <div id="container-device" class="subpage">
-        <div class="header">
+      <div id="container-device" class="subpage tv-container-vertical shelves">
+        <div class="header tv-container-horizontal  buttons-container">
           <div id="wrapper-selected-source" class="header-item-device header-active">
-            <div id="current-source-name">Source device</div>
+            <div id="current-source-name" class="tv-button">Source device</div>
           </div>
           <div id="wrapper-selected-target" class="header-item-device">
-            <div id="current-source-name">Target device</div>
+            <div id="current-source-name" class="tv-button">Target device</div>
           </div>
         </div>
 
-        <div id="sourcewrapper" class="device-column">
+        <div id="sourcewrapper" class="device-column tv-container-vertical buttons-container">
           <ul id="sourcelist">
             <li>Loading...</li>
           </ul>
         </div>
 
-        <div id="targetwrapper" class="device-column">
+        <div id="targetwrapper" class="device-column tv-container-vertical buttons-container">
           <ul id="targetlist">
             <li>Loading...</li>
           </ul>
