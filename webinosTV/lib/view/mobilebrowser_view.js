@@ -294,8 +294,8 @@ function MobileBrowserView(viewModel) {
   //var listViews = [sourceListView, categoryListView, contentListView, targetListView, null, queueListView];
   //var navigationView = new NavigationView(viewModel, listViews);
 
-  viewModel.prepend().plug($('#prepend').asEventStream('click').merge($('#prepend').asEventStream('touchend')));
-  viewModel.append().plug($('#append').asEventStream('click').merge($('#append').asEventStream('touchend')));
+  //viewModel.prepend().plug($('#prepend').asEventStream('click').merge($('#prepend').asEventStream('touchend')));
+  viewModel.append().plug($('#mobileappend').asEventStream('click').merge($('#mobileappend').asEventStream('touchend')));
 
   viewModel.selectedPeer().onValue(function(selectedPeer) {
     $('#peer').text(selectedPeer === '<no-peer>' ? "Select a target" : address.friendlyName(selectedPeer.address()));
