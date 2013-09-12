@@ -1,6 +1,6 @@
 @charset "UTF-8";
 @import "base";
-@import 'mobileplayer';
+@import 'mobile/mobileplayer';
 
 $green: #669c08;
 $blue: #48b3e4;
@@ -191,7 +191,7 @@ $category-wrapper-width-largescreen:150px;
     line-height: 1em;
     font-size: 1em;
   }
-  
+
   #select-media-dd-wrapper.disabled {
   	visibility: hidden;
   }
@@ -294,17 +294,17 @@ $category-wrapper-width-largescreen:150px;
 		vertical-align: middle;
 		background-color:$bordergray;
 	}
-	
+
 	.content-searchbutton.disabled,.content-queuebutton.disabled  {
 		background-color:$mediumgray;
 	}
-	
+
 	.content-searchbox.disabled {
 		border-bottom-color: $mediumgray;
 		border-left-color: $mediumgray;
 		border-right-color: $mediumgray;
 	}
-	
+
 	.content-searchbutton {
 		-webkit-mask-image: url('../images/magnifier.svg');
 		margin-right: 15px;
