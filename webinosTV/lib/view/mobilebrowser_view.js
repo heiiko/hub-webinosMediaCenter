@@ -4,6 +4,7 @@ var address = require('../util/address.coffee');
 var Bacon = require('baconjs');
 var util = require('util');
 
+var Toast = require('./toast_view.js');
 var SelectDropDown = require('./mobileselect_dropdown_menu_view.js');
 var MobileControlsView = require('./mobile_controls_view.js');
 
@@ -297,6 +298,11 @@ function MobileBrowserView(viewModel) {
 
   //viewModel.prepend().plug($('#prepend').asEventStream('click').merge($('#prepend').asEventStream('touchend')));
   viewModel.append().plug($('#mobileappend').asEventStream('click').merge($('#mobileappend').asEventStream('touchend')));
+
+  viewModel.append().onValue(function(selection) {
+  	var count = selection.length;
+    var t = new Toast(count + 'files are added to your queue');
+  });
 
   viewModel.selectedPeer().onValue(function(selectedPeer) {
     $('#peer').text(selectedPeer === '<no-peer>' ? "Select a target" : address.friendlyName(selectedPeer.address()));
