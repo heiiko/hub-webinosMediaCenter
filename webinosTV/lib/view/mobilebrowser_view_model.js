@@ -131,7 +131,7 @@ function MobileBrowserViewModel(manager, input) {
     });
 
     var targets = _.map(operation.selectedTargets, function(selectedTarget) {
-      return operation.devices[selectedTarget];
+      return operation.devices[selectedTarget.address];
     });
 
     var promises = _.map(items, function(item) {
