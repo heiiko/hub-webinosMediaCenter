@@ -61,6 +61,30 @@ body {
 }
 
 #container-device {
+  .header {
+    height: 15%;
+  }
+
+  .device-column {
+    height: 85%;
+  }
+
+  .header-item-device, .device-column {
+    @include box-sizing(border-box);
+    width: 50%;
+    float: left;
+  }
+
+  .header-item-device {
+    height: 70px;
+    text-align: center;
+    padding: 15px 2px 15px 2px;
+
+    #current-source-name {
+      vertical-align: middle;
+      display: inline-block;
+    }
+  }
 }
 
 .subpage {
