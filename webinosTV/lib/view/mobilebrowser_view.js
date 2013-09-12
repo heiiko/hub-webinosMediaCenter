@@ -88,9 +88,6 @@ function ListView(items, selection, list, wrapper, fadeout) {
       $item.toggleClass('mobileselected', selected).find('input:checkbox').prop('checked', function(idx, oldAttr) {
         return selected;
       });
-      if (list === '#mobilecontentlist') {
-        $('#select-media-dd-count').text(selection.length + ' files selected');
-      }
     });
   });
 }
@@ -121,17 +118,26 @@ function SourceListView(viewModel) {
 
       $('#current-source-logo').attr('src', 'images/' + device.type + '.svg');
       $('#current-source-name').html(address.friendlyName(device.address));
+      
+      $('.content-searchbutton').removeClass('disabled');
+      $('.content-searchbox').removeClass('disabled');
+      $('#select-media-dd-wrapper').removeClass('disabled');
     }
     else if (selection.length === 0) {
       $('#selected-source').attr('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==');
       $('#selected-source-name').html('');
-      $('#selected-source-intro').html('');
+      $('#selected-source-intro').html('No source device selected');
 
       $('#wrapper-selected-source').addClass('header-active');
       $('#wrapper-selected-target').removeClass('header-active');
 
       $('#current-source-logo').attr('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==');
       $('#current-source-name').html('Source devices');
+      
+      $('.content-searchbutton').addClass('disabled');
+      $('.content-searchbox').addClass('disabled');
+      $('.content-queuebutton').addClass('disabled');
+      $('#select-media-dd-wrapper').addClass('disabled');
     }
     else {
       $('#selected-source').attr('src', 'images/all_devices.svg');
@@ -140,6 +146,10 @@ function SourceListView(viewModel) {
       
       $('#current-source-logo').attr('src', 'images/all_devices.svg');
       $('#current-source-name').html(selection.length + ' devices');
+      
+      $('.content-searchbutton').removeClass('disabled');
+      $('.content-searchbox').removeClass('disabled');
+      $('#select-media-dd-wrapper').removeClass('disabled');
     }
   });
 
@@ -200,6 +210,17 @@ function ContentListView(viewModel) {
       }
     };
   };
+  
+  viewModel.selectedContent().onValue(function(selection) {
+  	$('#select-media-dd-count').text(selection.length + ' files selected');
+  	
+  	if(selection.length >= 1) {      
+      $('.content-queuebutton').removeClass('disabled');
+    }
+    else {
+      $('.content-queuebutton').addClass('disabled');
+    }
+  });
 
   ListView.call(this, viewModel.content(), viewModel.selectedContent(), '#mobilecontentlist', '#mobilecontentwrapper', '#mobilecontent');
 }
