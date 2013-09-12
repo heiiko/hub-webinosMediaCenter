@@ -110,7 +110,6 @@ $category-wrapper-width-largescreen:150px;
 		height: $headerheight;
 		overflow: hidden;
 		border-bottom: 1px solid $blue;
-		margin-left: 8px;
 	}
 
 	.header-item-device {
@@ -140,6 +139,7 @@ $category-wrapper-width-largescreen:150px;
 	#current-source-logo {
 		vertical-align: middle;
 		height: 30px;
+		margin-left: 8px;
 	}
 
 	#current-source-name {
@@ -149,6 +149,7 @@ $category-wrapper-width-largescreen:150px;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		padding-bottom: 4px;
+		font-weight: bold;
 	}
 
 	#current-target-logo {
@@ -163,6 +164,7 @@ $category-wrapper-width-largescreen:150px;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		padding-bottom: 4px;
+		font-weight: bold;
 	}
 
 	.header-media {
@@ -174,6 +176,25 @@ $category-wrapper-width-largescreen:150px;
 		@include box-orient(horizontal);
 		@include box-pack(center);
 		@include box-align(center);
+	}
+	
+	.header-queue {
+		width: 100%;
+		height: $headerheight;
+		overflow: hidden;
+		border-bottom: 1px solid $blue;
+		@include display-box;
+		@include box-orient(horizontal);
+		@include box-pack(center);
+		@include box-align(center);
+	}
+	
+	.header-item-queue {
+		margin-left: 8px;
+	}
+	
+	.header-item-queue.separator {
+		@include box-flex(1);
 	}
 
 	.header-item-media {
@@ -254,11 +275,6 @@ $category-wrapper-width-largescreen:150px;
 		font-size: 15px;
 	}
 
-	.header-item-queue {
-		@include box-sizing(border-box);
-		padding: 15px 2px 15px 2px;
-	}
-
 	.header-item-device.header-active {
 		border-bottom: 3px solid $blue;
 		padding-bottom: 10px;
@@ -274,7 +290,6 @@ $category-wrapper-width-largescreen:150px;
 
 	#mobilesourcewrapper {
 	  border-right: 1px solid $mediumgray;
-	  margin-left: 8px;
 	}
 
 	#mobiletargetwrapper {

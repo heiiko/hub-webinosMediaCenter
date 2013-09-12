@@ -145,7 +145,7 @@ function SourceListView(viewModel) {
       $('#selected-source-intro').html('You can select media from');
       
       $('#current-source-logo').attr('src', 'images/all_devices.svg');
-      $('#current-source-name').html(selection.length + ' source devices');
+      $('#current-source-name').html(selection.length + ' Source devices');
       
       $('.content-searchbutton').removeClass('disabled');
       $('.content-searchbox').removeClass('disabled');
@@ -252,7 +252,7 @@ function TargetListView(viewModel) {
     }
     else {
       $('#current-target-logo').attr('src', 'images/all_devices.svg');
-      $('#current-target-name').html(selection.length + ' target devices');
+      $('#current-target-name').html(selection.length + ' Target devices');
     }
   });
 
