@@ -131,11 +131,15 @@ function SourceListView(viewModel) {
       $('#wrapper-selected-target').removeClass('header-active');
 
       $('#current-source-logo').attr('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==');
-      $('#current-source-name').html('Source device');
+      $('#current-source-name').html('Source devices');
     }
     else {
-      $('#current-source-logo').attr('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==');
-      $('#current-source-name').html(selection.length + ' source devices');
+      $('#selected-source').attr('src', 'images/all_devices.svg');
+      $('#selected-source-name').html(selection.length + ' source devices');
+      $('#selected-source-intro').html('You can select media from');
+      
+      $('#current-source-logo').attr('src', 'images/all_devices.svg');
+      $('#current-source-name').html(selection.length + ' devices');
     }
   });
 
@@ -222,10 +226,10 @@ function TargetListView(viewModel) {
     }
     else if (selection.length === 0) {
       $('#current-target-logo').attr('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==');
-      $('#current-target-name').html('Target device');
+      $('#current-target-name').html('Target devices');
     }
     else {
-      $('#current-target-logo').attr('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==');
+      $('#current-target-logo').attr('src', 'images/all_devices.svg');
       $('#current-target-name').html(selection.length + ' target devices');
     }
   });
