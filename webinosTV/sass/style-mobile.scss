@@ -121,6 +121,7 @@ $category-wrapper-width-largescreen:150px;
 		float: left;
 		text-align: center;
 		padding: 15px 2px 15px 2px;
+		white-space: nowrap;
 	}
 
 	#device-arrow {
@@ -194,6 +195,10 @@ $category-wrapper-width-largescreen:150px;
 		display: inline-block;
 		padding: 2px;
 		vertical-align: middle;
+		
+		@media screen and (max-width: $mintabletwidth - 1) {
+    		display: none;
+    	}
 	}
 
 	.header-menu-border {
@@ -227,6 +232,10 @@ $category-wrapper-width-largescreen:150px;
 	.content-searchbutton {
 		-webkit-mask-image: url('../images/magnifier.svg');
 		margin-right: 15px;
+		
+		@media screen and (max-width: $mintabletwidth - 1) {
+    		display: none;
+    	}
 	}
 
 	.content-queuebutton {
@@ -277,6 +286,7 @@ $category-wrapper-width-largescreen:150px;
 		border-bottom: 1px;
 		border-top: 0px;
 		border-image: -webkit-linear-gradient(0deg, transparent, transparent 5%, $mediumgray 6%, $mediumgray 94%, transparent 95%, transparent) 1 stretch;
+		white-space: nowrap;
 	}
 
 	.device-type {

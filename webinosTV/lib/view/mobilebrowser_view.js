@@ -140,12 +140,12 @@ function SourceListView(viewModel) {
       $('#select-media-dd-wrapper').addClass('disabled');
     }
     else {
-      $('#selected-source').attr('src', 'images/all_devices.svg');
+      $('#selected-source').attr('src', 'images/all_devices-selected.svg');
       $('#selected-source-name').html(selection.length + ' source devices');
       $('#selected-source-intro').html('You can select media from');
       
       $('#current-source-logo').attr('src', 'images/all_devices.svg');
-      $('#current-source-name').html(selection.length + ' devices');
+      $('#current-source-name').html(selection.length + ' source devices');
       
       $('.content-searchbutton').removeClass('disabled');
       $('.content-searchbox').removeClass('disabled');
@@ -212,7 +212,8 @@ function ContentListView(viewModel) {
   };
   
   viewModel.selectedContent().onValue(function(selection) {
-  	$('#select-media-dd-count').text(selection.length + ' files selected');
+    var file = (selection.length === 1) ? 'file' : 'files';
+  	$('#select-media-dd-count').text(selection.length + ' ' + file + ' ' + 'selected');
   	
   	if(selection.length >= 1) {      
       $('.content-queuebutton').removeClass('disabled');

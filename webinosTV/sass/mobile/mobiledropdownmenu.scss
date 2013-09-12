@@ -9,10 +9,14 @@
     min-width:150px;
     line-height: 1em;
     font-size: 1em;
+    
+    @media screen and (max-width: $mintabletwidth - 1) {
+    	display: none;
+    }
   }
 
   #select-media-dd-wrapper.disabled {
-    visibility: hidden;
+    display: none;
   }
 
   //Small arrow in select menu
