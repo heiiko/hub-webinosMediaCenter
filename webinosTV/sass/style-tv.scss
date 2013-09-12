@@ -60,6 +60,21 @@ body {
   }
 }
 
+.subpage {
+    overflow: hidden;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 77%;
+    height: 100%;
+    visibility: hidden;
+}
+
+.subpage-current {
+    visibility: visible;
+    z-index: 1;
+}
+
 #container-device {
   .header {
     height: 15%;
@@ -87,17 +102,21 @@ body {
   }
 }
 
-.subpage {
-    overflow: hidden;
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 77%;
-    height: 100%;
-    visibility: hidden;
-}
+#container-media {
+  .header {
+    @include box-sizing(border-box);
+    width: 100%;
+    padding: 15px 2px 5px 2px;
+    border-bottom: 1px solid white;
+  }
 
-.subpage-current {
-    visibility: visible;
-    z-index: 1;
+  #categorywrapper {
+    ul {
+      list-style-type: none;
+    }
+
+    .category-name {
+      display: none;
+    }
+  }
 }
