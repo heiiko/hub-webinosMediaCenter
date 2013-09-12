@@ -1,0 +1,55 @@
+@mixin selectMediaDropdownMenu{
+  #select-media-dd-wrapper{
+    background: white;
+    color: black;
+    border-right: none;
+    border-left: none;
+    border-top: none;
+    border-bottom: 1px solid $blue;
+    min-width:150px;
+    line-height: 1em;
+    font-size: 1em;
+  }
+
+  #select-media-dd-wrapper.disabled {
+    visibility: hidden;
+  }
+
+  //Small arrow in select menu
+  #select-media-dd-count:before{
+    content:'';
+    position:absolute;
+    top: 50%;
+    left: 95%;
+    width: 0px;
+    height: 0px;
+    border-bottom: 0.5em solid $blue;
+    border-left: 0.5em solid transparent;
+  }
+
+
+  #select-media-dd-count{
+    position: relative;
+    width:100%
+  }
+
+  #select-media-dd-menu{
+    list-style-type: none;
+    display:none;
+    position: absolute;
+    z-index: 9999999;
+    width: 150px;
+    box-shadow: 1px 1px 3px black;
+    border-bottom: 1px solid $blue;
+  }
+
+  #select-media-dd-menu li{
+    padding:10px;
+    border-top: 1px solid $blue;
+  }
+
+  #select-media-dd-menu li:hover,#select-media-dd-menu li.dd-selected{
+    background:$blue;
+  }
+  
+}

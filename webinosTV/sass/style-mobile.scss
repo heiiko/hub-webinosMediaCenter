@@ -1,6 +1,9 @@
 @charset "UTF-8";
 @import "base";
 @import 'mobile/mobileplayer';
+@import 'mobile/toast';
+@import 'mobile/mobilemainmenu';
+@import 'mobile/mobiledropdownmenu';
 
 $green: #669c08;
 $blue: #48b3e4;
@@ -179,90 +182,6 @@ $category-wrapper-width-largescreen:150px;
 	.header-item-media.separator {
 		@include box-flex(1);
 	}
-
-  #select-media-dd-wrapper{
-    background: white;
-    color: black;
-    border-right: none;
-    border-left: none;
-    border-top: none;
-    border-bottom: 1px solid $blue;
-    min-width:150px;
-    line-height: 1em;
-    font-size: 1em;
-  }
-
-  #select-media-dd-wrapper.disabled {
-  	visibility: hidden;
-  }
-
-  //Small arrow in select menu
-  #select-media-dd-count:before{
-    content:'';
-    position:absolute;
-    top: 50%;
-    left: 95%;
-    width: 0px;
-    height: 0px;
-    border-bottom: 0.5em solid $blue;
-    border-left: 0.5em solid transparent;
-  }
-
-/*  #select-media-dd-count:after{
-    content:'';
-    position:absolute;
-    top: 50%;
-    left: 95%;
-    width: 0px;
-    height: 0px;
-    border-bottom: 0.45em solid transparent;
-    border-left: 0.45em solid transparent;
-  }*/
-
-  #select-media-dd-count{
-    position: relative;
-    width:100%
-  }
-
-  #select-media-dd-menu{
-    list-style-type: none;
-    display:none;
-    position: absolute;
-    z-index: 9999999;
-    width: 150px;
-    box-shadow: 1px 1px 3px black;
-    border-bottom: 1px solid $blue;
-  }
-
-  #select-media-dd-menu li{
-    padding:10px;
-    border-top: 1px solid $blue;
-  }
-
-  #select-media-dd-menu li:hover,#select-media-dd-menu li.dd-selected{
-    background:$blue;
-  }
-
-
-
-/*  .header-item-media select{
-    -webkit-appearance: none;
-    border-right: none;
-    border-left: none;
-    border-top: none;
-    border-bottom: 1px solid #48b3e4;
-    background: white;
-    color: black;
-    min-width:100px;
-  }
-
-  .header-item-media select option:first-child{
-    display:none;
-  }
-
-  .header-item-media select option{
-    color:lime
-  }*/
 
 	.content-searchbox {
 		border-bottom: solid 1px $blue;
@@ -582,8 +501,6 @@ $category-wrapper-width-largescreen:150px;
 	  }
 
 	  #categorycontentwrapper{
-	/*    background:lime;
-		box-shadow: inset 5px 5px purple;*/
 		width:auto;
 		position: relative;
 		height:100%;
@@ -591,28 +508,11 @@ $category-wrapper-width-largescreen:150px;
 		left: $category-wrapper-width-largescreen;
 	  }
 
-	/*  .category-content{
-		height:100%;
-		width:100%;
-		background:white;
-	  }*/
-
-	  .media_item{
+  .media_item{
 		background:red;
 		color:yellow;
 	  }
 
-
-
-	/*  .content-wrapper{
-		height:100%;
-		width:100%;
-	  }
-
-	  .content-list{
-		height:100%;
-		width:100%;
-	  }*/
 
 	  #selectmediawrapper{
 		height:100%;
@@ -742,42 +642,6 @@ from {background: $blue;}
 to {background: white;}
 }
 
-#leftfadeout{
-   background: rgba($bordergray,0.65);
-   width:0.5em;
-   z-index:2;
-   position: absolute;
-}
-
-#rightfadeout{
-  display:none
-}
-
-#leftdragbar{
-  background: black;
-  height:100%;
-  width:0.5em;
-  float:right;
-  cursor: col-resize;
-}
-
-.verticalgrippie{
-  position: relative;
-  top: 50%;
-  left: -0.6em;
-}
-
-.verticalgrippie:after{
-  content:'•••';
-  color:$lightgray;
-  position:absolute;
-  top:50%;
-  -webkit-transform:rotateZ(90deg);
-  -moz-transform:rotateZ(90deg);
-  -o-transform:rotateZ(90deg);
-  -ms-transform:rotateZ(90deg);
-  transform:rotateZ(90deg);
-}
 
 ::-webkit-scrollbar {
   width: 5px;
@@ -793,56 +657,10 @@ to {background: white;}
   background: $blue;
 }
 
-//Mobile Main Menu
-#leftmenu{
-  height:100%;
-}
-
-.mmm_item {
-  background: rgba(black,0.8);
-  border: 2px solid $lightgray;
-  color:$lightgray;
-  height: 22%;
-  margin-top: 1%;
-  margin-right: 5%;
-  margin-left: 5%;
-}
-
-.mmm_item:hover, mmm_highlight {
-  background: rgba($blue,0.8);
-}
-
-.mmm_item p {
-  top: 50%;
-  font-size: 250%;
-  position: relative;
-}
-
-.toast{
-  width: 30%;
-  min-height: 10%;
-  border: 1px solid black;
-  background: rgba(black, 0.8);
-  color: $lightgray;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin-left: -15%;
-  margin-top: -5%;
-  padding:2%;
-  z-index: 99999;
-  box-shadow:3px 3px 5px 0px black;
-}
-
-.toast p{
-	font-family: 'Roboto', sans-serif;
-  line-height: 2em;
-  text-align: center;
-  font-size: 1em;
-  top: 25%;
-  position: relative;
-  white-space: normal;
-}
 
 
-@include mobile_player;
+@include selectMediaDropdownMenu;
+@include leftSideMenu;
+@include rightSideMenu;
+@include toast;
+@include mobilePlayer;
