@@ -181,7 +181,7 @@ function MobileBrowserViewModel(manager, input) {
     if (!selectedTargets.length || selectedTargets.length > 1)
       return '<no-peer>';
     // Assumption: Only devices with a peer service are recognized as targets.
-    return devices[selectedTargets[0]].peers()[0];
+    return devices[selectedTargets[0].address].peers()[0];
   });
 
   this.selectedPeer = function() {

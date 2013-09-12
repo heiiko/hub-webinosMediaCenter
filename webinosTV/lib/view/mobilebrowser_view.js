@@ -244,7 +244,7 @@ function TargetListView(viewModel) {
       var device = selection[0];
 
       $('#current-target-logo').attr('src', 'images/' + device.type + '.svg');
-      $('#current-target-name').html(address.friendlyName(device));
+      $('#current-target-name').html(address.friendlyName(device.address));
     }
     else if (selection.length === 0) {
       $('#current-target-logo').attr('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==');
