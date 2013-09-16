@@ -230,7 +230,7 @@ function ContentListView(viewModel) {
 util.inherits(TargetListView, ListView);
 function TargetListView(viewModel) {
   this.htmlify = function(device) {
-    return '<li class="device target"><div class="device-image type-' + device.type() + '"></div><div class="device-name">' + address.friendlyName(device.address()) + '</div><div class="device-type">' + device.type().charAt(0).toUpperCase() + device.type().slice(1) + '</div></li>';
+  	return '<li class="device target"><div class="device-image type-' + device.type() + '"></div><div class="device-name">' + address.friendlyName(device.address()) + '</div><div class="device-type">' + device.type().charAt(0).toUpperCase() + device.type().slice(1) + '</div></li>';
   };
 
   this.identify = function(device) {
@@ -270,6 +270,7 @@ function TargetListView(viewModel) {
   });
 
   ListView.call(this, viewModel.targets(), viewModel.selectedTargets(), '#mobiletargetlist', '#mobiletargetwrapper', '#mobiletarget');
+  ListView.call(this, viewModel.targets(), viewModel.selectedTargets(), '#mobilequeuetargetlist', '#mobilequeuetargetwrapper', '#mobilequeuetarget');
 }
 
 util.inherits(QueueListView, ListView);

@@ -193,27 +193,33 @@ $category-wrapper-width-largescreen:150px;
 		margin-left: 8px;
 	}
 	
-	#selected-target {
-		vertical-align: middle;
-		height: 30px;
-		margin-left: 8px;
-	}
-
-	#selected-target-intro {
-		@media screen and (min-width: $mintabletwidth) {
+	#mobilequeuetargetlist {
+		li.mobileselected {
+			height: 44px;
+			border-bottom-width: 5px;
+			border-bottom-color: $blue;
+			border-bottom-style: solid;
+			padding: 8px 8px 0px 8px;
+		}
+		li {
+			padding: 8px 8px 0px 8px;
+			height: 57px;
 			display: inline-block;
-			vertical-align: middle;
+			white-space: nowrap;
+			border-image: none;
+			
+			.device-image {
+				float: left;
+				background-size: 36px 30px;
+				background-repeat: no-repeat;
+				background-position: 100% 50%;
+				width: 40px;
+			}
+			
+			.device-name {
+				font-size: $fontsizemini;
+			}
 		}
-
-		@media screen and (max-width: $mintabletwidth - 1) {
-			display: none;
-		}
-	}
-
-	#selected-target-name {
-		display: inline-block;
-		vertical-align: middle;
-		color: $blue;
 	}
 	
 	.header-item-queue.separator {
