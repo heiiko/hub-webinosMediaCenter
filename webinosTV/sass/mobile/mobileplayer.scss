@@ -6,7 +6,12 @@
   $phoneControlsMinHeight:150px;
   $phoneControlBarsTop:$phoneControlsMinHeight/3;
 
-
+  #mobilequeuelist {
+  	height: 100%;
+	width: 100%;
+	overflow-y: scroll;
+  }
+  
   #mobilequeuecontrols{
     position:absolute;
     width: 100%;
