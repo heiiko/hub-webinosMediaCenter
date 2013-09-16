@@ -193,6 +193,29 @@ $category-wrapper-width-largescreen:150px;
 		margin-left: 8px;
 	}
 	
+	#selected-target {
+		vertical-align: middle;
+		height: 30px;
+		margin-left: 8px;
+	}
+
+	#selected-target-intro {
+		@media screen and (min-width: $mintabletwidth) {
+			display: inline-block;
+			vertical-align: middle;
+		}
+
+		@media screen and (max-width: $mintabletwidth - 1) {
+			display: none;
+		}
+	}
+
+	#selected-target-name {
+		display: inline-block;
+		vertical-align: middle;
+		color: $blue;
+	}
+	
 	.header-item-queue.separator {
 		@include box-flex(1);
 	}

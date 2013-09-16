@@ -250,14 +250,26 @@ function TargetListView(viewModel) {
 
       $('#current-target-logo').attr('src', 'images/' + device.type + '.svg');
       $('#current-target-name').html(address.friendlyName(device.address));
+      
+      $('#selected-target').attr('src', 'images/' + device.type + '-selected.svg');
+      $('#selected-target-name').html(address.friendlyName(device.address));
+      $('#selected-target-intro').html('You are controlling');
     }
     else if (selection.length === 0) {
       $('#current-target-logo').attr('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==');
       $('#current-target-name').html('Target devices');
+      
+      $('#selected-target').attr('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==');
+      $('#selected-target-name').html('');
+      $('#selected-target-intro').html('No target device selected');
     }
     else {
       $('#current-target-logo').attr('src', 'images/all_devices.svg');
       $('#current-target-name').html(selection.length + ' Target devices');
+      
+      $('#selected-target').attr('src', 'images/all_devices-selected.svg');
+      $('#selected-target-name').html(selection.length + ' source devices');
+      $('#selected-target-intro').html('You are controlling');
     }
   });
 
