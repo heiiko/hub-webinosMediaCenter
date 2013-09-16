@@ -4,6 +4,7 @@
 @import 'mobile/toast';
 @import 'mobile/mobilemainmenu';
 @import 'mobile/mobiledropdownmenu';
+@import 'mobile/listitems';
 
 $green: #669c08;
 $blue: #48b3e4;
@@ -177,7 +178,7 @@ $category-wrapper-width-largescreen:150px;
 		@include box-pack(center);
 		@include box-align(center);
 	}
-	
+
 	.header-queue {
 		width: 100%;
 		height: $headerheight;
@@ -188,11 +189,11 @@ $category-wrapper-width-largescreen:150px;
 		@include box-pack(center);
 		@include box-align(center);
 	}
-	
+
 	.header-item-queue {
 		margin-left: 8px;
 	}
-	
+
 	#selected-target {
 		vertical-align: middle;
 		height: 30px;
@@ -215,7 +216,7 @@ $category-wrapper-width-largescreen:150px;
 		vertical-align: middle;
 		color: $blue;
 	}
-	
+
 	.header-item-queue.separator {
 		@include box-flex(1);
 	}
@@ -239,7 +240,7 @@ $category-wrapper-width-largescreen:150px;
 		display: inline-block;
 		padding: 2px;
 		vertical-align: middle;
-		
+
 		@media screen and (max-width: $mintabletwidth - 1) {
     		display: none;
     	}
@@ -276,7 +277,7 @@ $category-wrapper-width-largescreen:150px;
 	.content-searchbutton {
 		-webkit-mask-image: url('../images/magnifier.svg');
 		margin-right: 15px;
-		
+
 		@media screen and (max-width: $mintabletwidth - 1) {
     		display: none;
     	}
@@ -574,97 +575,7 @@ $category-wrapper-width-largescreen:150px;
 		overflow-y: scroll;
 	  }
 
-	//Content list items
-	$content-list-min-size:40px;
-	#mobilecontentlist li{
-	  height: $content-list-min-size;
-	  border-bottom: 1px solid $mediumgray;
-	}
-
-	#mobilecontentlist li div{
-	 line-height: $content-list-min-size/2 - 2;
-	 height: 100%;
-	 float: left;
-	}
-
-	.default-icon,.song-icon,.clip-icon{
-	  -webkit-mask-image: url("../images/webinos_apps.svg");
-	  -webkit-mask-repeat: no-repeat;
-	  -webkit-mask-size: $content-list-min-size;
-	  background-color: $darkgray;
-	  width: $content-list-min-size;
-	}
-
-	.song-icon{
-	  -webkit-mask-image: url("../images/music.svg");
-	}
-
-	.clip-icon{
-	  -webkit-mask-image: url("../images/movie.svg");
-	}
-
-	.image-icon {
-		width: 40px;
-	}
-
-	span.itemtitle{
-	  font-size: 90%;
-	  font-weight: bold;
-	  vertical-align: middle;
-	}
-	span.itemartists{
-	  display: block;
-	  font-size: 75%;
-	  color: $darkgray;
-	  vertical-align: middle;
-	}
-
-	span.imagetitle {
-	  font-size: 90%;
-	  font-weight: bold;
-	  vertical-align: middle;
-	}
-
-	//item checkboxes
-
-	#mobilecontentlist li input[type=checkbox]{
-	  font-size: 16px;
-	  position: relative;
-	  border: 1px solid $mediumgray;
-	  display: inline-block;
-	  line-height: 1em;
-	  margin: 12px 12px 0 12px;
-	  padding: 0;
-	  width: 1em;
-	  height: 1em;
-	  vertical-align: text-top;
-	  background: -webkit-linear-gradient(
-		top, rgba(255,255,255,0.4), rgba(255,255,255,0.1)
-		);
-	  -webkit-appearance: none;
-	  -webkit-box-shadow: 0 1px 0 rgba(255,255,255, 0.1),
-		inset 0 0 1px rgba(255,255,255, 0.4);
-	  /*-webkit-border-radius: 3px;*/
-	}
-
-	#mobilecontentlist li input[type=checkbox]:active {
-	  background: -webkit-linear-gradient(
-		top, rgba(255,255,255,0.05), rgba(255,255,255,0.2)
-		);
-	}
-
-	#mobilecontentlist li input[type=checkbox]:checked::after {
-	  position: absolute;
-	  content: '';
-	  left: 15%;
-	  top: -10%;
-	  height: 40%;
-	  width: 90%;
-	  border-bottom: 3px solid $blue;
-	  border-left: 3px solid $blue;
-	  -webkit-box-shadow: -1px 1px 0 rgba(0,0,0,0.8);
-	  -webkit-transform: rotate(-45deg);
-	}
+@include contentListItems;
 
 	@media screen and (max-width: 1199px) {
 	  #mobilecontentlist{
@@ -712,3 +623,4 @@ to {background: white;}
 @include rightSideMenu;
 @include toast;
 @include mobilePlayer;
+@include imgListItem;

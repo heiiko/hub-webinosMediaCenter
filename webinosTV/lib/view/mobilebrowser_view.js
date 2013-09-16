@@ -119,7 +119,7 @@ function SourceListView(viewModel) {
 
       $('#current-source-logo').attr('src', 'images/' + device.type + '.svg');
       $('#current-source-name').html(address.friendlyName(device.address));
-      
+
       $('.content-searchbutton').removeClass('disabled');
       $('.content-searchbox').removeClass('disabled');
       $('#select-media-dd-wrapper').removeClass('disabled');
@@ -134,7 +134,7 @@ function SourceListView(viewModel) {
 
       $('#current-source-logo').attr('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==');
       $('#current-source-name').html('Source devices');
-      
+
       $('.content-searchbutton').addClass('disabled');
       $('.content-searchbox').addClass('disabled');
       $('.content-queuebutton').addClass('disabled');
@@ -144,10 +144,10 @@ function SourceListView(viewModel) {
       $('#selected-source').attr('src', 'images/all_devices-selected.svg');
       $('#selected-source-name').html(selection.length + ' source devices');
       $('#selected-source-intro').html('You can select media from');
-      
+
       $('#current-source-logo').attr('src', 'images/all_devices.svg');
       $('#current-source-name').html(selection.length + ' Source devices');
-      
+
       $('.content-searchbutton').removeClass('disabled');
       $('.content-searchbox').removeClass('disabled');
       $('#select-media-dd-wrapper').removeClass('disabled');
@@ -166,7 +166,7 @@ function CategoryListView(viewModel) {
   this.identify = function(category) {
     return category.id;
   };
-  
+
   viewModel.selectedCategories().onValue(function(selection) {
     viewModel.selectedContent().apply(viewModel.content().map(function(items) {
       return function(selection) {
@@ -182,9 +182,12 @@ util.inherits(ContentListView, ListView);
 function ContentListView(viewModel) {
   this.htmlify = function(value) {
     var html;
-    if (typeof value.item.type === 'string' && value.item.type.toLowerCase().indexOf('image') === 0) {
-      html = '<li><div><input type="checkbox" /></div><div class="image-icon"><img src="' + value.item.thumbnailURIs[0] + '"></div><div class="mediaitemcontent"><span class="imagetitle">' + value.item.title + '</span></div>';
-    } else {
+    if (typeof value.item.type === 'string' && value.item.type.toLowerCase().indexOf('image') === 0)
+    {
+      html = '<li class="imglistitem"><img src="' + value.item.thumbnailURIs[0] + '"></li>';
+//      html = '<li><div><input type="checkbox" /></div><div class="image-icon"><img src="' + value.item.thumbnailURIs[0] + '"></div><div class="mediaitemcontent"><span class="imagetitle">' + value.item.title + '</span></div>';
+    }
+    else {
       var type = value.item.type.toLowerCase();
       var iconClass;
       switch (type) {
@@ -197,7 +200,7 @@ function ContentListView(viewModel) {
         default:
           iconClass = "default-icon";
       }
-      html = '<li><div><input type="checkbox" /></div><div class="' + iconClass + '"></div><div class="mediaitemcontent"><span class="itemtitle">' + value.item.title + '</span><span class="itemartists">' + value.item.artists + '</span></div>';
+      html = '<li class="contentlistitem"><div><input type="checkbox" /></div><div class="' + iconClass + '"></div><div class="mediaitemcontent"><span class="itemtitle">' + value.item.title + '</span><span class="itemartists">' + value.item.artists + '</span></div>';
     }
     return html;
   };
@@ -211,17 +214,17 @@ function ContentListView(viewModel) {
       }
     };
   };
-  
+
   viewModel.selectedContent().onValue(function(selection) {
     var file = (selection.length === 1) ? 'file' : 'files';
-  	$('#select-media-dd-count').text(selection.length + ' ' + file + ' ' + 'selected');
-  	
-  	if(selection.length >= 1) {      
+    $('#select-media-dd-count').text(selection.length + ' ' + file + ' ' + 'selected');
+
+    if (selection.length >= 1) {
       $('.content-queuebutton').removeClass('disabled');
-      
+
       $('.content-queuebutton').click(function() {
-    	var t = new Toast(selection.length + ' media files are added to your queue');
-  	  });
+        var t = new Toast(selection.length + ' media files are added to your queue');
+      });
     }
     else {
       $('.content-queuebutton').addClass('disabled');
@@ -250,7 +253,7 @@ function TargetListView(viewModel) {
 
       $('#current-target-logo').attr('src', 'images/' + device.type + '.svg');
       $('#current-target-name').html(address.friendlyName(device.address));
-      
+
       $('#selected-target').attr('src', 'images/' + device.type + '-selected.svg');
       $('#selected-target-name').html(address.friendlyName(device.address));
       $('#selected-target-intro').html('You are controlling');
@@ -258,7 +261,7 @@ function TargetListView(viewModel) {
     else if (selection.length === 0) {
       $('#current-target-logo').attr('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==');
       $('#current-target-name').html('Target devices');
-      
+
       $('#selected-target').attr('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==');
       $('#selected-target-name').html('');
       $('#selected-target-intro').html('No target device selected');
@@ -266,7 +269,7 @@ function TargetListView(viewModel) {
     else {
       $('#current-target-logo').attr('src', 'images/all_devices.svg');
       $('#current-target-name').html(selection.length + ' Target devices');
-      
+
       $('#selected-target').attr('src', 'images/all_devices-selected.svg');
       $('#selected-target-name').html(selection.length + ' source devices');
       $('#selected-target-intro').html('You are controlling');
