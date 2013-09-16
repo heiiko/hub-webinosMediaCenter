@@ -218,10 +218,6 @@ function ContentListView(viewModel) {
   	
   	if(selection.length >= 1) {      
       $('.content-queuebutton').removeClass('disabled');
-      
-      $('.content-queuebutton').click(function() {
-    	var t = new Toast(selection.length + ' media files are added to your queue');
-  	  });
     }
     else {
       $('.content-queuebutton').addClass('disabled');
@@ -322,6 +318,11 @@ function MobileBrowserView(viewModel) {
   var controlsViewModel = viewModel.controls();
   var controlsView = new MobileControlsView('.mobilequeuecontrols', null, controlsViewModel);
 
+  $('.content-queuebutton').click(function() {
+    // TODO: add number of files added
+    var t = new Toast('Media files are added to your queue');
+  });
+  	  
   document.addEventListener('touchmove', function(e) {
     e.preventDefault();
   }, false);
