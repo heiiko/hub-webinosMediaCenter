@@ -72,8 +72,11 @@ function ListView(items, selection, list, wrapper, fadeout) {
       if (!$item.length)
         return selection;
       var id = $item.data('id');
-      if (list === '#mobilecategorylist') {
+      if (list === '#mobilecategorylist' || list === '#mobilequeuetargetlist') {
         return [id];
+      }
+      else if (list === '#mobiletargetlist') {
+        return (_.ocontains(selection, id)) ? [] : [id];
       }
       else {
         return (_.ocontains(selection, id) ? _.odifference : _.ounion)(selection, [id]);
@@ -216,17 +219,13 @@ function ContentListView(viewModel) {
       }
     };
   };
-
+  
   viewModel.selectedContent().onValue(function(selection) {
     var file = (selection.length === 1) ? 'file' : 'files';
-    $('#select-media-dd-count').text(selection.length + ' ' + file + ' ' + 'selected');
-
-    if (selection.length >= 1) {
+  	$('#select-media-dd-count').text(selection.length + ' ' + file + ' ' + 'selected');
+  	
+  	if(selection.length >= 1) {      
       $('.content-queuebutton').removeClass('disabled');
-
-      $('.content-queuebutton').click(function() {
-        var t = new Toast(selection.length + ' media files are added to your queue');
-      });
     }
     else {
       $('.content-queuebutton').addClass('disabled');
@@ -279,6 +278,7 @@ function TargetListView(viewModel) {
   });
 
   ListView.call(this, viewModel.targets(), viewModel.selectedTargets(), '#mobiletargetlist', '#mobiletargetwrapper', '#mobiletarget');
+  ListView.call(this, viewModel.targets(), viewModel.selectedTargets(), '#mobilequeuetargetlist', '#mobilequeuetargetwrapper', '#mobilequeuetarget');
 }
 
 util.inherits(QueueListView, ListView);
@@ -286,11 +286,22 @@ function QueueListView(viewModel) {
   this.htmlify = function(value) {
     var html;
     if (typeof value.item.type === 'string' && value.item.type.toLowerCase().indexOf('image') === 0) {
-      html = '<li class="mediaitemcontent nav_qu"><img src="' + value.item.thumbnailURIs[0] + '">';
+      html = '<li><div class="image-icon"><img src="' + value.item.thumbnailURIs[0] + '"></div><div class="mediaitemcontent"><span class="imagetitle">' + value.item.title + '</span></div>';
     } else {
-      html = '<li class="textContent nav_qu"><p>' + value.item.title + '</p>';
+      var type = value.item.type.toLowerCase();
+      var iconClass;
+      switch (type) {
+        case 'audio':
+          iconClass = "song-icon";
+          break;
+        case 'video':
+          iconClass = "clip-icon";
+          break;
+        default:
+          iconClass = "default-icon";
+      }
+      html = '<li><div class="' + iconClass + '"></div><div class="mediaitemcontent"><span class="itemtitle">' + value.item.title + '</span><span class="itemartists">' + value.item.artists + '</span></div>';
     }
-    html += '<img class="selectIcon" src="images/remove.svg"></li>';
     return html;
   };
 
@@ -331,7 +342,7 @@ function MobileBrowserView(viewModel) {
     // TODO: add number of files added
     var t = new Toast('Media files are added to your queue');
   });
-
+  	  
   document.addEventListener('touchmove', function(e) {
     e.preventDefault();
   }, false);

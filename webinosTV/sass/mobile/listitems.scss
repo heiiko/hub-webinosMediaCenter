@@ -27,7 +27,7 @@
     color: white;
     background-color: rgba(black,0.5);
   }
-  
+
 }
 
 @mixin contentListItems{
@@ -122,6 +122,12 @@
     border-left: 3px solid $blue;
     -webkit-box-shadow: -1px 1px 0 rgba(0,0,0,0.8);
     -webkit-transform: rotate(-45deg);
+  }
+
+  @media screen and (max-width: $mintabletwidth - 1) {
+    #mobilecontentlist{
+      display:none;
+    }
   }
 
 }

@@ -10,6 +10,22 @@
   	height: 100%;
 	width: 100%;
 	overflow-y: scroll;
+	
+	li:first-child {
+	  border-left: 4px solid $orange;
+	}
+	
+	li {
+	  height: $content-list-min-size;
+	  border-bottom: 1px solid $mediumgray;
+	  margin-left: 8px;
+	}
+	
+	li div{
+	 line-height: $content-list-min-size/2 - 2;
+	 height: 100%;
+	 float: left;
+	}
   }
   
   #mobilequeuecontrols{
