@@ -19,6 +19,7 @@ $fontsizemini: 13px;
 $mintabletwidth: 1200px;
 $headerheight: 56px;
 $menuheight: 50px;
+$content-list-min-size:40px;
 $category-wrapper-width-largescreen:150px;
 
 #mobilebrowser.pt-page-current {
@@ -580,8 +581,6 @@ $category-wrapper-width-largescreen:150px;
 		overflow-y: scroll;
 	  }
 
-	//Content list items
-	$content-list-min-size:40px;
 	#mobilecontentlist li{
 	  height: $content-list-min-size;
 	  border-bottom: 1px solid $mediumgray;
