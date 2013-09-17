@@ -224,6 +224,10 @@ function ContentListView(viewModel) {
   	
   	if(selection.length >= 1) {      
       $('.content-queuebutton').removeClass('disabled');
+      
+      $('.content-queuebutton').click(function() {
+    	var t = new Toast(selection.length + ' media files are added to your queue');
+  	  });
     }
     else {
       $('.content-queuebutton').addClass('disabled');
@@ -276,7 +280,6 @@ function TargetListView(viewModel) {
   });
 
   ListView.call(this, viewModel.targets(), viewModel.selectedTargets(), '#mobiletargetlist', '#mobiletargetwrapper', '#mobiletarget');
-  ListView.call(this, viewModel.targets(), viewModel.selectedTargets(), '#mobilequeuetargetlist', '#mobilequeuetargetwrapper', '#mobilequeuetarget');
 }
 
 util.inherits(QueueListView, ListView);
