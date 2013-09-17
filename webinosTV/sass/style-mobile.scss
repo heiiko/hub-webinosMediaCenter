@@ -577,26 +577,16 @@ $category-wrapper-width-largescreen:150px;
 	  }
 	}
 
+ #mobilecontentlist{
+	height:100%;
+	width:100%;
+	overflow-y: scroll;
+  }
+
   @include imgListItem;
   @include contentListItems;
 
-/*	  #mobilecontentlist{
-		height:100%;
-		width:100%;
-		overflow-y: scroll;
-	  }
-
-	#mobilecontentlist li{
-	  height: $content-list-min-size;
-	  border-bottom: 1px solid $mediumgray;
-	}
-
-	#mobilecontentlist li div{
-	 line-height: $content-list-min-size/2 - 2;
-	 height: 100%;
-	 float: left;
-	}
-
+/*
 	.default-icon,.song-icon,.clip-icon{
 	  -webkit-mask-image: url("../images/webinos_apps.svg");
 	  -webkit-mask-repeat: no-repeat;
