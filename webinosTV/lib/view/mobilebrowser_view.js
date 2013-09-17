@@ -72,8 +72,11 @@ function ListView(items, selection, list, wrapper, fadeout) {
       if (!$item.length)
         return selection;
       var id = $item.data('id');
-      if (list === '#mobilecategorylist') {
+      if (list === '#mobilecategorylist' || list === '#mobilequeuetargetlist') {
         return [id];
+      }
+      else if (list === '#mobiletargetlist') {
+        return (_.ocontains(selection, id)) ? [] : [id];
       }
       else {
         return (_.ocontains(selection, id) ? _.odifference : _.ounion)(selection, [id]);
@@ -182,9 +185,12 @@ util.inherits(ContentListView, ListView);
 function ContentListView(viewModel) {
   this.htmlify = function(value) {
     var html;
-    if (typeof value.item.type === 'string' && value.item.type.toLowerCase().indexOf('image') === 0) {
-      html = '<li><div><input type="checkbox" /></div><div class="image-icon"><img src="' + value.item.thumbnailURIs[0] + '"></div><div class="mediaitemcontent"><span class="imagetitle">' + value.item.title + '</span></div>';
-    } else {
+    if (typeof value.item.type === 'string' && value.item.type.toLowerCase().indexOf('image') === 0)
+    {
+      html = '<li class="imglistitem"><img src="' + value.item.thumbnailURIs[0] + '"></li>';
+//      html = '<li><div><input type="checkbox" /></div><div class="image-icon"><img src="' + value.item.thumbnailURIs[0] + '"></div><div class="mediaitemcontent"><span class="imagetitle">' + value.item.title + '</span></div>';
+    }
+    else {
       var type = value.item.type.toLowerCase();
       var iconClass;
       switch (type) {
@@ -197,7 +203,7 @@ function ContentListView(viewModel) {
         default:
           iconClass = "default-icon";
       }
-      html = '<li><div><input type="checkbox" /></div><div class="' + iconClass + '"></div><div class="mediaitemcontent"><span class="itemtitle">' + value.item.title + '</span><span class="itemartists">' + value.item.artists + '</span></div>';
+      html = '<li class="contentlistitem"><div><input type="checkbox" /></div><div class="' + iconClass + '"></div><div class="mediaitemcontent"><span class="itemtitle">' + value.item.title + '</span><span class="itemartists">' + value.item.artists + '</span></div>';
     }
     return html;
   };
@@ -230,7 +236,7 @@ function ContentListView(viewModel) {
 util.inherits(TargetListView, ListView);
 function TargetListView(viewModel) {
   this.htmlify = function(device) {
-  	return '<li class="device target"><div class="device-image type-' + device.type() + '"></div><div class="device-name">' + address.friendlyName(device.address()) + '</div><div class="device-type">' + device.type().charAt(0).toUpperCase() + device.type().slice(1) + '</div></li>';
+    return '<li class="device target"><div class="device-image type-' + device.type() + '"></div><div class="device-name">' + address.friendlyName(device.address()) + '</div><div class="device-type">' + device.type().charAt(0).toUpperCase() + device.type().slice(1) + '</div></li>';
   };
 
   this.identify = function(device) {
@@ -278,11 +284,22 @@ function QueueListView(viewModel) {
   this.htmlify = function(value) {
     var html;
     if (typeof value.item.type === 'string' && value.item.type.toLowerCase().indexOf('image') === 0) {
-      html = '<li class="mediaitemcontent nav_qu"><img src="' + value.item.thumbnailURIs[0] + '">';
+      html = '<li><div class="image-icon"><img src="' + value.item.thumbnailURIs[0] + '"></div><div class="mediaitemcontent"><span class="imagetitle">' + value.item.title + '</span></div>';
     } else {
-      html = '<li class="textContent nav_qu"><p>' + value.item.title + '</p>';
+      var type = value.item.type.toLowerCase();
+      var iconClass;
+      switch (type) {
+        case 'audio':
+          iconClass = "song-icon";
+          break;
+        case 'video':
+          iconClass = "clip-icon";
+          break;
+        default:
+          iconClass = "default-icon";
+      }
+      html = '<li><div class="' + iconClass + '"></div><div class="mediaitemcontent"><span class="itemtitle">' + value.item.title + '</span><span class="itemartists">' + value.item.artists + '</span></div>';
     }
-    html += '<img class="selectIcon" src="images/remove.svg"></li>';
     return html;
   };
 

@@ -1,0 +1,103 @@
+@mixin imgListItem{
+  .imglistitem{
+    height: auto;
+    display: inline-block;
+    border: 1px solid $bordergray;
+  }
+}
+
+@mixin contentListItems{
+  //Content list items
+  $content-list-min-size:40px;
+
+  #mobilecontentlist li.contentlistitem{
+    height: $content-list-min-size;
+    border-bottom: 1px solid $mediumgray;
+  }
+
+  #mobilecontentlist li.contentlistitem div{
+    line-height: $content-list-min-size/2 - 2;
+    height: 100%;
+    float: left;
+  }
+
+  .default-icon,.song-icon,.clip-icon{
+    -webkit-mask-image: url("../images/webinos_apps.svg");
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-size: $content-list-min-size;
+    background-color: $darkgray;
+    width: $content-list-min-size;
+  }
+
+  .song-icon{
+    -webkit-mask-image: url("../images/music.svg");
+  }
+
+  .clip-icon{
+    -webkit-mask-image: url("../images/movie.svg");
+  }
+
+  .image-icon {
+    width: 40px;
+  }
+
+  span.itemtitle{
+    font-size: 90%;
+    font-weight: bold;
+    vertical-align: middle;
+  }
+  span.itemartists{
+    display: block;
+    font-size: 75%;
+    color: $darkgray;
+    vertical-align: middle;
+  }
+
+  span.imagetitle {
+    font-size: 90%;
+    font-weight: bold;
+    vertical-align: middle;
+  }
+
+  //item checkboxes
+
+  #mobilecontentlist li.contentlistitem input[type=checkbox]{
+    font-size: 16px;
+    position: relative;
+    border: 1px solid $mediumgray;
+    display: inline-block;
+    line-height: 1em;
+    margin: 12px 12px 0 12px;
+    padding: 0;
+    width: 1em;
+    height: 1em;
+    vertical-align: text-top;
+    background: -webkit-linear-gradient(
+    top, rgba(255,255,255,0.4), rgba(255,255,255,0.1)
+    );
+    -webkit-appearance: none;
+    -webkit-box-shadow: 0 1px 0 rgba(255,255,255, 0.1),
+    inset 0 0 1px rgba(255,255,255, 0.4);
+    /*-webkit-border-radius: 3px;*/
+  }
+
+  #mobilecontentlist li.contentlistitem input[type=checkbox]:active {
+    background: -webkit-linear-gradient(
+    top, rgba(255,255,255,0.05), rgba(255,255,255,0.2)
+    );
+  }
+
+  #mobilecontentlist li.contentlistitem input[type=checkbox]:checked::after {
+    position: absolute;
+    content: '';
+    left: 15%;
+    top: -10%;
+    height: 40%;
+    width: 90%;
+    border-bottom: 3px solid $blue;
+    border-left: 3px solid $blue;
+    -webkit-box-shadow: -1px 1px 0 rgba(0,0,0,0.8);
+    -webkit-transform: rotate(-45deg);
+  }
+
+}
