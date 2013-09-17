@@ -1,9 +1,33 @@
 @mixin imgListItem{
-  .imglistitem{
-    height: auto;
-    display: inline-block;
+  $webinosThumbnailWidth:96px;
+  $imgTitleHeight:20px;
+  li.imglistitem{
     border: 1px solid $bordergray;
+    width: $webinosThumbnailWidth;
+    max-height: $webinosThumbnailWidth;
+    vertical-align: middle;
+    line-height: $webinosThumbnailWidth;
+    float: left;
+    overflow: hidden;
   }
+  li.imglistitem div.imglistitem{
+    height:$webinosThumbnailWidth;
+    width:$webinosThumbnailWidth;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  li.imglistitem div.imglistitem-title{
+    height:$imgTitleHeight;
+    position: relative;
+    top: -$imgTitleHeight;
+    text-align: center;
+    line-height:$imgTitleHeight/2;
+    font-size:$imgTitleHeight/2;
+    color: white;
+    background-color: rgba(black,0.5);
+  }
+  
 }
 
 @mixin contentListItems{
