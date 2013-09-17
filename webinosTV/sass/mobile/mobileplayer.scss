@@ -15,6 +15,49 @@
 	  border-left: 4px solid $orange;
 	}
 	
+	li:first-child > .status {
+	  display: inline-block;
+	  margin-left: 10%;
+	  margin-top: 8px;
+	  height: 32px;
+	  font-size: 13px;
+	  color: #777777;
+	}
+	
+	.status {
+	  display: hidden;
+	}
+	
+	.status.pauseditem .statustext:before {
+		content: 'Paused ...';
+	}
+	
+	.status.pauseditem .statusicon {
+		-webkit-mask-image: url('../images/player_pause.svg');
+		background-color: $darkgray;
+		-webkit-mask-repeat: no-repeat;
+		-webkit-mask-size: 15px;
+		height: 15px;
+		width: 15px;
+		display: inline-block;
+		vertical-align: middle;
+	}
+	
+	.status.playingitem .statustext:before {
+		content: 'Now playing ...';
+	}
+	
+	.status.playingitem .statusicon {
+		-webkit-mask-image:  url('../images/player_play.svg');
+		background-color: $darkgray;
+		-webkit-mask-repeat: no-repeat;
+		-webkit-mask-size: 15px;
+		height: 15px;
+		width: 15px;
+		display: inline-block;
+		vertical-align: middle;
+	}
+	
 	li {
 	  height: $content-list-min-size;
 	  border-bottom: 1px solid $mediumgray;

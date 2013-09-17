@@ -63,11 +63,15 @@ function MobileControlsView(parent, config, viewModel) {
   function play() {
     $(cplay).removeClass('controlPlay');
     $(cplay).addClass('controlPaus');
+    $('#mobilequeuelist li:first-child > .status').addClass('playingitem');
+    $('#mobilequeuelist li:first-child > .status').removeClass('pauseditem');
   }
 
   function pause() {
     $(cplay).removeClass('controlPaus');
     $(cplay).addClass('controlPlay');
+    $('#mobilequeuelist li:first-child > .status').removeClass('playingitem');
+    $('#mobilequeuelist li:first-child > .status').addClass('pauseditem');
   }
 
   function getFormatedTime(ms) {
