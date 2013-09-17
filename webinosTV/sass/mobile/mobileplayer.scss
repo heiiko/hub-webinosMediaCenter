@@ -11,10 +11,14 @@
 	width: 100%;
 	overflow-y: scroll;
 	
+	li:first-child {
+	  border-left: 4px solid $orange;
+	}
+	
 	li {
 	  height: $content-list-min-size;
 	  border-bottom: 1px solid $mediumgray;
-	  padding-left: 16px;
+	  margin-left: 8px;
 	}
 	
 	li div{
