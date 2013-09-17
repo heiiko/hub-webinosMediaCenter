@@ -36,11 +36,12 @@
 		-webkit-mask-image: url('../images/player_pause.svg');
 		background-color: $darkgray;
 		-webkit-mask-repeat: no-repeat;
-		-webkit-mask-size: 15px;
-		height: 15px;
-		width: 15px;
+		-webkit-mask-size: 18px;
+		height: 18px;
+		width: 18px;
 		display: inline-block;
 		vertical-align: middle;
+		margin-right: 3px;
 	}
 	
 	.status.playingitem .statustext:before {
@@ -51,11 +52,12 @@
 		-webkit-mask-image:  url('../images/player_play.svg');
 		background-color: $darkgray;
 		-webkit-mask-repeat: no-repeat;
-		-webkit-mask-size: 15px;
-		height: 15px;
-		width: 15px;
+		-webkit-mask-size: 18px;
+		height: 18px;
+		width: 18px;
 		display: inline-block;
 		vertical-align: middle;
+		margin-right: 3px;
 	}
 	
 	li {
