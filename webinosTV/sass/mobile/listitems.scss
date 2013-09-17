@@ -9,6 +9,7 @@
     line-height: $webinosThumbnailWidth;
     float: left;
     overflow: hidden;
+    animation: none;
   }
   li.imglistitem div.imglistitem{
     height:$webinosThumbnailWidth;
@@ -26,6 +27,23 @@
     font-size:$imgTitleHeight/2;
     color: white;
     background-color: rgba(black,0.5);
+  }
+
+  li.imglistitem.mobileselected div.imglistitem:after{
+    background: rgba($blue,0.5);
+    width: $webinosThumbnailWidth;
+    height: $webinosThumbnailWidth;
+    content: "\2713";
+    display: block;
+    position: relative;
+    margin-top: 0;
+    top: 0;
+    color: white;
+    font-size: 3em;
+    text-shadow: 2px 2px black;
+    text-align: center;
+    z-index: 9999;
+    box-shadow: inset 0px 0px 0px 3px $blue;
   }
 
 }
