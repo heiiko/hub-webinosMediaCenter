@@ -37,7 +37,7 @@ function NavigationView (viewModel) {
           if(curPos > 0)
             curPos--;
           else if(curPos === 0)
-            window.openMainmenu();
+            //window.openMainmenu();
           break;
         case 'enter':
           if(navVisible) $(".nav_rd.focus").click();

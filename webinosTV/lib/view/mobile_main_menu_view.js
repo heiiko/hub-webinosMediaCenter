@@ -10,7 +10,7 @@ var gotoPageById = require('./pagetransition.js');
 
 function MobileMainMenuView() {
   /*Mobile browser view::left pull menu*/
-  $('#leftfadeout').unbind('click');
+  //$('#leftfadeout').unbind('click');
   $('#leftfadeout').append('<div id="leftdragbar">' +
     '<div class="verticalgrippie"></div>' +
     '</div>' +
@@ -61,7 +61,8 @@ function MobileMainMenuView() {
     gotoPageById('#controller');
     rollbackMenu();
   });
-
+  
+  window.closeMainmenu=rollbackMenu;
 }
 
 module.exports = MobileMainMenuView;

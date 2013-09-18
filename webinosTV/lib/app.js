@@ -4,17 +4,17 @@ var Bacon = require('baconjs');
 
 var DeviceManager = require('./model/device.coffee');
 
-var MainMenuViewModel = require('./view/main_menu_view_model.js');
-var MainMenuView = require('./view/main_menu_view.js');
-var BrowserViewModel = require('./view/browser_view_model.js');
-var BrowserView = require('./view/browser_view.js');
+//var MainMenuViewModel = require('./view/main_menu_view_model.js');
+//var MainMenuView = require('./view/main_menu_view.js');
+//var BrowserViewModel = require('./view/browser_view_model.js');
+//var BrowserView = require('./view/browser_view.js');
 var MobileBrowserViewModel = require('./view/mobilebrowser_view_model.js');
 var MobileBrowserView = require('./view/mobilebrowser_view.js');
 var MobileMainMenuView = require('./view/mobile_main_menu_view.js');
 var RendererViewModel = require('./view/renderer_view_model.js');
 var RendererView = require('./view/renderer_view.js');
-var RemoteView = require('./view/remote_view.js');
-var RemoteViewModel = require('./view/remote_view_model.js');
+//var RemoteView = require('./view/remote_view.js');
+//var RemoteViewModel = require('./view/remote_view_model.js');
 require('./view/mobilemain_view.js');
 
 $(document).ready(function() {
@@ -49,15 +49,15 @@ $(document).ready(function() {
 
   var input = local.merge(remote);
 
-  var mainMenuViewModel = new MainMenuViewModel(manager, input);
-  var mainMenuView = new MainMenuView(mainMenuViewModel);
-  var browserViewModel = new BrowserViewModel(manager, input);
-  var browserView = new BrowserView(browserViewModel);
+  //var mainMenuViewModel = new MainMenuViewModel(manager, input);
+  //var mainMenuView = new MainMenuView(mainMenuViewModel);
+  //var browserViewModel = new BrowserViewModel(manager, input);
+  //var browserView = new BrowserView(browserViewModel);
   var mobilebrowserViewModel = new MobileBrowserViewModel(manager, input);
   var mobilebrowserView = new MobileBrowserView(mobilebrowserViewModel);
   var mobileMainMenuView = new MobileMainMenuView();
   var rendererViewModel = new RendererViewModel(manager, input);
   var rendererView = new RendererView(rendererViewModel);
-  var remoteViewModel = new RemoteViewModel(manager, input, mainMenuViewModel);
-  var remoteView = new RemoteView(remoteViewModel);
+  //var remoteViewModel = new RemoteViewModel(manager, input, mainMenuViewModel);
+  //var remoteView = new RemoteView(remoteViewModel);
 });
