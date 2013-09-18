@@ -205,7 +205,14 @@ function ContentListView(viewModel) {
         default:
           iconClass = "default-icon";
       }
-      html = '<li class="contentlistitem"><div><input type="checkbox" /></div><div class="' + iconClass + '"></div><div class="mediaitemcontent"><span class="itemtitle">' + value.item.title + '</span><span class="itemartists">' + value.item.artists + '</span></div>';
+      html = '<li class="contentlistitem"><div class="itemcontainer">' +
+        '<div class="chbx-container"><input type="checkbox" /></div>' +
+        '<div class="' + iconClass + '"></div>' +
+        '<div class="mediaitemcontent">' +
+        '<div class="itemtitle">' + value.item.title + '</div>' +
+        '<div class="itemartists">' + value.item.artists + '</div>' +
+        '</div>' +
+        '</div>';
     }
     return html;
   };
@@ -219,12 +226,12 @@ function ContentListView(viewModel) {
       }
     };
   };
-  
+
   viewModel.selectedContent().onValue(function(selection) {
     var file = (selection.length === 1) ? 'file' : 'files';
-  	$('#select-media-dd-count').text(selection.length + ' ' + file + ' ' + 'selected');
-  	
-  	if(selection.length >= 1) {      
+    $('#select-media-dd-count').text(selection.length + ' ' + file + ' ' + 'selected');
+
+    if (selection.length >= 1) {
       $('.content-queuebutton').removeClass('disabled');
     }
     else {
@@ -342,7 +349,7 @@ function MobileBrowserView(viewModel) {
     // TODO: add number of files added
     var t = new Toast('Media files are added to your queue');
   });
-  	  
+
   document.addEventListener('touchmove', function(e) {
     e.preventDefault();
   }, false);

@@ -57,10 +57,30 @@
     border-bottom: 1px solid $mediumgray;
   }
 
-  #mobilecontentlist li.contentlistitem div{
+  #mobilecontentlist li.contentlistitem div.itemcontainer {
+    position: relative;
+    top: 0;
+    //  left: 0;
+  }
+
+/*  #mobilecontentlist li.contentlistitem div.itemcontainer div{
     line-height: $content-list-min-size/2 - 2;
-    height: 100%;
-    float: left;
+    height: $content-list-min-size;
+    //    float: left;
+    position: absolute;
+    display: inline;
+  }*/
+
+  .chbx-container,.default-icon,.song-icon,.clip-icon,.mediaitemcontent{
+    line-height: 18px;
+    height: 40px;
+    position: absolute;
+    display: inline;
+  }
+
+  .chbx-container{
+    width: $content-list-min-size;
+    left:0;
   }
 
   .default-icon,.song-icon,.clip-icon{
@@ -69,6 +89,8 @@
     -webkit-mask-size: $content-list-min-size;
     background-color: $darkgray;
     width: $content-list-min-size;
+    height: $content-list-min-size;
+    left:$content-list-min-size;
   }
 
   .song-icon{
@@ -80,25 +102,41 @@
   }
 
   .image-icon {
-    width: 40px;
+    width: $content-list-min-size;
   }
 
-  span.itemtitle{
+  div.itemtitle{
     font-size: 90%;
     font-weight: bold;
     vertical-align: middle;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    white-space: nowrap;
   }
-  span.itemartists{
+  div.itemartists{
     display: block;
     font-size: 75%;
     color: $darkgray;
+    top: $content-list-min-size/2;
     vertical-align: middle;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    white-space: nowrap;
   }
 
   span.imagetitle {
     font-size: 90%;
     font-weight: bold;
     vertical-align: middle;
+  }
+
+  div.mediaitemcontent{
+    left: 2 * $content-list-min-size;
+    width: 80%;
+/*    overflow: hidden;
+    text-overflow: ellipsis;*/
   }
 
   //item checkboxes
