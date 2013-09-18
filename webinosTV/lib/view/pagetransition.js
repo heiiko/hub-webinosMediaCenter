@@ -1,4 +1,4 @@
-var current = '#startscreen',
+var current = '#mobilebrowser',
     isAnimating = false,
     endCurrPage = false,
     endNextPage = false;

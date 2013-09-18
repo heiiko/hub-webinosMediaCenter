@@ -331,9 +331,9 @@ function MobileBrowserView(viewModel) {
   //viewModel.prepend().plug($('#prepend').asEventStream('click').merge($('#prepend').asEventStream('touchend')));
   viewModel.append().plug($('#mobileappend').asEventStream('click').merge($('#mobileappend').asEventStream('touchend')));
 
-  viewModel.selectedPeer().onValue(function(selectedPeer) {
-    $('#peer').text(selectedPeer === '<no-peer>' ? "Select a target" : address.friendlyName(selectedPeer.address()));
-  });
+  //viewModel.selectedPeer().onValue(function(selectedPeer) {
+  //  $('#peer').text(selectedPeer === '<no-peer>' ? "Select a target" : address.friendlyName(selectedPeer.address()));
+  //});
 
   var controlsViewModel = viewModel.controls();
   var controlsView = new MobileControlsView('.mobilequeuecontrols', null, controlsViewModel);
