@@ -575,16 +575,16 @@ $category-wrapper-width-largescreen:150px;
 	  }
 	}
 
- #mobilecontentlist{
+/* #mobilecontentlist{
 	height:100%;
 	width:100%;
 	overflow-y: scroll;
   overflow-x: hidden;
-  }
+  }*/
 
-  @include imgListItem;
+  @include imgListItems;
   @include contentListItems;
-
+  @include queueListItems;
 /*
 	.default-icon,.song-icon,.clip-icon{
 	  -webkit-mask-image: url("../images/webinos_apps.svg");

@@ -39,7 +39,7 @@ function setMediaSelectBehavior() {
   // DANGER - temp queuelist height calculation, rework
   var listheight = $(window).height() - 151 - 56 - 51;
   $('#mobilequeuewrapper').css('height', listheight + 'px');
-  // END DANGER 
+  // END DANGER
 
   var selectMediaCategories = $('li.category').off('click');
   if ($(window).width() > 1199) { //wide screen
@@ -74,9 +74,9 @@ function setMediaSelectBehavior() {
           var newYpos = i * clheight + imgHeight / 2 + clpadding;
           moveCategorySelectionArrow(newYpos);
           $('#mobilecontentwrapper').addClass('arrow_box');
-    //      DANGER -  move in a different section
-    //      $('#mobilecontentlist').children().removeClass('mobileselected').find('input:checkbox').prop('checked', false);
-    //      $('#select-media-dd-count').text(0 + ' files selected');
+          //      DANGER -  move in a different section
+          //      $('#mobilecontentlist').children().removeClass('mobileselected').find('input:checkbox').prop('checked', false);
+          //      $('#select-media-dd-count').text(0 + ' files selected');
         });
       })(i);
     }
