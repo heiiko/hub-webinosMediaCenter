@@ -8,6 +8,7 @@ DeviceStatusService = require('../service/devicestatus.coffee')
 MessagingService = require('../service/messaging.coffee')
 PeerService = require('./peer.coffee')
 MediaContentService = require('../service/mediacontent.coffee')
+TelevisionService = require('../service/television.coffee')
 MediaService = require('../service/media.coffee')
 
 class DeviceManager extends Bacon.EventStream
@@ -27,7 +28,8 @@ class DeviceManager extends Bacon.EventStream
                 properties:
                   mode: 'send-receive'
                   reclaimIfExists: yes
-                -> yes).then(_.identity, -> Promise.reject(service)))
+                null # requestCallback
+              ).then(_.identity, -> Promise.reject(service)))
               .map(Bacon.once)
               .mapError((service) -> service.searchForChannels('urn:webinos:hub:media'))
               .flatMap(_.identity)
@@ -51,6 +53,7 @@ class DeviceManager extends Bacon.EventStream
         DeviceStatusService.findServices(),
         MessagingService.findServices(),
         MediaContentService.findServices(),
+        TelevisionService.findServices(),
         MediaService.findServices())
     services
       .flatMap (service) ->
@@ -72,7 +75,7 @@ class DeviceManager extends Bacon.EventStream
         sink = undefined
     @devices = ->
       refs = {}
-      _.each(devices, ({ref}) -> refs[ref.id()] = ref if device.devicestatus()?)
+      _.each(devices, ({ref}) -> refs[ref.address()] = ref if ref.devicestatus()?)
       refs
     @toProperty = =>
       @scan @devices(), (devices, event) ->
@@ -96,19 +99,19 @@ class Device extends Bacon.EventStream
     discovery.onValue (service) =>
       if services[service.id()]?
         services[service.id()].seen = Date.now()
+        service.unbindService()
       else
         services[service.id()] = {ref: service, seen: Date.now()}
         compound.plug(service)
+        service.initialize?()
         sink? new Bacon.Next(new Available(this, service))
     discovery.onEnd ->
       unsubPoll()
       sink? new Bacon.End()
-    unsubPoll = Bacon.fromPoll(timeout, -> Date.now()).onValue (now) =>
+    unsubPoll = Bacon.fromPoll(timeout, -> Date.now()).onValue (now) ->
       for id, {ref, seen} of services
         continue if seen >= (now - timeout)
-        ref.unbindService() if ref.bound()
-        delete services[id]
-        sink? new Bacon.Next(new Unavailable(this, ref))
+        ref.unbindService()
     sink = undefined
     super (newSink) ->
       sink = (event) ->
@@ -127,10 +130,10 @@ class Device extends Bacon.EventStream
         ).then (value) =>
           type = if value is 'smartphone' then 'phone' else value
           sink? new Bacon.Next(new Changed(this))
-      else if service instanceof MediaContentService
-        @refresh()
+      else if service instanceof MediaContentService or service instanceof TelevisionService
+        @refresh(yes)
     @address = -> address
-    @isLocal = -> address is webinos.session.getServiceLocation() # TODO: Check.
+    @isLocal = -> address is webinos.session.getServiceLocation()
     @isRemote = => not @isLocal()
     @type = -> type
     @content = -> content
@@ -148,18 +151,26 @@ class Device extends Bacon.EventStream
         services
     @devicestatus = -> _.find(services, ({ref}) -> ref instanceof DeviceStatusService)?.ref
     @mediacontent = -> _.find(services, ({ref}) -> ref instanceof MediaContentService)?.ref
+    @television = -> _.find(services, ({ref}) -> ref instanceof TelevisionService)?.ref
     @media = -> _.find(services, ({ref}) -> ref instanceof MediaService)?.ref
     @peers = -> _.chain(services).filter(({ref}) -> ref instanceof PeerService).pluck('ref').value()
-    @isSource = => @mediacontent()?
-    @isTarget = => @media()? or @peers().length > 0
+    @isSource = => @mediacontent()? or @television()?
+    @isTarget = => @peers().length > 0
     @refresh = (force = no) =>
       now = Date.now()
       return if refresh? and refresh >= (now - interval) and not force
       refresh = now
-      mediacontent = @mediacontent()
-      return if not mediacontent?
-      mediacontent.findItem({}).then (items) =>
+      @mediacontent()?.findItem({}).then (items) =>
         content['media'] = items
+        sink? new Bacon.Next(new Changed(this))
+      @television()?.tuner().getTVSources().then (sources) =>
+        content['tv'] = _.chain(sources)
+          .map (source) ->
+            source.channelList
+          .flatten()
+          .map ({channelType, name, longName, stream}, index) ->
+            {id: index, type: 'Channel', channelType, title: name, longTitle: longName, link: stream}
+          .value()
         sink? new Bacon.Next(new Changed(this))
 
 class Event

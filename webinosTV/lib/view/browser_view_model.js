@@ -3,13 +3,22 @@ var _ = require('underscore');
 var Bacon = require('baconjs');
 var bjq = require('bacon.jquery');
 
-function BrowserViewModel(manager) {
-  var sources = bjq.Model({});
-  sources.addSource(manager.toProperty().map(function (devices) {
+var ControlsViewModel = require('./controls_view_model.js');
+
+function BrowserViewModel(manager, input) {
+  input = input.filter(function () {
+    return $('.pt-page-current').attr('id') === 'browser' && !$('.menu').is(":visible");
+  });
+
+  this.input = function () {
+    return input;
+  };
+
+  var sources = manager.toProperty().map(function (devices) {
     return _.filter(devices, function (device) {
       return device.isSource();
     });
-  }));
+  });
 
   this.sources = function () {
     return sources;
@@ -20,12 +29,13 @@ function BrowserViewModel(manager) {
     return selectedSources;
   };
 
-  var categories = bjq.Model([
-	{id: 'music', type: 'Audio', title: 'Music', image: 'images/media-music.svg'},
-    {id: 'movies', type: 'Video', title: 'Video', image: 'images/media-movies.svg'},
-    {id: 'images', type: 'Image', title: 'Pictures', image: 'images/media-images.svg'},
-    //{id: 'channels', type: undefined, title: 'Channels', image: 'images/media-channels.svg'}
+  var categories = Bacon.constant([
+    {id: 'movies', type: 'Video', title: 'Movies', image: 'images/movie.svg'},
+    {id: 'music', type: 'Audio', title: 'Music', image: 'images/music.svg'},
+    {id: 'images', type: 'Image', title: 'Images', image: 'images/image.svg'},
+    {id: 'channels', type: 'Channel', title: 'Channels', image: 'images/tv_channels.svg'}
   ]);
+
   this.categories = function () {
     return categories;
   };
@@ -35,21 +45,24 @@ function BrowserViewModel(manager) {
     return selectedCategories;
   };
 
-  var content = bjq.Model([]);
-  content.addSource(Bacon.combineWith(function (sources, selectedSources, categories, selectedCategories) {
-    var types = _.map(selectedCategories, function (id) {
-      return (id)?_.findWhere(categories, {id: id}).type:id;
+  var content = Bacon.combineTemplate({
+    sources: sources, selectedSources: selectedSources,
+    categories: categories, selectedCategories: selectedCategories
+  }).map(function (state) {
+    var types = _.map(state.selectedCategories, function (id) {
+      return id ? _.findWhere(state.categories, {id: id}).type : id;
     });
-    return _.chain(sources).filter(function (source) {
-      return !selectedSources.length || _.contains(selectedSources, source.address());
+
+    return _.chain(state.sources).filter(function (source) {
+      return !state.selectedSources.length || _.contains(state.selectedSources, source.address());
     }).map(function (source) {
-      return _.chain(source.content()['media']).filter(function (item) {
-        return !types.length || _.contains(types, item.type);
+      return _.chain(source.content()).values().flatten().filter(function (item) {
+        return !types.length || _.find(types, function(type) {return item.type.toLowerCase().indexOf(type.toLowerCase()) != -1 });
       }).map(function (item) {
         return {source: source, item: item};
       }).value();
     }).flatten().value();
-  }, sources, selectedSources, categories, selectedCategories));
+  });
 
   this.content = function () {
     return content;
@@ -60,12 +73,11 @@ function BrowserViewModel(manager) {
     return selectedContent;
   };
 
-  var targets = bjq.Model({});
-  targets.addSource(manager.toProperty().map(function (devices) {
+  var targets = manager.toProperty().map(function (devices) {
     return _.filter(devices, function (device) {
       return device.isTarget();
     });
-  }));
+  });
 
   this.targets = function () {
     return targets;
@@ -76,10 +88,123 @@ function BrowserViewModel(manager) {
     return selectedTargets;
   };
 
-  var play = new Bacon.Bus();
-  this.play = function () {
-    return play;
+  var queuing = new Bacon.Bus();
+
+  Bacon.combineTemplate({
+    devices: manager.toProperty(),
+    selectedContent: selectedContent,
+    selectedTargets: selectedTargets
+  }).sampledBy(queuing, function (current, command) {
+    return {
+      devices: current.devices,
+      selectedContent: current.selectedContent,
+      selectedTargets: current.selectedTargets,
+      command: command
+    };
+  }).filter(function (operation) {
+    return operation.selectedContent.length && operation.selectedTargets.length;
+  }).onValue(function (operation) {
+    var items = _.map(operation.selectedContent, function (selectedItem) {
+      var source = operation.devices[selectedItem.source];
+      var item   = _.chain(source.content()).values().flatten().findWhere({
+        id: selectedItem.item.id,
+        title: selectedItem.item.title
+      }).value();
+      return {source: source, item: item};
+    });
+
+    var targets = _.map(operation.selectedTargets, function (selectedTarget) {
+      return operation.devices[selectedTarget];
+    });
+
+    var promises = _.map(items, function (item) {
+      if (item.item.type === 'Channel') {
+        return Promise.fulfill({item: item.item, link: item.item.link})
+      }
+
+      return item.source.mediacontent().getLink({
+        folderId: item.item.id,
+        fileName: item.item.title
+      }).then(function (link) {
+        return {item: item.item, link: link};
+      });
+    });
+
+    Promise.every.apply(Promise, promises).then(function (values) {
+      _.each(targets, function (target) {
+        // Assumption: Only devices with a peer service are recognized as targets.
+        var peer = target.peers()[0];
+        switch (operation.command.type) {
+          case 'prepend':
+            peer.prepend(values);
+            break;
+          case 'append':
+            peer.append(values);
+            break;
+        }
+      });
+    });
+  });
+
+  var prepend = new Bacon.Bus();
+  queuing.plug(prepend.map({type: 'prepend'}));
+
+  this.prepend = function () {
+    return prepend;
   };
+
+  var append = new Bacon.Bus();
+  queuing.plug(append.map({type: 'append'}));
+
+  this.append = function () {
+    return append;
+  };
+
+  var selectedPeer = manager.toProperty().sampledBy(selectedTargets, function (devices, selectedTargets) {
+    if (!selectedTargets.length || selectedTargets.length > 1) return '<no-peer>';
+    // Assumption: Only devices with a peer service are recognized as targets.
+    return devices[selectedTargets[0]].peers()[0];
+  });
+
+  this.selectedPeer = function () {
+    return selectedPeer;
+  };
+
+  var controls = new ControlsViewModel(selectedPeer);
+  this.controls = function () {
+    return controls;
+  };
+
+  var queue = selectedPeer.flatMapLatest(function (selectedPeer) {
+    if (selectedPeer === '<no-peer>') return Bacon.once([]);
+    return selectedPeer.state().map('.queue').skipDuplicates(_.isEqual);
+  }).toProperty([]);
+
+  this.queue = function () {
+    return queue;
+  };
+
+  var selectedQueue = bjq.Model([]);
+  this.selectedQueue = function () {
+    return selectedQueue;
+  };
+
+  Bacon.combineTemplate({
+    selectedPeer: selectedPeer,
+    queue: queue, selectedQueue: selectedQueue
+  }).sampledBy(controls.remove()).filter(function (state) {
+    return state.selectedPeer !== '<no-peer>' && state.selectedQueue.length
+  }).onValue(function (state) {
+    var indexes = [];
+
+    _.each(state.selectedQueue, function (link) {
+      _.each(state.queue, function (item, index) {
+        if (link === item.link) indexes.push(index);
+      });
+    });
+
+    state.selectedPeer.remove(indexes);
+  });
 }
 
 module.exports = BrowserViewModel;

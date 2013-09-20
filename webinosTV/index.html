@@ -1,74 +1,123 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>webinosTV</title>
-        <script type="text/javascript" src="dist/wrt.js"></script>
-        <script type="text/javascript" src="dist/deps.js"></script>
-        <script type="text/javascript" src="dist/app.js"></script>
-    	<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
-    	<link href="css/style-mobile.css" rel="stylesheet" type="text/css" />
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-    </head>
-    <body>
-    	<div id="topmenu" class="menu">
-    		<div id="menu-device" class="menu-item" href=""></div>
-    		<div class="menu-border"></div>
-    		<div id="menu-media" class="menu-item" href="">Select Media</div>
-    		<div class="menu-border"></div>
-    		<div id="menu-queue" class="menu-item" href="">Media Queue</div>
-    	</div>
-    	
-    	<div id="container-device" class="subpage">
-    		<div class="header">
-    			<div id="wrapper-selected-source" class="header-item-device header-active">
-    				<img id="current-source-logo" src="" />
- 		   			<div id="current-source-name">Source device</div>
-    			</div>
-    			<div id="wrapper-selected-target" class="header-item-device">
- 		   			<div id="current-target-name">Target device</div>
- 		   			<img id="current-target-logo" src="" />
-    			</div>
-    		</div>
-    		
-    		<div id="sourcewrapper" class="device-column">
-    			<ul id="sourcelist">
-    				<li>Loading...</li>
-    			</ul>
-    		</div>
-    		
-    		<div id="targetwrapper" class="device-column">
-    			<ul id="targetlist">
-    				<li>Loading...</li>
-    			</ul>
-    		</div>
-    		</div>
-    	</div>
-    		
-    	<div id="container-media" class="subpage">	
-    		<div class="header">
-    			<div class="header-item-media">
- 		   			<img id="selected-source" src="" />
- 		   			<div id="selected-source-intro">You can select media from</div>
- 		   			<div id="selected-source-name"></div>
- 		   		</div>
-    		</div>
-    		
-    		<div id="categorywrapper">
-    			<ul id="categorylist">
-    				<li>Loading...</li>
-    			</ul>
-    		</div>
-    	</div>
-    	
-    	<div id="container-queue" class="subpage">	
-    		<div class="header">
-    			<div class="header-item-queue">
- 		   			TODO
- 		   		</div>
-    		</div>
-    		
-    		TODO2
-    	</div>
-    </body>
+  <head>
+    <title>Index</title>
+    <script type="text/javascript" src="dist/wrt.js"></script>
+    <script type="text/javascript" src="dist/deps.js"></script>
+    <script type="text/javascript" src="dist/app.js"></script>
+    <link href='css/roboto.css' rel='stylesheet' type='text/css'>
+    <link href="css/styles.css" rel="stylesheet" type="text/css" />
+    <link href="css/style-mobile.css" rel="stylesheet" type="text/css" />
+    <link href="css/animations.css" rel="stylesheet" type="text/css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+  </head>
+  <body>
+    <div id="mobilebrowser" class="pt-page">
+      <div id="topmenu" class="mobilemenu">
+        <div id="menu-device" class="mobilemenu-item" href=""></div>
+        <div class="mobilemenu-border"></div>
+        <div id="menu-media" class="mobilemenu-item" href="">Select Media</div>
+        <div class="mobilemenu-border"></div>
+        <div id="menu-queue" class="mobilemenu-item" href="">Media Queue</div>
+      </div>
+
+      <div id="container-device" class="subpage">
+        <div class="header">
+          <div id="wrapper-selected-source" class="header-item-device header-active">
+            <img id="current-source-logo" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" />
+            <div id="current-source-name">Source devices</div>
+          </div>
+          <div id="device-arrow"></div>
+          <div id="wrapper-selected-target" class="header-item-device">
+            <div id="current-target-name">Target devices</div>
+            <img id="current-target-logo" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" />
+          </div>
+        </div>
+
+        <div id="mobilesourcewrapper" class="device-column">
+          <ul id="mobilesourcelist">
+            <li>Loading...</li>
+          </ul>
+        </div>
+
+        <div id="mobiletargetwrapper" class="device-column">
+          <ul id="mobiletargetlist">
+            <li>Loading...</li>
+          </ul>
+        </div>
+      </div>
+
+      <div id="container-media" class="subpage">
+        <div class="header-media">
+          <div class="header-item-media">
+            <img id="selected-source" src="" />
+            <div id="selected-source-intro">No source device selected</div>
+            <div id="selected-source-name"></div>
+          </div>
+          <div class="header-item-media separator"></div>
+          <div class="header-item-media header-item-mediaactions">
+            <div id="select-media-dd-wrapper">
+              <div id="select-media-dd-count">0 files selected</div>
+              <ul id="select-media-dd-menu">
+                <li id="select-media-dd-all" class="">Select All</li>
+                <li id="select-media-dd-none" class="">Deselect All</li>
+              </ul>
+            </div>
+          </div>
+          <div class="header-item-media separator"></div>
+          <div class="header-item-media header-item-mediaactions">
+            <div class="content-searchbox">
+              <input id="content-search" type="text" />
+            </div>
+            <div class="content-searchbutton"></div>
+            <div class="header-menu-border"></div>
+            <div id="mobileappend" class="content-queuebutton"></div>
+          </div>
+        </div>
+
+        <div id="mobilecategorywrapper">
+          <ul id="mobilecategorylist">
+            <li>Loading...</li>
+          </ul>
+        </div>
+
+        <div id="mobilecontentwrapper">
+          <ul id="mobilecontentlist">
+            <li>Loading...</li>
+          </ul>
+        </div>
+      </div>
+
+      <div id="container-queue" class="subpage">
+        <div id="header-queue" class="header-queue">
+          <div id="mobilequeuetargetwrapper">
+          	<ul id="mobilequeuetargetlist">
+              <li>Loading...</li>
+            </ul>
+          </div>
+          <div class="header-item-queue separator"></div>
+        </div>
+
+        <div id="mobilequeuewrapper">
+          <ul id="mobilequeuelist">
+            <li>Loading...</li>
+          </ul>
+        </div>
+        
+        <div id="mobilequeuecontrols">
+          <div class="mobilequeuecontrols"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="renderer" class="pt-page">
+      <video  height="100%" > </video>
+      <audio ></audio>
+      <div class="imageContainer" width="100%" height="100%" ></div>
+      <div class="rendererControlls"></div>
+    </div>
+
+    <div id="leftfadeout"></div>
+  </body>
 </html>

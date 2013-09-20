@@ -1,0 +1,343 @@
+@mixin imgListItems{
+  #mobilecontentlist{
+    height:100%;
+    width:100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+   }
+
+  $webinosThumbnailWidth:96px;
+  $imgTitleHeight:20px;
+  li.imglistitem{
+    border: 1px solid $bordergray;
+    width: $webinosThumbnailWidth;
+    max-height: $webinosThumbnailWidth;
+    vertical-align: middle;
+    line-height: $webinosThumbnailWidth;
+    float: left;
+    overflow: hidden;
+    animation: none;
+  }
+  li.imglistitem div.imglistitem{
+    height:$webinosThumbnailWidth;
+    width:$webinosThumbnailWidth;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  li.imglistitem div.imglistitem-title{
+    height:$imgTitleHeight;
+    position: relative;
+    top: -$imgTitleHeight;
+    text-align: center;
+    line-height:$imgTitleHeight/2;
+    font-size:$imgTitleHeight/2;
+    color: white;
+    background-color: rgba(black,0.5);
+  }
+
+  li.imglistitem.mobileselected div.imglistitem:after{
+    background: rgba($blue,0.5);
+    width: $webinosThumbnailWidth;
+    height: $webinosThumbnailWidth;
+    content: "\2713";
+    display: block;
+    position: relative;
+    margin-top: 0;
+    top: 0;
+    color: white;
+    font-size: 3em;
+    text-shadow: 2px 2px black;
+    text-align: center;
+    z-index: 9999;
+    box-shadow: inset 0px 0px 0px 3px $blue;
+  }
+
+}
+
+@mixin contentListItems{
+  //Content list items
+  $content-list-min-size:40px;
+
+  #mobilecontentlist li.contentlistitem{
+    height: $content-list-min-size;
+    border-bottom: 1px solid $mediumgray;
+  }
+
+  #mobilecontentlist li.contentlistitem div.itemcontainer {
+    position: relative;
+    top: 0;
+    //  left: 0;
+  }
+
+/*  #mobilecontentlist li.contentlistitem div.itemcontainer div{
+    line-height: $content-list-min-size/2 - 2;
+    height: $content-list-min-size;
+    //    float: left;
+    position: absolute;
+    display: inline;
+  }*/
+
+  .chbx-container,.default-icon,.song-icon,.clip-icon,.mediaitemcontent{
+    line-height: 18px;
+    height: $content-list-min-size;
+    position: absolute;
+    display: inline;
+  }
+
+  #mobilecontentlist li.contentlistitem div.itemcontainer .chbx-container{
+    width: $content-list-min-size;
+    left:0;
+  }
+
+  .default-icon,.song-icon,.clip-icon{
+    -webkit-mask-image: url("../images/webinos_apps.svg");
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-size: $content-list-min-size;
+    background-color: $darkgray;
+    width: $content-list-min-size;
+    height: $content-list-min-size;
+    left:$content-list-min-size;
+  }
+
+  .song-icon{
+    -webkit-mask-image: url("../images/music.svg");
+  }
+
+  .clip-icon{
+    -webkit-mask-image: url("../images/movie.svg");
+  }
+
+  .image-icon {
+    width: $content-list-min-size;
+  }
+
+  div.itemtitle{
+    font-size: 90%;
+    font-weight: bold;
+    vertical-align: middle;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    white-space: nowrap;
+  }
+  div.itemartists{
+    display: block;
+    font-size: 75%;
+    color: $darkgray;
+    top: $content-list-min-size/2;
+    vertical-align: middle;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    white-space: nowrap;
+  }
+
+  span.imagetitle {
+    font-size: 90%;
+    font-weight: bold;
+    vertical-align: middle;
+  }
+
+  div.mediaitemcontent{
+    left: 2 * $content-list-min-size;
+    width: 80%;
+/*    overflow: hidden;
+    text-overflow: ellipsis;*/
+  }
+
+  //item checkboxes
+  #mobilecontentlist li.contentlistitem input[type=checkbox]{
+    font-size: 16px;
+    position: relative;
+    border: 1px solid $mediumgray;
+    display: inline-block;
+    line-height: 1em;
+    margin: 12px 12px 0 12px;
+    padding: 0;
+    width: 1em;
+    height: 1em;
+    vertical-align: text-top;
+    background: -webkit-linear-gradient(
+    top, rgba(255,255,255,0.4), rgba(255,255,255,0.1)
+    );
+    -webkit-appearance: none;
+    -webkit-box-shadow: 0 1px 0 rgba(255,255,255, 0.1),
+    inset 0 0 1px rgba(255,255,255, 0.4);
+    /*-webkit-border-radius: 3px;*/
+  }
+
+  #mobilecontentlist li.contentlistitem input[type=checkbox]:active {
+    background: -webkit-linear-gradient(
+    top, rgba(255,255,255,0.05), rgba(255,255,255,0.2)
+    );
+  }
+
+  #mobilecontentlist li.contentlistitem input[type=checkbox]:checked::after {
+    position: absolute;
+    content: '';
+    left: 15%;
+    top: -10%;
+    height: 40%;
+    width: 90%;
+    border-bottom: 3px solid $blue;
+    border-left: 3px solid $blue;
+    -webkit-box-shadow: -1px 1px 0 rgba(0,0,0,0.8);
+    -webkit-transform: rotate(-45deg);
+  }
+
+  @media screen and (max-width: $mintabletwidth - 1) {
+    #mobilecontentlist{
+      display:none;
+    }
+  }
+
+}
+
+@mixin queueListItems{
+  $content-list-min-size:40px;
+  $orangeband-width: 12px;
+
+  #mobilequeuelist {
+  	height: 100%;
+    width: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+
+  #mobilequeuelist li.contentlistitem div.itemcontainer {
+    position: relative;
+    top: 0;
+    //  left: 0;
+  }
+
+  #mobilequeuelist li:first-child div.itemcontainer:after {
+    position: absolute;
+    content: '';
+    width: $orangeband-width;
+    height: $content-list-min-size;
+    background-color: orange;
+  }
+
+  #mobilecontentlist li.contentlistitem div.itemcontainer .chbx-container{
+    width: $content-list-min-size;
+    left: $orangeband-width;
+  }
+
+  #mobilequeuelist li.contentlistitem{
+    height: $content-list-min-size;
+    border-bottom: 1px solid $mediumgray;
+  }
+
+  #mobilequeuelist li.contentlistitem div.itemcontainer div.status{
+    width: $content-list-min-size;
+    height: $content-list-min-size;
+ //   position: absolute;
+    width: 20%;
+    float: right;
+    line-height: $content-list-min-size/2;
+   }
+
+  #mobilequeuelist li.contentlistitem div.itemcontainer div.mediaitemcontent{
+    left: 2 * $content-list-min-size + $orangeband-width;
+    width: 60%;
+  }
+
+  div.status {
+    display: hidden;
+  }
+
+  div.status.pauseditem .statustext:before {
+    content: 'Paused ...';
+    font-size: 75%;
+    color: $darkgray;
+    overflow: hidden;
+    position: relative;
+    display: inline;
+    top: $content-list-min-size/4 - 2;
+    left: $content-list-min-size/2;
+  }
+
+  div.status.pauseditem .statusicon {
+    -webkit-mask-image: url('../images/player_pause.svg');
+    background-color: $darkgray;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-size: $content-list-min-size/2;
+    height: $content-list-min-size/2;
+    width: $content-list-min-size/2;
+    display: inline;
+    top: $content-list-min-size/4;
+    position: absolute;
+/*    display: inline-block;
+    vertical-align: middle;
+    margin-right: 3px;*/
+  }
+
+  div.status.playingitem .statustext:before {
+/*    content: 'Now playing ...';*/
+    content: 'Playing ...';
+    font-size: 75%;
+    color: $darkgray;
+    overflow: hidden;
+    position: relative;
+    display: inline;
+    top: $content-list-min-size/4 - 2;
+    left: $content-list-min-size/2;
+  }
+
+  div.status.playingitem .statusicon {
+    -webkit-mask-image:  url('../images/player_play.svg');
+    background-color: $darkgray;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-size: $content-list-min-size/2;
+    height: $content-list-min-size/2;
+    width: $content-list-min-size/2;
+    display: inline;
+    top: $content-list-min-size/4;
+    position: absolute;
+    /*display: inline-block;*/
+    /*vertical-align: middle;*/
+    /*margin-right: 3px;*/
+  }
+
+  //item checkboxes
+  #mobilequeuelist li.contentlistitem input[type=checkbox]{
+    font-size: 16px;
+    position: relative;
+    border: 1px solid $mediumgray;
+    display: inline-block;
+    line-height: 1em;
+    margin: 12px 12px 0 12px;
+    padding: 0;
+    width: 1em;
+    height: 1em;
+    vertical-align: text-top;
+    background: -webkit-linear-gradient(
+    top, rgba(255,255,255,0.4), rgba(255,255,255,0.1)
+    );
+    -webkit-appearance: none;
+    -webkit-box-shadow: 0 1px 0 rgba(255,255,255, 0.1),
+    inset 0 0 1px rgba(255,255,255, 0.4);
+    /*-webkit-border-radius: 3px;*/
+  }
+
+  #mobilequeuelist li.contentlistitem input[type=checkbox]:active {
+    background: -webkit-linear-gradient(
+    top, rgba(255,255,255,0.05), rgba(255,255,255,0.2)
+    );
+  }
+
+  #mobilequeuelist li.contentlistitem input[type=checkbox]:checked::after {
+    position: absolute;
+    content: '';
+    left: 15%;
+    top: -10%;
+    height: 40%;
+    width: 90%;
+    border-bottom: 3px solid $blue;
+    border-left: 3px solid $blue;
+    -webkit-box-shadow: -1px 1px 0 rgba(0,0,0,0.8);
+    -webkit-transform: rotate(-45deg);
+  }
+
+}

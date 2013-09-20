@@ -1,74 +1,41 @@
 var $ = require('jquery');
+//require('jquery.fittext');
 var _ = require('../util/objectscore.coffee'); // require('underscore');
+var address = require('../util/address.coffee')
 var Bacon = require('baconjs');
 var IScroll = require('iscroll');
-
 var util = require('util');
 
-$(document).ready(function() {
-  //$('.albumToggleIcon').click(function() {
-   // if ($(this).parent("div").next('ul').is(":visible")) {
-   //   $(this).attr("src", "images/arrow_big_down.svg");
-   // } else {
-   //   $(this).attr("src", "images/arrow_big_up.svg");
-   // }
-   // $(this).parent().next('ul').slideToggle(250, function() { contentScroll.refresh(); });
-  //});
-  //$('.albumsonglist > li > img, #contentlist > li > img').click(function() {
-  //  var src = ($(this).attr('src') === 'images/add.svg')
-  //          ? 'images/add_blue.svg'
-  //          : 'images/add.svg';
-  //       $(this).attr('src', src);
-  //});
-  //$('#queuelist > li > img').click(function() {
-  //  var src = ($(this).attr('src') === 'images/remove.svg')
-  //         ? 'images/remove_blue.svg'
-  //          : 'images/remove.svg';
-  //       $(this).attr('src', src);
-  //});
-});
+var ControlsView = require('./controls_view.js');
 
-
-function loaded() {
-  // sourceScroll = new IScroll('#sourcewrapper', {snap: 'li', momentum: false});
-  // mediatypScroll = new IScroll('#mediatypwrapper', {snap: 'li', momentum: false});
-  // contentScroll = new IScroll('#contentwrapper', {snap: '#contentlist > li', momentum: false});
-  // targetScroll = new IScroll('#targetwrapper', {snap: 'li', momentum: false});
-  //queueScroll = new IScroll('#queuewrapper', {snap: 'li', momentum: false});
-  //queueScroll.on('scrollEnd', function() {checkScrollFadeout(this);});
-  //horizontalScroll = new IScroll('#horizontalwrapper', {snap: 'ul', scrollX: true, scrollY: false, momentum: false});
-}
-
-document.addEventListener('touchmove', function(e) {
-  e.preventDefault();
-}, false);
-
-//document.addEventListener('DOMContentLoaded', function() {
-//  setTimeout(loaded, 800);
-//}, false);
+var buttonHeight=0, tappedOn = 0;
 
 function ListView(items, selection, list, wrapper, fadeout) {
   var self = this;
-  var scroll = undefined;
+  this.scroll = undefined;
 
   this.refresh = function () {
     if ($(list).children().length > 0) {
-      if (typeof scroll === 'undefined') {
-        scroll = new IScroll(wrapper, {snap: 'li', momentum: false});
-        scroll.on('scrollEnd', function(){
-          if(scroll.y >= 0){
-            //$(fadeout + 'topfadeout').hide();
-          }else{
-            //$(fadeout + 'topfadeout').show();
-          }
-          if(scroll.y <= ($(wrapper).height() - $(list).height())){
-            //$(fadeout + 'bottomfadeout').hide();
-          }else{
-            //$(fadeout + 'bottomfadeout').show();
-          }
-        });
+      if (typeof self.scroll === 'undefined') {
+        self.scroll = new IScroll(wrapper, {snap: list +' li', momentum: false});
+        // scroll.on('scrollEnd', function(){
+        //   if(scroll.y >= 0){
+        //     $(fadeout + 'topfadeout').hide();
+        //   }else{
+        //     $(fadeout + 'topfadeout').show();
+        //   }
+        //   if(scroll.y <= ($(wrapper).height() - $(list).height())){
+        //     $(fadeout + 'bottomfadeout').hide();
+        //   }else{
+        //     $(fadeout + 'bottomfadeout').show();
+        //   }
+        // });
       }
-      scroll.refresh();
+      self.scroll.options.snap = document.querySelectorAll(list +' li');
+      self.scroll.refresh();
+
+      //Fittext, currently to expensive.
+      //$("li p").fitText(0.8);
     }
   };
 
@@ -80,9 +47,10 @@ function ListView(items, selection, list, wrapper, fadeout) {
       var $item = $(self.htmlify(item));
       var id = self.identify(item);
       $item.data('id', id);
+      if(list === '#targetlist')
+        $item.data('local', item.isLocal());
       $list.append($item);
     });
-
     self.refresh();
   });
 
@@ -94,9 +62,19 @@ function ListView(items, selection, list, wrapper, fadeout) {
     };
   }));
 
-  selection.apply($(list).asEventStream('click').map(function (event) {
+  $(list).asEventStream('mousedown').merge($(list).asEventStream('touchstart')).onValue(function(){
+    tappedOn=Date.now();
+  });
+
+
+
+  selection.apply($(list).asEventStream('click').merge($(list).asEventStream('touchend')).filter(function(){
+    var justClick = (Date.now()-tappedOn<250);
+    return justClick;
+  }).map(function (event) {
     return function (selection) {
       var $item = $(event.target).closest('li');
+      if (!$item.length) return selection;
       var id = $item.data('id');
       return (_.ocontains(selection, id) ? _.odifference : _.ounion)(selection, [id]);
     };
@@ -106,79 +84,65 @@ function ListView(items, selection, list, wrapper, fadeout) {
     $('li', list).each(function () {
       var $item = $(this);
       var id = $item.data('id');
-      $item.toggleClass('selected', _.ocontains(selection, id));
+
+      if($item.hasClass('textContent') || $item.hasClass('imageContent')){
+        if(_.ocontains(selection, id)){
+          if($item.parent().is('#contentlist')){
+            $item.children('.selectIcon').attr('src', 'images/add_blue.svg');
+          }else{
+            $item.children('.selectIcon').attr('src', 'images/remove_blue.svg');
+          }
+        }else{
+          if($item.parent().is('#contentlist')){
+            $item.children('.selectIcon').attr('src', 'images/add.svg');
+          }else{
+            $item.children('.selectIcon').attr('src', 'images/remove.svg');
+          }
+        }
+      }else{
+        $item.toggleClass('selected', _.ocontains(selection, id));
+      }
     });
   });
 }
 
-util.inherits(DeviceListView, ListView);
-function DeviceListView(items, selection, list, wrapper, fadeout) {
+util.inherits(SourceListView, ListView);
+function SourceListView(viewModel) {
   this.htmlify = function (device) {
-    return '<li class="device tv-button"><div class="device-image type-' + device.type() + '"></div><div class="device-name">' + device.address() + '</div><div class="device-type">' + device.type().charAt(0).toUpperCase() + device.type().slice(1) + '</div></li>';
+    return '<li class="nav_sl" style="height:'+buttonHeight+'px"><img src="images/'+(device.type()?device.type():'all_devices')+'.svg"><p>' + address.friendlyName(device.address()) + '</p></li>';
   };
 
   this.identify = function (device) {
-    return {
-    	address: device.address(),
-    	type: device.type()
-    };
+    return device.address();
   };
 
-  ListView.call(this, items, selection, list, wrapper, fadeout);
-}
-
-util.inherits(SourceListView, DeviceListView);
-function SourceListView(viewModel) {
-	DeviceListView.call(this, viewModel.sources(), viewModel.selectedSources(), '#sourcelist', '#sourcewrapper', '#source');
-  
-	viewModel.selectedSources().onValue(function (selection) {
-    	if(selection.length == 1) {
-    		var device = selection[0];
-    		$('#selected-source').attr('src', 'images/' + device.type + '-selected.svg');
-    		$('#selected-source-name').html(device.address);
-    		$('#selected-source-intro').html('You can select media from');
-    		
-    		$('#wrapper-selected-source').removeClass('header-active');
-    		$('#wrapper-selected-target').addClass('header-active');
-    		
-    		$('#current-source-logo').attr('src', 'images/' + device.type + '.svg');
-    		$('#current-source-name').html(device.address);
-    	}
-    	else if(selection.length == 0) {
-    		$('#selected-source').attr('src', '');
-    		$('#selected-source-name').html('');
-    		$('#selected-source-intro').html('');
-    		
-    		$('#wrapper-selected-source').addClass('header-active');
-    		$('#wrapper-selected-target').removeClass('header-active');
-    		
-    		$('#current-source-logo').attr('src', '');
-    		$('#current-source-name').html('Source device');
-    	}
-    	else {
-    		$('#current-source-logo').attr('src', '');
-    		$('#current-source-name').html(selection.length + ' Source devices');
-    	}
-  	});
+  ListView.call(this, viewModel.sources(), viewModel.selectedSources(), '#sourcelist', '#sourcewrapper', '#source');
 }
 
 util.inherits(CategoryListView, ListView);
 function CategoryListView(viewModel) {
   this.htmlify = function (category) {
-    return '<li class="category"><img class="category-image" src="' + category.image + '"><div class="category-name">' + category.title + '</div></li>';
+    return '<li class="nav_ca" style="height:'+buttonHeight+'px"><img src="' + category.image + '"><p>' + category.title + '</p></li>';
   };
 
   this.identify = function (category) {
     return category.id;
   };
 
-  ListView.call(this, viewModel.categories(), viewModel.selectedCategories(), '#categorylist', '#categorywrapper', '#category');
+  ListView.call(this, viewModel.categories(), viewModel.selectedCategories(), '#mediatyplist', '#mediatypwrapper', '#category');
 }
 
 util.inherits(ContentListView, ListView);
 function ContentListView(viewModel) {
   this.htmlify = function (value) {
-    return '<li><p>'+((typeof value.item.type=='string' && value.item.type.toLowerCase().indexOf("image")==0)?('<img src="' + value.item.thumbnailURIs[0] + '">'):(value.item.title)) + '</p><img src="images/add.svg"></li>';
+    var html;
+    if (typeof value.item.type === 'string' && value.item.type.toLowerCase().indexOf('image') === 0) {
+      html = '<li class="imageContent nav_co"><img src="' + value.item.thumbnailURIs[0] + '">';
+    } else {
+      html = '<li class="textContent nav_co"><p>' + value.item.title + '</p>'
+    }
+    html += '<img class="selectIcon" src="images/add.svg"></li>';
+    return html;
   };
 
   this.identify = function (value) {
@@ -194,39 +158,196 @@ function ContentListView(viewModel) {
   ListView.call(this, viewModel.content(), viewModel.selectedContent(), '#contentlist', '#contentwrapper', '#content');
 }
 
-util.inherits(TargetListView, DeviceListView);
+util.inherits(TargetListView, ListView);
 function TargetListView(viewModel) {
-  DeviceListView.call(this, viewModel.targets(), viewModel.selectedTargets(), '#targetlist', '#targetwrapper', '#target');
+  this.htmlify = function (device) {
+    return '<li class="nav_tl" style="height:'+buttonHeight+'px"><img src="images/'+(device.type()?device.type():'all_devices')+'.svg"><p>' + address.friendlyName(device.address()) + '</p></li>';
+  };
 
-  viewModel.selectedTargets().onValue(function (selection) {
-    	if(selection.length == 1) {
-    		var device = selection[0];
-    		
-    		$('#current-target-logo').attr('src', 'images/' + device.type + '.svg');
-    		$('#current-target-name').html(device.address);
-    	}
-    	else if(selection.length == 0) {
-    		$('#current-target-logo').attr('src', '');
-    		$('#current-target-name').html('Target device');
-    	}
-    	else {
-    		$('#current-target-logo').attr('src', '');
-    		$('#current-target-name').html(selection.length + ' Target devices');
-    	}
-  	});
+  this.identify = function (device) {
+    return device.address();
+  };
+
+  ListView.call(this, viewModel.targets(), viewModel.selectedTargets(), '#targetlist', '#targetwrapper', '#target');
+}
+
+util.inherits(QueueListView, ListView);
+function QueueListView(viewModel) {
+  this.htmlify = function (value) {
+    var html;
+    if (typeof value.item.type === 'string' && value.item.type.toLowerCase().indexOf('image') === 0) {
+      html = '<li class="imageContent nav_qu"><img src="' + value.item.thumbnailURIs[0] + '">';
+    } else {
+      html = '<li class="textContent nav_qu"><p>' + value.item.title + '</p>';
+    }
+    html += '<img class="selectIcon" src="images/remove.svg"></li>';
+    return html;
+  };
+
+  this.identify = function (value) {
+    return value.link;
+  };
+
+  ListView.call(this, viewModel.queue(), viewModel.selectedQueue(), '#queuelist', '#queuewrapper', '#queue');
+}
+
+function NavigationView (viewModel, listViews) {
+  var columns = [".nav_sl", ".nav_ca", ".nav_co", ".nav_tl", ".nav_pm", ".nav_qu"];
+  var curCol = 0;
+  var curRow = [0, 0, 0, 0, 0, 0];
+  var navVisible = false;
+  var timeoutHandle;
+
+  viewModel.input().onValue(Navigate);
+
+  function Navigate(direction) {
+    window.clearTimeout(timeoutHandle);
+    if(navVisible === false){
+      navVisible = true;
+    }else{
+      if (direction !== 'enter') $(columns[curCol]+".focus").removeClass('focus');
+      switch(direction){
+        case 'down':
+        if(curRow[curCol] < $(columns[curCol]).length-1)
+          curRow[curCol]++;
+          centerFocusedElement();
+          break;
+        case 'up':
+        if(curRow[curCol] > 0)
+          curRow[curCol]--;
+          centerFocusedElement();
+          break;
+        case 'right':
+          if(curCol < 5)
+            curCol++;
+          else if(curCol == 5 && curRow[5] < 5)
+            curRow[5]++;
+          break;
+        case 'left':
+          if(curCol == 5 && curRow[5] < 6 && curRow[5] > 0)
+            curRow[5]--;
+          else if(curCol > 0)
+            curCol--;
+          else if(curCol === 0)
+            window.openMainmenu();
+          break;
+        case 'enter':
+          if (navVisible) {
+            tappedOn=Date.now();
+            $(columns[curCol]+".focus").click();
+          }
+          break;
+      }
+    }
+    if($(columns[curCol]).length-1 < curRow[curCol]){
+      curRow[curCol] = 0;
+    }
+    $(columns[curCol]).eq(curRow[curCol]).addClass('focus');
+    startNavVisibleTimeout();
+  }
+
+  function centerFocusedElement(){
+    if(curCol != 4 && listViews[curCol].scroll.hasVerticalScroll){
+      listViews[curCol].scroll.scrollToElement($(columns[curCol]).eq(curRow[curCol]).get(0), null, null, true);
+    }
+  }
+
+  function startNavVisibleTimeout(){
+    timeoutHandle = window.setTimeout(function(){
+      navVisible=false;
+      $(columns[curCol]).eq(curRow[curCol]).removeClass('focus');
+    }, 5000);
+  }
+
+  function navlog(direction) {
+    console.log(direction + "  col:" + curCol + " row:" + curRow);
+  }
 }
 
 function BrowserView(viewModel) {
+  var horizontalScroll = new IScroll('#horizontalwrapper', {snap: '.listhead', scrollX: true, scrollY: false, momentum: false});
+
   var sourceListView = new SourceListView(viewModel);
   var categoryListView = new CategoryListView(viewModel);
-  //var contentListView = new ContentListView(viewModel);
+  var contentListView = new ContentListView(viewModel);
   var targetListView = new TargetListView(viewModel);
+  var queueListView = new QueueListView(viewModel);
 
-  //viewModel.play().plug($('#play').asEventStream('click').map());
+  var listViews = [sourceListView, categoryListView, contentListView, targetListView, null, queueListView];
+  var navigationView = new NavigationView(viewModel, listViews);
 
-  //this.getControlsSelector = function(){
-  //  return ".queuecontrols";
-  //};
+  viewModel.prepend().plug($('#prepend').asEventStream('click').merge($('#prepend').asEventStream('touchend')));
+  viewModel.append().plug($('#append').asEventStream('click').merge($('#append').asEventStream('touchend')));
+
+  viewModel.selectedPeer().onValue(function (selectedPeer) {
+    $('#peer').text(selectedPeer === '<no-peer>' ? "Select a target" : address.friendlyName(selectedPeer.address()));
+  });
+
+  var controlsViewModel = viewModel.controls();
+  var controlsView = new ControlsView('.queuecontrols', null, controlsViewModel);
+
+  function calcSize() {
+    var width = $(window).innerWidth();
+    var height = $(window).innerHeight();
+    var buttonWidth;
+    if (width <= 400) {
+      buttonWidth = width * 0.9 / 2;
+      buttonHeight = buttonWidth / 1.6;
+    } else if (width < 600) {
+      buttonWidth = width * 0.9 / 3;
+      buttonHeight = buttonWidth / 1.6;
+    } else if (width < 960) {
+      buttonWidth = width * 0.9 / 4;
+      buttonHeight = buttonWidth / 1.6;
+    } else if (width < 1200) {
+      buttonWidth = width * 0.9 / 6;
+      buttonHeight = buttonWidth / 1.6;
+    } else {
+      buttonWidth = width * 0.9 / 8;
+      buttonHeight = buttonWidth / 1.6;
+    }
+
+    $('.buttonlist li').height(buttonHeight);
+    $('#horizontalscroller').width(buttonWidth * 8);
+
+    $('#horizontalwrapper').height(height * 0.9);
+    $('#horizontalwrapper').css('margin-top', -(height * 0.45));
+
+    $('#verticalwrapper').height(height * 0.9 - 20);
+    $('#playmodewrapper li').height(((height-26) * 0.45));
+
+    $('#queuewrapper').height( $('#verticalwrapper').height() - $('.queuecontrols').outerHeight());
+    $('#queuetopfadeout').css('margin-top', $('.queuecontrols').outerHeight());
+
+    $('.searchfield').width((buttonWidth*2)-6);
+    $('.searchfield input').width($('.searchfield').width() - 60);
+    $('#contentwrapper').height( $('#verticalwrapper').height() - ($('.searchfield').height() + 10));
+    $('#contenttopfadeout').css('margin-top', $('.searchfield').height()+10);
+
+    $('.textContent > p').outerWidth($('#contentlist').width() - 25);
+
+    sourceListView.refresh();
+    categoryListView.refresh();
+    contentListView.refresh();
+    targetListView.refresh();
+    queueListView.refresh();
+    horizontalScroll.refresh();
+  }
+
+  calcSize();
+
+  $(window).resize(function() {
+    calcSize();
+  });
+
+  document.addEventListener('touchmove', function(e) {
+    e.preventDefault();
+  }, false);
+
+  document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(loaded, 800);
+  }, false);
 }
+
 
 module.exports = BrowserView;

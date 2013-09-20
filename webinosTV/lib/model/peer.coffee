@@ -1,6 +1,7 @@
 _ = require('underscore')
 
 webinos = require('webinos')
+address = require('../util/address.coffee')
 
 Bacon = require('baconjs')
 
@@ -22,11 +23,11 @@ class PeerService extends Service
             sink? new Bacon.Next(PeerService.create(channel, event.message().from))
           else if event.isDisconnect()
             sink? new Bacon.End()
-        if channel.service().address() is webinos.session.getServiceLocation() # TODO: Check.
+        if channel.service().address() is address.generalize(webinos.session.getServiceLocation())
           unsubPoll = Bacon.once(Date.now()).concat(Bacon.fromPoll(options.interval, -> Date.now())).onValue (now) ->
             channel.send({
               type: 'hello'
-              from: # TODO: Check.
+              from:
                 address: webinos.session.getServiceLocation()
                 id: webinos.session.getSessionId()
             })
@@ -40,20 +41,24 @@ class PeerService extends Service
     else
       new RemotePeerService(channel, peer)
   constructor: (channel, peer) ->
+    messages = new Bacon.Bus()
+    messages.plug channel
+      .filter (event) ->
+        return if not event.isMessage()
+        to = event.message().to
+        to?.address is peer.address and to?.id is peer.id
+      .map('.message')
     super({
       serviceAddress: peer.address, id: peer.id,
       bindService: ({onBind}) -> onBind(this)
-      unbindService: -> undefined
+      unbindService: -> messages.end()
     })
     channel.filter('.isDisconnect').onValue => @unbindService()
-    messages = channel
-      .filter (event) -> event.isMessage() and event.message().to is peer
-      .map('.message')
     @channel = -> channel
     @messages = -> messages
     @send = (type, content) ->
       channel.send({
-        from: # TODO: Check.
+        from:
           address: webinos.session.getServiceLocation()
           id: webinos.session.getSessionId()
         to: peer
@@ -94,19 +99,29 @@ class LocalPeerService extends PeerService
       playback:
         current: no
         playing: no
+        stopping: no
         relative: 0
       queue: []
     }, ({playback, queue}, {type, content}) ->
       next = (shift) ->
-        queue.shift() if shift
+        if playback.current
+          playback.stopping = yes
+          sink? new Bacon.Next(new Stop())
+        queue = _.tail(queue) if shift
         sink? new Bacon.Next(new Play(queue[0])) if queue.length > 0
       switch type
         when 'playback:started'
-          playback = {current: yes, playing: yes, relative: 0}
+          if playback.current and not playback.stopping
+            playback.playing = yes
+          else
+            playback = {current: yes, playing: yes, stopping: no, relative: 0}
         when 'playback:paused'
           playback.playing = no
+        when 'playback:stopped'
+          if playback.stopping
+            playback = {current: no, playing: no, stopping: no, relative: 0}
         when 'playback:ended'
-          playback = {current: no, playing: no, relative: 0}
+          playback = {current: no, playing: no, stopping: no, relative: 0}
           next(yes)
         when 'playback:state'
           playback.relative = content.relative
@@ -127,11 +142,13 @@ class LocalPeerService extends PeerService
           queue = queue.concat(content.items)
           next(no) if content.items.length is queue.length
         when 'queue:remove'
+          queue = _.clone(queue)
           for i in _.sortBy(content.items, _.identity).reverse()
             queue.splice(i, 1)
           next(no) if 0 in content.items
       {playback, queue}
-    state.onValue (state) => @send('synchronize', state)
+    @initialize = =>
+      state.onValue (state) => @send('synchronize', state)
     @apply = -> apply
     @state = -> state
     @events = -> events
@@ -142,6 +159,7 @@ class Event
   isSeek: -> no
   isPause: -> no
   isResume: -> no
+  isStop: -> no
 
 class Play extends Event
   constructor: (item) ->
@@ -159,11 +177,14 @@ class Pause extends Event
 class Resume extends Event
   isResume: -> yes
 
+class Stop extends Event
+  isStop: -> yes
+
 class RemotePeerService extends PeerService
   constructor: (channel, peer) ->
     super(channel, peer)
     state = @messages()
-      .filter ({type}) -> type is 'synchronize'
+      .filter(({type}) -> type is 'synchronize')
       .map('.content')
       .toProperty {
         playback:
@@ -172,7 +193,8 @@ class RemotePeerService extends PeerService
           relative: 0
         queue: []
       }
-    state.onValue -> undefined
+    @initialize = ->
+      state.onValue -> undefined
     @state = -> state
   isRemote: -> yes
 
