@@ -48,10 +48,15 @@
     //PHONE
     @media screen and (max-width: $mintabletwidth - 1) {
       width:50%;
-      left:50%;
-      min-height:$phoneControlsMinHeight/2;
-      top:$phoneControlsMinHeight/2;
-      position:absolute;
+      //left:50%;
+      //min-height:$phoneControlsMinHeight/2;
+      height:50%;
+      top:50%;
+      float: right;
+      text-align: center;
+      //top:$phoneControlsMinHeight/2;
+      position: relative;
+      overflow: hidden;
     }
 
     //TABLET
@@ -68,9 +73,12 @@
       $radius:$phoneControlsMinHeight/4;
       width:$radius;
       height:$radius;
-      margin-top:$radius/3;
-      margin-right:$radius/6;
+      margin-top:$phoneControlsMinHeight/8;
+      margin-right:2%;
+      //margin-right:$radius/6;
       border-radius:$radius;
+      float: none;
+      display: inline-block;
       background-size: $radius $radius;
       background-position-y: center;
     }
@@ -86,6 +94,11 @@
       background-position-y: center;
     }
   }
+  /*  @media screen and (max-width: $mintabletwidth - 1) {
+    .mobilequeuecontrols .controlButton:first-child{
+    margin-left: 1%;
+    }
+  }*/
 
   .mobilequeuecontrols .controlSbar{
     $barsize:2px;
@@ -93,8 +106,8 @@
 
     //PHONE
     @media screen and (max-width: $mintabletwidth - 1) {
-      width:74%;
-      left:5%;
+      width:64%;
+      left:16%;
       top:$phoneControlBarsTop;
       position:absolute;
 
@@ -105,11 +118,11 @@
       }
 
       span.elapsed{
-        left: -5%;
+        left: -24%;
       }
 
       span.remaining{
-        left: 101%;
+        left: 106%;
       }
 
     }
@@ -130,11 +143,11 @@
       }
 
       span.elapsed{
-        left: -6.5%;
+        left: -12%;
       }
 
       span.remaining{
-        left: 101%;
+        left: 105%;
       }
 
     }
