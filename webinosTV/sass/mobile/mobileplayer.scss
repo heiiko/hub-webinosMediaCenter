@@ -6,7 +6,7 @@
   $phoneControlsMinHeight:150px;
   $phoneControlBarsTop:$phoneControlsMinHeight/3;
 
-  
+
   #mobilequeuecontrols{
     position:absolute;
     width: 100%;
@@ -57,7 +57,7 @@
     //TABLET
     @media screen and (min-width: $mintabletwidth - 1) {
       float:right;
-      width:30%;
+      width:35%;
     }
   }
 
@@ -80,7 +80,7 @@
       width:$radius;
       height:$radius;
       margin-top:$radius;
-      margin-right: $radius/2;
+      margin-right: $radius/4;
       border-radius:$radius;
       background-size: $radius $radius;
       background-position-y: center;
@@ -93,18 +93,56 @@
 
     //PHONE
     @media screen and (max-width: $mintabletwidth - 1) {
-      width:84%;
+      width:74%;
       left:5%;
       top:$phoneControlBarsTop;
       position:absolute;
+
+      span{
+        position: absolute;
+        top: -10px;
+        color: black;
+      }
+
+      span.elapsed{
+        left: -5%;
+      }
+
+      span.remaining{
+        left: 101%;
+      }
+
     }
 
     //TABLET
     @media screen and (min-width: $mintabletwidth - 1) {
-      width:64%;
+      width:54%;
       top:$tabletControlBarsTop;
-      position:absolute;
+      left: 10px;
+      position: relative;
+      margin-right: 4%;
+      margin-left: 4%;
+
+      span{
+        position: absolute;
+        top: -10px;
+        color: black;
+      }
+
+      span.elapsed{
+        left: -6.5%;
+      }
+
+      span.remaining{
+        left: 101%;
+      }
+
     }
+  }
+
+  .mobilequeuecontrols .controlSbar div{
+    position: absolute;
+    top: 0px;
   }
 
   $controlTimeSize:40px;
@@ -144,8 +182,8 @@
     @media screen and (min-width: $mintabletwidth - 1) {
       $top:$tabletControlBarsTop - ($controlTimeSize + $borderWidth)/2;
       top:$top;
-      margin-left: 33.3%;
-      margin-right: 33.3%;
+      margin-left: 29%;
+      margin-right: 29%;
     }
   }
 

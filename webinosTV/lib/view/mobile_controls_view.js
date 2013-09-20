@@ -29,7 +29,7 @@ function MobileControlsView(parent, config, viewModel) {
   var cdele = $('<div class="controlButton controlDele ' + config.navclass + '">');
   var cfull = $('<div class="controlButton controlFull ' + config.navclass + '">');
   var chres = $('<div class="controlButton controlHres ' + config.navclass + '">');
-  var csbar = $('<div class="controlSbar"><div></div></div>');
+  var csbar = $('<div class="controlSbar"><span class="elapsed"></span><div></div><span class="remaining"></span></div>');
 //  var ctime = $('<div class="controlTime"><div class="controlTimeSchnippel"></div><span>1:00</span></div>');
   var ctime = $('<div class="controlTime"><div class="controlTimeSchnippel"></div></div>');
 
@@ -92,6 +92,8 @@ function MobileControlsView(parent, config, viewModel) {
 
     $('.controlSbar div', controls).css({width: relative * $('.controlSbar', controls).width()});
     //$('.controlTime span', controls).text((length) ? getFormatedTime(Math.round(relative * length)) : "-");
+    $('.controlSbar span.elapsed', controls).text((length) ? getFormatedTime(Math.round(relative * length)) : "-");
+    $('.controlSbar span.remaining', controls).text((length) ? getFormatedTime(length - Math.round(relative * length)) : "-");
 
     last = relative;
   }
