@@ -60,12 +60,15 @@ function MobileControlsView(parent, config, viewModel) {
   //$('.controlButton', controls).css({width: (100 / buttonCount) + '%'});
 
   var length = 0, last = 0;
+  var artists = '', title = '';
 
   function play() {
     $(cplay).removeClass('controlPlay');
     $(cplay).addClass('controlPaus');
     $('#mobilequeuelist li:first-child .status').addClass('playingitem');
     $('#mobilequeuelist li:first-child .status').removeClass('pauseditem');
+    nowPlayingItem.children('.itemtitle').text(title);
+    nowPlayingItem.children('.itemartist').text(artists);
   }
 
   function pause() {
@@ -73,6 +76,8 @@ function MobileControlsView(parent, config, viewModel) {
     $(cplay).addClass('controlPlay');
     $('#mobilequeuelist li:first-child .status').removeClass('playingitem');
     $('#mobilequeuelist li:first-child .status').addClass('pauseditem');
+    nowPlayingItem.children('.itemtitle').text(title);
+    nowPlayingItem.children('.itemartist').text(artists);
   }
 
   function getFormatedTime(ms) {
@@ -160,6 +165,8 @@ function MobileControlsView(parent, config, viewModel) {
         if (state.queue[0].item.type.toLowerCase().indexOf("audio") !== -1 || state.queue[0].item.type.toLowerCase().indexOf("video") !== -1) {
           if (typeof state.queue[0].item.duration === "number") {
             length = state.queue[0].item.duration;
+            artists = state.queue[0].item.artists;
+            title = state.queue[0].item.title;
           } else if (state.queue[0].item.duration && state.queue[0].item.duration.length) {
             var itemlengthParsed = 0, itemlength = (state.queue[0].item.duration instanceof Array) ? state.queue[0].item.duration[0] : state.queue[0].item.duration;
             itemlength = itemlength.split(" ");

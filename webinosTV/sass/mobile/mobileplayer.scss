@@ -216,6 +216,8 @@
     @media screen and (min-width: $mintabletwidth - 1) {
       height: 50%;
       top: 0;
+      vertical-align: middle;
+      line-height: 200%;
     }
   }
 
