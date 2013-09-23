@@ -198,6 +198,13 @@
   $content-list-min-size:40px;
   $orangeband-width: 12px;
 
+  #mobilequeuewrapper {
+  	top: ($headerheight + 1);
+  	bottom: 150px;
+  	position: absolute;
+  	width: 100%;
+  }
+  
   #mobilequeuelist {
   	height: 100%;
     width: 100%;

@@ -25,8 +25,8 @@ function init() {
     gotoPageById('#container-queue');
     setActiveMenu('#menu-queue');
     // DANGER - temp queuelist height calculation, rework
-    setMediaSelectBehavior();
-    $(window).resize(setMediaSelectBehavior);
+    //setMediaSelectBehavior();
+    //$(window).resize(setMediaSelectBehavior);
     // END DANGER
   });
 
@@ -37,8 +37,8 @@ function init() {
 
 function setMediaSelectBehavior() {
   // DANGER - temp queuelist height calculation, rework
-  var listheight = $(window).height() - 151 - 56 - 51;
-  $('#mobilequeuewrapper').css('height', listheight + 'px');
+  //var listheight = $(window).height() - 151 - 56 - 51;
+  //$('#mobilequeuewrapper').css('height', listheight + 'px');
   // END DANGER
 
   var selectMediaCategories = $('li.category').off('click');
