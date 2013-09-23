@@ -36,6 +36,7 @@ function MobileControlsView(parent, config, viewModel) {
 
   var controls = $('<div class="' + (config.style || 'slim') + ' controlContainer">');
   var container = $('<div class="controlButtons">');
+  var nowPlayingItem = $('<div class="controlItemInfo"><div class="itemtitle"></div><div class="itemartist"></div></div>');
 
   container.append([cprev, crewd, cplay, cfwrd, cnext]);
   if (config.remove)
@@ -44,7 +45,7 @@ function MobileControlsView(parent, config, viewModel) {
     container.append(cfull);
   if (config.highdef)
     container.append(chres);
-  controls.append([container, csbar, ctime]);
+  controls.append([nowPlayingItem, container, csbar, ctime]);
 
   viewModel.playOrPause().plug(cplay.asEventStream('click').merge(cplay.asEventStream('touchend')));
   viewModel.previous().plug(cprev.asEventStream('click').merge(cprev.asEventStream('touchend')));

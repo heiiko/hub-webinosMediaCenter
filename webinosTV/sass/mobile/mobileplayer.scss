@@ -200,4 +200,27 @@
     }
   }
 
+  .mobilequeuecontrols .controlItemInfo{
+    left: 0;
+    float: left;
+    position: relative;
+    min-width: 50%;
+
+    //PHONE
+    @media screen and (max-width: $mintabletwidth - 1) {
+      height: 40%;
+      top: 60%;
+    }
+
+    //TABLET
+    @media screen and (min-width: $mintabletwidth - 1) {
+      height: 50%;
+      top: 0;
+    }
+  }
+
+  .mobilequeuecontrols .controlItemInfo div {
+    margin-left: 5%;
+  }
+
 }
