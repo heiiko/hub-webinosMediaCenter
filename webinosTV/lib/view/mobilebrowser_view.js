@@ -7,6 +7,7 @@ var util = require('util');
 var Toast = require('./toast_view.js');
 var SelectDropDown = require('./mobileselect_dropdown_menu_view.js');
 var MobileControlsView = require('./mobile_controls_view.js');
+var transparentpixel = 'data:image/gif;base64,R0lGODlhAQABAPAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==';
 
 function ListView(items, selection, list, wrapper, fadeout) {
   var self = this;
@@ -128,14 +129,14 @@ function SourceListView(viewModel) {
       $('#select-media-dd-wrapper').removeClass('disabled');
     }
     else if (selection.length === 0) {
-      $('#selected-source').attr('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==');
+      $('#selected-source').attr('src', transparentpixel);
       $('#selected-source-name').html('');
       $('#selected-source-intro').html('No source device selected');
 
       $('#wrapper-selected-source').addClass('header-active');
       $('#wrapper-selected-target').removeClass('header-active');
 
-      $('#current-source-logo').attr('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==');
+      $('#current-source-logo').attr('src', transparentpixel);
       $('#current-source-name').html('Source devices');
 
       $('.content-searchbutton').addClass('disabled');
@@ -267,10 +268,10 @@ function TargetListView(viewModel) {
       $('#selected-target-intro').html('You are controlling');
     }
     else if (selection.length === 0) {
-      $('#current-target-logo').attr('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==');
+      $('#current-target-logo').attr('src', transparentpixel);
       $('#current-target-name').html('Target devices');
 
-      $('#selected-target').attr('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==');
+      $('#selected-target').attr('src', transparentpixel);
       $('#selected-target-name').html('');
       $('#selected-target-intro').html('No target device selected');
     }
