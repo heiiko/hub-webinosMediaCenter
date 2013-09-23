@@ -1,6 +1,48 @@
 @charset "UTF-8";
 @import "base";
 
+@mixin selectable-element {
+  @include box-sizing(border-box);
+  @include border-radius(5px);
+  border: 2px solid $tv_background_color;
+}
+
+@mixin selectable-button {
+  @include selectable-element;
+  background-color: #0399CD;
+  border-color: #00759C;
+  color: #F2F2F2;
+}
+
+@mixin focussed {
+  @include selectable-element;
+  background-color: #28404A;
+  border-color: #2D728F;
+  color: #F2F2F2;
+  cursor: pointer;
+}
+
+@mixin pressed {
+  @include selectable-element;
+  background-color: #2C799A;
+  border-color: #2E464E;
+  color: #F2F2F2;
+  cursor: pointer;
+}
+
+@mixin selected {
+  @include selectable-element;
+  border-color: #36B5E4;
+  color: #0399CD;
+}
+
+@mixin disabled {
+  @include selectable-element;
+  background-color: #191919;
+  border-color: #191A1A;
+  color: #272727;
+}
+
 html {
   height: 100%;
 }
@@ -45,21 +87,19 @@ body {
     position: absolute;
     height: 30%;
     width: 96%;
-    border: 2px solid $tv_background_color;
-    @include border-radius(5px);
+    @include selectable-element;
   }
 
   .mobilemenu-item.mobilemenu-active {
-    @include border-radius(5px);
-    border-color: #33ACD9;
-    color: #1D8DAE;
+    @include selected;
   }
 
   .mobilemenu-item:hover {
-    background-color: #28404A;
-    border-color: #2D728F;
-    color: #F2F2F2;
-    cursor: pointer;
+    @include focussed;
+  }
+
+  .mobilemenu-item:active {
+    @include pressed;
   }
 
   .mobilemenu-item-inner {
@@ -92,47 +132,6 @@ body {
 }
 
 #container-device {
-  .header {
-  }
-
-  #mobilesourcelist {
-    list-style-type: none;
-    padding-left: 0;
-
-    li {
-      @include box-sizing(border-box);
-      @include border-radius(5px);
-      padding: 10px;
-      border: 2px solid $tv_background_color;
-    }
-
-    li.mobileselected {
-      color: #36B5E4;
-      border-color: #0399CD;
-    }
-
-    li:hover {
-      background-color: #28404A;
-      color: #F2F2F2;
-      border-color: #2C799A;
-      cursor: pointer;
-    }
-
-    li:active {
-      background-color: #2C799A;
-      color: #F2F2F2;
-      border-color: #2E464E;
-    }
-  }
-
-  .device-column {
-    height: 85%;
-  }
-
-  #mobilesourcewrapper {
-    border-right: 1px solid white;
-  }
-
   .header-item-device, .device-column {
     @include box-sizing(border-box);
     width: 50%;
@@ -144,11 +143,52 @@ body {
     padding: 15px 2px 15px 2px;
     border-bottom: 5px solid white;
     font-size: 26px;
+    white-space: nowrap;
 
-    #current-source-name {
+    >* {
       vertical-align: middle;
       display: inline-block;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
+
+    #current-source-name,
+    #current-target-name {
+      width: 70%;
+      height: 35px;
+    }
+  }
+
+  .device-column {
+    height: 85%;
+  }
+
+  #mobilesourcelist,
+  #mobiletargetlist {
+    list-style-type: none;
+    padding-left: 0;
+    padding-right: 5px;
+
+    li {
+      @include selectable-element;
+      padding: 10px;
+    }
+
+    li.mobileselected {
+      @include selected;
+    }
+
+    li:hover {
+      @include focussed;
+    }
+
+    li:active {
+      @include pressed;
+    }
+  }
+
+  #mobilesourcewrapper {
+    border-right: 1px solid white;
   }
 }
 
@@ -173,9 +213,21 @@ body {
       border-bottom: 5px solid white;
     }
 
-    .header-item-mediaactions,
-     {
+    #select-media-dd-count,
+    div:nth-child(5) {
       display: none;
+    }
+
+    #select-media-dd-menu {
+      list-style-type: none;
+      padding-left: 0;
+
+      li {
+        display: inline-block;
+        @include selectable-button;
+        padding: 5px 15px;
+        margin-right: 5px;
+      }
     }
 
     .separator {
@@ -199,7 +251,7 @@ body {
   #mobilecontentwrapper {
     position: absolute;
     right: 0;
-    top: 80px;
+    top: 140px;
     width: 90%;
     
     ul {
