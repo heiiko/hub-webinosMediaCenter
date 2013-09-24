@@ -47,7 +47,7 @@
   .mobilequeuecontrols .controlButtons{
     //PHONE
     @media screen and (max-width: $mintabletwidth - 1) {
-      width:50%;
+      width:100%;
       //left:50%;
       //min-height:$phoneControlsMinHeight/2;
       height:50%;
@@ -208,9 +208,10 @@
 
     //PHONE
     @media screen and (max-width: $mintabletwidth - 1) {
-      height: 40%;
-      top: 60%;
-      max-width:50%;
+      //height: 40%;
+      //top: 60%;
+      //max-width:50%;
+      display: none;
     }
 
     //TABLET

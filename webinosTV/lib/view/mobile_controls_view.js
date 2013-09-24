@@ -98,8 +98,8 @@ function MobileControlsView(parent, config, viewModel) {
 
     $('.controlSbar div', controls).css({width: relative * $('.controlSbar', controls).width()});
     //$('.controlTime span', controls).text((length) ? getFormatedTime(Math.round(relative * length)) : "-");
-    $('.controlSbar span.elapsed', controls).text((length) ? getFormatedTime(Math.round(relative * length)) : "-");
-    $('.controlSbar span.remaining', controls).text((length) ? getFormatedTime(length - Math.round(relative * length)) : "-");
+    $('.controlSbar span.elapsed', controls).text((length) ? getFormatedTime(Math.round(relative * length)) : "");
+    $('.controlSbar span.remaining', controls).text((length) ? getFormatedTime(length - Math.round(relative * length)) : "");
 
     last = relative;
   }
