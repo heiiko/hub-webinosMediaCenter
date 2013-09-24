@@ -14,7 +14,7 @@ function ListView(items, selection, list, wrapper, fadeout) {
   var tappedOn = 0, clickStartEvent=null;
   
   this.refresh = function() {
-    if ($(list).children().length > 0) {
+    //if ($(list).children().length > 0) {
       //if (typeof self.scroll === 'undefined') {
       //self.scroll = new IScroll(wrapper, {snap: list + ' li', momentum: false});
       // scroll.on('scrollEnd', function(){
@@ -35,11 +35,12 @@ function ListView(items, selection, list, wrapper, fadeout) {
 
       //Fittext, currently to expensive.
       //$("li p").fitText(0.8);
-    }
+    //}
   };
 
   items.onValue(function(items) {
     var $list = $(list);
+    var counter = 0;
     $list.empty();
 
     _.each(items, function(item) {
@@ -48,7 +49,10 @@ function ListView(items, selection, list, wrapper, fadeout) {
       $item.data('id', id);
       if (list === '#mobiletargetlist')
         $item.data('local', item.isLocal());
+      else if (list === '#mobilecategorylist')
+        $item.data('index', counter);
       $list.append($item);
+      counter++;
     });
     self.refresh();
   });
@@ -93,6 +97,17 @@ function ListView(items, selection, list, wrapper, fadeout) {
       var $item = $(this);
       var id = $item.data('id');
       var selected = _.ocontains(selection, id);
+      
+      if(selected && list === '#mobilecategorylist') {
+      	var index = $item.data('index');
+      	var num_categories = $(list).children().length;
+      	var position = (100 / num_categories / 2) + (index) * (100 / num_categories);
+      	
+      	if ($('#sel-arrows-style').empty()) {
+          $('head').append('<style id="sel-arrows-style" type="text/css"></style>');
+        }
+        $('#sel-arrows-style').html('@media screen and (min-width: 1200px){.arrow_box:after{top:' + position + '%}.arrow_box:before{top:' + position + '%}}');
+      }
       $item.toggleClass('mobileselected', selected).find('input:checkbox').prop('checked', function(idx, oldAttr) {
         return selected;
       });
