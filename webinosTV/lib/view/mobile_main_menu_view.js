@@ -15,9 +15,8 @@ function MobileMainMenuView() {
     '<div class="verticalgrippie"></div>' +
     '</div>' +
     '<div id="leftmenu">' +
-    '<div id="mmm_tomobilebrowser" class="mmm_item"><p>Mobile Browser</p></div>' +
-    '<div id="mmm_tobrowser" class="mmm_item"><p>Browser</p></div>' +
-    '<div id="mmm_torenderer" class="mmm_item"><p>Renderer</p></div>' +
+    '<div id="mmm_tomobilebrowser" class="mmm_item"><p>Browser</p></div>' +
+    '<div id="mmm_torenderer" class="mmm_item"><p>Player</p></div>' +
     '<div id="mmm_tocontroller" class="mmm_item"><p>Controller</p></div>' +
     '</div>');
 
