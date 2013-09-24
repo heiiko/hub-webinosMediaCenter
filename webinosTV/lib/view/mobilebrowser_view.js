@@ -100,7 +100,7 @@ function ListView(items, selection, list, wrapper, fadeout) {
 util.inherits(SourceListView, ListView);
 function SourceListView(viewModel) {
   this.htmlify = function(device) {
-    return '<li class="device source"><div class="device-image type-' + device.type() + '"></div><div class="device-name">' + address.friendlyName(device.address()) + '</div><div class="device-type">' + device.type().charAt(0).toUpperCase() + device.type().slice(1) + '</div></li>';
+    return '<li class="device source"><div class="device-image type-' + ((device.type())?device.type():'unknown') + '"></div><div class="device-name">' + address.friendlyName(device.address()) + '</div><div class="device-type">' + device.type() + '</div></li>';
   };
 
   this.identify = function(device) {
@@ -114,14 +114,14 @@ function SourceListView(viewModel) {
     if (selection.length === 1) {
       var device = selection[0];
 
-      $('#selected-source').attr('src', 'images/' + device.type + '-selected.svg');
+      $('#selected-source').attr('src', 'images/' + (device.type?device.type:'all_devices') + '-selected.svg');
       $('#selected-source-name').html(address.friendlyName(device.address));
       $('#selected-source-intro').html('You can select media from');
 
       $('#wrapper-selected-source').removeClass('header-active');
       $('#wrapper-selected-target').addClass('header-active');
 
-      $('#current-source-logo').attr('src', 'images/' + device.type + '.svg');
+      $('#current-source-logo').attr('src', 'images/' + (device.type?device.type:'all_devices') + '.svg');
       $('#current-source-name').html(address.friendlyName(device.address));
 
       $('.content-searchbutton').removeClass('disabled');
@@ -246,7 +246,7 @@ function ContentListView(viewModel) {
 util.inherits(TargetListView, ListView);
 function TargetListView(viewModel) {
   this.htmlify = function(device) {
-    return '<li class="device target"><div class="device-image type-' + device.type() + '"></div><div class="device-name">' + address.friendlyName(device.address()) + '</div><div class="device-type">' + device.type().charAt(0).toUpperCase() + device.type().slice(1) + '</div></li>';
+    return '<li class="device target"><div class="device-image type-' + ((device.type())?device.type():'unknown') + '"></div><div class="device-name">' + address.friendlyName(device.address()) + '</div><div class="device-type">' + device.type() + '</div></li>';
   };
 
   this.identify = function(device) {
@@ -260,10 +260,10 @@ function TargetListView(viewModel) {
     if (selection.length === 1) {
       var device = selection[0];
 
-      $('#current-target-logo').attr('src', 'images/' + device.type + '.svg');
+      $('#current-target-logo').attr('src', 'images/' + (device.type?device.type:'all_devices') + '.svg');
       $('#current-target-name').html(address.friendlyName(device.address));
 
-      $('#selected-target').attr('src', 'images/' + device.type + '-selected.svg');
+      $('#selected-target').attr('src', 'images/' + (device.type?device.type:'all_devices') + '-selected.svg');
       $('#selected-target-name').html(address.friendlyName(device.address));
       $('#selected-target-intro').html('You are controlling');
     }

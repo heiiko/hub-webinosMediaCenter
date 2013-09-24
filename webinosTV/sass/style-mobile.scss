@@ -365,6 +365,10 @@ $category-wrapper-width-largescreen:150px;
 		.device-image.type-tv {
 			background-image: url('../images/tv.svg');
 		}
+		
+		.device-image.type-unknown {
+		    background-image: url('../images/all_devices.svg');
+		}
 	}
 
 	.device.mobileselected {
@@ -391,6 +395,10 @@ $category-wrapper-width-largescreen:150px;
 
 		.device-image.type-tv {
 			background-image: url('../images/tv-selected.svg');
+		}
+		
+		.device-image.type-unknown {
+		    background-image: url('../images/all_devices-selected.svg');
 		}
 	}
 
