@@ -501,6 +501,10 @@ $category-wrapper-width-largescreen:150px;
 	.category {
 		@media screen and (min-width: $mintabletwidth) {
 			-webkit-box-flex: 1;
+			display: -webkit-box;
+			-webkit-box-orient: vertical;
+			-webkit-box-pack: center;
+
 			padding: 15px;
 			border-bottom: 2px;
 			border-top: 0;
