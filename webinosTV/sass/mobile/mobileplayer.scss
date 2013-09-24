@@ -237,6 +237,7 @@
     background-position: center;
     position: absolute;
     background-repeat: no-repeat;
+    border-radius:13%;
     -webkit-box-reflect: below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(75%, transparent), to(rgba(0, 0, 0, 1)));
     //PHONE
     @media screen and (max-width: $mintabletwidth - 1) {
@@ -254,5 +255,39 @@
       height: 50%;
     }
 
+  }
+
+  .gloss{
+    Background-color: rgba(255,255,255,0.15);
+    height: 58%;
+    width: 100%;
+    overflow: hidden;
+    z-index: 5;
+    box-shadow: 0px 0px 4px rgba(255, 255, 255, .3);
+    border-bottom-right-radius: 65% 15%;
+    border-bottom-left-radius: 65% 15%;
+    border-top-right-radius: 17% 29%;
+    border-top-left-radius: 17% 29%;
+    position: absolute;
+    top: 0px;
+  }
+
+  .iteminfo{
+    color:$blue;
+    //PHONE
+    @media screen and (max-width: $mintabletwidth - 1) {
+      font-size: 150%;
+      text-shadow: 1px 1px rgba(white,0.5);
+    }
+    //TABLET
+    @media screen and (min-width: $mintabletwidth - 1) {
+      font-size: 250%;
+      text-shadow: 2px 2px rgba(white,0.5);
+    }
+
+  }
+
+  .iteminfo p{
+    margin-top: 20%
   }
 }

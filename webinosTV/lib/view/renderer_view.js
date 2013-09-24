@@ -96,7 +96,8 @@ function RendererView(viewModel) {
       if (self.videoRenderer.length)
         self.videoRenderer[0].src = '';
       self.videoRenderer.length ? self.videoRenderer[0].pause() : void 0;
-      self.playItem(event.item().item.type, event.item().link);
+      self.playItem(event.item().item, event.item().link);
+//      self.playItem(event.item().item.type, event.item().link);
       self.videoRenderer.length ? self.videoRenderer[0].play() : void 0;
     } else if (event.isSeek()) {
       self.videoRenderer.length ? self.videoRenderer[0].currentTime = self.videoRenderer[0].duration * event.relative() : void 0;
@@ -114,8 +115,11 @@ function RendererView(viewModel) {
   var navigationView = new NavigationView(viewModel);
 }
 
-RendererView.prototype.playItem = function(type, url) {
+//RendererView.prototype.playItem = function(type, url) {
+RendererView.prototype.playItem = function(item, url) {
   var self = this;
+
+  var type = item.type;
 
   if (self.imageTimer) {
     clearTimeout(self.imageTimer);
@@ -127,6 +131,8 @@ RendererView.prototype.playItem = function(type, url) {
     case "video":
     case "audio":
       $(self.albumCover).show();
+      //TODO add album cover logic here
+      $(self.albumCover).children('.iteminfo').html('<p>' + item.artists + '</p><p>' + item.title + '</p>');
       $(self.videoRenderer).show();
       $(self.imageRenderer).hide();
       self.videoRenderer[0].src = url;
