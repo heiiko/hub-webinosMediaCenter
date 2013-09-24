@@ -24,10 +24,6 @@ function init() {
   $('#menu-queue').on('click', function() {
     gotoPageById('#container-queue');
     setActiveMenu('#menu-queue');
-    // DANGER - temp queuelist height calculation, rework
-    //setMediaSelectBehavior();
-    //$(window).resize(setMediaSelectBehavior);
-    // END DANGER
   });
 
   if (window.location.hash) {
@@ -36,11 +32,6 @@ function init() {
 }
 
 function setMediaSelectBehavior() {
-  // DANGER - temp queuelist height calculation, rework
-  //var listheight = $(window).height() - 151 - 56 - 51;
-  //$('#mobilequeuewrapper').css('height', listheight + 'px');
-  // END DANGER
-
   var selectMediaCategories = $('li.category').off('click');
   if ($(window).width() > 1199) { //wide screen
     $('#mobilecategorylist').show();
@@ -74,9 +65,6 @@ function setMediaSelectBehavior() {
           var newYpos = i * clheight + imgHeight / 2 + clpadding;
           moveCategorySelectionArrow(newYpos);
           $('#mobilecontentwrapper').addClass('arrow_box');
-          //      DANGER -  move in a different section
-          //      $('#mobilecontentlist').children().removeClass('mobileselected').find('input:checkbox').prop('checked', false);
-          //      $('#select-media-dd-count').text(0 + ' files selected');
         });
       })(i);
     }
@@ -84,19 +72,21 @@ function setMediaSelectBehavior() {
   }
   else //small screen
   {
+    $('#mobilecategorylist').show(250);
     $('#mobilecontentlist').hide(250);
+    $('#mobilecontentwrapper').removeClass('show');
     var selectMediaCategories = $('li.category').on('click', function() {
       //push
       $('#mobilecategorylist').hide(250);
       $('#mobilecontentwrapper').addClass('show');
       $('#mobilecontentlist').show(250);
-      $('#topmenu').hide();
-//      $('#selected-source-intro').html('< ');
+      //$('#topmenu').hide();
+      //$('#selected-source-intro').html('< ');
       //pop
       $($('#container-media .header-item-media')[0]).one('click', function() {
         //      $('#selected-source-intro').html('You can select media from');
         $('#mobilecategorylist').show(250);
-        $('#topmenu').show(250);
+        //$('#topmenu').show(250);
         $('#mobilecontentlist').hide(250);
         $('#mobilecontentwrapper').removeClass('show');
       });
