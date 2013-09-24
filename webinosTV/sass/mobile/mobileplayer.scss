@@ -232,17 +232,18 @@
   #albumcover{
     background-image: url('../images/lp.svg');
     background-color: rgba($darkgray, 0.2);
-    box-shadow: 0 0 0 2px $blue;
+    /*box-shadow: 0 0 0 2px $blue;*/
     background-size: 100%;
     background-position: center;
     position: absolute;
     background-repeat: no-repeat;
+    -webkit-box-reflect: below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(75%, transparent), to(rgba(0, 0, 0, 1)));
     //PHONE
     @media screen and (max-width: $mintabletwidth - 1) {
       top:15%;
       left: 25%;
       width: 50%;
-      height: 50%;
+      height: 40%;
     }
 
     //TABLET
@@ -250,7 +251,7 @@
       top: 10%;
       left: 35%;
       width: 30%;
-      height: 60%;
+      height: 50%;
     }
 
   }
