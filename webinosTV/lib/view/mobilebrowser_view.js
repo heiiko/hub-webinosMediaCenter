@@ -11,7 +11,8 @@ var transparentpixel = 'data:image/gif;base64,R0lGODlhAQABAPAAAP///wAAACH5BAEAAA
 
 function ListView(items, selection, list, wrapper, fadeout) {
   var self = this;
-
+  var tappedOn = 0, clickStartEvent=null;
+  
   this.refresh = function() {
     if ($(list).children().length > 0) {
       //if (typeof self.scroll === 'undefined') {
@@ -60,13 +61,15 @@ function ListView(items, selection, list, wrapper, fadeout) {
     };
   }));
 
-  $(list).asEventStream('mousedown').merge($(list).asEventStream('touchstart')).onValue(function() {
+  $(list).asEventStream('mousedown').merge($(list).asEventStream('touchstart')).onValue(function(e) {
     tappedOn = Date.now();
+    clickStartEvent=e;
   });
 
-  selection.apply($(list).asEventStream('click').merge($(list).asEventStream('touchend')).filter(function() {
+  selection.apply($(list).asEventStream('click').merge($(list).asEventStream('touchend')).filter(function(e) {
     var justClick = (Date.now() - tappedOn < 250);
-    return justClick;
+    var movedDelta = Math.max(e.screenY, clickStartEvent.screenY)-Math.min(e.screenY, clickStartEvent.screenY)+Math.max(e.screenX, clickStartEvent.screenX)-Math.min(e.screenX, clickStartEvent.screenX);
+	return justClick && movedDelta<10;
   }).map(function(event) {
     return function(selection) {
       var $item = $(event.target).closest('li');
