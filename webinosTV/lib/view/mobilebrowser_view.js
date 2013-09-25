@@ -83,9 +83,6 @@ function ListView(items, selection, list, wrapper, fadeout) {
       if (list === '#mobilecategorylist' || list === '#mobilequeuetargetlist') {
         return [id];
       }
-      else if (list === '#mobiletargetlist') {
-        return (_.ocontains(selection, id)) ? [] : [id];
-      }
       else {
         return (_.ocontains(selection, id) ? _.odifference : _.ounion)(selection, [id]);
       }
@@ -304,7 +301,7 @@ function TargetListView(viewModel) {
   });
 
   ListView.call(this, viewModel.targets(), viewModel.selectedTargets(), '#mobiletargetlist', '#mobiletargetwrapper', '#mobiletarget');
-  ListView.call(this, viewModel.targets(), viewModel.selectedTargets(), '#mobilequeuetargetlist', '#mobilequeuetargetwrapper', '#mobilequeuetarget');
+  ListView.call(this, viewModel.targets(), viewModel.selectedQueueTargets(), '#mobilequeuetargetlist', '#mobilequeuetargetwrapper', '#mobilequeuetarget');
 }
 
 util.inherits(QueueListView, ListView);

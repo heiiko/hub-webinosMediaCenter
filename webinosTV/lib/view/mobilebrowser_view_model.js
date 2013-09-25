@@ -179,7 +179,12 @@ function MobileBrowserViewModel(manager, input) {
     return append;
   };
 
-  var selectedPeer = manager.toProperty().sampledBy(selectedTargets, function(devices, selectedTargets) {
+  var selectedQueueTargets = bjq.Model([]);
+  this.selectedQueueTargets = function() {
+    return selectedQueueTargets;
+  };
+
+  var selectedPeer = manager.toProperty().sampledBy(selectedQueueTargets, function(devices, selectedTargets) {
     if (!selectedTargets.length || selectedTargets.length > 1)
       return '<no-peer>';
     // Assumption: Only devices with a peer service are recognized as targets.
