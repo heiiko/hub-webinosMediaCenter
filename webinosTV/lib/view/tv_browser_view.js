@@ -399,10 +399,8 @@ function NavigationView (viewModel, listViews) {
         }
         break;
       case 'enter':
-        if (navVisible) {
-          tappedOn=Date.now();
-          $(navigation["regions"][curCol]+".focus").click();
-        }
+        tappedOn=Date.now();
+        $(navigation["regions"][curCol]+".focus").click();
         break;
     }
     console.log("col: " + curCol + "; row: " + navigation["curEl"][navigation["regions"][curCol]]);
