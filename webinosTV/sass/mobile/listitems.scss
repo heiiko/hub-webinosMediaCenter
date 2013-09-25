@@ -52,7 +52,6 @@
     z-index: 9999;
     box-shadow: inset 0px 0px 0px 3px $blue;
   }
-
 }
 
 @mixin contentListItems{
@@ -204,7 +203,7 @@
   	position: absolute;
   	width: 100%;
   }
-  
+
   #mobilequeuelist {
   	height: 100%;
     width: 100%;
@@ -246,8 +245,28 @@
    }
 
   #mobilequeuelist li.contentlistitem div.itemcontainer div.mediaitemcontent{
-    left: 2 * $content-list-min-size + $orangeband-width;
+    left: 2.5 * $content-list-min-size + $orangeband-width;
     width: 60%;
+  }
+
+    #mobilequeuelist li div.imglistitem {
+    height: 40px;
+    width: 40px;
+    left:50px;
+    background-size: 40px;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: absolute;
+    display: inline;
+    line-height: 18px;
+  }
+
+  #mobilequeuelist li div.default-icon,#mobilequeuelist li div.song-icon,#mobilequeuelist li div.clip-icon{
+      left:50px;
+  }
+
+  #mobilequeuelist li div.imglistitem + div.mediaitemcontent {
+    line-height: 40px;
   }
 
   div.status {
