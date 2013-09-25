@@ -102,10 +102,21 @@ function RendererView(viewModel) {
     } else if (event.isSeek()) {
       self.videoRenderer.length ? self.videoRenderer[0].currentTime = self.videoRenderer[0].duration * event.relative() : void 0;
     } else if (event.isPause()) {
+      if (self.imageTimer) {
+        clearTimeout(self.imageTimer);
+        self.imageTimer = null;
+      }
       self.videoRenderer.length ? self.videoRenderer[0].pause() : void 0;
     } else if (event.isResume()) {
+      self.imageTimer = setTimeout(function() {
+        self.viewModel.ended().push();
+      }, IMAGE_SLIDESHOW_INTERVAL);
       self.videoRenderer.length ? self.videoRenderer[0].play() : void 0;
     } else if (event.isStop()) {
+      if (self.imageTimer) {
+        clearTimeout(self.imageTimer);
+        self.imageTimer = null;
+      }
       if (self.videoRenderer.length)
         self.videoRenderer[0].src = '';
       viewModel.stopped().push();
