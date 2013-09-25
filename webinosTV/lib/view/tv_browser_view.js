@@ -99,7 +99,7 @@ function ListView(items, selection, list, wrapper, fadeout) {
 util.inherits(SourceListView, ListView);
 function SourceListView(viewModel) {
   this.htmlify = function(device) {
-    return '<li class="device source"><div class="device-image type-' + device.type() + '"></div><div class="device-name">' + address.friendlyName(device.address()) + '</div><div class="device-type">' + device.type().charAt(0).toUpperCase() + device.type().slice(1) + '</div></li>';
+    return '<li class="device source nav_sl"><div class="device-image type-' + device.type() + '"></div><div class="device-name">' + address.friendlyName(device.address()) + '</div><div class="device-type">' + device.type().charAt(0).toUpperCase() + device.type().slice(1) + '</div></li>';
   };
 
   this.identify = function(device) {
@@ -245,7 +245,7 @@ function ContentListView(viewModel) {
 util.inherits(TargetListView, ListView);
 function TargetListView(viewModel) {
   this.htmlify = function(device) {
-    return '<li class="device target"><div class="device-image type-' + device.type() + '"></div><div class="device-name">' + address.friendlyName(device.address()) + '</div><div class="device-type">' + device.type().charAt(0).toUpperCase() + device.type().slice(1) + '</div></li>';
+    return '<li class="device target nav_tl"><div class="device-image type-' + device.type() + '"></div><div class="device-name">' + address.friendlyName(device.address()) + '</div><div class="device-type">' + device.type().charAt(0).toUpperCase() + device.type().slice(1) + '</div></li>';
   };
 
   this.identify = function(device) {
@@ -331,7 +331,104 @@ function QueueListView(viewModel) {
   ListView.call(this, viewModel.queue(), viewModel.selectedQueue(), '#mobilequeuelist', '#mobilequeuewrapper', '#mobilequeue');
 }
 
+function NavigationView (viewModel, listViews) {
+  var navigation = {
+    "regions": [
+      ".nav_menu",
+      ".nav_sl",
+      ".nav_tl",
+      ".nav_media_category",
+      ".nav_media_action_file",
+      ".nav_media_action",
+      ".nav_media_file",
+      ".nav_queue",
+      ".nav_queue_target",
+      ".nav_queue_action",
+      ".nav_queue_file"
+    ],
+    "curCol": 0,
+    "curEl": {
+      ".nav_menu": 0,
+      ".nav_sl": 0,
+      ".nav_tl": 0,
+      ".nav_media_category": 0,
+      ".nav_media_action_file": 0,
+      ".nav_media_action": 0,
+      ".nav_media_file": 0,
+      ".nav_queue": 0,
+      ".nav_queue_target": 0,
+      ".nav_queue_action": 0,
+      ".nav_queue_file": 0
+    }
+  };
 
+  console.log(navigation);
+
+  var columns = [".nav_menu", ".nav_sl", ".nav_tl"];
+  var curCol = 0;
+  var curRow = [0, 0, 0];
+
+  viewModel.input().onValue(Navigate);
+
+  function Navigate(direction) {
+  console.log(navigation);
+    if (direction !== 'enter') {
+      $(navigation["regions"][curCol]+".focus").removeClass('focus');
+    }
+    console.log("test" + $(navigation["regions"][curCol]).length);
+    console.log(typeof(navigation["curEl"][navigation["regions"][curCol]]));
+    switch(direction){
+      case 'down':
+        if(navigation["curEl"][navigation["regions"][curCol]] < $(navigation["regions"][curCol]).length-1) {
+          navigation["curEl"][navigation["regions"][curCol]]++;
+        }
+        break;
+      case 'up':
+        if(navigation["curEl"][navigation["regions"][curCol]] > 0) {
+          navigation["curEl"][navigation["regions"][curCol]]--;
+        }
+        break;
+      case 'right':
+        if(curCol < 2) {
+          curCol++;
+        }
+        break;
+      case 'left':
+        if(curCol > 0) {
+          curCol--;
+        }
+        break;
+      case 'enter':
+        if (navVisible) {
+          tappedOn=Date.now();
+          $(navigation["regions"][curCol]+".focus").click();
+        }
+        break;
+    }
+    console.log("col: " + curCol + "; row: " + navigation["curEl"][navigation["regions"][curCol]]);
+    if($(columns[curCol]).length-1 < curRow[curCol]){
+      curRow[curCol] = 0;
+    }
+    console.log(navigation["regions"][curCol]);
+    console.log(navigation["curEl"][navigation["regions"][curCol]]);
+    $(navigation["regions"][curCol]).eq(navigation["curEl"][navigation["regions"][curCol]]).addClass('focus');
+  }
+
+  function centerFocusedElement(){
+    $(columns[curCol]).eq(curRow[curCol]).addClass("focus");
+  }
+
+  function startNavVisibleTimeout(){
+    timeoutHandle = window.setTimeout(function(){
+      navVisible=false;
+      $(columns[curCol]).eq(curRow[curCol]).removeClass('focus');
+    }, 5000);
+  }
+
+  function navlog(direction) {
+    console.log(direction + "  col:" + curCol + " row:" + curRow);
+  }
+}
 
 
 function TVBrowserView(viewModel) {
@@ -344,8 +441,8 @@ function TVBrowserView(viewModel) {
   var queueListView = new QueueListView(viewModel);
   var ddmenu = new SelectDropDown(viewModel.content(), viewModel.selectedContent());
 
-  //var listViews = [sourceListView, categoryListView, contentListView, targetListView, null, queueListView];
-  //var navigationView = new NavigationView(viewModel, listViews);
+  var listViews = [sourceListView, categoryListView, contentListView, targetListView, null, queueListView];
+  var navigationView = new NavigationView(viewModel, listViews);
 
   //viewModel.prepend().plug($('#prepend').asEventStream('click').merge($('#prepend').asEventStream('touchend')));
   viewModel.append().plug($('#mobileappend').asEventStream('click').merge($('#mobileappend').asEventStream('touchend')));
@@ -355,7 +452,7 @@ function TVBrowserView(viewModel) {
   //});
 
   var controlsViewModel = viewModel.controls();
-  var controlsView = new MobileControlsView('.mobilequeuecontrols', null, controlsViewModel);
+  var controlsView = new TVControlsView('.mobilequeuecontrols', null, controlsViewModel);
 
   $('.content-queuebutton').click(function() {
     // TODO: add number of files added

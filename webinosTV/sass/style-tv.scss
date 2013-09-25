@@ -75,11 +75,11 @@ body {
     top: 2%;
   }
 
-  div:nth-child(3) {
+  div:nth-child(2) {
     top: 35%;
   }
 
-  div:nth-child(5) {
+  div:nth-child(3) {
     top: 68%;
   }
 
@@ -94,7 +94,8 @@ body {
     @include selected;
   }
 
-  .mobilemenu-item:hover {
+  .mobilemenu-item:hover,
+  .mobilemenu-item.focus {
     @include focussed;
   }
 
@@ -178,7 +179,8 @@ body {
       @include selected;
     }
 
-    li:hover {
+    li:hover,
+    li.focus {
       @include focussed;
     }
 
