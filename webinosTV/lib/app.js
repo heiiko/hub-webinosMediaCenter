@@ -8,14 +8,14 @@ var DeviceManager = require('./model/device.coffee');
 //var MainMenuView = require('./view/main_menu_view.js');
 //var BrowserViewModel = require('./view/browser_view_model.js');
 //var BrowserView = require('./view/browser_view.js');
-var MobileBrowserViewModel = require('./view/mobilebrowser_view_model.js');
-var MobileBrowserView = require('./view/mobilebrowser_view.js');
-var MobileMainMenuView = require('./view/mobile_main_menu_view.js');
+var TVBrowserViewModel = require('./view/tv_browser_view_model.js');
+var TVBrowserView = require('./view/tv_browser_view.js');
+var TVMainMenuView = require('./view/tv_main_menu_view.js');
 var RendererViewModel = require('./view/renderer_view_model.js');
 var RendererView = require('./view/renderer_view.js');
 //var RemoteView = require('./view/remote_view.js');
 //var RemoteViewModel = require('./view/remote_view_model.js');
-require('./view/mobilemain_view.js');
+require('./view/tv_main_view.js');
 
 $(document).ready(function() {
   var manager = new DeviceManager(30000, 60000);
@@ -53,9 +53,9 @@ $(document).ready(function() {
   //var mainMenuView = new MainMenuView(mainMenuViewModel);
   //var browserViewModel = new BrowserViewModel(manager, input);
   //var browserView = new BrowserView(browserViewModel);
-  var mobilebrowserViewModel = new MobileBrowserViewModel(manager, input);
-  var mobilebrowserView = new MobileBrowserView(mobilebrowserViewModel);
-  var mobileMainMenuView = new MobileMainMenuView();
+  var tvbrowserViewModel = new TVBrowserViewModel(manager, input);
+  var tvbrowserView = new TVBrowserView(tvbrowserViewModel);
+  var tvMainMenuView = new TVMainMenuView();
   var rendererViewModel = new RendererViewModel(manager, input);
   var rendererView = new RendererView(rendererViewModel);
   //var remoteViewModel = new RemoteViewModel(manager, input, mainMenuViewModel);
