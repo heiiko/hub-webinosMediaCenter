@@ -59,9 +59,14 @@ function ListView(items, selection, list, wrapper, fadeout) {
 
   selection.apply(items.map(function(items) {
     return function(selection) {
-      return _.ointersection(selection, _.map(items, function(item) {
-        return self.identify(item);
-      }));
+      if(list === '#mobilequeuetargetlist' && items.length >= 1 && selection.length === 0) {
+      	return [self.identify(items[0])];
+      }
+      else {
+	    return _.ointersection(selection, _.map(items, function(item) {
+          return self.identify(item);
+        }));
+      }
     };
   }));
 
