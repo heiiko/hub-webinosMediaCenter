@@ -38,12 +38,14 @@ function setMediaSelectBehavior() {
     $('#mobilecontentlist').show();
     $('#topmenu').show();
     $('#mobilecontentwrapper').addClass('arrow_box');
+    $('div.category-image').height($('#mobilecategorywrapper').height() / 6);
   }
   else //small screen
   {
     $('#mobilecategorylist').show(250);
     $('#mobilecontentlist').hide(250);
     $('#mobilecontentwrapper').removeClass('show');
+    $('div.category-image').height($('#mobilecategorywrapper').height() / 3);
     var selectMediaCategories = $('li.category').on('click', function() {
       //push
       $('#mobilecategorylist').hide(250);

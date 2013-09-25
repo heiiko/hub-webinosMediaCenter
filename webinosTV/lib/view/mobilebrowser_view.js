@@ -184,7 +184,8 @@ function SourceListView(viewModel) {
 util.inherits(CategoryListView, ListView);
 function CategoryListView(viewModel) {
   this.htmlify = function(category) {
-    return '<li class="category"><img class="category-image" src="' + category.image + '"><div class="category-name">' + category.title + '</div></li>';
+    return '<li class="category"><div class="category-image" style="background-image:url(\'' + category.image + '\')"></div><div class="category-name">' + category.title + '</div></li>';
+//    return '<li class="category"><img class="category-image" src="' + category.image + '"><div class="category-name">' + category.title + '</div></li>';
   };
 
   this.identify = function(category) {
