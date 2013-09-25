@@ -66,7 +66,7 @@ function RendererView(viewModel) {
   self.imageTimer = null;
 
   var controlsViewModel = viewModel.controls();
-  var controlsView = new ControlsView('.rendererControlls', {
+  self.controlsView = new ControlsView('.rendererControlls', {
     remove: false,
     fullscreen: true,
     highdef: true,
@@ -138,6 +138,9 @@ RendererView.prototype.playItem = function(item, url) {
   }
 
   type = type.split(" ")[0].toLowerCase();
+
+  self.controlsView.setControlsForMediaType(type);
+
   switch (type) {
     case "video":
       $(self.albumCover).hide();

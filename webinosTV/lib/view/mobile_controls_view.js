@@ -201,6 +201,25 @@ function MobileControlsView(parent, config, viewModel) {
   });
 }
 
+MobileControlsView.prototype.setControlsForMediaType = function(type) {
+  switch (type) {
+    case 'image':
+      $('.controlSbar').hide();
+      $('.controlTime').hide();
+      break;
+    case 'channels':
+    case 'audio':
+    case 'video':
+      $('.controlSbar').show();
+      $('.controlTime').show();
+      break;
+    default:
+      console.warn("Unknown type");
+      break;
+  }
+};
+
+
 module.exports = MobileControlsView;
 
 //draggable seekbar plugin
