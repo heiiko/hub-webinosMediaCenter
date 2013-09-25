@@ -186,16 +186,19 @@ function ControlsView(parent, config, viewModel) {
 }
 
 ControlsView.prototype.setControlsForMediaType = function(type) {
+  var classNames = ['.controlSbar', '.controlTime', '.controlRewd', '.controlFwrd', '.controlHres'];
   switch (type) {
     case 'image':
-      $('.controlSbar').hide();
-      $('.controlTime').hide();
+      classNames.forEach(function(className) {
+        $(className).hide();
+      });
       break;
     case 'channels':
     case 'audio':
     case 'video':
-      $('.controlSbar').show();
-      $('.controlTime').show();
+      classNames.forEach(function(className) {
+        $(className).show();
+      });
       break;
     default:
       console.warn("Unknown type");

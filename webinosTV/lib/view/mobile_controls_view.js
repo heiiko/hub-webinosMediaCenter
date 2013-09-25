@@ -154,6 +154,7 @@ function MobileControlsView(parent, config, viewModel) {
   });
 
   viewModel.state().onValue(function(state) {
+    console.warn("STATE", state)
     if (state === '<no-state>') {
       seek(0);
       pause();
@@ -189,6 +190,10 @@ function MobileControlsView(parent, config, viewModel) {
             state.queue[0].item.duration = length;
           }
         }
+        else if (state.queue[0].item.type.toLowerCase().indexOf("image") !== -1) {
+          artists = '';
+          title = state.queue[0].item.title;
+        }
       } else {
         pause();
       }
@@ -202,16 +207,19 @@ function MobileControlsView(parent, config, viewModel) {
 }
 
 MobileControlsView.prototype.setControlsForMediaType = function(type) {
+  var classNames = ['.controlSbar', '.controlTime', '.controlRewd', '.controlFwrd', '.controlHres'];
   switch (type) {
     case 'image':
-      $('.controlSbar').hide();
-      $('.controlTime').hide();
+      classNames.forEach(function(className) {
+        $(className).hide();
+      });
       break;
     case 'channels':
     case 'audio':
     case 'video':
-      $('.controlSbar').show();
-      $('.controlTime').show();
+      classNames.forEach(function(className) {
+        $(className).show();
+      });
       break;
     default:
       console.warn("Unknown type");
