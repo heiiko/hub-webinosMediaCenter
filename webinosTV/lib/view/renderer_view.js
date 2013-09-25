@@ -129,6 +129,11 @@ RendererView.prototype.playItem = function(item, url) {
   type = type.split(" ")[0].toLowerCase();
   switch (type) {
     case "video":
+      $(self.albumCover).hide();
+      $(self.videoRenderer).show();
+      $(self.imageRenderer).hide();
+      self.videoRenderer[0].src = url;
+      break;
     case "audio":
       $(self.albumCover).show();
       //TODO add album cover logic here
