@@ -16,7 +16,7 @@
     line-height: $webinosThumbnailWidth;
     float: left;
     overflow: hidden;
-    animation: none;
+    -webkit-animation: none !important;
   }
   li.imglistitem div.imglistitem{
     height:$webinosThumbnailWidth;
@@ -270,7 +270,7 @@
   }
 
   div.status {
-    display: hidden;
+    display: none;
   }
 
   div.status.pauseditem .statustext:before {
