@@ -1,10 +1,12 @@
 @charset "UTF-8";
 @import "base";
 
+/*
 @font-face {
   font-family: 'Roboto', sans-serif;
   src: url('DroidSans-webfont.woff') format('woff');
 }
+*/
 
 * {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -17,10 +19,10 @@ body, li, ul {
   padding: 0;
   margin: 0;
   text-align: center;
-  font-family: DroidSans, sans-serif;
-  color: white;
+  //font-family: DroidSans, sans-serif;
+  //color: white;
   font-size: 16px;
-  background-color: #333;
+  //background-color: #333;
 }
 
 body {
@@ -39,6 +41,7 @@ p {
   text-overflow: ellipsis;
 }
 
+/*
 .overlay {
   background: #000;
   opacity: .5;
@@ -47,7 +50,9 @@ p {
   height: 100%;
   z-index: 10;
 }
+*/
 
+/*
 .menu {
   min-width: 300px;
   width: 25%;
@@ -57,7 +62,9 @@ p {
   z-index: 11;
   background: #333;
 }
+*/
 
+/*
 .mm_button {
   position: relative;
   display: block;
@@ -111,6 +118,7 @@ p {
   right: 0;
   bottom: 5%;
 }
+*/
 
 .pt-page {
   position: absolute;
@@ -127,6 +135,7 @@ p {
   z-index: 1;
 }
 
+/*
 #startscreen img {
   width: 50%;
   float: right;
@@ -157,7 +166,9 @@ p {
   padding: 0 3px;
   position: relative;
 }
+*/
 
+/*
 .buttonlist {
   width: 12.5%;
 }
@@ -336,7 +347,9 @@ p {
   margin-top: -40px;
   background: -webkit-linear-gradient(top,  rgba(51,51,51,0) 0%,rgba(51,51,51,1) 100%);
 }
+*/
 
+/*
 #leftfadeout, #rightfadeout {
   position: absolute;
   z-index: 2;
@@ -344,10 +357,14 @@ p {
   height: 100%;
   background: -webkit-linear-gradient(right,  rgba(51,51,51,0) 0%,rgba(51,51,51,1) 100%);
 }
+*/
+
+/*
 #rightfadeout {
   right: 0px;
   background: -webkit-linear-gradient(left,  rgba(51,51,51,0) 0%,rgba(51,51,51,1) 100%);
 }
+*/
 
 /* --- REMOTE --- */
 /* 
