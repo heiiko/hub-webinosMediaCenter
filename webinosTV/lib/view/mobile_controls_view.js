@@ -160,15 +160,15 @@ function MobileControlsView(parent, config, viewModel) {
     } else if (state.playback.current && !state.playback.stopping) {
       if (state.playback.playing) {
         play();
-        length = 0; // TODO: Get length from `state.queue[0].item`.
+        length = 0;
         //TODO: move this nasty stuff away from view
-        if (state.queue[0].item.type.toLowerCase().indexOf("audio") !== -1 || state.queue[0].item.type.toLowerCase().indexOf("video") !== -1) {
-          if (typeof state.queue[0].item.duration === "number") {
-            length = state.queue[0].item.duration;
-            artists = state.queue[0].item.artists;
-            title = state.queue[0].item.title;
-          } else if (state.queue[0].item.duration && state.queue[0].item.duration.length) {
-            var itemlengthParsed = 0, itemlength = (state.queue[0].item.duration instanceof Array) ? state.queue[0].item.duration[0] : state.queue[0].item.duration;
+        if (typeof state.queue !== 'undefined' && (state.queue[0].item.type.toLowerCase().indexOf("audio")!=-1 || state.queue[0].item.type.toLowerCase().indexOf("video")!=-1)){
+          if (typeof state.queue[state.index].item.duration === "number") {
+            length = state.queue[state.index].item.duration;
+            artists = state.queue[state.index].item.artists;
+            title = state.queue[state.index].item.title;
+          } else if(state.queue[state.index].item.duration && state.queue[state.index].item.duration.length){
+            var itemlengthParsed = 0, itemlength = (state.queue[state.index].item.duration instanceof Array)?state.queue[state.index].item.duration[0]:state.queue[state.index].item.duration;
             itemlength = itemlength.split(" ");
             for (var i = 0; itemlength.length > i; i++) {
               if (itemlength[i].indexOf("h") !== -1) {
@@ -186,12 +186,12 @@ function MobileControlsView(parent, config, viewModel) {
             }
             ;
             length = itemlengthParsed * 1000;
-            state.queue[0].item.duration = length;
+            state.queue[state.index].item.duration = length;
           }
         }
-        else if (state.queue[0].item.type.toLowerCase().indexOf("image") !== -1) {
+        else if (typeof state.queue !== 'undefined' && (state.queue[state.index].item.type.toLowerCase().indexOf("image") !== -1)) {
           artists = '';
-          title = state.queue[0].item.title;
+          title = state.queue[state.index].item.title;
         }
       } else {
         pause();

@@ -28,7 +28,7 @@ function ControlsViewModel(peer) {
         operation.peer.playOrPause();
         break;
       case 'previous':
-        operation.peer.seek(0);
+        operation.peer.previous();
         break;
       case 'next':
         operation.peer.next();
