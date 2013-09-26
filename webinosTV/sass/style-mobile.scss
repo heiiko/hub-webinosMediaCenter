@@ -207,10 +207,12 @@ $category-wrapper-width-largescreen:150px;
 		height: 25%;
 		background-color: $fontcolor;
 		border-radius: 15px;
+		background-repeat: no-repeat;
+		background-position: 50% 50%;
+		background-size: 25%;
 	}
 	
 	.controlbutton:active {
-		//background-color: $blue;
 		opacity: 0.5;
 	}
 	
@@ -219,6 +221,7 @@ $category-wrapper-width-largescreen:150px;
 		top: 10%;
 		border-top-right-radius: 50%;
 		border-top-left-radius: 50%;
+		background-image: url('../images/arrow_big_up.svg');
 	}
 
 
@@ -227,6 +230,7 @@ $category-wrapper-width-largescreen:150px;
 		top: 36%;
 		border-top-left-radius: 50%;
 		border-bottom-left-radius: 50%;
+		background-image: url('../images/arrow_big_left.svg');
 	}
 	
 	.clickAreaRight {
@@ -234,6 +238,7 @@ $category-wrapper-width-largescreen:150px;
 		top: 36%;
 		border-top-right-radius: 50%;
 		border-bottom-right-radius: 50%;
+		background-image: url('../images/arrow_big_right.svg');
 	}
 	
 	.clickAreaOk{
@@ -246,6 +251,7 @@ $category-wrapper-width-largescreen:150px;
 		left: 38%;
 		border-bottom-left-radius: 50%;
 		border-bottom-right-radius: 50%;
+		background-image: url('../images/arrow_big_down.svg');
 	}
 	
 }
