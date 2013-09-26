@@ -189,6 +189,10 @@ function MobileControlsView(parent, config, viewModel) {
             state.queue[0].item.duration = length;
           }
         }
+        else if (state.queue[0].item.type.toLowerCase().indexOf("image") !== -1) {
+          artists = '';
+          title = state.queue[0].item.title;
+        }
       } else {
         pause();
       }
@@ -200,6 +204,30 @@ function MobileControlsView(parent, config, viewModel) {
     }
   });
 }
+
+MobileControlsView.prototype.setControlsForMediaType = function(type) {
+  var classNames = ['.controlSbar', '.controlTime', '.controlRewd', '.controlFwrd', '.controlHres'];
+  switch (type) {
+    case 'image':
+      $('.full.controlContainer').children('.controlButtons').addClass('controlsForImage');
+      classNames.forEach(function(className) {
+        $(className).hide();
+      });
+      break;
+    case 'channels':
+    case 'audio':
+    case 'video':
+      $('.full.controlContainer').children('.controlButtons').removeClass('controlsForImage');
+      classNames.forEach(function(className) {
+        $(className).show();
+      });
+      break;
+    default:
+      console.warn("Unknown type");
+      break;
+  }
+};
+
 
 module.exports = MobileControlsView;
 

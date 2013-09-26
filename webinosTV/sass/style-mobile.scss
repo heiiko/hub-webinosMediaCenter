@@ -593,7 +593,7 @@ $category-wrapper-width-largescreen:150px;
 		.device-image.type-tv {
 			background-image: url('../images/tv.svg');
 		}
-		
+
 		.device-image.type-unknown {
 		    background-image: url('../images/all_devices.svg');
 		}
@@ -624,7 +624,7 @@ $category-wrapper-width-largescreen:150px;
 		.device-image.type-tv {
 			background-image: url('../images/tv-selected.svg');
 		}
-		
+
 		.device-image.type-unknown {
 		    background-image: url('../images/all_devices-selected.svg');
 		}
@@ -678,7 +678,7 @@ $category-wrapper-width-largescreen:150px;
 			width: 100%;
 		}
 	}
-	
+
 	#mobilecategorylist {
 		@media screen and (min-width: $mintabletwidth) {
 			height: 100%;
@@ -747,6 +747,14 @@ $category-wrapper-width-largescreen:150px;
 			width: 50%;
 		}
 	}
+
+  div.category-image{
+    width: 100%;
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
 
 	.category-name {
 		text-align: center;
