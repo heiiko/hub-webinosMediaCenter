@@ -346,7 +346,7 @@ function NavigationView (viewModel, listViews) {
       ".nav_queue_action",
       ".nav_queue_file"
     ],
-    "curCol": 0,
+    "curCol": 1,
     "curEl": {
       ".nav_menu": 0,
       ".nav_sl": 0,
@@ -359,143 +359,167 @@ function NavigationView (viewModel, listViews) {
       ".nav_queue_target": 0,
       ".nav_queue_action": 0,
       ".nav_queue_file": 0
-    }
+    },
+    "curScreen": 0,
   };
 
-  console.log(navigation);
-
-  var columns = [".nav_menu", ".nav_sl", ".nav_tl"];
-  var curCol = 0;
-  var curRow = [0, 0, 0];
-
+  startNavWithTimeout();
   viewModel.input().onValue(Navigate);
 
   function Navigate(direction) {
-  console.log(navigation);
     if (direction !== 'enter') {
-      $(navigation["regions"][curCol]+".focus").removeClass('focus');
+      $(navigation["regions"][navigation["curCol"]]+".focus").removeClass('focus');
     }
     switch(direction){
       case 'down':
-        if(navigation["curEl"][navigation["regions"][0]]==0) {
-          // Device screen
-          if(navigation["curEl"][navigation["regions"][curCol]] < $(navigation["regions"][curCol]).length-1) {
-            navigation["curEl"][navigation["regions"][curCol]]++;
-          }
-        } else if(navigation["curEl"][navigation["regions"][0]]==1) {
-          // Media screen
-          if (curCol == 3) {
-            if(navigation["curEl"][navigation["regions"][curCol]] < $(navigation["regions"][curCol]).length-1) {
-              navigation["curEl"][navigation["regions"][curCol]]++;
+        if (navigation["curCol"] == 0 && navigation["curEl"][navigation["regions"][navigation["curCol"]]] < $(navigation["regions"][navigation["curCol"]]).length-1) {
+          navigation["curEl"][navigation["regions"][navigation["curCol"]]]++;
+        } else {
+          if(navigation["curScreen"]==0) {
+            // Device screen
+            if(navigation["curEl"][navigation["regions"][navigation["curCol"]]] < $(navigation["regions"][navigation["curCol"]]).length-1) {
+              navigation["curEl"][navigation["regions"][navigation["curCol"]]]++;
             }
-          } else if (curCol == 5) {
-            if($(navigation["regions"][6]).length > 0) {
-              curCol = 6;
-              navigation["curEl"][navigation["regions"][4]]=1;
-            }
-          } else if (curCol == 6) {
-            if(navigation["curEl"][navigation["regions"][curCol]] < $(navigation["regions"][curCol]).length-1) {
-              navigation["curEl"][navigation["regions"][curCol]]++;
+          } else if(navigation["curScreen"]==1) {
+            // Media screen
+            if (navigation["curCol"] == 3) {
+              if(navigation["curEl"][navigation["regions"][navigation["curCol"]]] < $(navigation["regions"][navigation["curCol"]]).length-1) {
+                navigation["curEl"][navigation["regions"][navigation["curCol"]]]++;
+              }
+            } else if (navigation["curCol"] == 5) {
+              if($(navigation["regions"][6]).length > 0) {
+                navigation["curCol"] = 6;
+                navigation["curEl"][navigation["regions"][4]]=1;
+              }
+            } else if (navigation["curCol"] == 6) {
+              if(navigation["curEl"][navigation["regions"][navigation["curCol"]]] < $(navigation["regions"][navigation["curCol"]]).length-1) {
+                navigation["curEl"][navigation["regions"][navigation["curCol"]]]++;
+              }
             }
           }
         }
         break;
       case 'up':
-        if(navigation["curEl"][navigation["regions"][0]]==0) {
-          // Device screen
-          if(navigation["curEl"][navigation["regions"][curCol]] > 0) {
-            navigation["curEl"][navigation["regions"][curCol]]--;
-          }
-        } else if(navigation["curEl"][navigation["regions"][0]]==1) {
-          // Media screen
-          if (curCol == 3) {
-            if(navigation["curEl"][navigation["regions"][curCol]] > 0) {
-              navigation["curEl"][navigation["regions"][curCol]]--;
+        if (navigation["curCol"] == 0 && navigation["curEl"][navigation["regions"][navigation["curCol"]]]>0) {
+          navigation["curEl"][navigation["regions"][navigation["curCol"]]]--;
+        } else {
+          if(navigation["curScreen"]==0) {
+            // Device screen
+            if(navigation["curEl"][navigation["regions"][navigation["curCol"]]] > 0) {
+              navigation["curEl"][navigation["regions"][navigation["curCol"]]]--;
             }
-          } else if (curCol == 5) {
-          } else if (curCol == 6) {
-              console.debug("test1");
-            if(navigation["curEl"][navigation["regions"][curCol]] > 0) {
-              navigation["curEl"][navigation["regions"][curCol]]--;
-            } else {
-              curCol = 5;
-              navigation["curEl"][navigation["regions"][4]]=0;
+          } else if(navigation["curScreen"]==1) {
+            // Media screen
+            if (navigation["curCol"] == 3) {
+              if(navigation["curEl"][navigation["regions"][navigation["curCol"]]] > 0) {
+                navigation["curEl"][navigation["regions"][navigation["curCol"]]]--;
+              }
+            } else if (navigation["curCol"] == 5) {
+            } else if (navigation["curCol"] == 6) {
+                console.debug("test1");
+              if(navigation["curEl"][navigation["regions"][navigation["curCol"]]] > 0) {
+                navigation["curEl"][navigation["regions"][navigation["curCol"]]]--;
+              } else {
+                navigation["curCol"] = 5;
+                navigation["curEl"][navigation["regions"][4]]=0;
+              }
             }
           }
         }
         break;
       case 'right':
-        if(navigation["curEl"][navigation["regions"][0]]==0) {
+        if(navigation["curScreen"]==0) {
           // Device screen
-          if (curCol < 2) {
-            curCol++;
+          if (navigation["curCol"] < 2) {
+            navigation["curCol"]++;
           }
-        } else if(navigation["curEl"][navigation["regions"][0]]==1) {
+        } else if(navigation["curScreen"]==1) {
           // Media screen
-          if (curCol == 0) {
+          if (navigation["curCol"] == 0) {
             // In left bar going right
-            curCol = 3;
-          } else if (curCol == 3) {
+            navigation["curCol"] = 3;
+          } else if (navigation["curCol"] == 3) {
             // Going from categories to actions/files
             if (navigation["curEl"][navigation["regions"][4]]==0 || $(navigation["regions"][6]).length == 0) {
-              curCol = 5;
+              navigation["curCol"] = 5;
             } else {
-              curCol = 6;
+              navigation["curCol"] = 6;
             }
-          } else if (curCol == 5) {
-            if(navigation["curEl"][navigation["regions"][curCol]] < $(navigation["regions"][curCol]).length-1) {
-              navigation["curEl"][navigation["regions"][curCol]]++;
+          } else if (navigation["curCol"] == 5) {
+            if(navigation["curEl"][navigation["regions"][navigation["curCol"]]] < $(navigation["regions"][navigation["curCol"]]).length-1) {
+              navigation["curEl"][navigation["regions"][navigation["curCol"]]]++;
             }
           }
         }
         break;
       case 'left':
-        if(navigation["curEl"][navigation["regions"][0]]==0) {
+        if(navigation["curScreen"]==0) {
           // Device screen
-          if (curCol > 0) {
-            curCol--;
+          if (navigation["curCol"] > 0) {
+            navigation["curCol"]--;
           }
-        } else if(navigation["curEl"][navigation["regions"][0]]==1) {
+        } else if(navigation["curScreen"]==1) {
           // Media screen
-          if (curCol == 3) {
+          if (navigation["curCol"] == 3) {
             // In category bar going left
-            curCol = 0;
-          } else if (curCol == 5) {
+            navigation["curCol"] = 0;
+          } else if (navigation["curCol"] == 5) {
             // Going from actions/files to categories
             if (navigation["curEl"][navigation["regions"][5]]==0) {
-              curCol = 3;
+              navigation["curCol"] = 3;
             } else {
-              navigation["curEl"][navigation["regions"][curCol]]--;
+              navigation["curEl"][navigation["regions"][navigation["curCol"]]]--;
             }
-          } else if (curCol == 6) {
-            curCol = 3;
+          } else if (navigation["curCol"] == 6) {
+            navigation["curCol"] = 3;
           }
         }
         break;
       case 'enter':
         tappedOn=Date.now();
-        $(navigation["regions"][curCol]+".focus").click();
+        $(navigation["regions"][navigation["curCol"]]+".focus").click();
+        if(navigation["curCol"] == 0) {
+          navigation["curScreen"] = navigation["curEl"][navigation["regions"][navigation["curCol"]]];
+          if(navigation["curScreen"] == 1) {
+            navigation["curCol"] = 3;
+            $(navigation["regions"][0]+".focus").removeClass('focus');
+          }
+        } else if(navigation["curCol"] == 3) {
+          if(navigation["curScreen"] == 1) {
+            if($(navigation["regions"][6]).length > 0) {
+              navigation["curCol"] = 6;
+            } else {
+              navigation["curCol"] = 5;
+            }
+            $(navigation["regions"][3]+".focus").removeClass('focus');
+          }
+        }
         break;
     }
-    console.debug("col: " + curCol);
-    console.debug("class: " + navigation["regions"][curCol]);
-    console.debug("curEl: " + navigation["curEl"][navigation["regions"][curCol]]);
-    $(navigation["regions"][curCol]).eq(navigation["curEl"][navigation["regions"][curCol]]).addClass('focus');
+    console.debug("col: " + navigation["curCol"]);
+    console.debug("class: " + navigation["regions"][navigation["curCol"]]);
+    console.debug("curEl: " + navigation["curEl"][navigation["regions"][navigation["curCol"]]]);
+    console.debug("curScreen: " + navigation["curScreen"]);
+    $(navigation["regions"][navigation["curCol"]]).eq(navigation["curEl"][navigation["regions"][navigation["curCol"]]]).addClass('focus');
   }
 
   function centerFocusedElement(){
-    $(columns[curCol]).eq(curRow[curCol]).addClass("focus");
+    $(columns[navigation["curCol"]]).eq(curRow[navigation["curCol"]]).addClass("focus");
   }
 
-  function startNavVisibleTimeout(){
+  function startNavWithTimeout(){
     timeoutHandle = window.setTimeout(function(){
-      navVisible=false;
-      $(columns[curCol]).eq(curRow[curCol]).removeClass('focus');
-    }, 5000);
+      if ($(navigation["regions"][1]).length > 0) {
+        $(navigation["regions"][0]+".focus").removeClass('focus');
+        $(navigation["regions"][navigation["curCol"]]).eq(navigation["curEl"][navigation["regions"][navigation["curCol"]]]).addClass('focus');
+      } else {
+        navigation["curCol"] = 0;
+      }
+    }, 500);
   }
 
   function navlog(direction) {
-    console.log(direction + "  col:" + curCol + " row:" + curRow);
+    console.log(direction + "  col:" + navigation["curCol"] + " row:" + curRow);
   }
 }
 
