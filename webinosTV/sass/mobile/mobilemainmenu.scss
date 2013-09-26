@@ -37,18 +37,21 @@
 
   #leftmenu{
     height:100%;
+    display: -webkit-box;
+	-webkit-box-orient: vertical;
   }
 
   .mmm_item {
     background: rgba(black,0.8);
     border: 2px solid $lightgray;
     color:$lightgray;
-    //if 4 items -> 22%, if 3 items -> 31%
-    /*height: 22%;*/
-    height: 31%;
     margin-top: 1%;
     margin-right: 5%;
     margin-left: 5%;
+    -webkit-box-flex: 1;
+    display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-box-pack: center;
   }
 
   .mmm_item:hover, mmm_highlight {
