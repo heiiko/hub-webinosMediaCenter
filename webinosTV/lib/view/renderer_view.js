@@ -152,7 +152,7 @@ RendererView.prototype.playItem = function(item, url) {
       $(self.albumCover).show();
       //TODO add album cover logic here
       $(self.albumCover).children('.iteminfo').html('<p>' + item.artists + '</p><p>' + item.title + '</p>');
-      $(self.videoRenderer).show();
+      $(self.videoRenderer).hide();
       $(self.imageRenderer).hide();
       self.videoRenderer[0].src = url;
       break;

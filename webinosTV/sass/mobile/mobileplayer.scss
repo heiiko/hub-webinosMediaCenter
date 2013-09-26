@@ -227,6 +227,53 @@
     margin-left: 5%;
   }
 
+  //"Big" player only
+  .controlButtons.controlsForImage {
+    margin-top: 3%;
+    //PHONE
+    //@media screen and (max-width: $mintabletwidth - 1) {
+
+    //}
+
+    //TABLET
+    @media screen and (min-width: $mintabletwidth - 1) {
+      margin-left: 20%;
+      width: 60%;
+    }
+  }
+
+  div.controlButtons.controlsForImage div.controlButton:first-child {
+    margin-left: 20%;
+    //PHONE
+    //@media screen and (max-width: $mintabletwidth - 1) {
+
+    //}
+
+
+    //TABLET
+    //@media screen and (min-width: $mintabletwidth - 1) {
+
+    //}
+  }
+
+  video{
+    display: inline;
+    //PHONE
+    @media screen and (max-width: $mintabletwidth - 1) {
+      margin-top: 25%;
+      width: 100%;
+    }
+
+
+    //TABLET
+    @media screen and (min-width: $mintabletwidth - 1) {
+      height: 100%;
+    }
+  }
+
+  #renderer.pt-page{
+    background-color: black;
+  }
 }
 
 @mixin albumCover{
@@ -291,33 +338,4 @@
   .iteminfo p{
     margin-top: 20%
   }
-
-  .controlButtons.controlsForImage {
-    margin-top: 3%;
-    //PHONE
-    //@media screen and (max-width: $mintabletwidth - 1) {
-
-    //}
-
-    //TABLET
-    @media screen and (min-width: $mintabletwidth - 1) {
-      margin-left: 20%;
-      width: 60%;
-    }
-  }
-
-  div.controlButtons.controlsForImage div.controlButton:first-child {
-    margin-left: 20%;
-    //PHONE
-    //@media screen and (max-width: $mintabletwidth - 1) {
-
-    //}
-
-
-    //TABLET
-    //@media screen and (min-width: $mintabletwidth - 1) {
-
-    //}
-  }
-
 }
