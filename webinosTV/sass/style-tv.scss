@@ -215,23 +215,6 @@ body {
       border-bottom: 5px solid white;
     }
 
-    #select-media-dd-count,
-    div:nth-child(5) {
-      display: none;
-    }
-
-    #select-media-dd-menu {
-      list-style-type: none;
-      padding-left: 0;
-
-      li {
-        display: inline-block;
-        @include selectable-button;
-        padding: 5px 15px;
-        margin-right: 5px;
-      }
-    }
-
     .separator {
       clear: both;
     }
@@ -247,6 +230,31 @@ body {
 
     .category-name {
       display: none;
+    }
+  }
+
+  #media-actions {
+    position: absolute;
+    right: 0;
+    top: 80px;
+    width: 90%;
+    border-bottom: 1px solid white;
+
+    #select-media-dd-count,
+    div:nth-child(2) {
+      display: none;
+    }
+
+    #select-media-dd-menu {
+      list-style-type: none;
+      padding-left: 0;
+
+      li {
+        display: inline-block;
+        @include selectable-button;
+        padding: 5px 15px;
+        margin-right: 5px;
+      }
     }
   }
 
