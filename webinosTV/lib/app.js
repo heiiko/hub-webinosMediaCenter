@@ -13,8 +13,8 @@ var MobileBrowserView = require('./view/mobilebrowser_view.js');
 var MobileMainMenuView = require('./view/mobile_main_menu_view.js');
 var RendererViewModel = require('./view/renderer_view_model.js');
 var RendererView = require('./view/renderer_view.js');
-//var RemoteView = require('./view/remote_view.js');
-//var RemoteViewModel = require('./view/remote_view_model.js');
+var MobileRemoteView = require('./view/mobileremote_view.js');
+var MobileRemoteViewModel = require('./view/mobileremote_view_model.js');
 require('./view/mobilemain_view.js');
 
 $(document).ready(function() {
@@ -58,6 +58,6 @@ $(document).ready(function() {
   var mobileMainMenuView = new MobileMainMenuView();
   var rendererViewModel = new RendererViewModel(manager, input);
   var rendererView = new RendererView(rendererViewModel);
-  //var remoteViewModel = new RemoteViewModel(manager, input, mainMenuViewModel);
-  //var remoteView = new RemoteView(remoteViewModel);
+  var mobileremoteViewModel = new MobileRemoteViewModel(manager, input);
+  var mobileremoteView = new MobileRemoteView(mobileremoteViewModel);
 });

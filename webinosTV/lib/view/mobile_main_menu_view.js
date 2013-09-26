@@ -15,9 +15,9 @@ function MobileMainMenuView() {
     '<div class="verticalgrippie"></div>' +
     '</div>' +
     '<div id="leftmenu">' +
-    '<div id="mmm_tomobilebrowser" class="mmm_item"><p>Browser</p></div>' +
+    '<div id="mmm_tomobilebrowser" class="mmm_item"><p>Media Browser</p></div>' +
     '<div id="mmm_torenderer" class="mmm_item"><p>Player</p></div>' +
-    '<div id="mmm_tocontroller" class="mmm_item"><p>Controller</p></div>' +
+    '<div id="mmm_tocontroller" class="mmm_item"><p>Remote Control</p></div>' +
     '</div>');
 
   function rollbackMenu() {
@@ -57,7 +57,7 @@ function MobileMainMenuView() {
   });
   $('#mmm_tocontroller').on('click', function() {
     $(this).toggleClass("mmm_highlight");
-    gotoPageById('#controller');
+    gotoPageById('#mobilecontroller');
     rollbackMenu();
   });
   

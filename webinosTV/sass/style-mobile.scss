@@ -24,6 +24,236 @@ $menuheight: 50px;
 $content-list-min-size:40px;
 $category-wrapper-width-largescreen:150px;
 
+#mobilecontroller.pt-page-current {
+	margin: 0px;
+	padding: 0px;
+	font-family: 'Roboto', sans-serif;
+	color: $fontcolor;
+	background-color: white;
+	text-align: left;
+
+	ul {
+		list-style-type:none;
+		padding: 0px;
+		margin: 0px;
+	}
+
+	li, ul {
+		text-align: left;
+		color: $fontcolor;
+		background-color: white;
+		font-family: 'Roboto', sans-serif;
+	}
+	
+	.mobilemenu {
+		display: -webkit-box;
+		-webkit-box-orient: horizontal;
+		width: 100%;
+		background-color: $lightgray;
+		overflow: hidden;
+		border-bottom: 1px solid $green;
+		height: $menuheight;
+	}
+
+	.mobilemenu-item {
+		-webkit-box-flex: 1;
+		text-align: center;
+		padding: 14px 2px 15px 2px;
+		text-decoration: none;
+	}
+
+	.header-control {
+		width: 100%;
+		height: $headerheight;
+		overflow: hidden;
+		border-bottom: 1px solid $blue;
+		@include display-box;
+		@include box-orient(horizontal);
+		@include box-pack(center);
+		@include box-align(center);
+	}
+	
+	#mobileselecttargetlist {
+		li.mobileselected {
+			height: 44px;
+			border-bottom-width: 5px;
+			border-bottom-color: $blue;
+			border-bottom-style: solid;
+			padding: 8px 8px 0px 8px;
+		}
+		li {
+			padding: 8px 8px 0px 8px;
+			height: 57px;
+			display: inline-block;
+			white-space: nowrap;
+			border-image: none;
+
+			.device-image {
+				float: left;
+				background-size: 36px 30px;
+				background-repeat: no-repeat;
+				background-position: 100% 50%;
+				width: 40px;
+			}
+
+			.device-name {
+				font-size: $fontsizemini;
+			}
+		}
+	}
+	
+	.device {
+		padding: 25px 30px 25px 30px;
+		border-bottom: 1px;
+		border-top: 0px;
+		border-image: -webkit-linear-gradient(0deg, transparent, transparent 5%, $mediumgray 6%, $mediumgray 94%, transparent 95%, transparent) 1 stretch;
+		white-space: nowrap;
+	}
+	
+	.device-type {
+		color: $darkgray;
+		font-size: $fontsizemini;
+	}
+
+	.device {
+		.device-image {
+			float: right;
+			height: 40px;
+			width: 48px;
+		}
+
+		.device-image.type-laptop {
+			background-image: url('../images/laptop.svg');
+		}
+
+		.device-image.type-pc {
+			background-image: url('../images/pc.svg');
+		}
+
+		.device-image.type-phone {
+			background-image: url('../images/phone.svg');
+		}
+
+		.device-image.type-tablet {
+			background-image: url('../images/tablet.svg');
+		}
+
+		.device-image.type-tv {
+			background-image: url('../images/tv.svg');
+		}
+		
+		.device-image.type-unknown {
+		    background-image: url('../images/all_devices.svg');
+		}
+	}
+
+	.device.mobileselected {
+
+		.device-name {
+			color: $blue;
+		}
+
+		.device-image.type-laptop {
+			background-image: url('../images/laptop-selected.svg');
+		}
+
+		.device-image.type-pc {
+			background-image: url('../images/pc-selected.svg');
+		}
+
+		.device-image.type-phone {
+			background-image: url('../images/phone-selected.svg');
+		}
+
+		.device-image.type-tablet {
+			background-image: url('../images/tablet-selected.svg');
+		}
+
+		.device-image.type-tv {
+			background-image: url('../images/tv-selected.svg');
+		}
+		
+		.device-image.type-unknown {
+		    background-image: url('../images/all_devices-selected.svg');
+		}
+	}
+
+	.device-name {
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	
+	.header-item-queue.separator {
+		@include box-flex(1);
+	}
+	
+	.tapButton{
+    	top: $headerheight + $menuheight + 2; 
+    	bottom: 0px; 
+    	left: 0px;
+    	right: 0px;
+    	position: absolute;
+    	display: -webkit-box;
+    	-webkit-box-orient: vertical;
+    	background-color: $mediumgray;
+    	border-radius: 50%; 
+    	border: solid 2px $fontcolor;   
+    	margin: 5%;
+	}
+	
+	.controlbutton {
+		position: absolute;
+		width: 25%;
+		height: 25%;
+		background-color: $fontcolor;
+		border-radius: 15px;
+	}
+	
+	.controlbutton:active {
+		//background-color: $blue;
+		opacity: 0.5;
+	}
+	
+	.clickAreaUp {
+		left: 38%;
+		top: 10%;
+		border-top-right-radius: 50%;
+		border-top-left-radius: 50%;
+	}
+
+
+	.clickAreaLeft {
+		left: 12%;
+		top: 36%;
+		border-top-left-radius: 50%;
+		border-bottom-left-radius: 50%;
+	}
+	
+	.clickAreaRight {
+		left: 64%;
+		top: 36%;
+		border-top-right-radius: 50%;
+		border-bottom-right-radius: 50%;
+	}
+	
+	.clickAreaOk{
+		left: 38%;
+		top: 36%;
+	}
+	
+	.clickAreaDown {
+		top: 62%;
+		left: 38%;
+		border-bottom-left-radius: 50%;
+		border-bottom-right-radius: 50%;
+	}
+	
+}
+
+
+
+
+
 #mobilebrowser.pt-page-current {
 	margin: 0px;
 	padding: 0px;
