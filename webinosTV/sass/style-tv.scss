@@ -226,6 +226,10 @@ body {
     ul {
       list-style-type: none;
       padding-left: 0;
+
+      li.focus {
+        display: none;
+      }
     }
 
     .category-name {
@@ -255,6 +259,10 @@ body {
         padding: 5px 15px;
         margin-right: 5px;
       }
+
+      li.focus {
+        border-color: red;
+      }
     }
   }
 
@@ -267,6 +275,20 @@ body {
     ul {
       padding-left: 0;
       list-style-type: none;
+
+      li {
+        @include selectable-element;
+        
+        input[type="checkbox"] {
+          width: 20px;
+          height: 20px;
+        }
+      }
+
+      li.focus,
+      li:hover {
+        @include focussed;
+      }
     }
 
     .itemcontainer {

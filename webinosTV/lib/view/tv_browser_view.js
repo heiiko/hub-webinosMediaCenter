@@ -163,7 +163,7 @@ function SourceListView(viewModel) {
 util.inherits(CategoryListView, ListView);
 function CategoryListView(viewModel) {
   this.htmlify = function(category) {
-    return '<li class="category"><img class="category-image" src="' + category.image + '"><div class="category-name">' + category.title + '</div></li>';
+    return '<li class="category nav_media_category"><img class="category-image" src="' + category.image + '"><div class="category-name">' + category.title + '</div></li>';
   };
 
   this.identify = function(category) {
@@ -187,7 +187,7 @@ function ContentListView(viewModel) {
     var html;
     if (typeof value.item.type === 'string' && value.item.type.toLowerCase().indexOf('image') === 0)
     {
-      html = '<li class="imglistitem">' +
+      html = '<li class="imglistitem nav_media_file">' +
         '<div class="imglistitem" style="background-image:url(\'' + value.item.thumbnailURIs[0] + '\')"></div>' +
         '<div class="imglistitem-title">' + value.item.title + '</div>' +
         '</li>';
@@ -205,7 +205,7 @@ function ContentListView(viewModel) {
         default:
           iconClass = "default-icon";
       }
-      html = '<li class="contentlistitem"><div class="itemcontainer">' +
+      html = '<li class="contentlistitem nav_media_file"><div class="itemcontainer">' +
         '<div class="chbx-container"><input type="checkbox" /></div>' +
         '<div class="' + iconClass + '"></div>' +
         '<div class="mediaitemcontent">' +
@@ -352,7 +352,7 @@ function NavigationView (viewModel, listViews) {
       ".nav_sl": 0,
       ".nav_tl": 0,
       ".nav_media_category": 0,
-      ".nav_media_action_file": 0,
+      ".nav_media_action_file": 1,
       ".nav_media_action": 0,
       ".nav_media_file": 0,
       ".nav_queue": 0,
@@ -375,27 +375,101 @@ function NavigationView (viewModel, listViews) {
     if (direction !== 'enter') {
       $(navigation["regions"][curCol]+".focus").removeClass('focus');
     }
-    console.log("test" + $(navigation["regions"][curCol]).length);
-    console.log(typeof(navigation["curEl"][navigation["regions"][curCol]]));
     switch(direction){
       case 'down':
-        if(navigation["curEl"][navigation["regions"][curCol]] < $(navigation["regions"][curCol]).length-1) {
-          navigation["curEl"][navigation["regions"][curCol]]++;
+        if(navigation["curEl"][navigation["regions"][0]]==0) {
+          // Device screen
+          if(navigation["curEl"][navigation["regions"][curCol]] < $(navigation["regions"][curCol]).length-1) {
+            navigation["curEl"][navigation["regions"][curCol]]++;
+          }
+        } else if(navigation["curEl"][navigation["regions"][0]]==1) {
+          // Media screen
+          if (curCol == 3) {
+            if(navigation["curEl"][navigation["regions"][curCol]] < $(navigation["regions"][curCol]).length-1) {
+              navigation["curEl"][navigation["regions"][curCol]]++;
+            }
+          } else if (curCol == 5) {
+            if($(navigation["regions"][6]).length > 0) {
+              curCol = 6;
+              navigation["curEl"][navigation["regions"][4]]=1;
+            }
+          } else if (curCol == 6) {
+            if(navigation["curEl"][navigation["regions"][curCol]] < $(navigation["regions"][curCol]).length-1) {
+              navigation["curEl"][navigation["regions"][curCol]]++;
+            }
+          }
         }
         break;
       case 'up':
-        if(navigation["curEl"][navigation["regions"][curCol]] > 0) {
-          navigation["curEl"][navigation["regions"][curCol]]--;
+        if(navigation["curEl"][navigation["regions"][0]]==0) {
+          // Device screen
+          if(navigation["curEl"][navigation["regions"][curCol]] > 0) {
+            navigation["curEl"][navigation["regions"][curCol]]--;
+          }
+        } else if(navigation["curEl"][navigation["regions"][0]]==1) {
+          // Media screen
+          if (curCol == 3) {
+            if(navigation["curEl"][navigation["regions"][curCol]] > 0) {
+              navigation["curEl"][navigation["regions"][curCol]]--;
+            }
+          } else if (curCol == 5) {
+          } else if (curCol == 6) {
+              console.debug("test1");
+            if(navigation["curEl"][navigation["regions"][curCol]] > 0) {
+              navigation["curEl"][navigation["regions"][curCol]]--;
+            } else {
+              curCol = 5;
+              navigation["curEl"][navigation["regions"][4]]=0;
+            }
+          }
         }
         break;
       case 'right':
-        if(curCol < 2) {
-          curCol++;
+        if(navigation["curEl"][navigation["regions"][0]]==0) {
+          // Device screen
+          if (curCol < 2) {
+            curCol++;
+          }
+        } else if(navigation["curEl"][navigation["regions"][0]]==1) {
+          // Media screen
+          if (curCol == 0) {
+            // In left bar going right
+            curCol = 3;
+          } else if (curCol == 3) {
+            // Going from categories to actions/files
+            if (navigation["curEl"][navigation["regions"][4]]==0 || $(navigation["regions"][6]).length == 0) {
+              curCol = 5;
+            } else {
+              curCol = 6;
+            }
+          } else if (curCol == 5) {
+            if(navigation["curEl"][navigation["regions"][curCol]] < $(navigation["regions"][curCol]).length-1) {
+              navigation["curEl"][navigation["regions"][curCol]]++;
+            }
+          }
         }
         break;
       case 'left':
-        if(curCol > 0) {
-          curCol--;
+        if(navigation["curEl"][navigation["regions"][0]]==0) {
+          // Device screen
+          if (curCol > 0) {
+            curCol--;
+          }
+        } else if(navigation["curEl"][navigation["regions"][0]]==1) {
+          // Media screen
+          if (curCol == 3) {
+            // In category bar going left
+            curCol = 0;
+          } else if (curCol == 5) {
+            // Going from actions/files to categories
+            if (navigation["curEl"][navigation["regions"][5]]==0) {
+              curCol = 3;
+            } else {
+              navigation["curEl"][navigation["regions"][curCol]]--;
+            }
+          } else if (curCol == 6) {
+            curCol = 3;
+          }
         }
         break;
       case 'enter':
@@ -403,12 +477,9 @@ function NavigationView (viewModel, listViews) {
         $(navigation["regions"][curCol]+".focus").click();
         break;
     }
-    console.log("col: " + curCol + "; row: " + navigation["curEl"][navigation["regions"][curCol]]);
-    if($(columns[curCol]).length-1 < curRow[curCol]){
-      curRow[curCol] = 0;
-    }
-    console.log(navigation["regions"][curCol]);
-    console.log(navigation["curEl"][navigation["regions"][curCol]]);
+    console.debug("col: " + curCol);
+    console.debug("class: " + navigation["regions"][curCol]);
+    console.debug("curEl: " + navigation["curEl"][navigation["regions"][curCol]]);
     $(navigation["regions"][curCol]).eq(navigation["curEl"][navigation["regions"][curCol]]).addClass('focus');
   }
 
