@@ -79,8 +79,8 @@
       border-radius:$radius;
       float: none;
       display: inline-block;
-      background-size: $radius $radius;
-      background-position-y: center;
+      background-size: cover;
+      background-position: center;
     }
     //TABLET
     @media screen and (min-width: $mintabletwidth - 1) {
@@ -90,8 +90,8 @@
       margin-top:$radius;
       margin-right: $radius/4;
       border-radius:$radius;
-      background-size: $radius $radius;
-      background-position-y: center;
+      background-size: cover;
+      background-position: center;
     }
   }
   /*  @media screen and (max-width: $mintabletwidth - 1) {
