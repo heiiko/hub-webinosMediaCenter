@@ -189,6 +189,7 @@ ControlsView.prototype.setControlsForMediaType = function(type) {
   var classNames = ['.controlSbar', '.controlTime', '.controlRewd', '.controlFwrd', '.controlHres'];
   switch (type) {
     case 'image':
+      $('.full.controlContainer').children('.controlButtons').addClass('controlsForImage');
       classNames.forEach(function(className) {
         $(className).hide();
       });
@@ -196,6 +197,7 @@ ControlsView.prototype.setControlsForMediaType = function(type) {
     case 'channels':
     case 'audio':
     case 'video':
+      $('.full.controlContainer').children('.controlButtons').removeClass('controlsForImage');
       classNames.forEach(function(className) {
         $(className).show();
       });

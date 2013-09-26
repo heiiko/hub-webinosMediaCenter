@@ -154,7 +154,6 @@ function MobileControlsView(parent, config, viewModel) {
   });
 
   viewModel.state().onValue(function(state) {
-    console.warn("STATE", state)
     if (state === '<no-state>') {
       seek(0);
       pause();
@@ -210,6 +209,7 @@ MobileControlsView.prototype.setControlsForMediaType = function(type) {
   var classNames = ['.controlSbar', '.controlTime', '.controlRewd', '.controlFwrd', '.controlHres'];
   switch (type) {
     case 'image':
+      $('.full.controlContainer').children('.controlButtons').addClass('controlsForImage');
       classNames.forEach(function(className) {
         $(className).hide();
       });
@@ -217,6 +217,7 @@ MobileControlsView.prototype.setControlsForMediaType = function(type) {
     case 'channels':
     case 'audio':
     case 'video':
+      $('.full.controlContainer').children('.controlButtons').removeClass('controlsForImage');
       classNames.forEach(function(className) {
         $(className).show();
       });
