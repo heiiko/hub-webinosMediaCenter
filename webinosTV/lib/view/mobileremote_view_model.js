@@ -14,8 +14,9 @@ function MobileRemoteViewModel(manager, input) {
   
   var targets = manager.toProperty().map(function (devices) {
     return _.chain(devices).filter(function (device) {
-      return device.isTarget() && !device.isLocal();
-      return true;
+      console.warn('DEBUG MODE! ', 'mobileremote_view_model.js');
+      return device.isTarget();
+      //return device.isTarget() && !device.isLocal() && device.type() === 'tv';
     }).map(function (device) {
       return _.map(device.peers(), function (service) {
         return {device: device, service: service, type: 'peer'};

@@ -8,7 +8,13 @@ function SelectTargetListView(items, selection) {
   this.tappedOn = 0;
 
   this.htmlify = function (value) {
-    return '<li class="device target"><div class="device-image type-' + ((value.device.type())?value.device.type():'unknown') + '"></div><div class="device-name">' + address.friendlyName(value.device.address()) + '</div><div class="device-type">' + device.type() + '</div></li>';
+    var icon = 'all_devices';
+    if (value.type === 'upnp') {
+      icon = 'tv';
+    } else if (value.device.type()) {
+      icon = value.device.type();
+    }
+    return '<li class="device target"><div class="device-image type-' + icon + '"></div><div class="device-name">' + address.friendlyName(value.device.address()) + '</div><div class="device-type">' + icon + '</div></li>';
   };
 
   this.identify = function (value) {
