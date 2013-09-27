@@ -13,10 +13,14 @@ function MobileRemoteViewModel(manager, input) {
   };
   
   var targets = manager.toProperty().map(function (devices) {
-    return _.filter(devices, function (device) {
+    return _.chain(devices).filter(function (device) {
       return device.isTarget() && !device.isLocal();
       return true;
-    });
+    }).map(function (device) {
+      return _.map(device.peers(), function (service) {
+        return {device: device, service: service, type: 'peer'};
+      });
+    }).flatten().value();
   });
 
   this.targets = function () {
@@ -35,7 +39,7 @@ function MobileRemoteViewModel(manager, input) {
     //window.closeSelectTarget();
 
     // Assumption: Only devices with a peer service are recognized as targets.
-    return devices[selectedTarget].peers()[0];
+    return devices[selectedTarget.device].services()[selectedTarget.service];
   });
 
   var keys = new Bacon.Bus();

@@ -7,14 +7,18 @@ function SelectTargetListView(items, selection) {
   this.scroll = undefined;
   this.tappedOn = 0;
 
-  this.htmlify = function (device) {
-    return '<li class="device target"><div class="device-image type-' + ((device.type())?device.type():'unknown') + '"></div><div class="device-name">' + address.friendlyName(device.address()) + '</div><div class="device-type">' + device.type() + '</div></li>';
+  this.htmlify = function (value) {
+    return '<li class="device target"><div class="device-image type-' + ((value.device.type())?value.device.type():'unknown') + '"></div><div class="device-name">' + address.friendlyName(value.device.address()) + '</div><div class="device-type">' + device.type() + '</div></li>';
   };
 
-  this.identify = function (device) {
-    return device.address();
+  this.identify = function (value) {
+    return {
+      device: value.device.address(),
+      service: value.service.id(),
+      type: value.type
+    };
   };
-
+  
   items.onValue(function (items) {
     var $list = $('#mobileselecttargetlist');
     $list.empty();

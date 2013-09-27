@@ -9,6 +9,14 @@ var SelectDropDown = require('./mobileselect_dropdown_menu_view.js');
 var MobileControlsView = require('./mobile_controls_view.js');
 var transparentpixel = 'data:image/gif;base64,R0lGODlhAQABAPAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==';
 
+function friendlyName(info) {
+  if (info.type === 'upnp') {
+    return info.service.displayName();
+  } else {
+    return address.friendlyName(info.device.address());
+  }
+}
+
 function ListView(items, selection, list, wrapper, fadeout) {
   var self = this;
   var tappedOn = 0, clickStartEvent = null;
@@ -48,7 +56,7 @@ function ListView(items, selection, list, wrapper, fadeout) {
       var id = self.identify(item);
       $item.data('id', id);
       if (list === '#mobiletargetlist')
-        $item.data('local', item.isLocal());
+        $item.data('local', item.device.isLocal());
       else if (list === '#mobilecategorylist')
         $item.data('index', counter);
       $list.append($item);
@@ -205,17 +213,17 @@ function CategoryListView(viewModel) {
 
 util.inherits(ContentListView, ListView);
 function ContentListView(viewModel) {
-  this.htmlify = function(value) {
+  this.htmlify = function(item) {
     var html;
-    if (typeof value.item.type === 'string' && value.item.type.toLowerCase().indexOf('image') === 0)
+    if (typeof item.type === 'string' && item.type.toLowerCase().indexOf('image') === 0)
     {
       html = '<li class="imglistitem">' +
-        '<div class="imglistitem" style="background-image:url(\'' + value.item.thumbnailURIs[0] + '\')"></div>' +
-        '<div class="imglistitem-title">' + value.item.title + '</div>' +
+        '<div class="imglistitem" style="background-image:url(\'' + item.thumbnailURIs[0] + '\')"></div>' +
+        '<div class="imglistitem-title">' + item.title + '</div>' +
         '</li>';
     }
     else {
-      var type = value.item.type.toLowerCase();
+      var type = item.type.toLowerCase();
       var iconClass;
       switch (type) {
         case 'audio':
@@ -231,20 +239,21 @@ function ContentListView(viewModel) {
         '<div class="chbx-container"><input type="checkbox" /></div>' +
         '<div class="' + iconClass + '"></div>' +
         '<div class="mediaitemcontent">' +
-        '<div class="itemtitle">' + value.item.title + '</div>' +
-        '<div class="itemartists">' + value.item.artists + '</div>' +
+        '<div class="itemtitle">' + item.title + '</div>' +
+        '<div class="itemartists">' + item.artists + '</div>' +
         '</div>' +
         '</div></li>';
     }
     return html;
   };
 
-  this.identify = function(value) {
+  this.identify = function(item) {
     return {
-      source: value.source.address(),
+      device: item.device.address(),
+      service: item.service.id(),
       item: {
-        id: value.item.id,
-        title: value.item.title
+        id: item.id,
+        title: item.title
       }
     };
   };
@@ -266,26 +275,39 @@ function ContentListView(viewModel) {
 
 util.inherits(TargetListView, ListView);
 function TargetListView(viewModel) {
-  this.htmlify = function(device) {
-    return '<li class="device target"><div class="device-image type-' + ((device.type()) ? device.type() : 'unknown') + '"></div><div class="device-name">' + address.friendlyName(device.address()) + '</div><div class="device-type">' + device.type() + '</div></li>';
+  this.htmlify = function(value) {
+    var icon = 'all_devices';
+    if (value.type === 'upnp') {
+      icon = 'tv';
+    } else if (value.device.type()) {
+      icon = value.device.type();
+    }
+    return '<li class="device target"><div class="device-image type-' + icon + '"></div><div class="device-name">' + friendlyName(value) + '</div><div class="device-type">' + icon + '</div></li>';
   };
 
-  this.identify = function(device) {
+  this.identify = function(value) {
     return {
-      address: device.address(),
-      type: device.type()
+      device: value.device,
+      service: value.service.id(),
+      type: value.type
     };
   };
 
   viewModel.selectedTargets().onValue(function(selection) {
     if (selection.length === 1) {
-      var device = selection[0];
+      var value = selection[0];
+	  var icon = 'all_devices';
+      if (value.type === 'upnp') {
+        icon = 'tv';
+      } else if (value.device.type()) {
+        icon = value.device.type();
+      }
+    
+      $('#current-target-logo').attr('src', 'images/' + icon + '.svg');
+      $('#current-target-name').html(friendlyName(value));
 
-      $('#current-target-logo').attr('src', 'images/' + (device.type ? device.type : 'all_devices') + '.svg');
-      $('#current-target-name').html(address.friendlyName(device.address));
-
-      $('#selected-target').attr('src', 'images/' + (device.type ? device.type : 'all_devices') + '-selected.svg');
-      $('#selected-target-name').html(address.friendlyName(device.address));
+      $('#selected-target').attr('src', 'images/' + icon + '-selected.svg');
+      $('#selected-target-name').html(friendlyName(value));
       $('#selected-target-intro').html('You are controlling');
     }
     else if (selection.length === 0) {

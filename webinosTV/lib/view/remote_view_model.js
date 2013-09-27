@@ -20,7 +20,7 @@ function RemoteViewModel(manager, input, mainMenuViewModel) {
     window.closeSelectTarget();
 
     // Assumption: Only devices with a peer service are recognized as targets.
-    return devices[selectedTarget].peers()[0];
+    return devices[selectedTarget.device].services()[selectedTarget.service];
   });
 
   var keys = new Bacon.Bus();
