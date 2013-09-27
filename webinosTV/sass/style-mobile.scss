@@ -790,6 +790,14 @@ $category-wrapper-width-largescreen:150px;
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
+    
+    @media screen and (min-width: $mintabletwidth) {
+    	-webkit-box-pack: justify;
+		-webkit-box-flex: 1;
+	}
+	@media screen and (max-width: $mintabletwidth - 1) {
+		height: 110px;
+	}
   }
 
 	.category-name {
@@ -797,11 +805,8 @@ $category-wrapper-width-largescreen:150px;
 
 		@media screen and (max-width: $mintabletwidth - 1) {
 			display: none;
+			visibility: hidden;
 		}
-
-	  @media screen and (max-width: $mintabletwidth - 1) {
-		visibility: hidden;
-	  }
 	}
 
 	@media screen and (min-width: $mintabletwidth){
