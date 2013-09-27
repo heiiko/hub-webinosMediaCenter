@@ -217,7 +217,7 @@
     //  left: 0;
   }
 
-  #mobilequeuelist li:first-child div.itemcontainer:after {
+  #mobilequeuelist li.nowplaying div.itemcontainer:after {
     position: absolute;
     content: '';
     width: $orangeband-width;

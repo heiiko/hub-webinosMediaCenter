@@ -158,6 +158,9 @@ function MobileControlsView(parent, config, viewModel) {
       seek(0);
       pause();
     } else if (state.playback.current && !state.playback.stopping) {
+      //TODO perhaps there are more efficient ways of doing this
+      $('#mobilequeuelist').children('.contentlistitem').removeClass('nowplaying');
+      $($('#mobilequeuelist').children('.contentlistitem')[state.index]).addClass('nowplaying');
       if (state.playback.playing) {
         play();
         length = 0;
