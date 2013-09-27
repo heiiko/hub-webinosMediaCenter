@@ -64,7 +64,8 @@ function RendererView(viewModel) {
   var self = this;
   self.viewModel = viewModel;
   self.imageTimer = null;
-
+  self.needsTimer = false;
+  
   var controlsViewModel = viewModel.controls();
   self.controlsView = new ControlsView('.rendererControlls', {
     remove: false,
@@ -105,17 +106,22 @@ function RendererView(viewModel) {
       if (self.imageTimer) {
         clearTimeout(self.imageTimer);
         self.imageTimer = null;
+        self.needsTimer = true;
       }
       self.videoRenderer.length ? self.videoRenderer[0].pause() : void 0;
     } else if (event.isResume()) {
-      self.imageTimer = setTimeout(function() {
-        self.viewModel.ended().push();
-      }, IMAGE_SLIDESHOW_INTERVAL);
+      if(self.needsTimer) {
+        self.needsTimer = false;
+        self.imageTimer = setTimeout(function() {
+          self.viewModel.ended().push();
+        }, IMAGE_SLIDESHOW_INTERVAL);
+      }
       self.videoRenderer.length ? self.videoRenderer[0].play() : void 0;
     } else if (event.isStop()) {
       if (self.imageTimer) {
         clearTimeout(self.imageTimer);
         self.imageTimer = null;
+        self.needsTimer = false;
       }
       if (self.videoRenderer.length)
         self.videoRenderer[0].src = '';
@@ -129,9 +135,9 @@ function RendererView(viewModel) {
 //RendererView.prototype.playItem = function(type, url) {
 RendererView.prototype.playItem = function(item, url) {
   var self = this;
-
   var type = item.type;
-
+  
+  self.needsTimer = false;
   if (self.imageTimer) {
     clearTimeout(self.imageTimer);
     self.imageTimer = null;
