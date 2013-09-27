@@ -65,8 +65,8 @@ function MobileControlsView(parent, config, viewModel) {
   function play() {
     $(cplay).removeClass('controlPlay');
     $(cplay).addClass('controlPaus');
-    $('#mobilequeuelist li:first-child .status').addClass('playingitem');
-    $('#mobilequeuelist li:first-child .status').removeClass('pauseditem');
+    $('#mobilequeuelist li.nowplaying .status').addClass('playingitem').show();
+    $('#mobilequeuelist li.nowplaying .status').removeClass('pauseditem').show();
     nowPlayingItem.children('.itemtitle').text(title);
     nowPlayingItem.children('.itemartist').text(artists);
   }
@@ -74,8 +74,8 @@ function MobileControlsView(parent, config, viewModel) {
   function pause() {
     $(cplay).removeClass('controlPaus');
     $(cplay).addClass('controlPlay');
-    $('#mobilequeuelist li:first-child .status').removeClass('playingitem');
-    $('#mobilequeuelist li:first-child .status').addClass('pauseditem');
+    $('#mobilequeuelist li.nowplaying .status').removeClass('playingitem').show();
+    $('#mobilequeuelist li.nowplaying .status').addClass('pauseditem').show();
     nowPlayingItem.children('.itemtitle').text(title);
     nowPlayingItem.children('.itemartist').text(artists);
   }
@@ -159,6 +159,7 @@ function MobileControlsView(parent, config, viewModel) {
       pause();
     } else if (state.playback.current && !state.playback.stopping) {
       //TODO perhaps there are more efficient ways of doing this
+      $('#mobilequeuelist div.status').hide();
       $('#mobilequeuelist').children('.contentlistitem').removeClass('nowplaying');
       $($('#mobilequeuelist').children('.contentlistitem')[state.index]).addClass('nowplaying');
       if (state.playback.playing) {
