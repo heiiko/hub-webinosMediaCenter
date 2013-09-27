@@ -162,13 +162,13 @@ function MobileControlsView(parent, config, viewModel) {
         play();
         length = 0;
         //TODO: move this nasty stuff away from view
-        if (typeof state.queue !== 'undefined' && (state.queue[0].item.type.toLowerCase().indexOf("audio")!=-1 || state.queue[0].item.type.toLowerCase().indexOf("video")!=-1)){
+        if (typeof state.queue !== 'undefined' && (state.queue[state.index].item.type.toLowerCase().indexOf("audio") !== -1 || state.queue[state.index].item.type.toLowerCase().indexOf("video") !== -1)) {
           if (typeof state.queue[state.index].item.duration === "number") {
             length = state.queue[state.index].item.duration;
             artists = state.queue[state.index].item.artists;
             title = state.queue[state.index].item.title;
-          } else if(state.queue[state.index].item.duration && state.queue[state.index].item.duration.length){
-            var itemlengthParsed = 0, itemlength = (state.queue[state.index].item.duration instanceof Array)?state.queue[state.index].item.duration[0]:state.queue[state.index].item.duration;
+          } else if (state.queue[state.index].item.duration && state.queue[state.index].item.duration.length) {
+            var itemlengthParsed = 0, itemlength = (state.queue[state.index].item.duration instanceof Array) ? state.queue[state.index].item.duration[0] : state.queue[state.index].item.duration;
             itemlength = itemlength.split(" ");
             for (var i = 0; itemlength.length > i; i++) {
               if (itemlength[i].indexOf("h") !== -1) {
