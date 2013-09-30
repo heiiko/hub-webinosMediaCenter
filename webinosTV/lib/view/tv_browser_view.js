@@ -372,14 +372,21 @@ function NavigationView (viewModel, listViews) {
     }
     switch(direction){
       case 'down':
-        if (navigation["curCol"] == 0 && navigation["curEl"][navigation["regions"][navigation["curCol"]]] < $(navigation["regions"][navigation["curCol"]]).length-1) {
+        if(navigation["curCol"] == 0 && navigation["curEl"][navigation["regions"][navigation["curCol"]]] < $(navigation["regions"][navigation["curCol"]]).length-1) {
           navigation["curEl"][navigation["regions"][navigation["curCol"]]]++;
         } else {
           if(navigation["curScreen"]==0) {
             // Device screen
-            if(navigation["curEl"][navigation["regions"][navigation["curCol"]]] < $(navigation["regions"][navigation["curCol"]]).length-1) {
+            if(navigation["curCol"]==2) {
+              if(navigation["curEl"][navigation["regions"][navigation["curCol"]]] < $(navigation["regions"][navigation["curCol"]]).length/2-1) {
+                navigation["curEl"][navigation["regions"][navigation["curCol"]]]++;
+              }
+            } else {
               navigation["curEl"][navigation["regions"][navigation["curCol"]]]++;
             }
+            // if(navigation["curEl"][navigation["regions"][navigation["curCol"]]] < $(navigation["regions"][navigation["curCol"]]).length-1) {
+            //   navigation["curEl"][navigation["regions"][navigation["curCol"]]]++;
+            // }
           } else if(navigation["curScreen"]==1) {
             // Media screen
             if (navigation["curCol"] == 3) {
@@ -499,6 +506,10 @@ function NavigationView (viewModel, listViews) {
             navigation["curCol"] = 3;
             $(navigation["regions"][0]+".focus").removeClass('focus');
           }
+        } else if(navigation["curCol"] == 1) {
+          if($(navigation["regions"][2]).length > 0) {
+            navigation["curCol"] = 2;
+          }
         } else if(navigation["curCol"] == 3) {
           // From categories to file list
           if(navigation["curScreen"] == 1) {
@@ -580,9 +591,5 @@ function TVBrowserView(viewModel) {
     setTimeout(loaded, 800);
   }, false);
 }
-
-
-
-
 
 module.exports = TVBrowserView;

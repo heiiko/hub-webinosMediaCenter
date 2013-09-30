@@ -25,8 +25,8 @@ function init() {
     gotoPageById('#container-queue');
     setActiveMenu('#menu-queue');
     // DANGER - temp queuelist height calculation, rework
-    setMediaSelectBehavior();
-    $(window).resize(setMediaSelectBehavior);
+    // setMediaSelectBehavior();
+    // $(window).resize(setMediaSelectBehavior);
     // END DANGER
   });
 

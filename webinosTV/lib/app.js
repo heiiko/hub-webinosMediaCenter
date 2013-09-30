@@ -10,7 +10,6 @@ var DeviceManager = require('./model/device.coffee');
 //var BrowserView = require('./view/browser_view.js');
 var TVBrowserViewModel = require('./view/tv_browser_view_model.js');
 var TVBrowserView = require('./view/tv_browser_view.js');
-var TVMainMenuView = require('./view/tv_main_menu_view.js');
 var RendererViewModel = require('./view/renderer_view_model.js');
 var RendererView = require('./view/renderer_view.js');
 //var RemoteView = require('./view/remote_view.js');
@@ -55,7 +54,6 @@ $(document).ready(function() {
   //var browserView = new BrowserView(browserViewModel);
   var tvbrowserViewModel = new TVBrowserViewModel(manager, input);
   var tvbrowserView = new TVBrowserView(tvbrowserViewModel);
-  var tvMainMenuView = new TVMainMenuView();
   var rendererViewModel = new RendererViewModel(manager, input);
   var rendererView = new RendererView(rendererViewModel);
   //var remoteViewModel = new RemoteViewModel(manager, input, mainMenuViewModel);
