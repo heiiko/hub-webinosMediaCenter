@@ -58,14 +58,15 @@ module.exports = (grunt) ->
           'dist/deps.js': 'dist/deps.js'
           'dist/app.js':  'dist/app.js'
 
-    watch:
-      app:
-        files: ['lib/**/*.coffee', 'lib/**/*.js']
-        tasks: ['browserify:app']
     compass:
        dist:
          options:
            config: 'config.rb'
+
+    watch:
+      app:
+        files: ['lib/**/*.coffee', 'lib/**/*.js', 'sass/*.scss']
+        tasks: ['browserify:app', 'compass:dist']
 
   grunt.loadNpmTasks 'grunt-browserify'
   grunt.loadNpmTasks 'grunt-contrib-clean'
