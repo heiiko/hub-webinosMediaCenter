@@ -442,6 +442,10 @@ function NavigationView (viewModel, listViews) {
             // Going from categories to actions/files
             if (navigation["curEl"][navigation["regions"][4]]==0 || $(navigation["regions"][6]).length == 0) {
               navigation["curCol"] = 5;
+              if($('#select-media-dd-wrapper .nav_media_action:nth-child(1)').hasClass('disabled') 
+                && (navigation["curEl"][navigation["regions"][5]]==0)) {
+                navigation["curEl"][navigation["regions"][5]]++;
+              }
             } else {
               navigation["curCol"] = 6;
             }
@@ -468,7 +472,17 @@ function NavigationView (viewModel, listViews) {
             if (navigation["curEl"][navigation["regions"][5]]==0) {
               navigation["curCol"] = 3;
             } else {
-              navigation["curEl"][navigation["regions"][navigation["curCol"]]]--;
+              // Within actions
+              elementToCheckNr = navigation["curEl"][navigation["regions"][navigation["curCol"]]]-1;
+              while($('#select-media-dd-wrapper .nav_media_action:nth-child(' + (elementToCheckNr+1) + ')').hasClass('disabled') 
+                && (elementToCheckNr >= 0)) {
+                elementToCheckNr--;
+              }
+              if (elementToCheckNr < 0) {
+                navigation["curCol"] = 3;
+              } else {
+                navigation["curEl"][navigation["regions"][navigation["curCol"]]] = elementToCheckNr;
+              }
             }
           } else if (navigation["curCol"] == 6) {
             navigation["curCol"] = 3;
@@ -479,17 +493,23 @@ function NavigationView (viewModel, listViews) {
         tappedOn=Date.now();
         $(navigation["regions"][navigation["curCol"]]+".focus").click();
         if(navigation["curCol"] == 0) {
+          // From main menu to one of the 3 main screens
           navigation["curScreen"] = navigation["curEl"][navigation["regions"][navigation["curCol"]]];
           if(navigation["curScreen"] == 1) {
             navigation["curCol"] = 3;
             $(navigation["regions"][0]+".focus").removeClass('focus');
           }
         } else if(navigation["curCol"] == 3) {
+          // From categories to file list
           if(navigation["curScreen"] == 1) {
             if($(navigation["regions"][6]).length > 0) {
               navigation["curCol"] = 6;
             } else {
               navigation["curCol"] = 5;
+              if($('#select-media-dd-wrapper .nav_media_action:nth-child(1)').hasClass('disabled') 
+                && (navigation["curEl"][navigation["regions"][5]]==0)) {
+                navigation["curEl"][navigation["regions"][5]]++;
+              }
             }
             $(navigation["regions"][3]+".focus").removeClass('focus');
           }
