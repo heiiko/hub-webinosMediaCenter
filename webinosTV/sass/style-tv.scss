@@ -64,6 +64,32 @@ body {
   display: none;
 }
 
+#toast {
+  @include box-sizing(border-box);
+  width: 70%;
+  min-height: 10%;
+  background-color: white;
+  border: 3px solid #0399CD;
+  @include border-radius(5px);
+  color: black;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -35%;
+  margin-top: -5%;
+  padding:2%;
+  z-index: 99999;
+
+  p{
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+    font-size: 2em;
+    top: 25%;
+    position: relative;
+    white-space: normal;
+  }
+}
+
 #topmenu {
   float: left;
   height: 100%;
@@ -71,15 +97,15 @@ body {
   margin: 0 3%;
   position: relative;
 
-  div:nth-child(1) {
+  >div:nth-child(1) {
     top: 2%;
   }
 
-  div:nth-child(2) {
+  >div:nth-child(2) {
     top: 35%;
   }
 
-  div:nth-child(3) {
+  >div:nth-child(3) {
     top: 68%;
   }
 
@@ -217,7 +243,7 @@ body {
       padding: 15px 2px 15px 2px;
       height: 70px;
       font-size: 26px;
-      border-bottom: 5px solid white;
+    border-bottom: 1px solid white;
     }
 
     .separator {
@@ -226,14 +252,93 @@ body {
   }
 
   #mobilecategorywrapper {
-    width: 10%;
+    @include box-sizing(border-box);
+    position: absolute;
+    top: 70px;
+    bottom: 0;
+    width: 15%;
+    padding-top: 20px;
+    padding-bottom: 20px;
 
     ul {
       list-style-type: none;
-      padding-left: 0;
+      padding: 0;
+      margin: 0;
+      height: 100%;
 
-      li.focus {
-        display: none;
+      li {
+        height: 25%;
+
+        .category-image {
+          height: 100%;
+          background-position: center;
+          background-repeat: no-repeat;
+          background-size: contain;
+        }
+      }
+
+      .category-type-movies {
+        .category-image {
+          background-image: url('../images/media-movies.svg');
+          background-size: 80%;
+        }
+      }
+
+      .category-type-movies.focus,
+      .category-type-movies.mobileselected,
+      .category-type-movies:hover {
+        .category-image {
+          background-image: url('../images/category-selected.svg'),url('../images/media-movies.svg');
+          background-size: 100%,80%;
+        }
+      }
+
+      .category-type-music {
+        .category-image {
+          background-image: url('../images/media-music.svg');
+          background-size: 80%;
+        }
+      }
+
+      .category-type-music.focus,
+      .category-type-music.mobileselected,
+      .category-type-music:hover {
+        .category-image {
+          background-image: url('../images/category-selected.svg'),url('../images/media-music.svg');
+          background-size: 100%,80%;
+        }
+      }
+
+      .category-type-images {
+        .category-image {
+          background-image: url('../images/media-images.svg');
+          background-size: 80%;
+        }
+      }
+
+      .category-type-images.focus,
+      .category-type-images.mobileselected,
+      .category-type-images:hover {
+        .category-image {
+          background-image: url('../images/category-selected.svg'),url('../images/media-images.svg');
+          background-size: 100%,80%;
+        }
+      }
+
+      .category-type-channels {
+        .category-image {
+          background-image: url('../images/media-channels.svg');
+          background-size: 80%;
+        }
+      }
+
+      .category-type-channels.focus,
+      .category-type-channels.mobileselected,
+      .category-type-channels:hover {
+        .category-image {
+          background-image: url('../images/category-selected.svg'),url('../images/media-channels.svg');
+          background-size: 100%,80%;
+        }
       }
     }
 
@@ -243,31 +348,30 @@ body {
   }
 
   #media-actions {
+    @include box-sizing(border-box);
     position: absolute;
     right: 0;
-    top: 80px;
-    width: 90%;
+    top: 70px;
+    width: 75%;
+    margin-right: 5%;
+    height: 70px;
+    padding-top: 17px;
     border-bottom: 1px solid white;
 
-    #select-media-dd-count,
-    div:nth-child(2) {
-      display: none;
+    .nav_media_action {
+      display: inline-block;
+      @include selectable-button;
+      padding: 5px 15px;
+      margin-right: 5px;
     }
 
-    #select-media-dd-menu {
-      list-style-type: none;
-      padding-left: 0;
+    .nav_media_action.focus,
+    .nav_media_action:hover {
+      @include focussed;
+    }
 
-      li {
-        display: inline-block;
-        @include selectable-button;
-        padding: 5px 15px;
-        margin-right: 5px;
-      }
-
-      li.focus {
-        border-color: red;
-      }
+    .nav_media_action:active {
+      @include pressed;
     }
   }
 
@@ -275,7 +379,8 @@ body {
     position: absolute;
     right: 0;
     top: 140px;
-    width: 90%;
+    width: 75%;
+    margin-right: 5%;
     
     ul {
       padding-left: 0;
@@ -283,22 +388,31 @@ body {
 
       li {
         @include selectable-element;
+        padding: 5px 10px 7px 10px;
 
-        input[type="checkbox"] {
-          width: 20px;
-          height: 20px;
+        .itemcontainer {
+          input[type="checkbox"] {
+            margin: 0 10px 0 0;
+            width: 20px;
+            height: 20px;
+            vertical-align: middle;
+          }
+
+          div {
+            display: inline-block;
+            vertical-align: middle;
+          }
+
+          .itemartists:before {
+            content:" - ";
+            margin-left: 4px;
+          }
         }
       }
 
       li.focus,
       li:hover {
         @include focussed;
-      }
-    }
-
-    .itemcontainer {
-      div {
-        display: inline-block;
       }
     }
   }

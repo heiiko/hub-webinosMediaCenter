@@ -41,7 +41,7 @@ function TVBrowserViewModel(manager, input) {
     return categories;
   };
 
-  var selectedCategories = bjq.Model(['movies']);
+  var selectedCategories = bjq.Model([]);
   this.selectedCategories = function() {
     return selectedCategories;
   };

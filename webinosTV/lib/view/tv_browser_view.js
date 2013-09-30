@@ -4,8 +4,8 @@ var address = require('../util/address.coffee');
 var Bacon = require('baconjs');
 var util = require('util');
 
-var Toast = require('./toast_view.js');
-var SelectDropDown = require('./tv_select_dropdown_menu_view.js');
+var TV_Toast = require('./tv_toast_view.js');
+var Select_View = require('./tv_select_view.js');
 var TVControlsView = require('./tv_controls_view.js');
 
 function ListView(items, selection, list, wrapper, fadeout) {
@@ -163,7 +163,7 @@ function SourceListView(viewModel) {
 util.inherits(CategoryListView, ListView);
 function CategoryListView(viewModel) {
   this.htmlify = function(category) {
-    return '<li class="category nav_media_category"><img class="category-image" src="' + category.image + '"><div class="category-name">' + category.title + '</div></li>';
+    return '<li class="category nav_media_category category-type-' + category.id + '"><div class="category-image"></div><div class="category-name">' + category.title + '</div></li>';
   };
 
   this.identify = function(category) {
@@ -532,7 +532,7 @@ function TVBrowserView(viewModel) {
   var contentListView = new ContentListView(viewModel);
   var targetListView = new TargetListView(viewModel);
   var queueListView = new QueueListView(viewModel);
-  var ddmenu = new SelectDropDown(viewModel.content(), viewModel.selectedContent());
+  var select_view = new Select_View(viewModel.content(), viewModel.selectedContent());
 
   var listViews = [sourceListView, categoryListView, contentListView, targetListView, null, queueListView];
   var navigationView = new NavigationView(viewModel, listViews);
@@ -549,7 +549,7 @@ function TVBrowserView(viewModel) {
 
   $('.content-queuebutton').click(function() {
     // TODO: add number of files added
-    var t = new Toast('Media files are added to your queue');
+    var t = new TV_Toast('Media files are added to your queue');
   });
 
   document.addEventListener('touchmove', function(e) {
