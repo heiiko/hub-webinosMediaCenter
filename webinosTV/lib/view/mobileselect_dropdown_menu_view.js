@@ -9,10 +9,11 @@ function SelectDropDown(items, selection) {
     	return function(selection) {
       		return _.ounion(_.map(items, function(value) {
         		return {
-    				source: value.source.address(),
+      				device: value.device.address(),
+      				service: value.service.id(),
       				item: {
-        				id: value.item.id,
-        				title: value.item.title
+        				id: value.id,
+        				title: value.title
       				}
       			};
       		}));
