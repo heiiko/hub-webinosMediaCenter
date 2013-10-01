@@ -148,11 +148,11 @@ function ControlsView(parent, config, viewModel) {
         play();
         length = 0;
         //TODO: move this nasty stuff away from view
-        if (typeof state.queue !== 'undefined' && (state.queue[state.index].item.type.toLowerCase().indexOf("audio")!=-1 || state.queue[state.index].item.type.toLowerCase().indexOf("video")!=-1)){
+        if (typeof state.queue !== 'undefined' && (state.queue[state.index].item.type.toLowerCase().indexOf("audio") != -1 || state.queue[state.index].item.type.toLowerCase().indexOf("video") != -1)) {
           if (typeof state.queue[state.index].item.duration === "number") {
             length = state.queue[state.index].item.duration;
-          } else if(state.queue[state.index].item.duration && state.queue[state.index].item.duration.length){
-            var itemlengthParsed = 0, itemlength = (state.queue[state.index].item.duration instanceof Array)?state.queue[state.index].item.duration[0]:state.queue[state.index].item.duration;
+          } else if (state.queue[state.index].item.duration && state.queue[state.index].item.duration.length) {
+            var itemlengthParsed = 0, itemlength = (state.queue[state.index].item.duration instanceof Array) ? state.queue[state.index].item.duration[0] : state.queue[state.index].item.duration;
             itemlength = itemlength.split(" ");
             for (var i = 0; itemlength.length > i; i++) {
               if (itemlength[i].indexOf("h") !== -1) {
@@ -191,7 +191,8 @@ ControlsView.prototype.setControlsForMediaType = function(type) {
     case 'image':
       $('.full.controlContainer').children('.controlButtons').addClass('controlsForImage');
       classNames.forEach(function(className) {
-        $(className).hide();
+        $('.full.controlContainer').children(className).hide();
+        $('.full.controlContainer').children('.controlButtons').children(className).hide();
       });
       break;
     case 'channels':
@@ -199,7 +200,8 @@ ControlsView.prototype.setControlsForMediaType = function(type) {
     case 'video':
       $('.full.controlContainer').children('.controlButtons').removeClass('controlsForImage');
       classNames.forEach(function(className) {
-        $(className).show();
+        $('.full.controlContainer').children(className).show();
+        $('.full.controlContainer').children('.controlButtons').children(className).show();
       });
       break;
     default:
