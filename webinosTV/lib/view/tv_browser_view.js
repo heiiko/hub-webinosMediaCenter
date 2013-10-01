@@ -7,12 +7,21 @@ var util = require('util');
 var TV_Toast = require('./tv_toast_view.js');
 var Select_View = require('./tv_select_view.js');
 var TVControlsView = require('./tv_controls_view.js');
+var transparentpixel = 'data:image/gif;base64,R0lGODlhAQABAPAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==';
+
+function friendlyName(info) {
+  if (info.type === 'upnp') {
+    return info.service.displayName();
+  } else {
+    return address.friendlyName(info.device.address());
+  }
+}
 
 function ListView(items, selection, list, wrapper, fadeout) {
   var self = this;
 
   this.refresh = function() {
-    if ($(list).children().length > 0) {
+    // if ($(list).children().length > 0) {
       //if (typeof self.scroll === 'undefined') {
       //self.scroll = new IScroll(wrapper, {snap: list + ' li', momentum: false});
       // scroll.on('scrollEnd', function(){
@@ -33,7 +42,7 @@ function ListView(items, selection, list, wrapper, fadeout) {
 
       //Fittext, currently to expensive.
       //$("li p").fitText(0.8);
-    }
+    // }
   };
 
   items.onValue(function(items) {
@@ -45,7 +54,7 @@ function ListView(items, selection, list, wrapper, fadeout) {
       var id = self.identify(item);
       $item.data('id', id);
       if (list === '#mobiletargetlist')
-        $item.data('local', item.isLocal());
+        $item.data('local', item.device.isLocal());
       $list.append($item);
     });
     self.refresh();
@@ -53,9 +62,14 @@ function ListView(items, selection, list, wrapper, fadeout) {
 
   selection.apply(items.map(function(items) {
     return function(selection) {
-      return _.ointersection(selection, _.map(items, function(item) {
-        return self.identify(item);
-      }));
+      if (list === '#mobilequeuetargetlist' && items.length >= 1 && selection.length === 0) {
+        return [self.identify(items[0])];
+      }
+      else {
+        return _.ointersection(selection, _.map(items, function(item) {
+          return self.identify(item);
+        }));
+      }
     };
   }));
 
@@ -99,7 +113,7 @@ function ListView(items, selection, list, wrapper, fadeout) {
 util.inherits(SourceListView, ListView);
 function SourceListView(viewModel) {
   this.htmlify = function(device) {
-    return '<li class="device source nav_sl"><div class="device-image type-' + device.type() + '"></div><div class="device-name">' + address.friendlyName(device.address()) + '</div><div class="device-type">' + device.type().charAt(0).toUpperCase() + device.type().slice(1) + '</div></li>';
+    return '<li class="device source nav_sl"><div class="device-image type-' + ((device.type()) ? device.type() : 'unknown') + '"></div><div class="device-name">' + address.friendlyName(device.address()) + '</div><div class="device-type">' + device.type() + '</div></li>';
   };
 
   this.identify = function(device) {
@@ -128,14 +142,14 @@ function SourceListView(viewModel) {
       $('#select-media-dd-wrapper').removeClass('disabled');
     }
     else if (selection.length === 0) {
-      $('#selected-source').attr('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==');
+      $('#selected-source').attr('src', transparentpixel);
       $('#selected-source-name').html('');
       $('#selected-source-intro').html('No source device selected');
 
       $('#wrapper-selected-source').addClass('header-active');
       $('#wrapper-selected-target').removeClass('header-active');
 
-      $('#current-source-logo').attr('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==');
+      $('#current-source-logo').attr('src', transparentpixel);
       $('#current-source-name').html('Source devices');
 
       $('.content-searchbutton').addClass('disabled');
@@ -183,17 +197,16 @@ function CategoryListView(viewModel) {
 
 util.inherits(ContentListView, ListView);
 function ContentListView(viewModel) {
-  this.htmlify = function(value) {
+  this.htmlify = function(item) {
     var html;
-    if (typeof value.item.type === 'string' && value.item.type.toLowerCase().indexOf('image') === 0)
-    {
+    if (typeof item.type === 'string' && item.type.toLowerCase().indexOf('image') === 0) {
       html = '<li class="imglistitem nav_media_file">' +
-        '<div class="imglistitem" style="background-image:url(\'' + value.item.thumbnailURIs[0] + '\')"></div>' +
-        '<div class="imglistitem-title">' + value.item.title + '</div>' +
+        '<div class="imglistitem" style="background-image:url(\'' + item.thumbnailURIs[0] + '\')"></div>' +
+        '<div class="imglistitem-title">' + item.title + '</div>' +
         '</li>';
     }
     else {
-      var type = value.item.type.toLowerCase();
+      var type = item.type.toLowerCase();
       var iconClass;
       switch (type) {
         case 'audio':
@@ -209,20 +222,21 @@ function ContentListView(viewModel) {
         '<div class="chbx-container"><input type="checkbox" /></div>' +
         '<div class="' + iconClass + '"></div>' +
         '<div class="mediaitemcontent">' +
-        '<div class="itemtitle">' + value.item.title + '</div>' +
-        '<div class="itemartists">' + value.item.artists + '</div>' +
+        '<div class="itemtitle">' + item.title + '</div>' +
+        '<div class="itemartists">' + item.artists + '</div>' +
         '</div>' +
         '</div>';
     }
     return html;
   };
 
-  this.identify = function(value) {
+  this.identify = function(item) {
     return {
-      source: value.source.address(),
+      device: item.device.address(),
+      service: item.service.id(),
       item: {
-        id: value.item.id,
-        title: value.item.title
+        id: item.id,
+        title: item.title
       }
     };
   };
@@ -244,33 +258,47 @@ function ContentListView(viewModel) {
 
 util.inherits(TargetListView, ListView);
 function TargetListView(viewModel) {
-  this.htmlify = function(device) {
-    return '<li class="device target nav_tl"><div class="device-image type-' + device.type() + '"></div><div class="device-name">' + address.friendlyName(device.address()) + '</div><div class="device-type">' + device.type().charAt(0).toUpperCase() + device.type().slice(1) + '</div></li>';
+  this.htmlify = function(value) {
+    var icon = 'all_devices';
+    if (value.type === 'upnp') {
+      icon = 'tv';
+    } else if (value.device.type()) {
+      icon = value.device.type();
+    }
+    console.debug(icon);
+    return '<li class="device target nav_tl"><div class="device-image type-' + icon + '"></div><div class="device-name">' + friendlyName(value) + '</div><div class="device-type">' + icon + '</div></li>';
   };
 
-  this.identify = function(device) {
+  this.identify = function(value) {
     return {
-      address: device.address(),
-      type: device.type()
+      device: value.device,
+      service: value.service.id(),
+      type: value.type
     };
   };
 
   viewModel.selectedTargets().onValue(function(selection) {
     if (selection.length === 1) {
-      var device = selection[0];
+      var value = selection[0];
+      var icon = 'all_devices';
+      if (value.type === 'upnp') {
+        icon = 'tv';
+      } else if (value.device.type()) {
+        icon = value.device.type();
+      }
+    
+      $('#current-target-logo').attr('src', 'images/' + icon + '.svg');
+      $('#current-target-name').html(friendlyName(value));
 
-      $('#current-target-logo').attr('src', 'images/' + device.type + '.svg');
-      $('#current-target-name').html(address.friendlyName(device.address));
-
-      $('#selected-target').attr('src', 'images/' + device.type + '-selected.svg');
-      $('#selected-target-name').html(address.friendlyName(device.address));
+      $('#selected-target').attr('src', 'images/' + icon + '-selected.svg');
+      $('#selected-target-name').html(friendlyName(value));
       $('#selected-target-intro').html('You are controlling');
     }
     else if (selection.length === 0) {
-      $('#current-target-logo').attr('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==');
+      $('#current-target-logo').attr('src', transparentpixel);
       $('#current-target-name').html('Target devices');
 
-      $('#selected-target').attr('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==');
+      $('#selected-target').attr('src', transparentpixel);
       $('#selected-target-name').html('');
       $('#selected-target-intro').html('No target device selected');
     }
@@ -284,8 +312,10 @@ function TargetListView(viewModel) {
     }
   });
 
+console.debug(viewModel.targets());
+
   ListView.call(this, viewModel.targets(), viewModel.selectedTargets(), '#mobiletargetlist', '#mobiletargetwrapper', '#mobiletarget');
-  ListView.call(this, viewModel.targets(), viewModel.selectedTargets(), '#mobilequeuetargetlist', '#mobilequeuetargetwrapper', '#mobilequeuetarget');
+  ListView.call(this, viewModel.targets(), viewModel.selectedQueueTargets(), '#mobilequeuetargetlist', '#mobilequeuetargetwrapper', '#mobilequeuetarget');
 }
 
 util.inherits(QueueListView, ListView);
