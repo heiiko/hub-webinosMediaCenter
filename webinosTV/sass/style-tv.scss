@@ -428,3 +428,42 @@ body {
     }
   }
 }
+
+#container-queue {
+  #header-queue {
+    #mobilequeuetargetwrapper {
+      #mobilequeuetargetlist {
+        list-style-type: none;
+        padding-left: 0;
+        padding-right: 5px;
+
+        li {
+          @include selectable-element;
+          display: inline-block;
+          padding: 10px;
+        }
+
+        li.mobileselected {
+          @include selected;
+        }
+
+        li:hover,
+        li.focus {
+          @include focussed;
+        }
+
+        li:active {
+          @include pressed;
+        }
+      }
+    }
+  }
+
+  #mobilequeuewrapper {
+
+  }
+
+  #mobilequeuecontrols {
+    
+  }
+}
