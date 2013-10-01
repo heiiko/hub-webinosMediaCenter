@@ -38,7 +38,7 @@ module.exports = (grunt) ->
         dest: 'dist/deps.js'
         options:
           alias: deps
-          shim: _.pick(shim, ['promise', 'jquery', 'jquery.fittext', 'iscroll'])
+          shim: _.pick(shim, ['promise', 'jquery'])
 
       app:
         src: ['lib/app.js']
@@ -53,19 +53,26 @@ module.exports = (grunt) ->
       
     uglify:
       dist:
+        options:
+          compress: true
         files:
           'dist/wrt.js':  'dist/wrt.js'
           'dist/deps.js': 'dist/deps.js'
           'dist/app.js':  'dist/app.js'
 
-    watch:
-      app:
-        files: ['lib/**/*.coffee', 'lib/**/*.js']
-        tasks: ['browserify:app']
     compass:
        dist:
          options:
            config: 'config.rb'
+       prod:
+         options:
+           config: 'config.rb'
+           outputStyle: 'compressed'
+    
+    watch:
+      app:
+        files: ['lib/**/*.coffee', 'lib/**/*.js', 'sass/*.scss']
+        tasks: ['browserify:app', 'compass:dist']
 
   grunt.loadNpmTasks 'grunt-browserify'
   grunt.loadNpmTasks 'grunt-contrib-clean'
@@ -73,5 +80,6 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-watch'
   grunt.loadNpmTasks 'grunt-contrib-compass'
 
-  grunt.registerTask 'dist', ['clean:dist', 'browserify:wrt', 'browserify:deps', 'browserify:app', 'compass:dist']
-  grunt.registerTask 'default', ['dist']
+  grunt.registerTask 'dev', ['clean:dist', 'browserify:wrt', 'browserify:deps', 'browserify:app', 'compass:dist']
+  grunt.registerTask 'prod', ['clean:dist', 'browserify:wrt', 'browserify:deps', 'browserify:app', 'uglify:dist', 'compass:prod']
+  grunt.registerTask 'default', ['dev']
