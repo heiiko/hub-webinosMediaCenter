@@ -381,7 +381,7 @@ function NavigationView (viewModel, listViews) {
               if(navigation["curEl"][navigation["regions"][navigation["curCol"]]] < $(navigation["regions"][navigation["curCol"]]).length/2-1) {
                 navigation["curEl"][navigation["regions"][navigation["curCol"]]]++;
               }
-            } else {
+            } else if(navigation["curEl"][navigation["regions"][navigation["curCol"]]] < $(navigation["regions"][navigation["curCol"]]).length-1) {
               navigation["curEl"][navigation["regions"][navigation["curCol"]]]++;
             }
             // if(navigation["curEl"][navigation["regions"][navigation["curCol"]]] < $(navigation["regions"][navigation["curCol"]]).length-1) {
