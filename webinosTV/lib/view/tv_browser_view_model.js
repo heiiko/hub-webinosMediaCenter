@@ -100,7 +100,6 @@ function TVBrowserViewModel(manager, input) {
   });
 
   this.targets = function() {
-    console.debug(targets);
     return targets;
   };
 

@@ -265,7 +265,6 @@ function TargetListView(viewModel) {
     } else if (value.device.type()) {
       icon = value.device.type();
     }
-    console.debug(icon);
     return '<li class="device target nav_tl"><div class="device-image type-' + icon + '"></div><div class="device-name">' + friendlyName(value) + '</div><div class="device-type">' + icon + '</div></li>';
   };
 
@@ -312,8 +311,6 @@ function TargetListView(viewModel) {
     }
   });
 
-console.debug(viewModel.targets());
-
   ListView.call(this, viewModel.targets(), viewModel.selectedTargets(), '#mobiletargetlist', '#mobiletargetwrapper', '#mobiletarget');
   ListView.call(this, viewModel.targets(), viewModel.selectedQueueTargets(), '#mobilequeuetargetlist', '#mobilequeuetargetwrapper', '#mobilequeuetarget');
 }
@@ -323,7 +320,14 @@ function QueueListView(viewModel) {
   this.htmlify = function(value) {
     var html;
     if (typeof value.item.type === 'string' && value.item.type.toLowerCase().indexOf('image') === 0) {
-      html = '<li><div class="image-icon"><img src="' + value.item.thumbnailURIs[0] + '"></div><div class="mediaitemcontent"><span class="imagetitle">' + value.item.title + '</span></div><div class="status"></div></li>';
+      html = '<li class="contentlistitem"><div class="itemcontainer">' +
+        '<div class="chbx-container"><input type="checkbox" /></div>' +
+        '<div class="imglistitem" style="background-image:url(\'' + value.item.thumbnailURIs[0] + '\')"></div>' +
+        '<div class="mediaitemcontent">' +
+        '<span class="itemtitle">' + value.item.title + '</span>' +
+        '</div>' +
+        '<div class="status"><span class="statusicon"></span><span class="statustext"></span>' +
+        '</div></div></li>';
     } else {
       var type = value.item.type.toLowerCase();
       var iconClass;
@@ -453,7 +457,6 @@ function NavigationView (viewModel, listViews) {
               }
             } else if (navigation["curCol"] == 5) {
             } else if (navigation["curCol"] == 6) {
-                console.debug("test1");
               if(navigation["curEl"][navigation["regions"][navigation["curCol"]]] > 0) {
                 navigation["curEl"][navigation["regions"][navigation["curCol"]]]--;
               } else {
@@ -599,7 +602,7 @@ function TVBrowserView(viewModel) {
   var navigationView = new NavigationView(viewModel, listViews);
 
   //viewModel.prepend().plug($('#prepend').asEventStream('click').merge($('#prepend').asEventStream('touchend')));
-  viewModel.append().plug($('#mobileappend').asEventStream('click').merge($('#mobileappend').asEventStream('touchend')));
+  viewModel.append().plug($('#tv-append').asEventStream('click').merge($('#tv-append').asEventStream('touchend')));
 
   //viewModel.selectedPeer().onValue(function(selectedPeer) {
   //  $('#peer').text(selectedPeer === '<no-peer>' ? "Select a target" : address.friendlyName(selectedPeer.address()));

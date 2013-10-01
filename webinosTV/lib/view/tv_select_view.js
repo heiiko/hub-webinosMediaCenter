@@ -4,16 +4,16 @@ var $ = require('jquery');
 function Select_View(items, selection) {
   
   function selectAllItems() {
-    
     selection.apply(items.map(function(items) {
     	return function(selection) {
     		return _.ounion(_.map(items, function(value) {
       		return {
-  				source: value.source.address(),
-    				item: {
-      				id: value.item.id,
-      				title: value.item.title
-    				}
+            device: value.device.address(),
+            service: value.service.id(),
+            item: {
+              id: value.id,
+              title: value.title
+            }
     			};
       	}));
   		};
