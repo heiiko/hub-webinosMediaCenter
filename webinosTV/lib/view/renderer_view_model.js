@@ -7,7 +7,7 @@ var gotoPageById = require('./pagetransition.js');
 
 function RendererViewModel(manager, input) {
   input = input.filter(function () {
-    return $('.pt-page-current').attr('id') === 'renderer' && !$('.menu').is(":visible");;
+    return $('.pt-page-current').attr('id') === 'renderer';
   });
 
   this.input = function () {

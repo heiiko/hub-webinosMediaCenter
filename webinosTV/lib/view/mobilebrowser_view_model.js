@@ -8,7 +8,7 @@ var ControlsViewModel = require('./controls_view_model.js');
 function MobileBrowserViewModel(manager, input) {
 
   input = input.filter(function() {
-    return $('.pt-page-current').attr('id') === 'mobilebrowser' && !$('.menu').is(":visible");
+    return $('.pt-page-current').attr('id') === 'mobilebrowser';
   });
 
   this.input = function() {

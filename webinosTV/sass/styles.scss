@@ -136,6 +136,11 @@ p {
   z-index: 1;
 }
 
+.focus {
+  box-shadow: 8px 0 3px -2px #0089bf, -8px 0 3px -2px #99e2ff;
+  background-color: #00b7ff !important;
+}
+
 /*
 #startscreen img {
   width: 50%;

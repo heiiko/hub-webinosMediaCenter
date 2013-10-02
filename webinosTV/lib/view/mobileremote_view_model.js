@@ -5,7 +5,7 @@ var bjq = require('bacon.jquery');
 
 function MobileRemoteViewModel(manager, input) {
   input = input.filter(function () {
-    return $('.pt-page-current').attr('id') === 'controller' && !$('.menu').is(':visible');
+    return $('.pt-page-current').attr('id') === 'mobilecontroller';
   });
 
   this.input = function () {
