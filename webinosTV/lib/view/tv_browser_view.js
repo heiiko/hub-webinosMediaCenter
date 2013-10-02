@@ -6,7 +6,7 @@ var util = require('util');
 
 var TV_Toast = require('./tv_toast_view.js');
 var Select_View = require('./tv_select_view.js');
-var TVControlsView = require('./tv_controls_view.js');
+var TVControlsView = require('./controls_view.js');
 var transparentpixel = 'data:image/gif;base64,R0lGODlhAQABAPAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==';
 
 function friendlyName(info) {
@@ -365,7 +365,7 @@ function QueueListView(viewModel) {
   ListView.call(this, viewModel.queue(), viewModel.selectedQueue(), '#mobilequeuelist', '#mobilequeuewrapper', '#mobilequeue');
 }
 
-function NavigationView (viewModel, listViews) {
+function NavigationView (viewModel) {
   var navigation = {
     "regions": [
       ".nav_menu",
@@ -598,15 +598,14 @@ function TVBrowserView(viewModel) {
   var queueListView = new QueueListView(viewModel);
   var select_view = new Select_View(viewModel.content(), viewModel.selectedContent());
 
-  var listViews = [sourceListView, categoryListView, contentListView, targetListView, null, queueListView];
-  var navigationView = new NavigationView(viewModel, listViews);
+  var navigationView = new NavigationView(viewModel);
 
   //viewModel.prepend().plug($('#prepend').asEventStream('click').merge($('#prepend').asEventStream('touchend')));
   viewModel.append().plug($('#tv-append').asEventStream('click').merge($('#tv-append').asEventStream('touchend')));
 
-  //viewModel.selectedPeer().onValue(function(selectedPeer) {
+  // viewModel.selectedPeer().onValue(function(selectedPeer) {
   //  $('#peer').text(selectedPeer === '<no-peer>' ? "Select a target" : address.friendlyName(selectedPeer.address()));
-  //});
+  // });
 
   var controlsViewModel = viewModel.controls();
   var controlsView = new TVControlsView('.mobilequeuecontrols', null, controlsViewModel);

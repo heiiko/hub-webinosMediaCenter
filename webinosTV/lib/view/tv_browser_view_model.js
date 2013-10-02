@@ -58,7 +58,7 @@ function TVBrowserViewModel(manager, input) {
     var types = _.map(state.selectedCategories, function(id) {
       return id ? _.findWhere(state.categories, {id: id}).type : id;
     });
-	var querystring = _.chain(state.query).value();
+	  var querystring = _.chain(state.query).value();
 	
     return _.chain(state.sources).filter(function(source) {
       return _.contains(_.map(state.selectedSources, function(selectedsource) {

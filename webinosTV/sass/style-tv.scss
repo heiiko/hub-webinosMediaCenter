@@ -284,6 +284,10 @@ body {
         }
       }
 
+      li:hover {
+        cursor: pointer;
+      }
+
       .category-type-movies {
         .category-image {
           background-image: url('../images/media-movies.svg');
@@ -431,11 +435,16 @@ body {
 
 #container-queue {
   #header-queue {
+    @include box-sizing(border-box);
+    padding-top: 15px;
+    height: 86px;
+    padding-bottom: 5px;
+
     #mobilequeuetargetwrapper {
       #mobilequeuetargetlist {
         list-style-type: none;
-        padding-left: 0;
-        padding-right: 5px;
+        padding: 0;
+        margin: 0;
 
         li {
           @include selectable-element;
@@ -459,11 +468,115 @@ body {
     }
   }
 
-  #mobilequeuewrapper {
+  #mobilequeuecontrols {
+    position: relative;
+    height: 100px;
+    border-top: 1px solid #D4D4D4;
+    border-bottom: 1px solid #D4D4D4;
+    background: url('../images/tv_controls_back.png');
 
+    .controlItemInfo {
+      height: 40px;
+    }
+
+    .listControlButtons {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+
+      .button {
+        display: inline-block;
+        @include selectable-button;
+        padding: 5px 15px;
+        margin-right: 5px;
+      }
+
+      .button.disabled {
+        @include selectable-button-disabled;
+      }
+
+      .button.focus,
+      .button:hover {
+        @include focussed;
+      }
+
+      .button:active {
+        @include pressed;
+      }
+    }
+
+    .controlButtons {
+      height: 60px;
+      position: absolute;
+      right: 0;
+      bottom: 0;
+
+      .controlButton{
+        float: right;
+        background-color: #0099CC;
+        width: 50px;
+        height: 50px;
+        margin-top: 0;
+        margin-right: 12px;
+        border-radius: 50px;
+        background-size: cover;
+        background-position: center;
+      }
+
+      .controlPlay{
+        background-image: url(../images/player_play.svg);
+      }
+      .controlPaus{
+        background-image: url(../images/player_pause.svg);
+      }
+      .controlPrev{
+        background-image: url(../images/player_prev.svg);
+      }
+      .controlNext{
+        background-image: url(../images/player_next.svg);
+      }
+    }
+
+    .controlSbar,
+    .controlStime {
+      display: none;
+    }
   }
 
-  #mobilequeuecontrols {
-    
+  #mobilequeuewrapper {
+    ul {
+      padding-left: 0;
+      list-style-type: none;
+
+      li {
+        @include selectable-element;
+        padding: 5px 10px 7px 10px;
+
+        .itemcontainer {
+          input[type="checkbox"] {
+            margin: 0 10px 0 0;
+            width: 20px;
+            height: 20px;
+            vertical-align: middle;
+          }
+
+          div {
+            display: inline-block;
+            vertical-align: middle;
+          }
+
+          .itemartists:before {
+            content:" - ";
+            margin-left: 4px;
+          }
+        }
+      }
+
+      li.focus,
+      li:hover {
+        @include focussed;
+      }
+    }
+
   }
 }

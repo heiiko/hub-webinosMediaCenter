@@ -1,5 +1,18 @@
 
-@import url(http://fonts.googleapis.com/css?family=Roboto);
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/roboto/roboto400normal.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  src: url('../fonts/roboto/roboto700normal.woff') format('woff');
+}
 
 // Variables
 $font-family: 'Roboto', sans-serif;
