@@ -4,6 +4,7 @@ var _ = require('underscore');
 var Bacon = require('baconjs');
 
 function MobileControlsView(parent, config, viewModel) {
+  var self = this;
   parent = $(parent) || $('body');
   config = _.extend({
     style: 'slim',
@@ -21,23 +22,24 @@ function MobileControlsView(parent, config, viewModel) {
   if (config.highdef)
     buttonCount++;
 
-  var cprev = $('<div class="controlButton controlPrev ' + config.navclass + '">');
-  var crewd = $('<div class="controlButton controlRewd ' + config.navclass + '">');
-  var cplay = $('<div class="controlButton controlPlay ' + config.navclass + '">');
-  var cfwrd = $('<div class="controlButton controlFwrd ' + config.navclass + '">');
-  var cnext = $('<div class="controlButton controlNext ' + config.navclass + '">');
-  var cdele = $('<div class="controlButton controlDele ' + config.navclass + '">');
-  var cfull = $('<div class="controlButton controlFull ' + config.navclass + '">');
-  var chres = $('<div class="controlButton controlHres ' + config.navclass + '">');
-  var csbar = $('<div class="controlSbar"><span class="elapsed"></span><div></div><span class="remaining"></span></div>');
+  var cprev = $('<div id="mobileprevious" class="controlButton controlPrev ' + config.navclass + '">');
+  var crewd = $('<div id="mobilerewind" class="controlButton controlRewd ' + config.navclass + '">');
+  var cplay = $('<div id="mobileplay" class="controlButton controlPlay ' + config.navclass + '">');
+  var cfwrd = $('<div id="mobileforward" class="controlButton controlFwrd ' + config.navclass + '">');
+  var cnext = $('<div id="mobilenext" class="controlButton controlNext ' + config.navclass + '">');
+  var cdele = $('<div id="mobiledelete" class="controlButton controlDele ' + config.navclass + '">');
+  var cfull = $('<div id="mobilefullscreen" class="controlButton controlFull ' + config.navclass + '">');
+  var chres = $('<div id="mobilehighress" class="controlButton controlHres ' + config.navclass + '">');
+  var csbar = $('<div id="mobilecontrolbar" class="controlSbar"><span id="mobileelapsed" class="elapsed"></span><div></div><span id="mobileremaining" class="remaining"></span></div>');
 //  var ctime = $('<div class="controlTime"><div class="controlTimeSchnippel"></div><span>1:00</span></div>');
-  var ctime = $('<div class="controlTime"><div class="controlTimeSchnippel"></div></div>');
+  var ctime = $('<div id="mobilecontroltime" class="controlTime"><div class="controlTimeSchnippel"></div></div>');
 
 
-  var controls = $('<div class="' + (config.style || 'slim') + ' controlContainer">');
-  var container = $('<div class="controlButtons">');
+  var controls = $('#mobileControlContainer');
+  var container = $('<div id="mobileControlButtons" class="controlButtons">');
   var nowPlayingItem = $('<div class="controlItemInfo"><div class="itemtitle"></div><div class="itemartist"></div></div>');
 
+  controls.empty();
   container.append([cprev, crewd, cplay, cfwrd, cnext]);
   if (config.remove)
     container.append(cdele);
@@ -54,7 +56,7 @@ function MobileControlsView(parent, config, viewModel) {
   viewModel.forward().plug(cfwrd.asEventStream('click').merge(cfwrd.asEventStream('touchend')).map(undefined));
   viewModel.remove().plug(cdele.asEventStream('click').merge(cdele.asEventStream('touchend')));
 
-  $(parent).append(controls);
+  //$(parent).append(controls);
 
   // $('.controlSbar div', controls).css({transition: 'width 1s linear'});
   //$('.controlButton', controls).css({width: (100 / buttonCount) + '%'});
@@ -96,10 +98,10 @@ function MobileControlsView(parent, config, viewModel) {
       relative = last;
     }
 
-    $('.controlSbar div', controls).css({width: relative * $('.controlSbar', controls).width()});
+    $('#mobilecontrolbar div', controls).css({width: relative * $('.controlSbar', controls).width()});
     //$('.controlTime span', controls).text((length) ? getFormatedTime(Math.round(relative * length)) : "-");
-    $('.controlSbar span.elapsed', controls).text((length) ? getFormatedTime(Math.round(relative * length)) : "");
-    $('.controlSbar span.remaining', controls).text((length) ? getFormatedTime(length - Math.round(relative * length)) : "");
+    $('#mobileelapsed', controls).text((length) ? getFormatedTime(Math.round(relative * length)) : "");
+    $('#mobileremaining', controls).text((length) ? getFormatedTime(length - Math.round(relative * length)) : "");
 
     last = relative;
   }
@@ -148,8 +150,8 @@ function MobileControlsView(parent, config, viewModel) {
     }
   });
 
-  var seeker = $('.controlTime', controls).drags({
-    seekBar: $('.controlSbar', controls),
+  var seeker = $('#mobilecontroltime', controls).drags({
+    seekBar: $('#mobilecontrolbar', controls),
     seekStateBus: bus
   });
 
@@ -162,16 +164,16 @@ function MobileControlsView(parent, config, viewModel) {
       $('#mobilequeuelist div.status').hide();
       $('#mobilequeuelist').children('.contentlistitem').removeClass('nowplaying');
       $($('#mobilequeuelist').children('.contentlistitem')[state.index]).addClass('nowplaying');
-      if (state.playback.playing) {
-        play();
-        length = 0;
-        //TODO: move this nasty stuff away from view
-        if (typeof state.queue !== 'undefined' && (state.queue[state.index].item.type.toLowerCase().indexOf("audio") !== -1 || state.queue[state.index].item.type.toLowerCase().indexOf("video") !== -1)) {
-          if (typeof state.queue[state.index].item.duration === "number") {
+      
+      //TODO: move this nasty stuff away from view
+      if (typeof state.queue !== 'undefined' && (state.queue[state.index].item.type.toLowerCase().indexOf("audio") !== -1 || state.queue[state.index].item.type.toLowerCase().indexOf("video") !== -1)) {
+        self.setControlsForMediaType('video');
+        if (typeof state.queue[state.index].item.duration === "number") {
             length = state.queue[state.index].item.duration;
             artists = state.queue[state.index].item.artists;
             title = state.queue[state.index].item.title;
-          } else if (state.queue[state.index].item.duration && state.queue[state.index].item.duration.length) {
+        } 
+        else if (state.queue[state.index].item.duration && state.queue[state.index].item.duration.length) {
             var itemlengthParsed = 0, itemlength = (state.queue[state.index].item.duration instanceof Array) ? state.queue[state.index].item.duration[0] : state.queue[state.index].item.duration;
             itemlength = itemlength.split(" ");
             for (var i = 0; itemlength.length > i; i++) {
@@ -191,12 +193,16 @@ function MobileControlsView(parent, config, viewModel) {
             ;
             length = itemlengthParsed * 1000;
             state.queue[state.index].item.duration = length;
-          }
         }
-        else if (typeof state.queue !== 'undefined' && (state.queue[state.index].item.type.toLowerCase().indexOf("image") !== -1)) {
-          artists = '';
-          title = state.queue[state.index].item.title;
-        }
+      }
+      else if (typeof state.queue !== 'undefined' && (state.queue[state.index].item.type.toLowerCase().indexOf("image") !== -1)) {
+        self.setControlsForMediaType('image');
+        artists = '';
+        title = state.queue[state.index].item.title;
+      }
+      
+      if (state.playback.playing) {
+        play();
       } else {
         pause();
       }
@@ -210,21 +216,19 @@ function MobileControlsView(parent, config, viewModel) {
 }
 
 MobileControlsView.prototype.setControlsForMediaType = function(type) {
-  var classNames = ['.controlSbar', '.controlTime', '.controlRewd', '.controlFwrd', '.controlHres'];
+  //var classNames = ['.controlSbar', '.controlTime', '.controlRewd', '.controlFwrd', '.controlHres'];
   switch (type) {
     case 'image':
-      $('.full.controlContainer').children('.controlButtons').addClass('controlsForImage');
-      classNames.forEach(function(className) {
-        $(className).hide();
-      });
+      $('#mobileControlButtons').addClass('controlsForImage');
+      $('#mobilecontrolbar').addClass('controlsForImage');
+      $('#mobilecontroltime').addClass('controlsForImage');
       break;
     case 'channels':
     case 'audio':
     case 'video':
-      $('.full.controlContainer').children('.controlButtons').removeClass('controlsForImage');
-      classNames.forEach(function(className) {
-        $(className).show();
-      });
+      $('#mobileControlButtons').removeClass('controlsForImage');
+      $('#mobilecontrolbar').removeClass('controlsForImage');
+      $('#mobilecontroltime').removeClass('controlsForImage');
       break;
     default:
       console.warn("Unknown type");

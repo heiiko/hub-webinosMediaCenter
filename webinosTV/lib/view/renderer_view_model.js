@@ -80,7 +80,7 @@ function RendererViewModel(manager, input) {
       var index = link.indexOf('#');
       if (index !== -1) link = link.substr(0, index);
 
-+     service.play(link).then(function () {
+      service.play(link).then(function () {
         started.push();
 
         service.events().onValue(function (event) {

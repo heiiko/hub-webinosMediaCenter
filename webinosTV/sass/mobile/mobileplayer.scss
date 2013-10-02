@@ -229,7 +229,7 @@
 
   //"Big" player only
   .controlButtons.controlsForImage {
-    margin-top: 3%;
+    //margin-top: 3%;
     //PHONE
     //@media screen and (max-width: $mintabletwidth - 1) {
 
@@ -237,9 +237,34 @@
 
     //TABLET
     @media screen and (min-width: $mintabletwidth - 1) {
-      margin-left: 20%;
-      width: 60%;
+    //  margin-left: 20%;
+    //  width: 60%;
     }
+  }
+  
+  #mobilecontrolbar.controlsForImage {
+  	display: none;
+  }
+  
+  #mobilecontroltime.controlsForImage {
+  	display: none;
+  }
+  
+  #mobileControlButtons.controlsForImage {
+  	
+  	.controlRewd {
+  		display: none;
+  	}
+  	
+  	.controlFwrd {
+  		display: none;
+  	}
+  	
+  	
+  	.controlHres {
+  		display: none;
+  	}
+  	
   }
 
   div.controlButtons.controlsForImage div.controlButton:first-child {

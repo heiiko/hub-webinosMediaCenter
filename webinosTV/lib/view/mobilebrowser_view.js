@@ -8,6 +8,8 @@ var Toast = require('./toast_view.js');
 var SelectDropDown = require('./mobileselect_dropdown_menu_view.js');
 var MobileControlsView = require('./mobile_controls_view.js');
 var transparentpixel = 'data:image/gif;base64,R0lGODlhAQABAPAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==';
+var controlsView;
+var controlsViewModel;
 
 function friendlyName(info) {
   if (info.type === 'upnp') {
@@ -327,6 +329,12 @@ function TargetListView(viewModel) {
       $('#selected-target-intro').html('You are controlling');
     }
   });
+  
+  viewModel.selectedQueueTargets().onValue(function(selection) {
+    if(selection.length === 1) {
+      controlsView = new MobileControlsView('.mobilequeuecontrols', null, controlsViewModel);
+    }
+  });
 
   ListView.call(this, viewModel.targets(), viewModel.selectedTargets(), '#mobiletargetlist', '#mobiletargetwrapper', '#mobiletarget');
   ListView.call(this, viewModel.targets(), viewModel.selectedQueueTargets(), '#mobilequeuetargetlist', '#mobilequeuetargetwrapper', '#mobilequeuetarget');
@@ -406,8 +414,8 @@ function MobileBrowserView(viewModel) {
   //  $('#peer').text(selectedPeer === '<no-peer>' ? "Select a target" : address.friendlyName(selectedPeer.address()));
   //});
 
-  var controlsViewModel = viewModel.controls();
-  var controlsView = new MobileControlsView('.mobilequeuecontrols', null, controlsViewModel);
+  controlsViewModel = viewModel.controls();
+  controlsView = new MobileControlsView('.mobilequeuecontrols', null, controlsViewModel);
 
   $('.content-queuebutton').click(function() {
     // TODO: add number of files added
