@@ -6,7 +6,7 @@ var util = require('util');
 
 var TV_Toast = require('./tv_toast_view.js');
 var Select_View = require('./tv_select_view.js');
-var TVControlsView = require('./controls_view.js');
+var TVControlsView = require('./tv_controls_view.js');
 var transparentpixel = 'data:image/gif;base64,R0lGODlhAQABAPAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==';
 
 function friendlyName(info) {
@@ -320,7 +320,7 @@ function QueueListView(viewModel) {
   this.htmlify = function(value) {
     var html;
     if (typeof value.item.type === 'string' && value.item.type.toLowerCase().indexOf('image') === 0) {
-      html = '<li class="contentlistitem"><div class="itemcontainer">' +
+      html = '<li class="contentlistitem nav_queue_file"><div class="itemcontainer">' +
         '<div class="chbx-container"><input type="checkbox" /></div>' +
         '<div class="imglistitem" style="background-image:url(\'' + value.item.thumbnailURIs[0] + '\')"></div>' +
         '<div class="mediaitemcontent">' +
@@ -342,7 +342,7 @@ function QueueListView(viewModel) {
           iconClass = "default-icon";
       }
       //html = '<li><div class="' + iconClass + '"></div><div class="mediaitemcontent"><span class="itemtitle">' + value.item.title + '</span><span class="itemartists">' + value.item.artists + '</span></div><div class="status"><span class="statusicon"></span><span class="statustext"></span></div></li>';
-      html = '<li class="contentlistitem"><div class="itemcontainer">' +
+      html = '<li class="contentlistitem nav_queue_file"><div class="itemcontainer">' +
         '<div class="chbx-container"><input type="checkbox" /></div>' +
         '<div class="' + iconClass + '"></div>' +
         '<div class="mediaitemcontent">' +
@@ -376,8 +376,8 @@ function NavigationView (viewModel) {
       ".nav_media_action",
       ".nav_media_file",
       ".nav_queue",
-      ".nav_queue_target",
-      ".nav_queue_action",
+      ".nav_tl.device",
+      ".nav_qu",
       ".nav_queue_file"
     ],
     "curCol": 1,
@@ -390,8 +390,8 @@ function NavigationView (viewModel) {
       ".nav_media_action": 0,
       ".nav_media_file": 0,
       ".nav_queue": 0,
-      ".nav_queue_target": 0,
-      ".nav_queue_action": 0,
+      ".nav_tl.device": 0,
+      ".nav_qu": 0,
       ".nav_queue_file": 0
     },
     "curScreen": 0,
@@ -437,6 +437,22 @@ function NavigationView (viewModel) {
                 navigation["curEl"][navigation["regions"][navigation["curCol"]]]++;
               }
             }
+          } else if(navigation["curScreen"]==2) {
+            // Queue screen
+            if (navigation["curCol"] == 8) {
+              // In target bar going down
+              navigation["curCol"] = 9;
+              navigation["curEl"][navigation["regions"][7]]++;
+            } else if (navigation["curCol"] == 9) {
+              if($(navigation["regions"][10]).length > 0) {
+                navigation["curCol"] = 10;
+                navigation["curEl"][navigation["regions"][7]]++;
+              }
+            } else if (navigation["curCol"] == 10) {
+              if(navigation["curEl"][navigation["regions"][navigation["curCol"]]] < $(navigation["regions"][navigation["curCol"]]).length-1) {
+                navigation["curEl"][navigation["regions"][navigation["curCol"]]]++;
+              }
+            }
           }
         }
         break;
@@ -462,6 +478,26 @@ function NavigationView (viewModel) {
               } else {
                 navigation["curCol"] = 5;
                 navigation["curEl"][navigation["regions"][4]]=0;
+                if($('#select-media-dd-wrapper .nav_media_action:nth-child(1)').hasClass('disabled')
+                  && (navigation["curEl"][navigation["regions"][5]]==0)) {
+                  navigation["curEl"][navigation["regions"][5]]=1;
+                }
+              }
+            }
+          } else if(navigation["curScreen"]==2) {
+            // Queue screen
+            if (navigation["curCol"] == 8) {
+            } else if (navigation["curCol"] == 9) {
+              // In action bar going up
+              navigation["curCol"] = 8;
+              navigation["curEl"][navigation["regions"][7]]--;
+            } else if (navigation["curCol"] == 10) {
+              if(navigation["curEl"][navigation["regions"][navigation["curCol"]]] > 0) {
+                navigation["curEl"][navigation["regions"][navigation["curCol"]]]--;
+              } else {
+                // In action bar going up
+                navigation["curCol"] = 9;
+                navigation["curEl"][navigation["regions"][7]]--;
               }
             }
           }
@@ -490,6 +526,29 @@ function NavigationView (viewModel) {
               navigation["curCol"] = 6;
             }
           } else if (navigation["curCol"] == 5) {
+            if(navigation["curEl"][navigation["regions"][navigation["curCol"]]] < $(navigation["regions"][navigation["curCol"]]).length-1) {
+              navigation["curEl"][navigation["regions"][navigation["curCol"]]]++;
+            }
+          }
+        } else if(navigation["curScreen"]==2) {
+          // Queue screen
+          if (navigation["curCol"] == 0) {
+            // In left bar going right
+            if (navigation["curEl"][navigation["regions"][7]]==0) {
+              navigation["curCol"] = 8;
+              if(navigation["curEl"][navigation["regions"][navigation["curCol"]]] < $(navigation["regions"][navigation["curCol"]]).length/2) {
+                navigation["curEl"][navigation["regions"][navigation["curCol"]]] = navigation["curEl"][navigation["regions"][navigation["curCol"]]] + $(navigation["regions"][navigation["curCol"]]).length/2;
+              }
+            } else if(navigation["curEl"][navigation["regions"][7]]==1) {
+              navigation["curCol"] = 9;
+            } else {
+              navigation["curCol"] = 10;
+            }
+          } else if (navigation["curCol"] == 8) {
+            if(navigation["curEl"][navigation["regions"][navigation["curCol"]]] < ($(navigation["regions"][navigation["curCol"]]).length - 1)) {
+              navigation["curEl"][navigation["regions"][navigation["curCol"]]]++;
+            }
+          } else if (navigation["curCol"] == 9) {
             if(navigation["curEl"][navigation["regions"][navigation["curCol"]]] < $(navigation["regions"][navigation["curCol"]]).length-1) {
               navigation["curEl"][navigation["regions"][navigation["curCol"]]]++;
             }
@@ -527,6 +586,24 @@ function NavigationView (viewModel) {
           } else if (navigation["curCol"] == 6) {
             navigation["curCol"] = 3;
           }
+        } else if(navigation["curScreen"]==2) {
+          // Queue screen
+          if (navigation["curCol"] == 8) {
+            // Going from targets to menu
+            if (navigation["curEl"][navigation["regions"][8]]==($(navigation["regions"][navigation["curCol"]]).length/2)) {
+              navigation["curCol"] = 0;
+            } else {
+              navigation["curEl"][navigation["regions"][navigation["curCol"]]]--;
+            }
+          } else if (navigation["curCol"] == 9) {
+            if(navigation["curEl"][navigation["regions"][navigation["curCol"]]] > 0) {
+              navigation["curEl"][navigation["regions"][navigation["curCol"]]]--;
+            } else {
+              navigation["curCol"] = 0;
+            }
+          } else if (navigation["curCol"] == 10) {
+            navigation["curCol"] = 0;
+          }
         }
         break;
       case 'enter':
@@ -542,6 +619,7 @@ function NavigationView (viewModel) {
         } else if(navigation["curCol"] == 1) {
           if($(navigation["regions"][2]).length > 0) {
             navigation["curCol"] = 2;
+            $(navigation["regions"][1]+".focus").removeClass('focus');
           }
         } else if(navigation["curCol"] == 3) {
           // From categories to file list
