@@ -23,31 +23,6 @@ function ListView(items, selection, list, wrapper, fadeout) {
   var self = this;
   var tappedOn = 0, clickStartEvent = null;
 
-  this.refresh = function() {
-    //if ($(list).children().length > 0) {
-    //if (typeof self.scroll === 'undefined') {
-    //self.scroll = new IScroll(wrapper, {snap: list + ' li', momentum: false});
-    // scroll.on('scrollEnd', function(){
-    //   if(scroll.y >= 0){
-    //     $(fadeout + 'topfadeout').hide();
-    //   }else{
-    //     $(fadeout + 'topfadeout').show();
-    //   }
-    //   if(scroll.y <= ($(wrapper).height() - $(list).height())){
-    //     $(fadeout + 'bottomfadeout').hide();
-    //   }else{
-    //     $(fadeout + 'bottomfadeout').show();
-    //   }
-    // });
-    //}
-    //self.scroll.options.snap = document.querySelectorAll(list + ' li');
-    //self.scroll.refresh();
-
-    //Fittext, currently to expensive.
-    //$("li p").fitText(0.8);
-    //}
-  };
-
   items.onValue(function(items) {
     var $list = $(list);
     var counter = 0;
@@ -64,7 +39,6 @@ function ListView(items, selection, list, wrapper, fadeout) {
       $list.append($item);
       counter++;
     });
-    self.refresh();
   });
 
   selection.apply(items.map(function(items) {
