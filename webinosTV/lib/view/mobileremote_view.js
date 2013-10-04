@@ -37,7 +37,7 @@ function SelectTargetListView(items, selection) {
     });
   });
 
-  selection.apply($('#mobileselecttargetlist').asEventStream('click').merge($('#mobileselecttargetlist').asEventStream('touchend')).map(function (event) {
+  selection.apply($('#mobileselecttargetlist').asEventStream('click').map(function (event) {
     return function (selection) {
       var $item = $(event.target).closest('li');
       if (!$item.length) return selection;
@@ -78,11 +78,11 @@ function MobileRemoteView(viewModel) {
   var selectTargetListView = new SelectTargetListView(viewModel.targets(), viewModel.selectedTarget());
   var navigationView = new NavigationView(viewModel);
 
-  viewModel.enter().plug($('.clickAreaOk').asEventStream('click').merge($('.clickAreaOk').asEventStream('touchend')));
-  viewModel.left().plug($('.clickAreaLeft').asEventStream('click').merge($('.clickAreaLeft').asEventStream('touchend')));
-  viewModel.up().plug($('.clickAreaUp').asEventStream('click').merge($('.clickAreaUp').asEventStream('touchend')));
-  viewModel.right().plug($('.clickAreaRight').asEventStream('click').merge($('.clickAreaRight').asEventStream('touchend')));
-  viewModel.down().plug($('.clickAreaDown').asEventStream('click').merge($('.clickAreaDown').asEventStream('touchend')));
+  viewModel.enter().plug($('.clickAreaOk').asEventStream('click'));
+  viewModel.left().plug($('.clickAreaLeft').asEventStream('click'));
+  viewModel.up().plug($('.clickAreaUp').asEventStream('click'));
+  viewModel.right().plug($('.clickAreaRight').asEventStream('click'));
+  viewModel.down().plug($('.clickAreaDown').asEventStream('click'));
 }
 
 module.exports = MobileRemoteView;

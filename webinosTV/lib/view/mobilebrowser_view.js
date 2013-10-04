@@ -21,7 +21,6 @@ function friendlyName(info) {
 
 function ListView(items, selection, list, wrapper, fadeout) {
   var self = this;
-  var tappedOn = 0, clickStartEvent = null;
 
   items.onValue(function(items) {
     var $list = $(list);
@@ -54,16 +53,7 @@ function ListView(items, selection, list, wrapper, fadeout) {
     };
   }));
 
-  $(list).asEventStream('mousedown').merge($(list).asEventStream('touchstart')).onValue(function(e) {
-    tappedOn = Date.now();
-    clickStartEvent = e;
-  });
-
-  selection.apply($(list).asEventStream('click').merge($(list).asEventStream('touchend')).filter(function(e) {
-    var justClick = (Date.now() - tappedOn < 250);
-    var movedDelta = Math.max(e.screenY, clickStartEvent.screenY) - Math.min(e.screenY, clickStartEvent.screenY) + Math.max(e.screenX, clickStartEvent.screenX) - Math.min(e.screenX, clickStartEvent.screenX);
-    return justClick && movedDelta < 10;
-  }).map(function(event) {
+  selection.apply($(list).asEventStream('click').map(function(event) {
     return function(selection) {
       var $item = $(event.target).closest('li');
       if (!$item.length)
@@ -382,7 +372,7 @@ function MobileBrowserView(viewModel) {
   //var navigationView = new NavigationView(viewModel, listViews);
 
   //viewModel.prepend().plug($('#prepend').asEventStream('click').merge($('#prepend').asEventStream('touchend')));
-  viewModel.append().plug($('#mobileappend').asEventStream('click').merge($('#mobileappend').asEventStream('touchend')));
+  viewModel.append().plug($('#mobileappend').asEventStream('click'));
 
   //viewModel.selectedPeer().onValue(function(selectedPeer) {
   //  $('#peer').text(selectedPeer === '<no-peer>' ? "Select a target" : address.friendlyName(selectedPeer.address()));

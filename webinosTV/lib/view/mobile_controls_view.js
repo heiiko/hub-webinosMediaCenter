@@ -49,12 +49,12 @@ function MobileControlsView(parent, config, viewModel) {
     container.append(chres);
   controls.append([nowPlayingItem, container, csbar, ctime]);
 
-  viewModel.playOrPause().plug(cplay.asEventStream('click').merge(cplay.asEventStream('touchend')));
-  viewModel.previous().plug(cprev.asEventStream('click').merge(cprev.asEventStream('touchend')));
-  viewModel.next().plug(cnext.asEventStream('click').merge(cnext.asEventStream('touchend')));
-  viewModel.rewind().plug(crewd.asEventStream('click').merge(crewd.asEventStream('touchend')).map(undefined));
-  viewModel.forward().plug(cfwrd.asEventStream('click').merge(cfwrd.asEventStream('touchend')).map(undefined));
-  viewModel.remove().plug(cdele.asEventStream('click').merge(cdele.asEventStream('touchend')));
+  viewModel.playOrPause().plug(cplay.asEventStream('click'));
+  viewModel.previous().plug(cprev.asEventStream('click'));
+  viewModel.next().plug(cnext.asEventStream('click'));
+  viewModel.rewind().plug(crewd.asEventStream('click').map(undefined));
+  viewModel.forward().plug(cfwrd.asEventStream('click').map(undefined));
+  viewModel.remove().plug(cdele.asEventStream('click'));
 
   //$(parent).append(controls);
 
