@@ -112,8 +112,9 @@ function SourceListView(viewModel) {
       $('#selected-source-name').html(address.friendlyName(device.address));
       $('#selected-source-intro').html('You can select media from');
 
-      $('#wrapper-selected-source').removeClass('header-active');
-      $('#wrapper-selected-target').addClass('header-active');
+      $('#wrapper-selected-source').addClass('header-active');
+      //$('#wrapper-selected-source').removeClass('header-active');
+      //$('#wrapper-selected-target').addClass('header-active');
 
       $('#current-source-logo').attr('src', 'images/' + (device.type ? device.type : 'all_devices') + '.svg');
       $('#current-source-name').html(address.friendlyName(device.address));
@@ -127,8 +128,9 @@ function SourceListView(viewModel) {
       $('#selected-source-name').html('');
       $('#selected-source-intro').html('No source device selected');
 
-      $('#wrapper-selected-source').addClass('header-active');
-      $('#wrapper-selected-target').removeClass('header-active');
+      $('#wrapper-selected-source').removeClass('header-active');
+      //$('#wrapper-selected-source').addClass('header-active');
+      //$('#wrapper-selected-target').removeClass('header-active');
 
       $('#current-source-logo').attr('src', transparentpixel);
       $('#current-source-name').html('Source devices');
@@ -145,6 +147,8 @@ function SourceListView(viewModel) {
 
       $('#current-source-logo').attr('src', 'images/all_devices.svg');
       $('#current-source-name').html(selection.length + ' Source devices');
+
+      $('#wrapper-selected-source').addClass('header-active');
 
       $('.content-searchbutton').removeClass('disabled');
       $('.content-searchbox').removeClass('disabled');
@@ -268,6 +272,8 @@ function TargetListView(viewModel) {
       } else if (value.device.type()) {
         icon = value.device.type();
       }
+      
+      $('#wrapper-selected-target').addClass('header-active');
     
       $('#current-target-logo').attr('src', 'images/' + icon + '.svg');
       $('#current-target-name').html(friendlyName(value));
@@ -283,6 +289,8 @@ function TargetListView(viewModel) {
       $('#selected-target').attr('src', transparentpixel);
       $('#selected-target-name').html('');
       $('#selected-target-intro').html('No target device selected');
+      
+      $('#wrapper-selected-target').removeClass('header-active');
     }
     else {
       $('#current-target-logo').attr('src', 'images/all_devices.svg');
@@ -291,6 +299,8 @@ function TargetListView(viewModel) {
       $('#selected-target').attr('src', 'images/all_devices-selected.svg');
       $('#selected-target-name').html(selection.length + ' source devices');
       $('#selected-target-intro').html('You are controlling');
+      
+      $('#wrapper-selected-target').addClass('header-active');
     }
   });
   
