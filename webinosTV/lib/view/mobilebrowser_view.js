@@ -79,7 +79,7 @@ function ListView(items, selection, list, wrapper, fadeout) {
         var num_categories = $(list).children().length;
         var position = (100 / num_categories / 2) + (index) * (100 / num_categories);
 
-        if ($('#sel-arrows-style').empty()) {
+        if (! $('#sel-arrows-style').length) {
           $('head').append('<style id="sel-arrows-style" type="text/css"></style>');
         }
         $('#sel-arrows-style').html('@media screen and (min-width: 1200px){.arrow_box:after{top:' + position + '%}.arrow_box:before{top:' + position + '%}}');
