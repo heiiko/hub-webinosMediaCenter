@@ -306,7 +306,8 @@ function TargetListView(viewModel) {
   
   viewModel.selectedQueueTargets().onValue(function(selection) {
     if(selection.length === 1) {
-      controlsView = new MobileControlsView('.mobilequeuecontrols', null, controlsViewModel);
+      var config = {'local': selection[0].device.isLocal()};
+      controlsView = new MobileControlsView('.mobilequeuecontrols', config, controlsViewModel);
     }
   });
 

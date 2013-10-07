@@ -66,6 +66,7 @@
   #mobilecontentlist li.contentlistitem div.itemcontainer {
     position: relative;
     top: 0;
+    height: 40px;
     //  left: 0;
   }
 
@@ -195,7 +196,7 @@
 
 @mixin queueListItems{
   $content-list-min-size:40px;
-  $orangeband-width: 12px;
+  $orangeband-width: 8px;
 
   #mobilequeuewrapper {
   	top: ($headerheight + 1);
@@ -220,7 +221,7 @@
   #mobilequeuelist li.nowplaying div.itemcontainer:after {
     position: absolute;
     content: '';
-    width: $orangeband-width;
+    width: $orangeband-width - 4;
     height: $content-list-min-size;
     background-color: orange;
   }

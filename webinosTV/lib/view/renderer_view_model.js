@@ -59,9 +59,8 @@ function RendererViewModel(manager, input) {
     return events.filter(function (event) {
       return event.player === 'app';
     }).map('.event').doAction(function (event) {
-      if (event.isPrepend() && event.items().length) {
+      if (event.isAppend() && event.items().length) {
         gotoPageById('#renderer');
-        window.closeMainmenu();
       }
     });
   };

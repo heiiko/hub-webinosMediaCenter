@@ -2,12 +2,14 @@ var $ = require('jquery');
 var _ = require('underscore');
 
 var Bacon = require('baconjs');
+var gotoPageById = require('./pagetransition.js');
 
 function ControlsView(parent, config, viewModel) {
   parent = $(parent) || $('body');
   config = _.extend({
     style: 'slim',
     remove: true,
+    back: true,
     fullscreen: false,
     highdef: false,
     navclass: 'nav_qu'
@@ -20,6 +22,8 @@ function ControlsView(parent, config, viewModel) {
     buttonCount++;
   if (config.highdef)
     buttonCount++;
+  if (config.back)
+    buttonCount++;
 
   var cprev = $('<div class="controlButton controlPrev ' + config.navclass + '">');
   var crewd = $('<div class="controlButton controlRewd ' + config.navclass + '">');
@@ -28,6 +32,7 @@ function ControlsView(parent, config, viewModel) {
   var cnext = $('<div class="controlButton controlNext ' + config.navclass + '">');
   var cdele = $('<div class="controlButton controlDele ' + config.navclass + '">');
   var cfull = $('<div class="controlButton controlFull ' + config.navclass + '">');
+  var cback = $('<div class="controlButton controlBack ' + config.navclass + '">');
   var chres = $('<div class="controlButton controlHres ' + config.navclass + '">');
   var csbar = $('<div class="controlSbar"><div></div></div>');
   var ctime = $('<div class="controlTime"><div class="controlTimeSchnippel"></div><span>1:00</span></div>');
@@ -36,10 +41,19 @@ function ControlsView(parent, config, viewModel) {
   var container = $('<div class="controlButtons">');
 
   container.append([cprev, crewd, cplay, cfwrd, cnext]);
-  if (config.remove)
+  if (config.remove) {
     container.append(cdele);
+    viewModel.remove().plug(cdele.asEventStream('click'));
+  }
   if (config.fullscreen)
     container.append(cfull);
+  if (config.back) {
+    container.append(cback);
+    cback.click( function() {
+  	  gotoPageById('#mobilebrowser');
+    });
+    
+  }
   if (config.highdef)
     container.append(chres);
   controls.append([container, csbar, ctime]);
@@ -49,7 +63,6 @@ function ControlsView(parent, config, viewModel) {
   viewModel.next().plug(cnext.asEventStream('click'));
   viewModel.rewind().plug(crewd.asEventStream('click').map(undefined));
   viewModel.forward().plug(cfwrd.asEventStream('click').map(undefined));
-  viewModel.remove().plug(cdele.asEventStream('click'));
 
   $(parent).append(controls);
 

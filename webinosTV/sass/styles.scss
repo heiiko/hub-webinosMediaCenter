@@ -522,6 +522,10 @@ p {
 .controlFull{
   background-image: url(../images/player_enter_fullscreen.svg);
 }
+.controlBack{
+  /* TODO: UPDATE IMAGE */
+  background-image: url(../images/player_enter_fullscreen.svg);
+}
 .controlHres{
   background-image: url(../images/player_hd.svg);
 }
@@ -591,8 +595,6 @@ p {
   right: 0;
   height: 100%;
   background-color: #3f3f3f;
-  border-left: 3px solid #333;
-  border-right: 3px solid #333;
 }
 
 .full.controlContainer {

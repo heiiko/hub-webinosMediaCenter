@@ -104,7 +104,7 @@ $category-wrapper-width-largescreen:150px;
 	}
 
 	.device {
-		padding: 25px 30px 25px 30px;
+		padding: 25px 30px 25px 22px;
 		border-bottom: 1px;
 		border-top: 0px;
 		border-image: -webkit-linear-gradient(0deg, transparent, transparent 5%, $mediumgray 6%, $mediumgray 94%, transparent 95%, transparent) 1 stretch;
@@ -703,7 +703,6 @@ $category-wrapper-width-largescreen:150px;
 			background-color: $lightgray;
 			text-align: center;
 			width: 150px;
-			margin-left: 4px;
 
 			ul,li {
 				background-color: $lightgray;

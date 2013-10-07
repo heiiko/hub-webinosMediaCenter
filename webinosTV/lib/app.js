@@ -10,7 +10,7 @@ var DeviceManager = require('./model/device.coffee');
 //var BrowserView = require('./view/browser_view.js');
 var MobileBrowserViewModel = require('./view/mobilebrowser_view_model.js');
 var MobileBrowserView = require('./view/mobilebrowser_view.js');
-var MobileMainMenuView = require('./view/mobile_main_menu_view.js');
+//var MobileMainMenuView = require('./view/mobile_main_menu_view.js');
 var RendererViewModel = require('./view/renderer_view_model.js');
 var RendererView = require('./view/renderer_view.js');
 var MobileRemoteView = require('./view/mobileremote_view.js');
@@ -55,7 +55,7 @@ $(document).ready(function() {
   //var browserView = new BrowserView(browserViewModel);
   var mobilebrowserViewModel = new MobileBrowserViewModel(manager, input);
   var mobilebrowserView = new MobileBrowserView(mobilebrowserViewModel);
-  var mobileMainMenuView = new MobileMainMenuView();
+  //var mobileMainMenuView = new MobileMainMenuView();
   var rendererViewModel = new RendererViewModel(manager, input);
   var rendererView = new RendererView(rendererViewModel);
   var mobileremoteViewModel = new MobileRemoteViewModel(manager, input);

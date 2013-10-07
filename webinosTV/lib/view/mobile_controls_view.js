@@ -2,14 +2,16 @@ var $ = require('jquery');
 var _ = require('underscore');
 
 var Bacon = require('baconjs');
+var gotoPageById = require('./pagetransition.js');
 
 function MobileControlsView(parent, config, viewModel) {
   var self = this;
   parent = $(parent) || $('body');
   config = _.extend({
     style: 'slim',
-    remove: true,
+    remove: false,
     fullscreen: false,
+    local: false,
     highdef: false,
     navclass: 'nav_qu'
   }, config || {});
@@ -41,10 +43,18 @@ function MobileControlsView(parent, config, viewModel) {
 
   controls.empty();
   container.append([cprev, crewd, cplay, cfwrd, cnext]);
-  if (config.remove)
+  
+  if (config.remove) {
     container.append(cdele);
-  if (config.fullscreen)
+    viewModel.remove().plug(cdele.asEventStream('click'));
+  }
+  if (config.fullscreen || config.local) {
     container.append(cfull);
+    
+    cfull.click( function() {
+  	  gotoPageById('#renderer');
+    });
+  }
   if (config.highdef)
     container.append(chres);
   controls.append([nowPlayingItem, container, csbar, ctime]);
@@ -54,10 +64,7 @@ function MobileControlsView(parent, config, viewModel) {
   viewModel.next().plug(cnext.asEventStream('click'));
   viewModel.rewind().plug(crewd.asEventStream('click').map(undefined));
   viewModel.forward().plug(cfwrd.asEventStream('click').map(undefined));
-  viewModel.remove().plug(cdele.asEventStream('click'));
-
-  //$(parent).append(controls);
-
+  
   // $('.controlSbar div', controls).css({transition: 'width 1s linear'});
   //$('.controlButton', controls).css({width: (100 / buttonCount) + '%'});
 
@@ -216,7 +223,6 @@ function MobileControlsView(parent, config, viewModel) {
 }
 
 MobileControlsView.prototype.setControlsForMediaType = function(type) {
-  //var classNames = ['.controlSbar', '.controlTime', '.controlRewd', '.controlFwrd', '.controlHres'];
   switch (type) {
     case 'image':
       $('#mobileControlButtons').addClass('controlsForImage');

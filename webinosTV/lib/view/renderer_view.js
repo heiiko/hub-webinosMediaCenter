@@ -69,8 +69,8 @@ function RendererView(viewModel) {
   var controlsViewModel = viewModel.controls();
   self.controlsView = new ControlsView('.rendererControlls', {
     remove: false,
-    fullscreen: true,
-    highdef: true,
+    fullscreen: false,
+    highdef: false,
     style: 'full',
     navclass: 'nav_rd'
   }, controlsViewModel);
