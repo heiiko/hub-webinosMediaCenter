@@ -10,6 +10,8 @@ var MobileControlsView = require('./mobile_controls_view.js');
 var transparentpixel = 'data:image/gif;base64,R0lGODlhAQABAPAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==';
 var controlsView;
 var controlsViewModel;
+var contentSelected = false;
+var targetSelected = false;
 
 function friendlyName(info) {
   if (info.type === 'upnp') {
@@ -228,9 +230,13 @@ function ContentListView(viewModel) {
     $('#select-media-dd-count').text(selection.length + ' ' + file + ' ' + 'selected');
 
     if (selection.length >= 1) {
-      $('.content-queuebutton').removeClass('disabled');
+      contentSelected = true;
+      if(targetSelected) {
+        $('.content-queuebutton').removeClass('disabled');
+      }
     }
     else {
+      contentSelected = false;
       $('.content-queuebutton').addClass('disabled');
     }
   });
@@ -296,6 +302,17 @@ function TargetListView(viewModel) {
       $('#selected-target-intro').html('You are controlling');
       
       $('#wrapper-selected-target').addClass('header-active');
+    }
+    
+    if (selection.length >= 1) {
+      targetSelected = true;
+      if(contentSelected) {
+        $('.content-queuebutton').removeClass('disabled');
+      }
+    }
+    else {
+      targetSelected = false;
+      $('.content-queuebutton').addClass('disabled');
     }
   });
   
@@ -375,8 +392,10 @@ function MobileBrowserView(viewModel) {
   controlsView = new MobileControlsView('.mobilequeuecontrols', null, controlsViewModel);
 
   $('.content-queuebutton').click(function() {
-    // TODO: add number of files added
-    var t = new Toast('Media files are added to your queue');
+    if(! $(this).hasClass('disabled')) {
+      // TODO: add number of files added
+      var t = new Toast('Media files are added to your queue');
+    }
   });
 
   document.addEventListener('DOMContentLoaded', function() {
