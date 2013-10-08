@@ -10,6 +10,7 @@ function MobileControlsView(parent, config, viewModel) {
   config = _.extend({
     style: 'slim',
     remove: false,
+    remote: false,
     fullscreen: false,
     local: false,
     highdef: false,
@@ -21,6 +22,8 @@ function MobileControlsView(parent, config, viewModel) {
     buttonCount++;
   if (config.fullscreen)
     buttonCount++;
+  if (config.remote)
+    buttonCount++;
   if (config.highdef)
     buttonCount++;
 
@@ -31,6 +34,7 @@ function MobileControlsView(parent, config, viewModel) {
   var cnext = $('<div id="mobilenext" class="controlButton controlNext ' + config.navclass + '">');
   var cdele = $('<div id="mobiledelete" class="controlButton controlDele ' + config.navclass + '">');
   var cfull = $('<div id="mobilefullscreen" class="controlButton controlFull ' + config.navclass + '">');
+  var cremote = $('<div id="mobilefullscreen" class="controlButton controlFull ' + config.navclass + '">');
   var chres = $('<div id="mobilehighress" class="controlButton controlHres ' + config.navclass + '">');
   var csbar = $('<div id="mobilecontrolbar" class="controlSbar"><span id="mobileelapsed" class="elapsed"></span><div></div><span id="mobileremaining" class="remaining"></span></div>');
 //  var ctime = $('<div class="controlTime"><div class="controlTimeSchnippel"></div><span>1:00</span></div>');
@@ -53,6 +57,13 @@ function MobileControlsView(parent, config, viewModel) {
     
     cfull.click( function() {
   	  gotoPageById('#renderer');
+    });
+  }
+  if (config.remote && ! config.local) {
+    container.append(cremote);
+    
+    cremote.click( function() {
+  	  gotoPageById('#mobilecontroller');
     });
   }
   if (config.highdef)

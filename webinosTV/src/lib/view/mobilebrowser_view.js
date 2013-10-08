@@ -318,7 +318,7 @@ function TargetListView(viewModel) {
   
   viewModel.selectedQueueTargets().onValue(function(selection) {
     if(selection.length === 1) {
-      var config = {'local': selection[0].device.isLocal()};
+      var config = {'local': selection[0].device.isLocal(), 'remote': (selection[0].device.type() === 'laptop')};
       controlsView = new MobileControlsView('.mobilequeuecontrols', config, controlsViewModel);
     }
   });
