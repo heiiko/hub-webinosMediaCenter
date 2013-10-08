@@ -17,34 +17,34 @@
   }
 
 .controlPrev{
-  background-image: url(../images/player_prev.svg);
+  background-image: inline-image('player_prev.svg');
 }
 .controlRewd{
-  background-image: url(../images/player_bwd.svg);
+  background-image: inline-image('player_bwd.svg');
 }
 .controlPlay{
-  background-image: url(../images/player_play.svg);
+  background-image: inline-image('player_play.svg');
 }
 .controlPaus{
-  background-image: url(../images/player_pause.svg);
+  background-image: inline-image('player_pause.svg');
 }
 .controlFwrd{
-  background-image: url(../images/player_fwd.svg);
+  background-image: inline-image('player_fwd.svg');
 }
 .controlNext{
-  background-image: url(../images/player_next.svg);
+  background-image: inline-image('player_next.svg');
 }
 .controlDele{
-  background-image: url(../images/trash_playlist.svg);
+  background-image: inline-image('trash_playlist.svg');
 }
 .controlFull{
-  background-image: url(../images/player_enter_fullscreen.svg);
+  background-image: inline-image('player_enter_fullscreen.svg');
 }
 .controlBack{
-  background-image: url(../images/player_exit_fullscreen.svg);
+  background-image: inline-image('player_exit_fullscreen.svg');
 }
 .controlHres{
-  background-image: url(../images/player_hd.svg);
+  background-image: inline-image('player_hd.svg');
 }
 .controlSbar{
   width: 94%;
@@ -445,7 +445,7 @@
 
 @mixin albumCover{
   #albumcover{
-    background-image: url('../images/lp.svg');
+    background-image: inline-image('lp.svg');
     background-color: rgba($darkgray, 0.2);
     //box-shadow: 0 0 0 2px $blue;
     background-size: contain;

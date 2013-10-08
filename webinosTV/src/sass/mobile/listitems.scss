@@ -91,7 +91,7 @@
   }
 
   .default-icon,.song-icon,.clip-icon{
-    -webkit-mask-image: url("../images/webinos_apps.svg");
+    -webkit-mask-image: inline-image("webinos_apps.svg");
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-size: $content-list-min-size;
     background-color: $darkgray;
@@ -101,11 +101,11 @@
   }
 
   .song-icon{
-    -webkit-mask-image: url("../images/music.svg");
+    -webkit-mask-image: inline-image("music.svg");
   }
 
   .clip-icon{
-    -webkit-mask-image: url("../images/movie.svg");
+    -webkit-mask-image: inline-image("movie.svg");
   }
 
   .image-icon {
@@ -286,7 +286,7 @@
   }
 
   div.status.pauseditem .statusicon {
-    -webkit-mask-image: url('../images/player_pause.svg');
+    -webkit-mask-image: inline-image('player_pause.svg');
     background-color: $darkgray;
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-size: $content-list-min-size/2;
@@ -313,7 +313,7 @@
   }
 
   div.status.playingitem .statusicon {
-    -webkit-mask-image:  url('../images/player_play.svg');
+    -webkit-mask-image:  inline-image('player_play.svg');
     background-color: $darkgray;
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-size: $content-list-min-size/2;
