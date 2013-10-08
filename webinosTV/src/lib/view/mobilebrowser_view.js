@@ -397,10 +397,6 @@ function MobileBrowserView(viewModel) {
       var t = new Toast('Media files are added to your queue');
     }
   });
-
-  document.addEventListener('DOMContentLoaded', function() {
-    setTimeout(loaded, 800);
-  }, false);
 }
 
 
