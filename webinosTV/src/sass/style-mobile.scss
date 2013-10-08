@@ -561,8 +561,10 @@ $category-wrapper-width-largescreen:150px;
 
 	.content-queuebutton {
 		-webkit-mask-image: inline-image('add_to_playlist.svg');
-		margin-left: 15px;
-		margin-right: 30px;
+		-webkit-mask-position: 50% 50%;
+		height: $headerheight;
+		padding-left: 15px;
+		padding-right: 30px;
 	}
 
 	input[type=text] {
@@ -589,7 +591,7 @@ $category-wrapper-width-largescreen:150px;
 	}
 
 	#mobilesourcewrapper {
-	  border-right: 1px solid $mediumgray;
+	  border-right: 2px solid $mediumgray;
 	}
 
 	#mobiletargetwrapper {
@@ -680,7 +682,6 @@ $category-wrapper-width-largescreen:150px;
 	#selected-source {
 		vertical-align: middle;
 		height: 30px;
-		margin-left: 8px;
 	}
 
 	#selected-source-intro {
@@ -698,6 +699,7 @@ $category-wrapper-width-largescreen:150px;
 		display: inline-block;
 		vertical-align: middle;
 		color: $blue;
+		margin-left: 4px;
 	}
 
 	#mobilecategorywrapper {
