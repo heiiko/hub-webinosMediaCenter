@@ -1,5 +1,5 @@
 var $ = require('jquery');
-var _ = require('../util/objectscore.coffee'); // require('underscore');
+var _ = require('../util/objectscore.coffee');
 var address = require('../util/address.coffee');
 var Bacon = require('baconjs');
 var util = require('util');
@@ -110,11 +110,9 @@ function SourceListView(viewModel) {
 
       $('#selected-source').attr('src', 'images/' + (device.type ? device.type : 'all_devices') + '-selected.svg');
       $('#selected-source-name').html(address.friendlyName(device.address));
-      $('#selected-source-intro').html('You can select media from');
+      $('#selected-source-intro').html('You can select media from ');
 
       $('#wrapper-selected-source').addClass('header-active');
-      //$('#wrapper-selected-source').removeClass('header-active');
-      //$('#wrapper-selected-target').addClass('header-active');
 
       $('#current-source-logo').attr('src', 'images/' + (device.type ? device.type : 'all_devices') + '.svg');
       $('#current-source-name').html(address.friendlyName(device.address));
@@ -129,8 +127,6 @@ function SourceListView(viewModel) {
       $('#selected-source-intro').html('No source device selected');
 
       $('#wrapper-selected-source').removeClass('header-active');
-      //$('#wrapper-selected-source').addClass('header-active');
-      //$('#wrapper-selected-target').removeClass('header-active');
 
       $('#current-source-logo').attr('src', transparentpixel);
       $('#current-source-name').html('Source devices');
@@ -143,7 +139,7 @@ function SourceListView(viewModel) {
     else {
       $('#selected-source').attr('src', 'images/all_devices-selected.svg');
       $('#selected-source-name').html(selection.length + ' source devices');
-      $('#selected-source-intro').html('You can select media from');
+      $('#selected-source-intro').html('You can select media from ');
 
       $('#current-source-logo').attr('src', 'images/all_devices.svg');
       $('#current-source-name').html(selection.length + ' Source devices');
@@ -163,7 +159,6 @@ util.inherits(CategoryListView, ListView);
 function CategoryListView(viewModel) {
   this.htmlify = function(category) {
     return '<li class="category"><div class="category-image" style="background-image:url(\'' + category.image + '\')"></div><div class="category-name">' + category.title + '</div></li>';
-//    return '<li class="category"><img class="category-image" src="' + category.image + '"><div class="category-name">' + category.title + '</div></li>';
   };
 
   this.identify = function(category) {
@@ -366,12 +361,7 @@ function QueueListView(viewModel) {
   ListView.call(this, viewModel.queue(), viewModel.selectedQueue(), '#mobilequeuelist', '#mobilequeuewrapper', '#mobilequeue');
 }
 
-
-
-
 function MobileBrowserView(viewModel) {
-  //var horizontalScroll = new IScroll('#horizontalwrapper', {snap: '.listhead', scrollX: true, scrollY: false, momentum: false});
-
   var sourceListView = new SourceListView(viewModel);
   var categoryListView = new CategoryListView(viewModel);
   var contentListView = new ContentListView(viewModel);
@@ -379,15 +369,7 @@ function MobileBrowserView(viewModel) {
   var queueListView = new QueueListView(viewModel);
   var ddmenu = new SelectDropDown(viewModel.content(), viewModel.selectedContent());
 
-  //var listViews = [sourceListView, categoryListView, contentListView, targetListView, null, queueListView];
-  //var navigationView = new NavigationView(viewModel, listViews);
-
-  //viewModel.prepend().plug($('#prepend').asEventStream('click').merge($('#prepend').asEventStream('touchend')));
   viewModel.append().plug($('#mobileappend').asEventStream('click'));
-
-  //viewModel.selectedPeer().onValue(function(selectedPeer) {
-  //  $('#peer').text(selectedPeer === '<no-peer>' ? "Select a target" : address.friendlyName(selectedPeer.address()));
-  //});
 
   controlsViewModel = viewModel.controls();
   controlsView = new MobileControlsView('.mobilequeuecontrols', null, controlsViewModel);
@@ -396,10 +378,6 @@ function MobileBrowserView(viewModel) {
     // TODO: add number of files added
     var t = new Toast('Media files are added to your queue');
   });
-
-  //document.addEventListener('touchmove', function(e) {
-  //  e.preventDefault();
-  //}, false);
 
   document.addEventListener('DOMContentLoaded', function() {
     setTimeout(loaded, 800);
