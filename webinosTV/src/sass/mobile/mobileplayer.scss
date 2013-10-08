@@ -6,6 +6,148 @@
   $phoneControlsMinHeight:150px;
   $phoneControlBarsTop:$phoneControlsMinHeight/3;
 
+  .controlButton{
+  	background-size: contain;
+  	background-repeat: no-repeat;
+  	background-position-x: center;
+  	width: 12%;
+  	height: 100%;
+  	float:left;
+  	cursor: pointer;
+  }
+
+.controlPrev{
+  background-image: url(../images/player_prev.svg);
+}
+.controlRewd{
+  background-image: url(../images/player_bwd.svg);
+}
+.controlPlay{
+  background-image: url(../images/player_play.svg);
+}
+.controlPaus{
+  background-image: url(../images/player_pause.svg);
+}
+.controlFwrd{
+  background-image: url(../images/player_fwd.svg);
+}
+.controlNext{
+  background-image: url(../images/player_next.svg);
+}
+.controlDele{
+  background-image: url(../images/trash_playlist.svg);
+}
+.controlFull{
+  background-image: url(../images/player_enter_fullscreen.svg);
+}
+.controlBack{
+  background-image: url(../images/player_exit_fullscreen.svg);
+}
+.controlHres{
+  background-image: url(../images/player_hd.svg);
+}
+.controlSbar{
+  width: 94%;
+  height: 10%;
+  background-color: #666666;
+  position: relative;
+  margin-left: 3%;
+  margin-right: 3%;
+  margin-bottom: 0.35em;
+
+}
+.controlSbar div{
+  width: 0%;
+  height: 100%%;
+  /*transition: width 1s;
+    transition-timing-function: linear;
+  -webkit-transition-timing-function: linear;*/
+  background-color: #00b6ff;
+}
+
+
+.controlTime{
+  width: 20%;
+  height: 20%;
+  background-color: #666666;
+  position: relative;
+  bottom: 0;
+  margin-left: 40%;
+  margin-right: 40%;
+  border: 1px solid #3f3f3f;
+  cursor: pointer;
+}
+
+.controlTimeSchnippel{
+  height: 0;
+  width: 0;
+  margin-top: -0.6em;
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  margin-left: -0.35em;
+  border-color:  transparent transparent #666666;
+  border-top-color: transparent;
+  border-right-color: transparent;
+  border-bottom-color: #666666;
+  border-left-color: transparent;
+  border-style: solid;
+  border-top-style: solid;
+  border-right-style: solid;
+  border-bottom-style: solid;
+  border-left-style: solid;
+  border-width: 0.35em;
+}
+
+.controlButtons{
+  width: 100%;
+  margin: 0 auto;
+  height: 60%;
+}
+
+.slim.controlContainer{
+  position: relative;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  background-color: #3f3f3f;
+}
+
+.full.controlContainer {
+  position: relative;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+}
+
+.rendererControlls {
+  background-color: rgba(50,50,50,0.5);
+  position: absolute;
+  bottom: 5%;
+  height: 15%;
+  left: 20%;
+  right: 20%;
+}
+
+.imageContainer {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center center;
+  width: 100%;
+  height: 100%;
+}
+
+.focus {
+  box-shadow: 8px 0 3px -2px #0089bf, -8px 0 3px -2px #99e2ff;
+  background-color: #00b7ff !important;
+}
 
   #mobilequeuecontrols{
     position:absolute;
