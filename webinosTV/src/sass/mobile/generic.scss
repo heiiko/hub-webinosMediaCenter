@@ -1,6 +1,6 @@
 @mixin genericMobile {
 
-  @include font-face("Roboto", font-files("roboto400normal.woff"), false, 400, normal);
+/*   @include font-face("Roboto", font-files("roboto400normal.woff"), false, 400, normal); */
   
   * {
   	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);

@@ -68,7 +68,7 @@ module.exports = (grunt) ->
            cssDir:         'dist/css'
            imagesDir:      'src/images'
            javascriptsDir: 'dist/js'
-           fontsDir:       'dist/fonts'
+           fontsDir:       'src/fonts'
            environment:    'development'
            relativeAssets:  true
        prod:
@@ -78,7 +78,7 @@ module.exports = (grunt) ->
            cssDir:         'dist/css'
            imagesDir:      'src/images'
            javascriptsDir: 'js'
-           fontsDir:       'dist/fonts'
+           fontsDir:       'src/fonts'
            environment:    'production'
            outputStyle:    'compressed'
            relativeAssets:  true
@@ -103,13 +103,13 @@ module.exports = (grunt) ->
           dest: 'dist/'
         ]
         
-      fonts: 
-        files: [
-          expand: true
-          cwd: 'src/'
-          src: 'fonts/**'
-          dest: 'dist/'
-        ]
+#       fonts: 
+#         files: [
+#           expand: true
+#           cwd: 'src/'
+#           src: 'fonts/**'
+#           dest: 'dist/'
+#         ]
 
     watch:
       app:
@@ -125,6 +125,8 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-copy'
   
   
-  grunt.registerTask 'dev', ['clean:dist', 'copy:images', 'copy:fonts', 'browserify:wrt', 'browserify:deps', 'browserify:app', 'compass:dist', 'htmlmin:dist']
-  grunt.registerTask 'prod', ['clean:dist', 'copy:images', 'copy:fonts', 'browserify:wrt', 'browserify:deps', 'browserify:app', 'uglify:dist', 'compass:prod', 'htmlmin:prod']
+#   grunt.registerTask 'dev', ['clean:dist', 'copy:images', 'copy:fonts', 'browserify:wrt', 'browserify:deps', 'browserify:app', 'compass:dist', 'htmlmin:dist']
+#   grunt.registerTask 'prod', ['clean:dist', 'copy:images', 'copy:fonts', 'browserify:wrt', 'browserify:deps', 'browserify:app', 'uglify:dist', 'compass:prod', 'htmlmin:prod']
+  grunt.registerTask 'dev', ['clean:dist', 'copy:images', 'browserify:wrt', 'browserify:deps', 'browserify:app', 'compass:dist', 'htmlmin:dist']
+  grunt.registerTask 'prod', ['clean:dist', 'copy:images', 'browserify:wrt', 'browserify:deps', 'browserify:app', 'uglify:dist', 'compass:prod', 'htmlmin:prod']
   grunt.registerTask 'default', ['dev']
