@@ -337,7 +337,7 @@ function QueueListView(viewModel) {
         '<div class="chbx-container"><input type="checkbox" /></div>' +
         '<div class="imglistitem" style="background-image:url(\'' + value.item.thumbnailURIs[0] + '\')"></div>' +
         '<div class="mediaitemcontent">' +
-        '<span class="itemtitle">' + value.item.title + '</span>' +
+        '<div class="itemtitle">' + value.item.title + '</div>' +
         '</div>' +
         '<div class="status"><span class="statusicon"></span><span class="statustext"></span>' +
         '</div></div></li>';
