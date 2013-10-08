@@ -49,13 +49,9 @@ function setMediaSelectBehavior() {
       $('#mobilecategorylist').hide(250);
       $('#mobilecontentwrapper').addClass('show');
       $('#mobilecontentlist').show(250);
-      //$('#topmenu').hide();
-      //$('#selected-source-intro').html('< ');
       //pop
       $($('#container-media .header-item-media')[0]).one('click', function() {
-        //$('#selected-source-intro').html('You can select media from');
         $('#mobilecategorylist').show(250);
-        //$('#topmenu').show(250);
         $('#mobilecontentlist').hide(250);
         $('#mobilecontentwrapper').removeClass('show');
       });
