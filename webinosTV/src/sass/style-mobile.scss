@@ -596,7 +596,7 @@ $category-wrapper-width-largescreen:150px;
 		}
 		
 		.device-image.type-none {
-			-webkit-mask-image: url('data:image/gif;base64,R0lGODlhAQABAPAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==');
+			visibility: hidden;
 		}
 	}
 
