@@ -99,18 +99,10 @@ module.exports = (grunt) ->
         files: [
           expand: true
           cwd: 'src/'
-          src: 'images/**'
+          src: 'images/media-*.svg'
           dest: 'dist/'
         ]
         
-#       fonts: 
-#         files: [
-#           expand: true
-#           cwd: 'src/'
-#           src: 'fonts/**'
-#           dest: 'dist/'
-#         ]
-
     watch:
       app:
         files: ['src/lib/**/*.coffee', 'src/lib/**/*.js', 'src/sass/*.scss']
@@ -124,9 +116,6 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-htmlmin'
   grunt.loadNpmTasks 'grunt-contrib-copy'
   
-  
-#   grunt.registerTask 'dev', ['clean:dist', 'copy:images', 'copy:fonts', 'browserify:wrt', 'browserify:deps', 'browserify:app', 'compass:dist', 'htmlmin:dist']
-#   grunt.registerTask 'prod', ['clean:dist', 'copy:images', 'copy:fonts', 'browserify:wrt', 'browserify:deps', 'browserify:app', 'uglify:dist', 'compass:prod', 'htmlmin:prod']
   grunt.registerTask 'dev', ['clean:dist', 'copy:images', 'browserify:wrt', 'browserify:deps', 'browserify:app', 'compass:dist', 'htmlmin:dist']
   grunt.registerTask 'prod', ['clean:dist', 'copy:images', 'browserify:wrt', 'browserify:deps', 'browserify:app', 'uglify:dist', 'compass:prod', 'htmlmin:prod']
   grunt.registerTask 'default', ['dev']

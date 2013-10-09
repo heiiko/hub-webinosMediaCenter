@@ -13,6 +13,8 @@ $darkgray: #777777;
 $mediumgray: #dadada;
 $lightgray: #f1f1f1;
 $bordergray: gray;
+$devicelogo: #383838;
+
 $orange: #eeba42;
 
 $fontsize: 16px;
@@ -108,9 +110,9 @@ $category-wrapper-width-largescreen:150px;
 
 			.device-image {
 				float: left;
-				background-size: 36px 30px;
-				background-repeat: no-repeat;
-				background-position: 100% 50%;
+				-webkit-mask-size: 36px 30px;
+				-webkit-mask-repeat: no-repeat;
+				-webkit-mask-position: 100% 50%;
 				width: 40px;
 			}
 
@@ -133,68 +135,6 @@ $category-wrapper-width-largescreen:150px;
 		font-size: $fontsizemini;
 	}
 
-	.device {
-		.device-image {
-			float: right;
-			height: 40px;
-			width: 48px;
-		}
-
-		.device-image.type-laptop {
-			background-image: inline-image('laptop.svg');
-		}
-
-		.device-image.type-pc {
-			background-image: inline-image('pc.svg');
-		}
-
-		.device-image.type-phone {
-			background-image: inline-image('phone.svg');
-		}
-
-		.device-image.type-tablet {
-			background-image: inline-image('tablet.svg');
-		}
-
-		.device-image.type-tv {
-			background-image: inline-image('tv.svg');
-		}
-
-		.device-image.type-unknown {
-		    background-image: inline-image('all_devices.svg');
-		}
-	}
-
-	.device.mobileselected {
-
-		.device-name {
-			color: $blue;
-		}
-
-		.device-image.type-laptop {
-			background-image: inline-image('laptop-selected.svg');
-		}
-
-		.device-image.type-pc {
-			background-image: inline-image('pc-selected.svg');
-		}
-
-		.device-image.type-phone {
-			background-image: inline-image('phone-selected.svg');
-		}
-
-		.device-image.type-tablet {
-			background-image: inline-image('tablet-selected.svg');
-		}
-
-		.device-image.type-tv {
-			background-image: inline-image('tv-selected.svg');
-		}
-
-		.device-image.type-unknown {
-		    background-image: inline-image('all_devices-selected.svg');
-		}
-	}
 
 	.device-name {
 		overflow: hidden;
@@ -410,9 +350,11 @@ $category-wrapper-width-largescreen:150px;
 	}
 
 	#current-source-logo {
+		background-size: contain;
 		vertical-align: middle;
 		height: 30px;
-		margin-left: 8px;
+		width: 36px;
+		display: inline-block;
 	}
 
 	#current-source-name {
@@ -425,8 +367,11 @@ $category-wrapper-width-largescreen:150px;
 	}
 
 	#current-target-logo {
+		background-size: contain;
 		vertical-align: middle;
 		height: 30px;
+		width: 36px;
+		display: inline-block;
 	}
 
 	#current-target-name {
@@ -481,9 +426,9 @@ $category-wrapper-width-largescreen:150px;
 
 			.device-image {
 				float: left;
-				background-size: 36px 30px;
-				background-repeat: no-repeat;
-				background-position: 100% 50%;
+				-webkit-mask-size: 36px 30px;
+				-webkit-mask-repeat: no-repeat;
+				-webkit-mask-position: 100% 50%;
 				width: 40px;
 			}
 
@@ -617,29 +562,41 @@ $category-wrapper-width-largescreen:150px;
 			height: 40px;
 			width: 48px;
 		}
+	}
+	
+    .device, #wrapper-selected-target, #wrapper-selected-source, #wrapper-selected-sourcemedia {
+		.device-image {
+			-webkit-mask-size: contain;
+			-webkit-mask-repeat: no-repeat;
+			background-color: $devicelogo;
+		}
 
 		.device-image.type-laptop {
-			background-image: inline-image('laptop.svg');
+			-webkit-mask-image: inline-image('laptop.svg');
 		}
 
 		.device-image.type-pc {
-			background-image: inline-image('pc.svg');
+			-webkit-mask-image: inline-image('pc.svg');
 		}
 
 		.device-image.type-phone {
-			background-image: inline-image('phone.svg');
+			-webkit-mask-image: inline-image('phone.svg');
 		}
 
 		.device-image.type-tablet {
-			background-image: inline-image('tablet.svg');
+			-webkit-mask-image: inline-image('tablet.svg');
 		}
 
 		.device-image.type-tv {
-			background-image: inline-image('tv.svg');
+			-webkit-mask-image: inline-image('tv.svg');
 		}
 
 		.device-image.type-unknown {
-		    background-image: inline-image('all_devices.svg');
+		    -webkit-mask-image: inline-image('all_devices.svg');
+		}
+		
+		.device-image.type-none {
+			-webkit-mask-image: url('data:image/gif;base64,R0lGODlhAQABAPAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==');
 		}
 	}
 
@@ -648,29 +605,11 @@ $category-wrapper-width-largescreen:150px;
 		.device-name {
 			color: $blue;
 		}
-
-		.device-image.type-laptop {
-			background-image: inline-image('laptop-selected.svg');
-		}
-
-		.device-image.type-pc {
-			background-image: inline-image('pc-selected.svg');
-		}
-
-		.device-image.type-phone {
-			background-image: inline-image('phone-selected.svg');
-		}
-
-		.device-image.type-tablet {
-			background-image: inline-image('tablet-selected.svg');
-		}
-
-		.device-image.type-tv {
-			background-image: inline-image('tv-selected.svg');
-		}
-
-		.device-image.type-unknown {
-		    background-image: inline-image('all_devices-selected.svg');
+		
+		.device-image {
+			-webkit-mask-size: contain;
+			-webkit-mask-repeat: no-repeat;
+			background-color: $blue;
 		}
 	}
 
@@ -680,8 +619,11 @@ $category-wrapper-width-largescreen:150px;
 	}
 
 	#selected-source {
+		background-size: contain;
 		vertical-align: middle;
 		height: 30px;
+		width: 36px;
+		display: inline-block;
 	}
 
 	#selected-source-intro {
@@ -699,7 +641,7 @@ $category-wrapper-width-largescreen:150px;
 		display: inline-block;
 		vertical-align: middle;
 		color: $blue;
-		margin-left: 4px;
+		margin-left: 6px;
 	}
 
 	#mobilecategorywrapper {

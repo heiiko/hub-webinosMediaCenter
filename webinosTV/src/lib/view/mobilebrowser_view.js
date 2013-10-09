@@ -7,7 +7,6 @@ var util = require('util');
 var Toast = require('./toast_view.js');
 var SelectDropDown = require('./mobileselect_dropdown_menu_view.js');
 var MobileControlsView = require('./mobile_controls_view.js');
-var transparentpixel = 'data:image/gif;base64,R0lGODlhAQABAPAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==';
 var controlsView;
 var controlsViewModel;
 var contentSelected = false;
@@ -110,13 +109,19 @@ function SourceListView(viewModel) {
     if (selection.length === 1) {
       var device = selection[0];
 
-      $('#selected-source').attr('src', 'images/' + (device.type ? device.type : 'all_devices') + '-selected.svg');
+	  $('#current-source-logo').removeClass();
+	  $('#current-source-logo').addClass('device-image');
+	  $('#current-source-logo').addClass('type-' + (device.type ? device.type : 'unknown'));
+	  
+	  $('#selected-source').removeClass();
+	  $('#selected-source').addClass('device-image');
+	  $('#selected-source').addClass('type-' + (device.type ? device.type : 'unknown'));
+	  
       $('#selected-source-name').html(address.friendlyName(device.address));
       $('#selected-source-intro').html('You can select media from ');
 
       $('#wrapper-selected-source').addClass('header-active');
 
-      $('#current-source-logo').attr('src', 'images/' + (device.type ? device.type : 'all_devices') + '.svg');
       $('#current-source-name').html(address.friendlyName(device.address));
 
       $('.content-searchbutton').removeClass('disabled');
@@ -124,13 +129,19 @@ function SourceListView(viewModel) {
       $('#select-media-dd-wrapper').removeClass('disabled');
     }
     else if (selection.length === 0) {
-      $('#selected-source').attr('src', transparentpixel);
+      $('#current-source-logo').removeClass();
+	  $('#current-source-logo').addClass('device-image');
+	  $('#current-source-logo').addClass('type-none');
+	  
+	  $('#selected-source').removeClass();
+	  $('#selected-source').addClass('device-image');
+	  $('#selected-source').addClass('type-none');
+	  
       $('#selected-source-name').html('');
       $('#selected-source-intro').html('No source device selected');
 
       $('#wrapper-selected-source').removeClass('header-active');
 
-      $('#current-source-logo').attr('src', transparentpixel);
       $('#current-source-name').html('Source devices');
 
       $('.content-searchbutton').addClass('disabled');
@@ -139,11 +150,16 @@ function SourceListView(viewModel) {
       $('#select-media-dd-wrapper').addClass('disabled');
     }
     else {
-      $('#selected-source').attr('src', 'images/all_devices-selected.svg');
+      $('#selected-source').removeClass();
+	  $('#selected-source').addClass('device-image');
+	  $('#selected-source').addClass('type-unknown');
+
       $('#selected-source-name').html(selection.length + ' source devices');
       $('#selected-source-intro').html('You can select media from ');
 
-      $('#current-source-logo').attr('src', 'images/all_devices.svg');
+	  $('#current-source-logo').removeClass();
+	  $('#current-source-logo').addClass('device-image');
+	  $('#current-source-logo').addClass('type-unknown');
       $('#current-source-name').html(selection.length + ' Source devices');
 
       $('#wrapper-selected-source').addClass('header-active');
@@ -275,31 +291,25 @@ function TargetListView(viewModel) {
       }
       
       $('#wrapper-selected-target').addClass('header-active');
-    
-      $('#current-target-logo').attr('src', 'images/' + icon + '.svg');
-      $('#current-target-name').html(friendlyName(value));
 
-      $('#selected-target').attr('src', 'images/' + icon + '-selected.svg');
-      $('#selected-target-name').html(friendlyName(value));
-      $('#selected-target-intro').html('You are controlling');
+	  $('#current-target-logo').removeClass();
+	  $('#current-target-logo').addClass('device-image');
+	  $('#current-target-logo').addClass('type-' + (value.device.type() ? value.device.type() : 'unknown'));
+      $('#current-target-name').html(friendlyName(value));
     }
     else if (selection.length === 0) {
-      $('#current-target-logo').attr('src', transparentpixel);
+      $('#current-target-logo').removeClass();
+	  $('#current-target-logo').addClass('device-image');
+	  $('#current-target-logo').addClass('type-none');
       $('#current-target-name').html('Target devices');
-
-      $('#selected-target').attr('src', transparentpixel);
-      $('#selected-target-name').html('');
-      $('#selected-target-intro').html('No target device selected');
       
       $('#wrapper-selected-target').removeClass('header-active');
     }
     else {
-      $('#current-target-logo').attr('src', 'images/all_devices.svg');
+      $('#current-target-logo').removeClass();
+	  $('#current-target-logo').addClass('device-image');
+	  $('#current-target-logo').addClass('type-unknown');
       $('#current-target-name').html(selection.length + ' Target devices');
-
-      $('#selected-target').attr('src', 'images/all_devices-selected.svg');
-      $('#selected-target-name').html(selection.length + ' source devices');
-      $('#selected-target-intro').html('You are controlling');
       
       $('#wrapper-selected-target').addClass('header-active');
     }
