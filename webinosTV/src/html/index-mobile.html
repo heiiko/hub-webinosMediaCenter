@@ -5,7 +5,9 @@
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     <title>webinosTV</title>
     <link href="css/style-mobile.css" rel="stylesheet" type="text/css" />
-    <script type="text/javascript" src="js/wrt.js"></script>
+    <!-- build:template -->
+    <script type="text/javascript" src="<%= uri %>/webinos.js"></script>
+    <!-- /build -->
     <script type="text/javascript" src="js/deps.js"></script>
     <script type="text/javascript" src="js/app.js"></script>
   </head>
@@ -18,7 +20,6 @@
         <div class="mobilemenu-border"></div>
         <div id="menu-queue" class="mobilemenu-item">Media Queue</div>
       </div>
-
       <div id="container-device" class="subpage">
         <div class="header">
           <div id="wrapper-selected-source" class="header-item-device header-active">

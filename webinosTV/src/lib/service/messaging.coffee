@@ -1,6 +1,6 @@
 $ = require('jquery')
 
-webinos = require('webinos')
+# webinos = require('webinos')
 
 Bacon = require('baconjs')
 Promise = require('promise')

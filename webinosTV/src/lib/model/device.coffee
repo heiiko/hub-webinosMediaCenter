@@ -2,7 +2,7 @@ _ = require('underscore')
 
 Bacon = require('baconjs')
 
-webinos = require('webinos')
+# webinos = require('webinos')
 
 DeviceStatusService = require('../service/devicestatus.coffee')
 MessagingService = require('../service/messaging.coffee')

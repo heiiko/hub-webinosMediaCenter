@@ -1,6 +1,6 @@
 _ = require('underscore')
 
-webinos = require('webinos')
+# webinos = require('webinos')
 
 module.exports =
   generalize: (address) ->

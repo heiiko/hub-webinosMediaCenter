@@ -3,9 +3,6 @@ _ = require 'underscore'
 module.exports = (grunt) ->
   deps = ['util', 'underscore', 'baconjs', 'bacon.jquery', 'statechart']
   shim =
-    webinos:
-      path: 'src/vendor/webinos.js'
-      exports: 'webinos'
     promise:
       path: 'src/vendor/promise.js'
       exports: 'Promise'
@@ -25,13 +22,6 @@ module.exports = (grunt) ->
     browserify:
       options:
         debug: no # yes
-
-      wrt:
-        src: []
-        dest: 'dist/js/wrt.js'
-        options:
-          shim: _.pick(shim, 'webinos')
-          ignore: ['crypto', 'path', './logging.js', './registry.js', 'webinos-utilities']
 
       deps:
         src: []
@@ -56,7 +46,6 @@ module.exports = (grunt) ->
         options:
           compress: true
         files:
-          'dist/js/wrt.js':  'dist/js/wrt.js'
           'dist/js/deps.js': 'dist/js/deps.js'
           'dist/js/app.js':  'dist/js/app.js'
 
@@ -82,17 +71,26 @@ module.exports = (grunt) ->
            environment:    'production'
            outputStyle:    'compressed'
            relativeAssets:  true
-    
+
+    processhtml:
+       dist:
+         options:
+           data:
+             uri:
+               grunt.option('wrturi') || 'http://localhost:8080'
+         files:
+           'dist/index.html': 'src/html/index-mobile.html'
+
     htmlmin:
        dist:
          files:
-           'dist/index.html': 'src/html/index-mobile.html'
+           'dist/index.html': 'dist/index.html'
        prod:
          options:
            removeComments: true,
            collapseWhitespace: true
          files:
-           'dist/index.html': 'src/html/index-mobile.html'
+           'dist/index.html': 'dist/index.html'
 
     copy:
       images:
@@ -102,14 +100,6 @@ module.exports = (grunt) ->
           src: 'images/**'
           dest: 'dist/'
         ]
-        
-#       fonts: 
-#         files: [
-#           expand: true
-#           cwd: 'src/'
-#           src: 'fonts/**'
-#           dest: 'dist/'
-#         ]
 
     watch:
       app:
@@ -123,10 +113,9 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-compass'
   grunt.loadNpmTasks 'grunt-contrib-htmlmin'
   grunt.loadNpmTasks 'grunt-contrib-copy'
+  grunt.loadNpmTasks 'grunt-processhtml'
   
-  
-#   grunt.registerTask 'dev', ['clean:dist', 'copy:images', 'copy:fonts', 'browserify:wrt', 'browserify:deps', 'browserify:app', 'compass:dist', 'htmlmin:dist']
-#   grunt.registerTask 'prod', ['clean:dist', 'copy:images', 'copy:fonts', 'browserify:wrt', 'browserify:deps', 'browserify:app', 'uglify:dist', 'compass:prod', 'htmlmin:prod']
-  grunt.registerTask 'dev', ['clean:dist', 'copy:images', 'browserify:wrt', 'browserify:deps', 'browserify:app', 'compass:dist', 'htmlmin:dist']
-  grunt.registerTask 'prod', ['clean:dist', 'copy:images', 'browserify:wrt', 'browserify:deps', 'browserify:app', 'uglify:dist', 'compass:prod', 'htmlmin:prod']
+  grunt.registerTask 'dev', ['clean:dist', 'copy:images', 'browserify:deps', 'browserify:app', 'compass:dist', 'processhtml:dist','htmlmin:dist']
+  grunt.registerTask 'prod', ['clean:dist', 'copy:images', 'browserify:deps', 'browserify:app', 'uglify:dist', 'compass:prod','processhtml:dist', 'htmlmin:prod','htmlmin:dist']
+
   grunt.registerTask 'default', ['dev']

@@ -1,4 +1,4 @@
-webinos = require('webinos')
+# webinos = require('webinos')
 
 Promise = require('promise')
 promisify = require('../util/promisify.coffee')
