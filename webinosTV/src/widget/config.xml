@@ -9,7 +9,7 @@
   <!-- Default icon for widget -->
   <icon src="icon.png" />
   <!-- Widget author -->
-  <author href="http://webinos.org" email="TODO">TODO</author>
+  <author href="http://webinos.org" email="martin.lasak@fokus.fraunhofer.de">Martin Lasak</author>
   <!-- No webinos feature is required -->
   <!-- Distributed under the Apache 2.0 licence -->
   <license href="http://www.apache.org/licenses/LICENSE-2.0.html">Distributed under the Apache 2.0 License.</license>
