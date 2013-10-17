@@ -690,7 +690,7 @@ function TVBrowserView(viewModel) {
 
   var navigationView = new NavigationView(viewModel);
 
-  viewModel.append().plug($('#mobileappend').asEventStream('click'));
+  viewModel.append().plug($('#tv-append').asEventStream('click'));
 
   var controlsViewModel = viewModel.controls();
   var controlsView = new TVControlsView('.mobilequeuecontrols', null, controlsViewModel);
