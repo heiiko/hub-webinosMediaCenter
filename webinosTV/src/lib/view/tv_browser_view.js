@@ -325,6 +325,13 @@ function TargetListView(viewModel) {
     }
   });
 
+  viewModel.selectedQueueTargets().onValue(function(selection) {
+    if(selection.length === 1) {
+      var config = {'local': selection[0].device.isLocal(), 'remote': (selection[0].device.type() === 'laptop')};
+      controlsView = new TVControlsView('.mobilequeuecontrols', config, controlsViewModel);
+    }
+  });
+
   ListView.call(this, viewModel.targets(), viewModel.selectedTargets(), '#mobiletargetlist', '#mobiletargetwrapper', '#mobiletarget');
   ListView.call(this, viewModel.targets(), viewModel.selectedQueueTargets(), '#mobilequeuetargetlist', '#mobilequeuetargetwrapper', '#mobilequeuetarget');
 }
@@ -338,7 +345,7 @@ function QueueListView(viewModel) {
         '<div class="chbx-container"><input type="checkbox" /></div>' +
         '<div class="imglistitem" style="background-image:url(\'' + value.item.thumbnailURIs[0] + '\')"></div>' +
         '<div class="mediaitemcontent">' +
-        '<div class="itemtitle">' + value.item.title + '</span>' +
+        '<div class="itemtitle">' + value.item.title + '</div>' +
         '</div>' +
         '<div class="status"><span class="statusicon"></span><span class="statustext"></span>' +
         '</div></div></li>';
@@ -420,10 +427,10 @@ function NavigationView (viewModel) {
     }
     switch(direction){
       case 'down':
-        if(navigation["curCol"] == 0 && navigation["curEl"][navigation["regions"][navigation["curCol"]]] < $(navigation["regions"][navigation["curCol"]]).length-1) {
+        if(navigation["curCol"] === 0 && navigation["curEl"][navigation["regions"][navigation["curCol"]]] < $(navigation["regions"][navigation["curCol"]]).length-1) {
           navigation["curEl"][navigation["regions"][navigation["curCol"]]]++;
         } else {
-          if(navigation["curScreen"]==0) {
+          if(navigation["curScreen"]===0) {
             // Device screen
             if(navigation["curCol"]==2) {
               if(navigation["curEl"][navigation["regions"][navigation["curCol"]]] < $(navigation["regions"][navigation["curCol"]]).length/2-1) {
@@ -471,10 +478,10 @@ function NavigationView (viewModel) {
         }
         break;
       case 'up':
-        if (navigation["curCol"] == 0 && navigation["curEl"][navigation["regions"][navigation["curCol"]]]>0) {
+        if (navigation["curCol"] === 0 && navigation["curEl"][navigation["regions"][navigation["curCol"]]]>0) {
           navigation["curEl"][navigation["regions"][navigation["curCol"]]]--;
         } else {
-          if(navigation["curScreen"]==0) {
+          if(navigation["curScreen"]===0) {
             // Device screen
             if(navigation["curEl"][navigation["regions"][navigation["curCol"]]] > 0) {
               navigation["curEl"][navigation["regions"][navigation["curCol"]]]--;
@@ -492,8 +499,8 @@ function NavigationView (viewModel) {
               } else {
                 navigation["curCol"] = 5;
                 navigation["curEl"][navigation["regions"][4]]=0;
-                if($('#select-media-dd-wrapper .nav_media_action:nth-child(1)').hasClass('disabled')
-                  && (navigation["curEl"][navigation["regions"][5]]==0)) {
+                if($('#select-media-dd-wrapper .nav_media_action:nth-child(1)').hasClass('disabled') &&
+                  (navigation["curEl"][navigation["regions"][5]]===0)) {
                   navigation["curEl"][navigation["regions"][5]]=1;
                 }
               }
@@ -518,22 +525,22 @@ function NavigationView (viewModel) {
         }
         break;
       case 'right':
-        if(navigation["curScreen"]==0) {
+        if(navigation["curScreen"]===0) {
           // Device screen
           if (navigation["curCol"] < 2) {
             navigation["curCol"]++;
           }
         } else if(navigation["curScreen"]==1) {
           // Media screen
-          if (navigation["curCol"] == 0) {
+          if (navigation["curCol"] === 0) {
             // In left bar going right
             navigation["curCol"] = 3;
           } else if (navigation["curCol"] == 3) {
             // Going from categories to actions/files
-            if (navigation["curEl"][navigation["regions"][4]]==0 || $(navigation["regions"][6]).length == 0) {
+            if (navigation["curEl"][navigation["regions"][4]]===0 || $(navigation["regions"][6]).length === 0) {
               navigation["curCol"] = 5;
-              if($('#select-media-dd-wrapper .nav_media_action:nth-child(1)').hasClass('disabled')
-                && (navigation["curEl"][navigation["regions"][5]]==0)) {
+              if($('#select-media-dd-wrapper .nav_media_action:nth-child(1)').hasClass('disabled') &&
+                (navigation["curEl"][navigation["regions"][5]]===0)) {
                 navigation["curEl"][navigation["regions"][5]]++;
               }
             } else {
@@ -546,9 +553,9 @@ function NavigationView (viewModel) {
           }
         } else if(navigation["curScreen"]==2) {
           // Queue screen
-          if (navigation["curCol"] == 0) {
+          if (navigation["curCol"] === 0) {
             // In left bar going right
-            if (navigation["curEl"][navigation["regions"][7]]==0) {
+            if (navigation["curEl"][navigation["regions"][7]]===0) {
               navigation["curCol"] = 8;
               if(navigation["curEl"][navigation["regions"][navigation["curCol"]]] < $(navigation["regions"][navigation["curCol"]]).length/2) {
                 navigation["curEl"][navigation["regions"][navigation["curCol"]]] = navigation["curEl"][navigation["regions"][navigation["curCol"]]] + $(navigation["regions"][navigation["curCol"]]).length/2;
@@ -570,7 +577,7 @@ function NavigationView (viewModel) {
         }
         break;
       case 'left':
-        if(navigation["curScreen"]==0) {
+        if(navigation["curScreen"]===0) {
           // Device screen
           if (navigation["curCol"] > 0) {
             navigation["curCol"]--;
@@ -582,13 +589,13 @@ function NavigationView (viewModel) {
             navigation["curCol"] = 0;
           } else if (navigation["curCol"] == 5) {
             // Going from actions/files to categories
-            if (navigation["curEl"][navigation["regions"][5]]==0) {
+            if (navigation["curEl"][navigation["regions"][5]]===0) {
               navigation["curCol"] = 3;
             } else {
               // Within actions
               elementToCheckNr = navigation["curEl"][navigation["regions"][navigation["curCol"]]]-1;
-              while($('#select-media-dd-wrapper .nav_media_action:nth-child(' + (elementToCheckNr+1) + ')').hasClass('disabled')
-                && (elementToCheckNr >= 0)) {
+              while($('#select-media-dd-wrapper .nav_media_action:nth-child(' + (elementToCheckNr+1) + ')').hasClass('disabled') &&
+                (elementToCheckNr >= 0)) {
                 elementToCheckNr--;
               }
               if (elementToCheckNr < 0) {
@@ -623,7 +630,7 @@ function NavigationView (viewModel) {
       case 'enter':
         tappedOn=Date.now();
         $(navigation["regions"][navigation["curCol"]]+".focus").click();
-        if(navigation["curCol"] == 0) {
+        if(navigation["curCol"] === 0) {
           // From main menu to one of the 3 main screens
           navigation["curScreen"] = navigation["curEl"][navigation["regions"][navigation["curCol"]]];
           if(navigation["curScreen"] == 1) {
@@ -642,8 +649,8 @@ function NavigationView (viewModel) {
               navigation["curCol"] = 6;
             } else {
               navigation["curCol"] = 5;
-              if($('#select-media-dd-wrapper .nav_media_action:nth-child(1)').hasClass('disabled')
-                && (navigation["curEl"][navigation["regions"][5]]==0)) {
+              if($('#select-media-dd-wrapper .nav_media_action:nth-child(1)').hasClass('disabled') &&
+                (navigation["curEl"][navigation["regions"][5]]===0)) {
                 navigation["curEl"][navigation["regions"][5]]++;
               }
             }
@@ -692,8 +699,8 @@ function TVBrowserView(viewModel) {
 
   viewModel.append().plug($('#tv-append').asEventStream('click'));
 
-  var controlsViewModel = viewModel.controls();
-  var controlsView = new TVControlsView('.mobilequeuecontrols', null, controlsViewModel);
+  controlsViewModel = viewModel.controls();
+  controlsView = new TVControlsView('.mobilequeuecontrols', null, controlsViewModel);
 
   $('.content-queuebutton').click(function() {
     if(! $(this).hasClass('disabled')) {
