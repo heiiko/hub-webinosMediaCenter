@@ -43,7 +43,7 @@ $category-wrapper-width-largescreen:150px;
   z-index: 1;
 }
 
-#mobilebrowser.pt-page-current {
+#mobilebrowser.pt-page-current, #mobilecontroller.pt-page-current {
 	margin: 0px;
 	padding: 0px;
 	font-family: 'Roboto', sans-serif;
@@ -90,6 +90,18 @@ $category-wrapper-width-largescreen:150px;
 	.mobilemenu-item.mobilemenu-active {
 		border-bottom: 5px solid $green;
 		padding-bottom: 10px;
+	}
+	
+	.header-control {
+		width: 100%;
+		height: $headerheight;
+		overflow: hidden;
+		border-bottom: 1px solid $blue;
+		display: -webkit-box;
+		display: -webkit-box;
+		-webkit-box-orient: horizontal;
+		-webkit-box-pack: center;
+		-webkit-box-align: center;
 	}
 
 	#menu-device {
@@ -348,6 +360,35 @@ $category-wrapper-width-largescreen:150px;
 
 	#mobiletargetwrapper {
 		left: 50%;
+	}
+	
+	#mobileselecttargetlist {
+		li.mobileselected {
+			height: 44px;
+			border-bottom-width: 5px;
+			border-bottom-color: $blue;
+			border-bottom-style: solid;
+			padding: 8px 8px 0px 8px;
+		}
+		li {
+			padding: 8px 8px 0px 8px;
+			height: 57px;
+			display: inline-block;
+			white-space: nowrap;
+			border-image: none;
+
+			.device-image {
+				float: left;
+				-webkit-mask-size: 36px 30px;
+				-webkit-mask-repeat: no-repeat;
+				-webkit-mask-position: 0% 50%;
+				width: 40px;
+			}
+
+			.device-name {
+				font-size: $fontsizemini;
+			}
+		}
 	}
 
 	.device {
@@ -627,6 +668,95 @@ $category-wrapper-width-largescreen:150px;
 	  }
 	}
 
+
+  #controlpadwrapper{
+    width: 100%;
+    height: 100%;
+  }
+
+  .tapButton{
+    margin-top: 5%;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    background-color: $mediumgray;
+    border-radius: 100%;
+    border: solid 2px $fontcolor;
+
+    width: 250px;
+    height: 250px;
+
+    @media screen and (min-width: 480px){
+      width: 320px;
+      height: 320px;
+    }
+     @media screen and (min-width: 720px){
+      width: 480px;
+      height: 480px;
+    }
+    @media screen and (min-width: $mintabletwidth - 1){
+      width: 600px;
+      height: 600px;
+    }
+    @media screen and (min-width: $mintabletwidth){
+      width: 600px;
+      height: 600px;
+    }
+  }
+
+  .controlbutton {
+		position: absolute;
+		width: 25%;
+		height: 25%;
+		background-color: $fontcolor;
+		border-radius: 15px;
+		background-repeat: no-repeat;
+		background-position: 50% 50%;
+		background-size: 25%;
+  }
+
+  .controlbutton:active {
+		opacity: 0.5;
+  }
+
+	.clickAreaUp {
+		left: 38%;
+		top: 10%;
+		border-top-right-radius: 50%;
+		border-top-left-radius: 50%;
+		background-image: inline-image('arrow_big_up.svg');
+	}
+
+
+	.clickAreaLeft {
+		left: 12%;
+		top: 36%;
+		border-top-left-radius: 50%;
+		border-bottom-left-radius: 50%;
+		background-image: inline-image('arrow_big_left.svg');
+	}
+
+	.clickAreaRight {
+		left: 64%;
+		top: 36%;
+		border-top-right-radius: 50%;
+		border-bottom-right-radius: 50%;
+		background-image: inline-image('arrow_big_right.svg');
+	}
+
+	.clickAreaOk{
+		left: 38%;
+		top: 36%;
+	}
+
+	.clickAreaDown {
+		top: 62%;
+		left: 38%;
+		border-bottom-left-radius: 50%;
+		border-bottom-right-radius: 50%;
+		background-image: inline-image('arrow_big_down.svg');
+	}
+	
   @include imgListItems;
   @include contentListItems;
   @include queueListItems;
