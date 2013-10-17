@@ -7,26 +7,41 @@ $(document).ready(function() {
    init();
 });
 
+
 function init() {
-    $('.pt-page').each(function() {
-        var $page = $( this );
-        $page.data( 'originalClassList', $page.attr( 'class' ) );
-    } );
+    //$('.pt-page').each(function() {
+     //   var $page = $( this );
+     //   $page.data( 'originalClassList', $page.attr( 'class' ) );
+    //} );
     $(current).addClass('pt-page-current');
 }
 
+/*
 function onEndAnimation($outpage, $inpage) {
     endCurrPage = false;
     endNextPage = false;
     resetPage($outpage, $inpage);
     isAnimating = false;
 }
+*/
 
+/*
 function resetPage($outpage, $inpage) {
     $outpage.attr('class', $outpage.data('originalClassList'));
     $inpage.attr('class', $inpage.data('originalClassList') + ' pt-page-current');
 }
+*/
 
+function gotoPageById(id) {
+  if (current !== id) {
+    var $currPage = $(current);
+    $(id).addClass('pt-page-current');
+    $currPage.removeClass('pt-page-current');
+    current = id;
+  }
+}
+
+/*
 function gotoPageById(id) {
     if (!isAnimating && (current != id)) {
         isAnimating = true;
@@ -44,7 +59,7 @@ function gotoPageById(id) {
                     onEndAnimation($currPage, $prevPage);
             }
         });
-        
+
         $prevPage.addClass(inClass).on('webkitAnimationEnd', function() {
             $prevPage.off('webkitAnimationEnd');
             endNextPage = true;
@@ -54,5 +69,6 @@ function gotoPageById(id) {
         });
     }
 }
+*/
 
 module.exports = gotoPageById;
