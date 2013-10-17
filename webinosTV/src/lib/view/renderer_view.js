@@ -65,12 +65,12 @@ function RendererView(viewModel) {
   self.viewModel = viewModel;
   self.imageTimer = null;
   self.needsTimer = false;
-  
+
   var controlsViewModel = viewModel.controls();
   self.controlsView = new ControlsView('.rendererControlls', {
     remove: false,
-    fullscreen: true,
-    highdef: true,
+    fullscreen: false,
+    highdef: false,
     style: 'full',
     navclass: 'nav_rd'
   }, controlsViewModel);
@@ -136,7 +136,7 @@ function RendererView(viewModel) {
 RendererView.prototype.playItem = function(item, url) {
   var self = this;
   var type = item.type;
-  
+
   self.needsTimer = false;
   if (self.imageTimer) {
     clearTimeout(self.imageTimer);

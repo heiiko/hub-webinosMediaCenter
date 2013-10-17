@@ -7,7 +7,7 @@ var gotoPageById = require('./pagetransition.js');
 
 function RendererViewModel(manager, input) {
   input = input.filter(function () {
-    return $('.pt-page-current').attr('id') === 'renderer' && !$('.menu').is(":visible");;
+    return $('.pt-page-current').attr('id') === 'renderer';
   });
 
   this.input = function () {
@@ -59,9 +59,8 @@ function RendererViewModel(manager, input) {
     return events.filter(function (event) {
       return event.player === 'app';
     }).map('.event').doAction(function (event) {
-      if (event.isPrepend() && event.items().length) {
+      if (event.isAppend() && event.items().length) {
         gotoPageById('#renderer');
-        window.closeMainmenu();
       }
     });
   };
@@ -74,13 +73,13 @@ function RendererViewModel(manager, input) {
     return operation.device !== '<no-device>' && operation.device.noupnp().length
   }).onValue(function (operation) {
     var service = operation.device.noupnp()[0];
-    
+
     if (operation.event.isPlay()) {
       var link = operation.event.item().link;
       var index = link.indexOf('#');
       if (index !== -1) link = link.substr(0, index);
 
-+     service.play(link).then(function () {
+      service.play(link).then(function () {
         started.push();
 
         service.events().onValue(function (event) {

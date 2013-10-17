@@ -8,7 +8,7 @@ var ControlsViewModel = require('./controls_view_model.js');
 function TVBrowserViewModel(manager, input) {
 
   input = input.filter(function() {
-    return $('.pt-page-current').attr('id') === 'mobilebrowser' && !$('.menu').is(":visible");
+    return $('.pt-page-current').attr('id') === 'mobilebrowser';
   });
 
   this.input = function() {
@@ -17,7 +17,7 @@ function TVBrowserViewModel(manager, input) {
 
   var sources = manager.toProperty().map(function(devices) {
     return _.filter(devices, function(device) {
-      return device.isSource();
+      return device.isSource() && (typeof device.type() != 'undefined');
     });
   });
 
@@ -45,21 +45,21 @@ function TVBrowserViewModel(manager, input) {
   this.selectedCategories = function() {
     return selectedCategories;
   };
-  
+
   var contentquery = bjq.textFieldValue($("#content-search"));
 
   var content = Bacon.combineTemplate({
-    sources: sources, 
+    sources: sources,
     selectedSources: selectedSources,
-    categories: categories, 
+    categories: categories,
     selectedCategories: selectedCategories,
     query: contentquery
   }).map(function(state) {
     var types = _.map(state.selectedCategories, function(id) {
       return id ? _.findWhere(state.categories, {id: id}).type : id;
     });
-	  var querystring = _.chain(state.query).value();
-	
+    var querystring = _.chain(state.query).value();
+
     return _.chain(state.sources).filter(function(source) {
       return _.contains(_.map(state.selectedSources, function(selectedsource) {
         return selectedsource.address;
@@ -69,8 +69,8 @@ function TVBrowserViewModel(manager, input) {
         return _.find(types, function(type) {
           var typematch = item.type.toLowerCase().indexOf(type.toLowerCase()) !== -1;
           if(typematch) {
-          	var titlematch = (item.title !== 'undefined') ? (item.title.toLowerCase().indexOf(querystring.toLowerCase()) !== -1) : false;
-          	return titlematch;
+            var titlematch = (item.title !== 'undefined') ? (item.title.toLowerCase().indexOf(querystring.toLowerCase()) !== -1) : false;
+            return titlematch;
           }
           return false;
         });
@@ -146,7 +146,7 @@ function TVBrowserViewModel(manager, input) {
 
     var promises = _.map(items, function(item) {
       if (item.type === 'Channel') {
-        return Promise.fulfill({item: item, link: item.link})
+        return Promise.fulfill({item: item, link: item.link});
       }
 
       return item.service.getLink({

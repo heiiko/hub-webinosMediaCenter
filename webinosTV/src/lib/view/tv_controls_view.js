@@ -2,59 +2,79 @@ var $ = require('jquery');
 var _ = require('underscore');
 
 var Bacon = require('baconjs');
+var gotoPageById = require('./pagetransition.js');
 
 function TVControlsView(parent, config, viewModel) {
+  var self = this;
   parent = $(parent) || $('body');
   config = _.extend({
-  //   style: 'slim',
-  //   remove: true,
-  //   fullscreen: false,
-  //   highdef: false,
+    style: 'slim',
+    remove: false,
+    remote: false,
+    fullscreen: false,
+    local: false,
+    highdef: false,
     navclass: 'nav_qu'
   }, config || {});
 
-  // var buttonCount = 5;
-  // if (config.remove)
-  //   buttonCount++;
-  // if (config.fullscreen)
-  //   buttonCount++;
-  // if (config.highdef)
-  //   buttonCount++;
+  var buttonCount = 5;
+  if (config.remove)
+    buttonCount++;
+  if (config.fullscreen)
+    buttonCount++;
+  if (config.remote)
+    buttonCount++;
+  if (config.highdef)
+    buttonCount++;
 
-  // var cprev = $('<div class="controlButton controlPrev ' + config.navclass + '">');
-  // var crewd = $('<div class="controlButton controlRewd ' + config.navclass + '">');
-  // var cplay = $('<div class="controlButton controlPlay ' + config.navclass + '">');
-  // var cfwrd = $('<div class="controlButton controlFwrd ' + config.navclass + '">');
-  // var cnext = $('<div class="controlButton controlNext ' + config.navclass + '">');
-  // var cdele = $('<div class="controlButton controlDele ' + config.navclass + '">');
-  // var cfull = $('<div class="controlButton controlFull ' + config.navclass + '">');
-  // var chres = $('<div class="controlButton controlHres ' + config.navclass + '">');
-  // var csbar = $('<div class="controlSbar"><span class="elapsed"></span><div></div><span class="remaining"></span></div>');
-  // var ctime = $('<div class="controlTime"><div class="controlTimeSchnippel"></div><span>1:00</span></div>');
-  // var ctime = $('<div class="controlTime"><div class="controlTimeSchnippel"></div></div>');
+  var cprev = $('<div id="tv_previous" class="controlButton controlPrev ' + config.navclass + '">');
+  var crewd = $('<div id="tv_rewind" class="controlButton controlRewd ' + config.navclass + '">');
+  var cplay = $('<div id="tv_play" class="controlButton controlPlay ' + config.navclass + '">');
+  var cfwrd = $('<div id="tv_forward" class="controlButton controlFwrd ' + config.navclass + '">');
+  var cnext = $('<div id="tv_next" class="controlButton controlNext ' + config.navclass + '">');
+  var cdele = $('<div id="tv_delete" class="controlButton controlDele ' + config.navclass + '">');
+  var cfull = $('<div id="tv_fullscreen" class="controlButton controlFull ' + config.navclass + '">');
+  var cremote = $('<div id="tv_fullscreen" class="controlButton controlFull ' + config.navclass + '">');
+  var chres = $('<div id="tv_highress" class="controlButton controlHres ' + config.navclass + '">');
+  var csbar = $('<div id="tv_controlbar" class="controlSbar"><span id="tv_elapsed" class="elapsed"></span><div></div><span id="tv_remaining" class="remaining"></span></div>');
+//  var ctime = $('<div class="controlTime"><div class="controlTimeSchnippel"></div><span>1:00</span></div>');
+  var ctime = $('<div id="tv_controltime" class="controlTime"><div class="controlTimeSchnippel"></div></div>');
 
 
-  // var controls = $('<div class="' + (config.style || 'slim') + ' controlContainer">');
-  // var container = $('<div class="controlButtons">');
-  // var nowPlayingItem = $('<div class="controlItemInfo"><div class="itemtitle"></div><div class="itemartist"></div></div>');
+  var controls = $('#mobileControlContainer');
+  var container = $('<div id="mobileControlButtons" class="controlButtons">');
+  var nowPlayingItem = $('<div class="controlItemInfo"><div class="itemtitle"></div><div class="itemartist"></div></div>');
 
-  // container.append([cprev, cplay, cnext]);
-  // if (config.remove)
-  //   container.append(cdele);
-  // if (config.fullscreen)
-  //   container.append(cfull);
-  // if (config.highdef)
-  //   container.append(chres);
-  // controls.append([nowPlayingItem, container, csbar, ctime]);
+  controls.empty();
+  container.append([cprev, crewd, cplay, cfwrd, cnext]);
 
-  viewModel.playOrPause().plug($('#controlPlay').asEventStream('click').merge($('#controlPlay').asEventStream('touchend')));
-  viewModel.previous().plug($('#controlPrev').asEventStream('click').merge($('#controlPrev').asEventStream('touchend')));
-  viewModel.next().plug($('#controlNext').asEventStream('click').merge($('#controlNext').asEventStream('touchend')));
-  // viewModel.rewind().plug(crewd.asEventStream('click').merge(crewd.asEventStream('touchend')).map(undefined));
-  // viewModel.forward().plug(cfwrd.asEventStream('click').merge(cfwrd.asEventStream('touchend')).map(undefined));
-  // viewModel.remove().plug(cdele.asEventStream('click').merge(cdele.asEventStream('touchend')));
+  if (config.remove) {
+    container.append(cdele);
+    viewModel.remove().plug(cdele.asEventStream('click'));
+  }
+  if (config.fullscreen || config.local) {
+    container.append(cfull);
 
-  // $(parent).append(controls);
+    cfull.click( function() {
+      gotoPageById('#renderer');
+    });
+  }
+  if (config.remote && ! config.local) {
+    container.append(cremote);
+
+    cremote.click( function() {
+      gotoPageById('#mobilecontroller');
+    });
+  }
+  if (config.highdef)
+    container.append(chres);
+  controls.append([nowPlayingItem, container, csbar, ctime]);
+
+  viewModel.playOrPause().plug(cplay.asEventStream('click'));
+  viewModel.previous().plug(cprev.asEventStream('click'));
+  viewModel.next().plug(cnext.asEventStream('click'));
+  viewModel.rewind().plug(crewd.asEventStream('click').map(undefined));
+  viewModel.forward().plug(cfwrd.asEventStream('click').map(undefined));
 
   // $('.controlSbar div', controls).css({transition: 'width 1s linear'});
   //$('.controlButton', controls).css({width: (100 / buttonCount) + '%'});
@@ -63,21 +83,21 @@ function TVControlsView(parent, config, viewModel) {
   var artists = '', title = '';
 
   function play() {
-    $('#controlPlay').removeClass('controlPlay');
-    $('#controlPlay').addClass('controlPaus');
+    $(cplay).removeClass('controlPlay');
+    $(cplay).addClass('controlPaus');
     $('#mobilequeuelist li.nowplaying .status').addClass('playingitem').show();
     $('#mobilequeuelist li.nowplaying .status').removeClass('pauseditem').show();
-    $('.controlItemInfo').children('.itemtitle').text(title);
-    $('.controlItemInfo').children('.itemartist').text(artists);
+    nowPlayingItem.children('.itemtitle').text(title);
+    nowPlayingItem.children('.itemartist').text(artists);
   }
 
   function pause() {
-    $('#controlPlay').removeClass('controlPaus');
-    $('#controlPlay').addClass('controlPlay');
+    $(cplay).removeClass('controlPaus');
+    $(cplay).addClass('controlPlay');
     $('#mobilequeuelist li.nowplaying .status').removeClass('playingitem').show();
     $('#mobilequeuelist li.nowplaying .status').addClass('pauseditem').show();
-    $('.controlItemInfo').children('.itemtitle').text(title);
-    $('.controlItemInfo').children('.itemartist').text(artists);
+    nowPlayingItem.children('.itemtitle').text(title);
+    nowPlayingItem.children('.itemartist').text(artists);
   }
 
   function getFormatedTime(ms) {
@@ -96,82 +116,82 @@ function TVControlsView(parent, config, viewModel) {
       relative = last;
     }
 
-    // $('.controlSbar div', controls).css({width: relative * $('.controlSbar', controls).width()});
+    $('#tv_controlbar div', controls).css({width: relative * $('.controlSbar', controls).width()});
     //$('.controlTime span', controls).text((length) ? getFormatedTime(Math.round(relative * length)) : "-");
-    // $('.controlSbar span.elapsed', controls).text((length) ? getFormatedTime(Math.round(relative * length)) : "-");
-    // $('.controlSbar span.remaining', controls).text((length) ? getFormatedTime(length - Math.round(relative * length)) : "-");
+    $('#tv_elapsed', controls).text((length) ? getFormatedTime(Math.round(relative * length)) : "");
+    $('#tv_remaining', controls).text((length) ? getFormatedTime(length - Math.round(relative * length)) : "");
 
     last = relative;
   }
 
-  // var seeking = false;
-  // function seek(value) {
-  //   if (seeking)
-  //     return;
+  var seeking = false;
+  function seek(value) {
+    if (seeking)
+      return;
 
-  //   var relative = 0;
+    var relative = 0;
 
-  //   if (value >= 0 && value < 1) {
-  //     relative = value;
-  //   } else if (value > 1) {
-  //     relative = Math.min(1, (value / length));
-  //   }
+    if (value >= 0 && value < 1) {
+      relative = value;
+    } else if (value > 1) {
+      relative = Math.min(1, (value / length));
+    }
 
-  //   update(relative);
-  //   bus.push({type: 'set', content: {relative: relative}});
-  // }
+    update(relative);
+    bus.push({type: 'set', content: {relative: relative}});
+  }
 
-  // var bus = new Bacon.Bus(), timer;
-  // bus.plug($(window).asEventStream('resize').map({type: 'resize'}));
-  // bus.onValue(function(event) {
-  //   switch (event.type) {
-  //     case 'resize':
-  //       // $('.controlSbar div', controls).css({transition: 'width 0.0s linear'});
-  //       update();
-  //       // $('.controlSbar div', controls).css({transition: 'width 1s linear'});
-  //       break;
-  //     case 'start':
-  //       seeking = true;
-  //       break;
-  //     case 'seek':
-  //       update(event.content.relative);
-  //       // dont flood with seek events
-  //       if (timer)
-  //         clearTimeout(timer);
-  //       timer = setTimeout(function(relative) {
-  //         viewModel.seek().push(relative);
-  //       }, 200, event.content.relative);
-  //       break;
-  //     case 'end':
-  //       seeking = false;
-  //       break;
-  //   }
-  // });
+  var bus = new Bacon.Bus(), timer;
+  bus.plug($(window).asEventStream('resize').map({type: 'resize'}));
+  bus.onValue(function(event) {
+    switch (event.type) {
+      case 'resize':
+        // $('.controlSbar div', controls).css({transition: 'width 0.0s linear'});
+        update();
+        // $('.controlSbar div', controls).css({transition: 'width 1s linear'});
+        break;
+      case 'start':
+        seeking = true;
+        break;
+      case 'seek':
+        update(event.content.relative);
+        // dont flood with seek events
+        if (timer)
+          clearTimeout(timer);
+        timer = setTimeout(function(relative) {
+          viewModel.seek().push(relative);
+        }, 200, event.content.relative);
+        break;
+      case 'end':
+        seeking = false;
+        break;
+    }
+  });
 
-  // var seeker = $('.controlTime', controls).drags({
-  //   seekBar: $('.controlSbar', controls),
-  //   seekStateBus: bus
-  // });
+  var seeker = $('#mobilecontroltime', controls).drags({
+    seekBar: $('#mobilecontrolbar', controls),
+    seekStateBus: bus
+  });
 
   viewModel.state().onValue(function(state) {
     if (state === '<no-state>') {
-      // seek(0);
+      seek(0);
       pause();
     } else if (state.playback.current && !state.playback.stopping) {
       //TODO perhaps there are more efficient ways of doing this
       $('#mobilequeuelist div.status').hide();
       $('#mobilequeuelist').children('.contentlistitem').removeClass('nowplaying');
       $($('#mobilequeuelist').children('.contentlistitem')[state.index]).addClass('nowplaying');
-      if (state.playback.playing) {
-        play();
-        length = 0;
-        //TODO: move this nasty stuff away from view
-        if (typeof state.queue !== 'undefined' && (state.queue[state.index].item.type.toLowerCase().indexOf("audio") !== -1 || state.queue[state.index].item.type.toLowerCase().indexOf("video") !== -1)) {
-          if (typeof state.queue[state.index].item.duration === "number") {
+
+      //TODO: move this nasty stuff away from view
+      if (typeof state.queue !== 'undefined' && (state.queue[state.index].item.type.toLowerCase().indexOf("audio") !== -1 || state.queue[state.index].item.type.toLowerCase().indexOf("video") !== -1)) {
+        self.setControlsForMediaType('video');
+        if (typeof state.queue[state.index].item.duration === "number") {
             length = state.queue[state.index].item.duration;
             artists = state.queue[state.index].item.artists;
             title = state.queue[state.index].item.title;
-          } else if (state.queue[state.index].item.duration && state.queue[state.index].item.duration.length) {
+        }
+        else if (state.queue[state.index].item.duration && state.queue[state.index].item.duration.length) {
             var itemlengthParsed = 0, itemlength = (state.queue[state.index].item.duration instanceof Array) ? state.queue[state.index].item.duration[0] : state.queue[state.index].item.duration;
             itemlength = itemlength.split(" ");
             for (var i = 0; itemlength.length > i; i++) {
@@ -191,40 +211,41 @@ function TVControlsView(parent, config, viewModel) {
             ;
             length = itemlengthParsed * 1000;
             state.queue[state.index].item.duration = length;
-          }
         }
-        else if (typeof state.queue !== 'undefined' && (state.queue[state.index].item.type.toLowerCase().indexOf("image") !== -1)) {
-          artists = '';
-          title = state.queue[state.index].item.title;
-        }
+      }
+      else if (typeof state.queue !== 'undefined' && (state.queue[state.index].item.type.toLowerCase().indexOf("image") !== -1)) {
+        self.setControlsForMediaType('image');
+        artists = '';
+        title = state.queue[state.index].item.title;
+      }
+
+      if (state.playback.playing) {
+        play();
       } else {
         pause();
       }
 
-      // seek(length * state.playback.relative);
+      seek(length * state.playback.relative);
     } else {
-      // seek(0);
+      seek(0);
       pause();
     }
   });
 }
 
 TVControlsView.prototype.setControlsForMediaType = function(type) {
-  var classNames = ['.controlSbar', '.controlTime', '.controlRewd', '.controlFwrd', '.controlHres'];
   switch (type) {
     case 'image':
-      $('.full.controlContainer').children('.controlButtons').addClass('controlsForImage');
-      classNames.forEach(function(className) {
-        $(className).hide();
-      });
+      $('#mobileControlButtons').addClass('controlsForImage');
+      $('#mobilecontrolbar').addClass('controlsForImage');
+      $('#mobilecontroltime').addClass('controlsForImage');
       break;
     case 'channels':
     case 'audio':
     case 'video':
-      $('.full.controlContainer').children('.controlButtons').removeClass('controlsForImage');
-      classNames.forEach(function(className) {
-        $(className).show();
-      });
+      $('#mobileControlButtons').removeClass('controlsForImage');
+      $('#mobilecontrolbar').removeClass('controlsForImage');
+      $('#mobilecontroltime').removeClass('controlsForImage');
       break;
     default:
       console.warn("Unknown type");
@@ -236,104 +257,104 @@ TVControlsView.prototype.setControlsForMediaType = function(type) {
 module.exports = TVControlsView;
 
 //draggable seekbar plugin
-// (function($) {
-//   $.fn.drags = function(opt) {
+(function($) {
+  $.fn.drags = function(opt) {
 
-//     opt = $.extend({handle: "", cursor: "move", seekStateBus: null}, opt);
+    opt = $.extend({handle: "", cursor: "move", seekStateBus: null}, opt);
 
-//     var z_idx_save = 0, width = 0, offset = 0, positionOffset = 0, drg_w = 0, pos_x = 0;
+    var z_idx_save = 0, width = 0, offset = 0, positionOffset = 0, drg_w = 0, pos_x = 0;
 
-//     var borderWidth = parseInt($(opt.seekBar).css("border-width"), 10);
+    var borderWidth = parseInt($(opt.seekBar).css("border-width"), 10);
 
-//     $(opt.seekBar).width();
+    $(opt.seekBar).width();
 
-//     if (opt.handle === "") {
-//       var $el = this;
-//     } else {
-//       var $el = this.find(opt.handle);
-//     }
+    if (opt.handle === "") {
+      var $el = this;
+    } else {
+      var $el = this.find(opt.handle);
+    }
 
-//     var mouseUpHandler = function() {
-//       if (!$($el).hasClass('draggable')) {
-//         return;
-//       }
-//       // $(opt.seekBar).css({"transition": "width 1s linear"});
-//       $($el).removeClass('draggable').css('z-index', z_idx_save);
-//       if (opt.handle === "") {
-//         $($el).removeClass('draggable');
-//       } else {
-//         $($el).removeClass('active-handle').parent().removeClass('draggable');
-//       }
-//       opt.seekStateBus.push({type: 'end'});
-//       if ((width / 2 + positionOffset) / width) {
-//         opt.seekStateBus.push({type: 'seek', content: {relative: (width / 2 + positionOffset) / width}});
-//       }
-//     };
+    var mouseUpHandler = function() {
+      if (!$($el).hasClass('draggable')) {
+        return;
+      }
+      // $(opt.seekBar).css({"transition": "width 1s linear"});
+      $($el).removeClass('draggable').css('z-index', z_idx_save);
+      if (opt.handle === "") {
+        $($el).removeClass('draggable');
+      } else {
+        $($el).removeClass('active-handle').parent().removeClass('draggable');
+      }
+      opt.seekStateBus.push({type: 'end'});
+      if ((width / 2 + positionOffset) / width) {
+        opt.seekStateBus.push({type: 'seek', content: {relative: (width / 2 + positionOffset) / width}});
+      }
+    };
 
-//     var mouseDownHandler = function(e) {
-//       if (opt.handle === "") {
-//         var $drag = $($el).addClass('draggable');
-//       } else {
-//         var $drag = $($el).addClass('active-handle').parent().addClass('draggable');
-//       }
-//       // $(opt.seekBar).css({"transition": "width 0s linear"});
-//       var z_idx = z_idx_save = $drag.css('z-index');
-//       drg_w = $drag.outerWidth(),
-//         pos_x = $drag.offset().left + drg_w - e.pageX;
-//       offset = e.pageX + pos_x - drg_w - (positionOffset),
-//         $drag.css('z-index', 10001);
-//       e.preventDefault(); // disable selection
-//       opt.seekStateBus.push({type: 'start'});
-//     };
+    var mouseDownHandler = function(e) {
+      if (opt.handle === "") {
+        var $drag = $($el).addClass('draggable');
+      } else {
+        var $drag = $($el).addClass('active-handle').parent().addClass('draggable');
+      }
+      // $(opt.seekBar).css({"transition": "width 0s linear"});
+      var z_idx = z_idx_save = $drag.css('z-index');
+      drg_w = $drag.outerWidth(),
+        pos_x = $drag.offset().left + drg_w - e.pageX;
+      offset = e.pageX + pos_x - drg_w - (positionOffset),
+        $drag.css('z-index', 10001);
+      e.preventDefault(); // disable selection
+      opt.seekStateBus.push({type: 'start'});
+    };
 
-//     var mouseMoveHandler = function(e) {
-//       var $drag = $($el);
-//       if (!$drag.hasClass('draggable')) {
-//         return;
-//       }
-//       width = $(opt.seekBar).width() + borderWidth * 2;
-//       newOffset = e.pageX + pos_x - drg_w;
-//       if (2 * (newOffset - offset) + width > 0 && 2 * (newOffset - offset) - width < 0) {
+    var mouseMoveHandler = function(e) {
+      var $drag = $($el);
+      if (!$drag.hasClass('draggable')) {
+        return;
+      }
+      width = $(opt.seekBar).width() + borderWidth * 2;
+      newOffset = e.pageX + pos_x - drg_w;
+      if (2 * (newOffset - offset) + width > 0 && 2 * (newOffset - offset) - width < 0) {
 
-//         positionOffset = newOffset - offset;
-//         $drag.offset({
-//           left: newOffset
-//         });
-//         //send the user's seek request to the state bus
-//         opt.seekStateBus.push({type: 'seek', content: {relative: (width / 2 + positionOffset) / width}});
-//       }
-//       e.stopPropagation(); //prevent page movement
-//     };
+        positionOffset = newOffset - offset;
+        $drag.offset({
+          left: newOffset
+        });
+        //send the user's seek request to the state bus
+        opt.seekStateBus.push({type: 'seek', content: {relative: (width / 2 + positionOffset) / width}});
+      }
+      e.stopPropagation(); //prevent page movement
+    };
 
-//     opt.seekStateBus.onValue(function(e) {
-//       if (e.type) {
-//         switch (e.type) {
-//           case "resize":
-//             positionOffset = positionOffset * $(opt.seekBar).width() / width;
-//             width = $(opt.seekBar).width();
-//             // $(opt.seekBar).css({"transition": "width 0s linear"});
-//             $($el).css({
-//               left: positionOffset
-//             });
-//             // $(opt.seekBar).css({"transition": "width 1s linear"});
-//             break;
-//           case "set":
-//             if (e.content.relative) {
-//               if (e.content.relative >= 0 && e.content.relative < 1) {//percentage case
-//                 width = $(opt.seekBar).width();
-//                 positionOffset = e.content.relative * width - width / 2;
-//                 $($el).css({
-//                   left: positionOffset
-//                 });
-//               }
-//             }
-//             break;
-//         }
-//       }
-//     });
+    opt.seekStateBus.onValue(function(e) {
+      if (e.type) {
+        switch (e.type) {
+          case "resize":
+            positionOffset = positionOffset * $(opt.seekBar).width() / width;
+            width = $(opt.seekBar).width();
+            // $(opt.seekBar).css({"transition": "width 0s linear"});
+            $($el).css({
+              left: positionOffset
+            });
+            // $(opt.seekBar).css({"transition": "width 1s linear"});
+            break;
+          case "set":
+            if (e.content.relative) {
+              if (e.content.relative >= 0 && e.content.relative < 1) {//percentage case
+                width = $(opt.seekBar).width();
+                positionOffset = e.content.relative * width - width / 2;
+                $($el).css({
+                  left: positionOffset
+                });
+              }
+            }
+            break;
+        }
+      }
+    });
 
-//     $el.css('cursor', opt.cursor).on("mousedown", mouseDownHandler).parents("html").on("mouseup", mouseUpHandler).on("mousemove", mouseMoveHandler);
-//     return $el;
+    $el.css('cursor', opt.cursor).on("mousedown", mouseDownHandler).parents("html").on("mouseup", mouseUpHandler).on("mousemove", mouseMoveHandler);
+    return $el;
 
-//   };
-// })($);
+  };
+})($);

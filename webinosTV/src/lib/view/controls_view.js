@@ -2,12 +2,14 @@ var $ = require('jquery');
 var _ = require('underscore');
 
 var Bacon = require('baconjs');
+var gotoPageById = require('./pagetransition.js');
 
 function ControlsView(parent, config, viewModel) {
   parent = $(parent) || $('body');
   config = _.extend({
     style: 'slim',
     remove: true,
+    back: true,
     fullscreen: false,
     highdef: false,
     navclass: 'nav_qu'
@@ -20,6 +22,8 @@ function ControlsView(parent, config, viewModel) {
     buttonCount++;
   if (config.highdef)
     buttonCount++;
+  if (config.back)
+    buttonCount++;
 
   var cprev = $('<div class="controlButton controlPrev ' + config.navclass + '">');
   var crewd = $('<div class="controlButton controlRewd ' + config.navclass + '">');
@@ -28,6 +32,7 @@ function ControlsView(parent, config, viewModel) {
   var cnext = $('<div class="controlButton controlNext ' + config.navclass + '">');
   var cdele = $('<div class="controlButton controlDele ' + config.navclass + '">');
   var cfull = $('<div class="controlButton controlFull ' + config.navclass + '">');
+  var cback = $('<div class="controlButton controlBack ' + config.navclass + '">');
   var chres = $('<div class="controlButton controlHres ' + config.navclass + '">');
   var csbar = $('<div class="controlSbar"><div></div></div>');
   var ctime = $('<div class="controlTime"><div class="controlTimeSchnippel"></div><span>1:00</span></div>');
@@ -36,20 +41,28 @@ function ControlsView(parent, config, viewModel) {
   var container = $('<div class="controlButtons">');
 
   container.append([cprev, crewd, cplay, cfwrd, cnext]);
-  if (config.remove)
+  if (config.remove) {
     container.append(cdele);
+    viewModel.remove().plug(cdele.asEventStream('click'));
+  }
   if (config.fullscreen)
     container.append(cfull);
+  if (config.back) {
+    container.append(cback);
+    cback.click( function() {
+      gotoPageById('#mobilebrowser');
+    });
+
+  }
   if (config.highdef)
     container.append(chres);
   controls.append([container, csbar, ctime]);
 
-  viewModel.playOrPause().plug(cplay.asEventStream('click').merge(cplay.asEventStream('touchend')));
-  viewModel.previous().plug(cprev.asEventStream('click').merge(cprev.asEventStream('touchend')));
-  viewModel.next().plug(cnext.asEventStream('click').merge(cnext.asEventStream('touchend')));
-  viewModel.rewind().plug(crewd.asEventStream('click').merge(crewd.asEventStream('touchend')).map(undefined));
-  viewModel.forward().plug(cfwrd.asEventStream('click').merge(cfwrd.asEventStream('touchend')).map(undefined));
-  viewModel.remove().plug(cdele.asEventStream('click').merge(cdele.asEventStream('touchend')));
+  viewModel.playOrPause().plug(cplay.asEventStream('click'));
+  viewModel.previous().plug(cprev.asEventStream('click'));
+  viewModel.next().plug(cnext.asEventStream('click'));
+  viewModel.rewind().plug(crewd.asEventStream('click').map(undefined));
+  viewModel.forward().plug(cfwrd.asEventStream('click').map(undefined));
 
   $(parent).append(controls);
 
@@ -148,11 +161,11 @@ function ControlsView(parent, config, viewModel) {
         play();
         length = 0;
         //TODO: move this nasty stuff away from view
-        if (typeof state.queue !== 'undefined' && (state.queue[state.index].item.type.toLowerCase().indexOf("audio")!=-1 || state.queue[state.index].item.type.toLowerCase().indexOf("video")!=-1)){
+        if (typeof state.queue !== 'undefined' && (state.queue[state.index].item.type.toLowerCase().indexOf("audio") != -1 || state.queue[state.index].item.type.toLowerCase().indexOf("video") != -1)) {
           if (typeof state.queue[state.index].item.duration === "number") {
             length = state.queue[state.index].item.duration;
-          } else if(state.queue[state.index].item.duration && state.queue[state.index].item.duration.length){
-            var itemlengthParsed = 0, itemlength = (state.queue[state.index].item.duration instanceof Array)?state.queue[state.index].item.duration[0]:state.queue[state.index].item.duration;
+          } else if (state.queue[state.index].item.duration && state.queue[state.index].item.duration.length) {
+            var itemlengthParsed = 0, itemlength = (state.queue[state.index].item.duration instanceof Array) ? state.queue[state.index].item.duration[0] : state.queue[state.index].item.duration;
             itemlength = itemlength.split(" ");
             for (var i = 0; itemlength.length > i; i++) {
               if (itemlength[i].indexOf("h") !== -1) {
@@ -191,7 +204,8 @@ ControlsView.prototype.setControlsForMediaType = function(type) {
     case 'image':
       $('.full.controlContainer').children('.controlButtons').addClass('controlsForImage');
       classNames.forEach(function(className) {
-        $(className).hide();
+        $('.full.controlContainer').children(className).hide();
+        $('.full.controlContainer').children('.controlButtons').children(className).hide();
       });
       break;
     case 'channels':
@@ -199,7 +213,8 @@ ControlsView.prototype.setControlsForMediaType = function(type) {
     case 'video':
       $('.full.controlContainer').children('.controlButtons').removeClass('controlsForImage');
       classNames.forEach(function(className) {
-        $(className).show();
+        $('.full.controlContainer').children(className).show();
+        $('.full.controlContainer').children('.controlButtons').children(className).show();
       });
       break;
     default:
