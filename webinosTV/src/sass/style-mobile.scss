@@ -490,6 +490,13 @@ $category-wrapper-width-largescreen:150px;
 		vertical-align: middle;
 		color: $blue;
 		margin-left: 6px;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		
+		@media screen and (max-width: $mintabletwidth - 1) {
+			max-width: 165px;
+		}
 	}
 
 	#mobilecategorywrapper {
