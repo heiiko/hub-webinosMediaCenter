@@ -17,7 +17,7 @@ function MobileBrowserViewModel(manager, input) {
 
   var sources = manager.toProperty().map(function(devices) {
     return _.filter(devices, function(device) {
-      return device.isSource();
+      return device.isSource() && (typeof device.type() != 'undefined');
     });
   });
 
