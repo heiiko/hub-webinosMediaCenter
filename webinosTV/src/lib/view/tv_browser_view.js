@@ -698,7 +698,7 @@ function TVBrowserView(viewModel) {
   $('.content-queuebutton').click(function() {
     if(! $(this).hasClass('disabled')) {
       // TODO: add number of files added
-      var t = new Toast('Media files are added to your queue');
+      var t = new TV_Toast('Media files are added to your queue');
     }
   });
 }
