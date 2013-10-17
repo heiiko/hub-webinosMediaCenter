@@ -228,6 +228,10 @@ $category-wrapper-width-largescreen:150px;
 		margin-left: 8px;
 	}
 
+	#mobilequeuetargetwrapper {
+		width: 100%;
+	}
+
 	#mobilequeuetargetlist {
 		li.mobileselected {
 			height: 44px;
@@ -242,7 +246,8 @@ $category-wrapper-width-largescreen:150px;
 			display: inline-block;
 			white-space: nowrap;
 			border-image: none;
-
+			max-width: 20%;
+			
 			.device-image {
 				float: left;
 				-webkit-mask-size: 36px 30px;
