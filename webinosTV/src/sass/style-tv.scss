@@ -31,6 +31,14 @@ $webinosBlue:#0099CC;
   cursor: pointer;
 }
 
+@mixin mediaMobileSelected {
+  @include selectable-element;
+  background-color: $tv_background_color;
+  border-color: #2D728F;
+  color: #F2F2F2;
+  cursor: pointer;
+}
+
 @mixin pressed {
   @include selectable-element;
   background-color: #2C799A;
@@ -423,13 +431,15 @@ body {
 
       li {
         @include selectable-element;
-        padding: 5px 10px 7px 10px;
-
+        padding: 0.3125em 0.625em 0.4375em 0.625em;
+        margin-top: 1em;
+        margin-bottom: 1em;
+        font-size: 1.5em;
         .itemcontainer {
           input[type="checkbox"] {
-            margin: 0 10px 0 0;
-            width: 20px;
-            height: 20px;
+            margin: 0 0.625em 0 0;
+            width: 1.25em;
+            height: 1.25em;
             vertical-align: middle;
           }
 
@@ -440,7 +450,7 @@ body {
 
           .itemartists:before {
             content:" - ";
-            margin-left: 4px;
+            margin-left: 0.25em;
           }
         }
       }
@@ -448,6 +458,9 @@ body {
       li.focus,
       li:hover {
         @include focussed;
+      }
+      li.mobileselected {
+        @include mediaMobileSelected;
       }
     }
   }
