@@ -1,6 +1,8 @@
 @charset "UTF-8";
 @import "base";
 
+$webinosBlue:#0099CC;
+
 @mixin selectable-element {
   @include box-sizing(border-box);
   @include border-radius(5px);
@@ -121,6 +123,7 @@ body {
     position: absolute;
     height: 30%;
     width: 96%;
+    display: table;
     @include selectable-element;
   }
 
@@ -138,17 +141,13 @@ body {
   }
 
   .mobilemenu-item-inner {
-    position: absolute;
     margin: auto;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 80%;
-    height: 30%;
+    padding-right: 10%;
+    padding-left: 10%;
     font-size: 2em;
-    padding: 1.2em;
     text-align: center;
+    display: table-cell;
+    vertical-align: middle;
   }
 }
 
@@ -178,7 +177,7 @@ body {
     height: 70px;
     padding: 15px 2px 15px 2px;
     border-bottom: 4px solid white;
-    font-size: 26px;
+    font-size: 1.625em;
     white-space: nowrap;
 
     >* {
@@ -203,6 +202,18 @@ body {
   .device-column {
     height: 85%;
   }
+  
+  .device-name {
+    font-size: 1.5em;
+    font-weight: bold;
+  }
+  
+  .device-type {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: $webinosBlue;
+  }
+
 
   #mobilesourcelist,
   #mobiletargetlist {
@@ -251,7 +262,7 @@ body {
       @include box-sizing(border-box);
       padding: 15px 2px 15px 2px;
       height: 70px;
-      font-size: 26px;
+      font-size: 1.625em;
     border-bottom: 1px solid white;
     }
 
@@ -515,7 +526,7 @@ body {
 
       .controlButton{
         float: right;
-        background-color: #0099CC;
+        background-color: $webinosBlue;
         width: 50px;
         height: 50px;
         margin-top: 0;

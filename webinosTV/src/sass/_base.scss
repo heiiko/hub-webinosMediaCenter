@@ -1,6 +1,6 @@
 
 
-@font-face {
+/*@font-face {
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 400;
@@ -12,7 +12,7 @@
   font-style: normal;
   font-weight: 700;
   src: url('../fonts/roboto/roboto700normal.woff') format('woff');
-}
+}*/
 
 // Variables
 $font-family: 'Roboto', sans-serif;
@@ -34,3 +34,6 @@ $tv_color: #F1F1F1;
 @import "compass/layout/sticky-footer"; // Helps set up a footer region.
 @import "compass/css3/box-shadow";
 @import "compass/css3/box";
+
+@include font-face("Roboto", inline-font-files('roboto/roboto400normal.woff', woff));
+@include font-face("Roboto", inline-font-files('roboto/roboto700normal.woff', woff),$weight:bold);
