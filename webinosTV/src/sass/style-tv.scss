@@ -2,6 +2,17 @@
 @import "base";
 
 $webinosBlue:#0099CC;
+//Category images fallback background colors
+$categoryMusicBGDark:#0190C0;
+$categoryMusicBGLight:#0099CC;
+$categoryVideosBGDark:#B42600;
+$categoryVideosBGLight:#CC2B00;
+$categoryImagesBGDark:#4EAB1B;
+$categoryImagesBGLight:#4EB815;
+$categoryChannelsBGDark:#FDAC10;
+$categoryChannelsBGLight:#FDBD10;
+
+
 
 @mixin selectable-element {
   @include box-sizing(border-box);
@@ -303,6 +314,7 @@ body {
 
       li {
         height: 25%;
+        margin-bottom: 0.25em;
 
         .category-image {
           height: 100%;
@@ -318,8 +330,10 @@ body {
 
       .category-type-movies {
         .category-image {
-          background-image: url('../images/media-movies.svg');
-          background-size: 80%;
+          //background-image: url('../images/media-movies.svg');
+          background-image: inline-image('media-movies.svg'),linear-gradient(-45deg,$categoryVideosBGLight 50%,$categoryVideosBGDark 50%);
+          border-radius: 100%;
+          //background-size: 80%;
         }
       }
 
@@ -327,15 +341,17 @@ body {
       .category-type-movies.mobileselected,
       .category-type-movies:hover {
         .category-image {
-          background-image: url('../images/category-selected.svg'),url('../images/media-movies.svg');
+          background-image: inline-image('category-selected.svg'),inline-image('media-movies.svg'),linear-gradient(-45deg,$categoryVideosBGLight 50%,$categoryVideosBGDark 50%);
           background-size: 100%,80%;
+          border-radius: 100%;
         }
       }
 
       .category-type-music {
         .category-image {
-          background-image: url('../images/media-music.svg');
-          background-size: 80%;
+          background-image: inline-image('media-music.svg'),linear-gradient(-45deg,$categoryMusicBGLight 50%,$categoryMusicBGDark 50%);
+          //background-size: 80%;
+          border-radius: 100%;
         }
       }
 
@@ -343,15 +359,17 @@ body {
       .category-type-music.mobileselected,
       .category-type-music:hover {
         .category-image {
-          background-image: url('../images/category-selected.svg'),url('../images/media-music.svg');
+          background-image: inline-image('category-selected.svg'),inline-image('media-music.svg'),linear-gradient(-45deg,$categoryMusicBGLight 50%,$categoryMusicBGDark 50%);
           background-size: 100%,80%;
+          border-radius: 100%;
         }
       }
 
       .category-type-images {
         .category-image {
-          background-image: url('../images/media-images.svg');
-          background-size: 80%;
+          background-image: inline-image('media-images.svg'),linear-gradient(-45deg,$categoryImagesBGLight 50%,$categoryImagesBGDark 50%);
+          //background-size: 80%;
+          border-radius: 100%;
         }
       }
 
@@ -359,15 +377,17 @@ body {
       .category-type-images.mobileselected,
       .category-type-images:hover {
         .category-image {
-          background-image: url('../images/category-selected.svg'),url('../images/media-images.svg');
+          background-image: inline-image('category-selected.svg'),inline-image('media-images.svg'),linear-gradient(-45deg,$categoryImagesBGLight 50%,$categoryImagesBGDark 50%);
           background-size: 100%,80%;
+          border-radius: 100%;
         }
       }
 
       .category-type-channels {
         .category-image {
-          background-image: url('../images/media-channels.svg');
-          background-size: 80%;
+          background-image: inline-image('media-channels.svg'),linear-gradient(-45deg,$categoryChannelsBGLight 50%,$categoryChannelsBGDark 50%);
+          //background-size: 80%;
+          border-radius: 100%;
         }
       }
 
@@ -375,8 +395,9 @@ body {
       .category-type-channels.mobileselected,
       .category-type-channels:hover {
         .category-image {
-          background-image: url('../images/category-selected.svg'),url('../images/media-channels.svg');
+          background-image: inline-image('category-selected.svg'),inline-image('media-channels.svg'),linear-gradient(-45deg,$categoryChannelsBGLight 50%,$categoryChannelsBGDark 50%);
           background-size: 100%,80%;
+          border-radius: 100%;
         }
       }
     }
@@ -506,7 +527,7 @@ body {
     height: 100px;
     border-top: 1px solid #D4D4D4;
     border-bottom: 1px solid #D4D4D4;
-    background: url('../images/tv_controls_back.png');
+    background: inline-image('tv_controls_back.png');
 
     .controlItemInfo {
       height: 40px;
@@ -557,16 +578,16 @@ body {
       }
 
       .controlPlay{
-        background-image: url(../images/player_play.svg);
+        background-image: inline-image('player_play.svg');
       }
       .controlPaus{
-        background-image: url(../images/player_pause.svg);
+        background-image: inline-image('player_pause.svg');
       }
       .controlPrev{
-        background-image: url(../images/player_prev.svg);
+        background-image: inline-image('player_prev.svg');
       }
       .controlNext{
-        background-image: url(../images/player_next.svg);
+        background-image: inline-image('player_next.svg');
       }
     }
 
