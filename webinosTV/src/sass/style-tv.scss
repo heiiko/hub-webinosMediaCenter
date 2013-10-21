@@ -2,6 +2,7 @@
 @import "base";
 
 $webinosBlue:#0099CC;
+$devicelogo: #FFFFFF;
 //Category images fallback background colors
 $categoryMusicBGDark:#0099CC;
 $categoryMusicBGLight:#0190C0;
@@ -33,7 +34,7 @@ $categoryChannelsBGLight:#FDAC10;
     content: '';
     left: 10%;
     top: 15%;
-    height: 25%;
+        height: 25%;
     width: 60%;
     border-bottom: 0.25em solid $webinosBlue;
     border-left: 0.25em solid $webinosBlue;
@@ -283,6 +284,46 @@ body {
 
     li {
       @include selectable-element;
+
+      $deviceIconWidth: 15%;
+      .device-image {
+        -webkit-mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        background-color: $devicelogo;
+        width: $deviceIconWidth;
+        height: 0;
+        padding-bottom: $deviceIconWidth;
+        float:right;
+      }
+
+      .device-image.type-laptop {
+        -webkit-mask-image: inline-image('laptop.svg');
+      }
+
+      .device-image.type-pc {
+        -webkit-mask-image: inline-image('pc.svg');
+      }
+
+      .device-image.type-phone {
+        -webkit-mask-image: inline-image('phone.svg');
+      }
+
+      .device-image.type-tablet {
+        -webkit-mask-image: inline-image('tablet.svg');
+      }
+
+      .device-image.type-tv {
+        -webkit-mask-image: inline-image('tv.svg');
+      }
+
+      .device-image.type-unknown {
+        -webkit-mask-image: inline-image('all_devices.svg');
+      }
+      
+      .device-image.type-none {
+        visibility: hidden;
+      }
+      
       padding: 2em;
     }
 
