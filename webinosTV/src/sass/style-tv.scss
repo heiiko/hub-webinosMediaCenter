@@ -13,6 +13,45 @@ $categoryImagesBGLight:#4EAB1B;
 $categoryChannelsBGDark:#FDBD10;
 $categoryChannelsBGLight:#FDAC10;
 
+@mixin device-types($deviceIconWidth){
+  .device-image {
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    background-color: $devicelogo;
+    width: $deviceIconWidth;
+    height: 0;
+    padding-bottom: $deviceIconWidth;
+  }
+
+  .device-image.type-laptop {
+    -webkit-mask-image: inline-image('laptop.svg');
+  }
+
+  .device-image.type-pc {
+    -webkit-mask-image: inline-image('pc.svg');
+  }
+
+  .device-image.type-phone {
+    -webkit-mask-image: inline-image('phone.svg');
+  }
+
+  .device-image.type-tablet {
+    -webkit-mask-image: inline-image('tablet.svg');
+  }
+
+  .device-image.type-tv {
+    -webkit-mask-image: inline-image('tv.svg');
+  }
+
+  .device-image.type-unknown {
+    -webkit-mask-image: inline-image('all_devices.svg');
+  }
+  
+  .device-image.type-none {
+    visibility: hidden;
+  }
+}
+
 @mixin tv-checkboxes{
   input[type="checkbox"] {
     font-size: 1.3em;
@@ -253,6 +292,10 @@ body {
   .header-active {
     color: #0399CD;
     border-color: #0399CD;
+    @include device-types(1.5em);
+    .device-image {
+      margin-top: 1.1em;
+    }
   }
 
   .device-column {
@@ -284,46 +327,11 @@ body {
 
     li {
       @include selectable-element;
-
-      $deviceIconWidth: 15%;
+      @include device-types(15%);
       .device-image {
-        -webkit-mask-size: contain;
-        -webkit-mask-repeat: no-repeat;
-        background-color: $devicelogo;
-        width: $deviceIconWidth;
-        height: 0;
-        padding-bottom: $deviceIconWidth;
-        float:right;
+        float: right;
       }
 
-      .device-image.type-laptop {
-        -webkit-mask-image: inline-image('laptop.svg');
-      }
-
-      .device-image.type-pc {
-        -webkit-mask-image: inline-image('pc.svg');
-      }
-
-      .device-image.type-phone {
-        -webkit-mask-image: inline-image('phone.svg');
-      }
-
-      .device-image.type-tablet {
-        -webkit-mask-image: inline-image('tablet.svg');
-      }
-
-      .device-image.type-tv {
-        -webkit-mask-image: inline-image('tv.svg');
-      }
-
-      .device-image.type-unknown {
-        -webkit-mask-image: inline-image('all_devices.svg');
-      }
-      
-      .device-image.type-none {
-        visibility: hidden;
-      }
-      
       padding: 2em;
     }
 
