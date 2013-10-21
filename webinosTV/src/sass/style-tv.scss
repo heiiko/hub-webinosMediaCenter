@@ -316,8 +316,11 @@ body {
         height: 25%;
         margin-bottom: 0.25em;
 
+        $categoryImageWidth: 100%;
         .category-image {
-          height: 100%;
+          width: $categoryImageWidth;
+          padding-bottom: $categoryImageWidth;
+          height: 0;
           background-position: center;
           background-repeat: no-repeat;
           background-size: contain;
