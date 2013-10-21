@@ -12,6 +12,35 @@ $categoryImagesBGLight:#4EAB1B;
 $categoryChannelsBGDark:#FDBD10;
 $categoryChannelsBGLight:#FDAC10;
 
+@mixin tv-checkboxes{
+  input[type="checkbox"] {
+    font-size: 1.3em;
+    position: relative;
+    border: 0.0625em solid gray;
+    display: inline-block;
+    line-height: 1em;
+    margin-right: 0.75em;
+    padding: 0;
+    width: 1em;
+    height: 1em;
+    vertical-align: text-top;
+    background: black;
+    -webkit-appearance: none;
+  }
+  
+  input[type=checkbox]:checked::after {
+    position: absolute;
+    content: '';
+    left: 10%;
+    top: 15%;
+    height: 25%;
+    width: 60%;
+    border-bottom: 0.25em solid $webinosBlue;
+    border-left: 0.25em solid $webinosBlue;
+    -webkit-transform: rotate(-45deg);
+  }
+}
+
 @mixin highlighted-category{
   $selectedCategoryColor: $webinosBlue;
   box-shadow: inset 0px 0px 0px 0.5em black;
@@ -469,12 +498,7 @@ $headerHeight: 5em;
         margin-bottom: 1em;
         font-size: 1.5em;
         .itemcontainer {
-          input[type="checkbox"] {
-            margin: 0 0.625em 0 0;
-            width: 1.25em;
-            height: 1.25em;
-            vertical-align: middle;
-          }
+          @include tv-checkboxes;
 
           div {
             display: inline-block;
@@ -619,12 +643,13 @@ $headerHeight: 5em;
         padding: 5px 10px 7px 10px;
 
         .itemcontainer {
-          input[type="checkbox"] {
-            margin: 0 10px 0 0;
-            width: 20px;
-            height: 20px;
-            vertical-align: middle;
-          }
+//          input[type="checkbox"] {
+//            margin: 0 10px 0 0;
+//            width: 20px;
+//            height: 20px;
+//            vertical-align: middle;
+//          }
+          @include tv-checkboxes;
 
           div {
             display: inline-block;
