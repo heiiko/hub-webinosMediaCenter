@@ -331,7 +331,7 @@ body {
       .category-type-movies {
         .category-image {
           //background-image: url('../images/media-movies.svg');
-          background-image: inline-image('media-movies.svg'),linear-gradient(-45deg,$categoryVideosBGLight 50%,$categoryVideosBGDark 50%);
+          background-image: inline-image('media-movies.svg'),-webkit-linear-gradient(-45deg,$categoryVideosBGLight 50%,$categoryVideosBGDark 50%);
           border-radius: 100%;
           //background-size: 80%;
         }
@@ -341,7 +341,7 @@ body {
       .category-type-movies.mobileselected,
       .category-type-movies:hover {
         .category-image {
-          background-image: inline-image('category-selected.svg'),inline-image('media-movies.svg'),linear-gradient(-45deg,$categoryVideosBGLight 50%,$categoryVideosBGDark 50%);
+          background-image: inline-image('category-selected.svg'),inline-image('media-movies.svg'),-webkit-linear-gradient(-45deg,$categoryVideosBGLight 50%,$categoryVideosBGDark 50%);
           background-size: 100%,80%;
           border-radius: 100%;
         }
@@ -349,7 +349,7 @@ body {
 
       .category-type-music {
         .category-image {
-          background-image: inline-image('media-music.svg'),linear-gradient(-45deg,$categoryMusicBGLight 50%,$categoryMusicBGDark 50%);
+          background-image: inline-image('media-music.svg'),-webkit-linear-gradient(-45deg,$categoryMusicBGLight 50%,$categoryMusicBGDark 50%);
           //background-size: 80%;
           border-radius: 100%;
         }
@@ -359,7 +359,7 @@ body {
       .category-type-music.mobileselected,
       .category-type-music:hover {
         .category-image {
-          background-image: inline-image('category-selected.svg'),inline-image('media-music.svg'),linear-gradient(-45deg,$categoryMusicBGLight 50%,$categoryMusicBGDark 50%);
+          background-image: inline-image('category-selected.svg'),inline-image('media-music.svg'),-webkit-linear-gradient(-45deg,$categoryMusicBGLight 50%,$categoryMusicBGDark 50%);
           background-size: 100%,80%;
           border-radius: 100%;
         }
@@ -367,7 +367,7 @@ body {
 
       .category-type-images {
         .category-image {
-          background-image: inline-image('media-images.svg'),linear-gradient(-45deg,$categoryImagesBGLight 50%,$categoryImagesBGDark 50%);
+          background-image: inline-image('media-images.svg'),-webkit-linear-gradient(-45deg,$categoryImagesBGLight 50%,$categoryImagesBGDark 50%);
           //background-size: 80%;
           border-radius: 100%;
         }
@@ -377,7 +377,7 @@ body {
       .category-type-images.mobileselected,
       .category-type-images:hover {
         .category-image {
-          background-image: inline-image('category-selected.svg'),inline-image('media-images.svg'),linear-gradient(-45deg,$categoryImagesBGLight 50%,$categoryImagesBGDark 50%);
+          background-image: inline-image('category-selected.svg'),inline-image('media-images.svg'),-webkit-linear-gradient(-45deg,$categoryImagesBGLight 50%,$categoryImagesBGDark 50%);
           background-size: 100%,80%;
           border-radius: 100%;
         }
@@ -385,7 +385,7 @@ body {
 
       .category-type-channels {
         .category-image {
-          background-image: inline-image('media-channels.svg'),linear-gradient(-45deg,$categoryChannelsBGLight 50%,$categoryChannelsBGDark 50%);
+          background-image: inline-image('media-channels.svg'),-webkit-linear-gradient(-45deg,$categoryChannelsBGLight 50%,$categoryChannelsBGDark 50%);
           //background-size: 80%;
           border-radius: 100%;
         }
@@ -395,7 +395,7 @@ body {
       .category-type-channels.mobileselected,
       .category-type-channels:hover {
         .category-image {
-          background-image: inline-image('category-selected.svg'),inline-image('media-channels.svg'),linear-gradient(-45deg,$categoryChannelsBGLight 50%,$categoryChannelsBGDark 50%);
+          background-image: inline-image('category-selected.svg'),inline-image('media-channels.svg'),-webkit-linear-gradient(-45deg,$categoryChannelsBGLight 50%,$categoryChannelsBGDark 50%);
           background-size: 100%,80%;
           border-radius: 100%;
         }
