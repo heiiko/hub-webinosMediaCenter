@@ -12,7 +12,12 @@ $categoryImagesBGLight:#4EAB1B;
 $categoryChannelsBGDark:#FDBD10;
 $categoryChannelsBGLight:#FDAC10;
 
-
+@mixin highlighted-category{
+  $selectedCategoryColor: $webinosBlue;
+  box-shadow: inset 0px 0px 0px 0.5em black;
+  background-size: 80%, 100%;
+  border: 0.125em solid $selectedCategoryColor;
+}
 
 @mixin selectable-element {
   @include box-sizing(border-box);
@@ -271,8 +276,10 @@ body {
   }
 }
 
+$headerHeight: 5em;
 #container-media {
   .header-media {
+    height: $headerHeight;
     .header-item-media {
       #selected-source {
         display: none;
@@ -286,10 +293,10 @@ body {
 
     .header-item-media:nth-child(1) {
       @include box-sizing(border-box);
-      padding: 15px 2px 15px 2px;
-      height: 70px;
-      font-size: 1.625em;
-    border-bottom: 1px solid white;
+      padding: 1em 0.125em 1.25em 0.125em;
+      height: 100%;
+      font-size: 3em;
+      border-bottom: 0.0625em solid white;
     }
 
     .separator {
@@ -300,11 +307,11 @@ body {
   #mobilecategorywrapper {
     @include box-sizing(border-box);
     position: absolute;
-    top: 70px;
+    top: $headerHeight + 0.5em;
     bottom: 0;
     width: 15%;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding-top: 2em;
+    padding-bottom: 1.25em;
 
     ul {
       list-style-type: none;
@@ -331,8 +338,6 @@ body {
         cursor: pointer;
       }
       
-      $selectedCategoryColor: white; //$webinosBlue is not visible on music category!
-
       .category-type-movies {
         .category-image {
           //background-image: url('../images/media-movies.svg');
@@ -346,10 +351,8 @@ body {
       .category-type-movies.mobileselected,
       .category-type-movies:hover {
         .category-image {
-          //category-selected.svg is ignored on Chromium
-          box-shadow: inset 0px 0px 0px 0.5em $selectedCategoryColor;
+          @include highlighted-category;
           background-image: inline-image('media-movies.svg'),-webkit-linear-gradient(-45deg,$categoryVideosBGLight 50%,$categoryVideosBGDark 50%);
-          background-size: 80%, 100%;
           border-radius: 100%;
         }
       }
@@ -366,9 +369,8 @@ body {
       .category-type-music.mobileselected,
       .category-type-music:hover {
         .category-image {
-          box-shadow: inset 0px 0px 0px 0.5em $selectedCategoryColor;
+          @include highlighted-category;
           background-image: inline-image('media-music.svg'),-webkit-linear-gradient(-45deg,$categoryMusicBGLight 50%,$categoryMusicBGDark 50%);
-          background-size: 80%, 100%;
           border-radius: 100%;
         }
       }
@@ -376,7 +378,6 @@ body {
       .category-type-images {
         .category-image {
           background-image: inline-image('media-images.svg'),-webkit-linear-gradient(-45deg,$categoryImagesBGLight 50%,$categoryImagesBGDark 50%);
-          //background-size: 80%;
           border-radius: 100%;
         }
       }
@@ -385,9 +386,8 @@ body {
       .category-type-images.mobileselected,
       .category-type-images:hover {
         .category-image {
-          box-shadow: inset 0px 0px 0px 0.5em $selectedCategoryColor;
+          @include highlighted-category;
           background-image: inline-image('media-images.svg'),-webkit-linear-gradient(-45deg,$categoryImagesBGLight 50%,$categoryImagesBGDark 50%);
-          background-size: 80%, 100%;
           border-radius: 100%;
         }
       }
@@ -395,7 +395,6 @@ body {
       .category-type-channels {
         .category-image {
           background-image: inline-image('media-channels.svg'),-webkit-linear-gradient(-45deg,$categoryChannelsBGLight 50%,$categoryChannelsBGDark 50%);
-          //background-size: 80%;
           border-radius: 100%;
         }
       }
@@ -404,9 +403,8 @@ body {
       .category-type-channels.mobileselected,
       .category-type-channels:hover {
         .category-image {
-          box-shadow: inset 0px 0px 0px 0.5em $selectedCategoryColor;
+          @include highlighted-category;
           background-image: inline-image('media-channels.svg'),-webkit-linear-gradient(-45deg,$categoryChannelsBGLight 50%,$categoryChannelsBGDark 50%);
-          background-size: 80%, 100%;
           border-radius: 100%;
         }
       }
@@ -421,18 +419,18 @@ body {
     @include box-sizing(border-box);
     position: absolute;
     right: 0;
-    top: 70px;
+    top: $headerHeight + 0.5em;
     width: 75%;
     margin-right: 5%;
-    height: 70px;
-    padding-top: 17px;
-    border-bottom: 1px solid white;
+    height: $headerHeight + 0.6em;
+    padding-top: 2.2em;
+    border-bottom: 0.0625em solid white;
 
     .nav_media_action {
       display: inline-block;
       @include selectable-button;
-      padding: 5px 15px;
-      margin-right: 5px;
+      padding: 0.25em 1em;
+      margin-right: 0.25em;
     }
 
     .nav_media_action.disabled {
@@ -447,12 +445,16 @@ body {
     .nav_media_action:active {
       @include pressed;
     }
+    
+    #select-media-dd-wrapper {
+      font-size: 1.5em;
+    }
   }
 
   #mobilecontentwrapper {
     position: absolute;
     right: 0;
-    top: 140px;
+    top: 2 * $headerHeight;
     width: 75%;
     margin-right: 5%;
     
