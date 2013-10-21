@@ -3,14 +3,14 @@
 
 $webinosBlue:#0099CC;
 //Category images fallback background colors
-$categoryMusicBGDark:#0190C0;
-$categoryMusicBGLight:#0099CC;
-$categoryVideosBGDark:#B42600;
-$categoryVideosBGLight:#CC2B00;
-$categoryImagesBGDark:#4EAB1B;
-$categoryImagesBGLight:#4EB815;
-$categoryChannelsBGDark:#FDAC10;
-$categoryChannelsBGLight:#FDBD10;
+$categoryMusicBGDark:#0099CC;
+$categoryMusicBGLight:#0190C0;
+$categoryVideosBGDark:#CC2B00;
+$categoryVideosBGLight:#B42600;
+$categoryImagesBGDark:#4EB815;
+$categoryImagesBGLight:#4EAB1B;
+$categoryChannelsBGDark:#FDBD10;
+$categoryChannelsBGLight:#FDAC10;
 
 
 
@@ -327,6 +327,8 @@ body {
       li:hover {
         cursor: pointer;
       }
+      
+      $selectedCategoryColor: white; //$webinosBlue is not visible on music category!
 
       .category-type-movies {
         .category-image {
@@ -341,8 +343,10 @@ body {
       .category-type-movies.mobileselected,
       .category-type-movies:hover {
         .category-image {
-          background-image: inline-image('category-selected.svg'),inline-image('media-movies.svg'),-webkit-linear-gradient(-45deg,$categoryVideosBGLight 50%,$categoryVideosBGDark 50%);
-          background-size: 100%,80%;
+          //category-selected.svg is ignored on Chromium
+          box-shadow: inset 0px 0px 0px 0.5em $selectedCategoryColor;
+          background-image: inline-image('media-movies.svg'),-webkit-linear-gradient(-45deg,$categoryVideosBGLight 50%,$categoryVideosBGDark 50%);
+          background-size: 80%, 100%;
           border-radius: 100%;
         }
       }
@@ -359,8 +363,9 @@ body {
       .category-type-music.mobileselected,
       .category-type-music:hover {
         .category-image {
-          background-image: inline-image('category-selected.svg'),inline-image('media-music.svg'),-webkit-linear-gradient(-45deg,$categoryMusicBGLight 50%,$categoryMusicBGDark 50%);
-          background-size: 100%,80%;
+          box-shadow: inset 0px 0px 0px 0.5em $selectedCategoryColor;
+          background-image: inline-image('media-music.svg'),-webkit-linear-gradient(-45deg,$categoryMusicBGLight 50%,$categoryMusicBGDark 50%);
+          background-size: 80%, 100%;
           border-radius: 100%;
         }
       }
@@ -377,8 +382,9 @@ body {
       .category-type-images.mobileselected,
       .category-type-images:hover {
         .category-image {
-          background-image: inline-image('category-selected.svg'),inline-image('media-images.svg'),-webkit-linear-gradient(-45deg,$categoryImagesBGLight 50%,$categoryImagesBGDark 50%);
-          background-size: 100%,80%;
+          box-shadow: inset 0px 0px 0px 0.5em $selectedCategoryColor;
+          background-image: inline-image('media-images.svg'),-webkit-linear-gradient(-45deg,$categoryImagesBGLight 50%,$categoryImagesBGDark 50%);
+          background-size: 80%, 100%;
           border-radius: 100%;
         }
       }
@@ -395,8 +401,9 @@ body {
       .category-type-channels.mobileselected,
       .category-type-channels:hover {
         .category-image {
-          background-image: inline-image('category-selected.svg'),inline-image('media-channels.svg'),-webkit-linear-gradient(-45deg,$categoryChannelsBGLight 50%,$categoryChannelsBGDark 50%);
-          background-size: 100%,80%;
+          box-shadow: inset 0px 0px 0px 0.5em $selectedCategoryColor;
+          background-image: inline-image('media-channels.svg'),-webkit-linear-gradient(-45deg,$categoryChannelsBGLight 50%,$categoryChannelsBGDark 50%);
+          background-size: 80%, 100%;
           border-radius: 100%;
         }
       }
