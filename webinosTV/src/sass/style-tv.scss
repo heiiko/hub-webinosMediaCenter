@@ -81,11 +81,21 @@ $categoryChannelsBGLight:#FDAC10;
   }
 }
 
-@mixin highlighted-category{
+@mixin category-image-inner($imagename,$lowerRightColor,$upperLeftColor){
+  background-image: -webkit-radial-gradient(center, circle contain, transparent 84%, $tv_background_color 85%, $tv_background_color 101%),inline-image($imagename),-webkit-linear-gradient(-45deg,$lowerRightColor 50%,$upperLeftColor 50%);
+  border-radius: 100%;
+  background-size: 100%, 100%, 100%;
+}
+
+@mixin category-image($imagename,$lowerRightColor,$upperLeftColor){
+  box-shadow: inset 0px 0px 0px 0.125em $tv_background_color;
+  @include category-image-inner($imagename,$lowerRightColor,$upperLeftColor);
+}
+
+@mixin highlighted-category-image($imagename,$lowerRightColor,$upperLeftColor){
   $selectedCategoryColor: $webinosBlue;
-  box-shadow: inset 0px 0px 0px 0.5em black;
-  background-size: 80%, 100%;
-  border: 0.125em solid $selectedCategoryColor;
+  box-shadow: inset 0px 0px 0px 0.125em $selectedCategoryColor;
+  @include category-image-inner($imagename,$lowerRightColor,$upperLeftColor);
 }
 
 @mixin selectable-element {
@@ -394,14 +404,14 @@ $headerHeight: 5em;
     ul {
       list-style-type: none;
       padding: 0;
-      margin: 0;
+      margin: 1.5em 0 0 0;
       height: 100%;
 
       li {
         height: 25%;
         margin-bottom: 0.25em;
 
-        $categoryImageWidth: 100%;
+        $categoryImageWidth: 80%;
         .category-image {
           width: $categoryImageWidth;
           padding-bottom: $categoryImageWidth;
@@ -418,10 +428,7 @@ $headerHeight: 5em;
       
       .category-type-movies {
         .category-image {
-          //background-image: url('../images/media-movies.svg');
-          background-image: inline-image('media-movies.svg'),-webkit-linear-gradient(-45deg,$categoryVideosBGLight 50%,$categoryVideosBGDark 50%);
-          border-radius: 100%;
-          //background-size: 80%;
+          @include category-image('media-movies.svg',$categoryVideosBGLight,$categoryVideosBGDark);
         }
       }
 
@@ -429,17 +436,13 @@ $headerHeight: 5em;
       .category-type-movies.mobileselected,
       .category-type-movies:hover {
         .category-image {
-          @include highlighted-category;
-          background-image: inline-image('media-movies.svg'),-webkit-linear-gradient(-45deg,$categoryVideosBGLight 50%,$categoryVideosBGDark 50%);
-          border-radius: 100%;
+          @include highlighted-category-image('media-movies.svg',$categoryVideosBGLight,$categoryVideosBGDark);
         }
       }
 
       .category-type-music {
         .category-image {
-          background-image: inline-image('media-music.svg'),-webkit-linear-gradient(-45deg,$categoryMusicBGLight 50%,$categoryMusicBGDark 50%);
-          //background-size: 80%;
-          border-radius: 100%;
+          @include category-image('media-music.svg',$categoryMusicBGLight,$categoryMusicBGDark);
         }
       }
 
@@ -447,16 +450,13 @@ $headerHeight: 5em;
       .category-type-music.mobileselected,
       .category-type-music:hover {
         .category-image {
-          @include highlighted-category;
-          background-image: inline-image('media-music.svg'),-webkit-linear-gradient(-45deg,$categoryMusicBGLight 50%,$categoryMusicBGDark 50%);
-          border-radius: 100%;
+          @include highlighted-category-image('media-music.svg',$categoryMusicBGLight,$categoryMusicBGDark);
         }
       }
 
       .category-type-images {
         .category-image {
-          background-image: inline-image('media-images.svg'),-webkit-linear-gradient(-45deg,$categoryImagesBGLight 50%,$categoryImagesBGDark 50%);
-          border-radius: 100%;
+          @include category-image('media-images.svg',$categoryImagesBGLight,$categoryImagesBGDark);
         }
       }
 
@@ -464,16 +464,13 @@ $headerHeight: 5em;
       .category-type-images.mobileselected,
       .category-type-images:hover {
         .category-image {
-          @include highlighted-category;
-          background-image: inline-image('media-images.svg'),-webkit-linear-gradient(-45deg,$categoryImagesBGLight 50%,$categoryImagesBGDark 50%);
-          border-radius: 100%;
+          @include highlighted-category-image('media-images.svg',$categoryImagesBGLight,$categoryImagesBGDark);
         }
       }
 
       .category-type-channels {
         .category-image {
-          background-image: inline-image('media-channels.svg'),-webkit-linear-gradient(-45deg,$categoryChannelsBGLight 50%,$categoryChannelsBGDark 50%);
-          border-radius: 100%;
+          @include category-image('media-channels.svg',$categoryChannelsBGLight,$categoryChannelsBGDark);
         }
       }
 
@@ -481,9 +478,7 @@ $headerHeight: 5em;
       .category-type-channels.mobileselected,
       .category-type-channels:hover {
         .category-image {
-          @include highlighted-category;
-          background-image: inline-image('media-channels.svg'),-webkit-linear-gradient(-45deg,$categoryChannelsBGLight 50%,$categoryChannelsBGDark 50%);
-          border-radius: 100%;
+          @include highlighted-category-image('media-channels.svg',$categoryChannelsBGLight,$categoryChannelsBGDark);
         }
       }
     }
