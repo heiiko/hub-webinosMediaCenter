@@ -17,9 +17,9 @@ module.exports = (grunt) ->
       exports: null
       depends:
         jquery: 'jQuery'
-    iscroll:
-      path: 'src/vendor/iscroll.js'
-      exports: 'IScroll'
+#     iscroll:
+#       path: 'src/vendor/iscroll.js'
+#       exports: 'IScroll'
 
   grunt.initConfig
     browserify:
