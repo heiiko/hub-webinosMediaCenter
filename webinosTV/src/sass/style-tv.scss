@@ -297,8 +297,8 @@ body {
   }
 
   .header-item-device {
-    height: 4em;
-    padding: 15px 2px 15px 2px;
+    height: 3em;
+/*     padding: 15px 2px 15px 2px; */
     border-bottom: 4px solid white;
     font-size: 3em;
     display: table;
@@ -338,6 +338,10 @@ body {
     font-weight: bold;
     padding-left: 20%;
     padding-right: 20%;
+    white-space: nowrap;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
   }
   
   .device-type {
@@ -352,8 +356,11 @@ body {
   #mobilesourcelist,
   #mobiletargetlist {
     list-style-type: none;
-    padding-left: 0;
-    padding-right: 5px;
+    padding-left: 0.25em;
+    padding-right: 0.25em;
+    height: 95%;
+    overflow-x: hidden;
+    overflow-y: auto;
 
     li {
       @include selectable-element;
