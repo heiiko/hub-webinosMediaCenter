@@ -100,8 +100,8 @@ $categoryChannelsBGLight:#FDAC10;
 
 @mixin selectable-element {
   @include box-sizing(border-box);
-  @include border-radius(5px);
-  border: 2px solid $tv_background_color;
+  @include border-radius(0.3em);
+  border: 0.125em solid $tv_background_color;
 }
 
 @mixin selectable-button {
@@ -159,8 +159,10 @@ html {
   height: 100%;
 }
 
+
+$baseFontSize: 16px;
 body {
-  font-size: 16px;
+  font-size: $baseFontSize;
   margin: 0px;
   font-family: $font-family;
   height: 100%;
@@ -339,8 +341,7 @@ body {
     padding-left: 10%;
     padding-right: 10%;
     white-space: nowrap;
-    overflow-y: hidden;
-    overflow-x: hidden;
+    overflow: hidden;
     text-overflow: ellipsis;
   }
   
@@ -611,20 +612,54 @@ $headerHeight: 5em;
 #container-queue {
   #header-queue {
     @include box-sizing(border-box);
-    padding-top: 15px;
-    height: 86px;
-    padding-bottom: 5px;
+    padding-top: 1em;
+    height: 7.5em;
+    padding-bottom: 0.25em;
 
     #mobilequeuetargetwrapper {
+      height: 100%;
       #mobilequeuetargetlist {
         list-style-type: none;
-        padding: 0;
-        margin: 0;
+        height: 100%;
+        -webkit-padding-start: 0;
+        -webkit-margin-before: 0;
+        -webkit-margin-after: 0;
 
         li {
           @include selectable-element;
           display: inline-block;
-          padding: 2em;
+          height: 100%;
+          padding: 0.25em 0.5em 0.25em 0.5em;
+          width: 20%;
+          
+          $deviceNameFontSize: 1.5em;
+          @include device-types(2*$deviceNameFontSize);
+          .device-image{
+            margin-top:$deviceNameFontSize;
+          }
+          .device-name {
+            font-size: $deviceNameFontSize;
+            padding-left: 10%;
+            padding-right: 10%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-left: $deviceNameFontSize;
+            position: relative;
+            top: -2.5em;
+          }
+          
+          .device-type {
+            font-size: $deviceNameFontSize;
+/*             font-weight: bold; */
+            color: $webinosBlue;
+            padding-left: 10%;
+            padding-right: 10%;
+            margin-left: $deviceNameFontSize;
+            position: relative;
+            top: -2.5em;
+          }
+          
         }
 
         li.mobileselected {
@@ -645,13 +680,13 @@ $headerHeight: 5em;
 
   #mobilequeuecontrols {
     position: relative;
-    height: 100px;
-    border-top: 1px solid #D4D4D4;
-    border-bottom: 1px solid #D4D4D4;
+    height: 8em;
+    border-top: 0.125em solid #D4D4D4;
+    border-bottom: 0.125em solid #D4D4D4;
     background: inline-image('tv_controls_back.png');
 
     .controlItemInfo {
-      height: 40px;
+      height: 2.5em;
     }
 
     .listControlButtons {
@@ -662,8 +697,8 @@ $headerHeight: 5em;
       .button {
         display: inline-block;
         @include selectable-button;
-        padding: 5px 15px;
-        margin-right: 5px;
+        padding: 0.3em 1em;
+        margin-right: 0.3em;
       }
 
       .button.disabled {
@@ -681,7 +716,7 @@ $headerHeight: 5em;
     }
 
     .controlButtons {
-      height: 60px;
+      height: 4em;
       position: absolute;
       right: 0;
       bottom: 0;
@@ -689,11 +724,11 @@ $headerHeight: 5em;
       .controlButton{
         float: right;
         background-color: $webinosBlue;
-        width: 50px;
-        height: 50px;
+        width: 3em;
+        height: 3em;
         margin-top: 0;
-        margin-right: 12px;
-        border-radius: 50px;
+        margin-right: 0.75em;
+        border-radius: 3em;
         background-size: cover;
         background-position: center;
       }
@@ -719,26 +754,31 @@ $headerHeight: 5em;
   }
 
   #mobilequeuewrapper {
+    height: 73%;
     ul {
       padding-left: 0;
       list-style-type: none;
+      height: 100%;
+      overflow-x: hidden;
+      overflow-y: auto;
 
       li {
         @include selectable-element;
-        padding: 5px 10px 7px 10px;
+        padding: 0.3125em 0.625em 0.4375em 0.625em;
+        margin-top: 1em;
+        margin-bottom: 1em;
+        font-size: 1.5em;
+        line-height: 1.5em;
 
         .itemcontainer {
-//          input[type="checkbox"] {
-//            margin: 0 10px 0 0;
-//            width: 20px;
-//            height: 20px;
-//            vertical-align: middle;
-//          }
           @include tv-checkboxes;
 
           div {
-            display: inline-block;
+            display: inline;
             vertical-align: middle;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
           }
 
           .itemartists:before {
@@ -751,6 +791,9 @@ $headerHeight: 5em;
       li.focus,
       li:hover {
         @include focussed;
+      }
+      li.mobileselected {
+        @include mediaMobileSelected;
       }
     }
 
