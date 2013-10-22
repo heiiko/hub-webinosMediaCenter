@@ -10,7 +10,19 @@ var RendererViewModel = require('./view/renderer_view_model.js');
 var RendererView = require('./view/renderer_view.js');
 require('./view/tv_main_view.js');
 
+//Dirty workaround
+function onResize(){
+  var win=$(window);
+  var w=win.width();
+  var h=win.height();
+  var aW=w/1920.0;
+  var aH=h/1080.0;
+  $('body').css('-webkit-transform','scale('+aW+','+aH+')');
+  $('body').css('font-size',aW*16+'px');
+}
+
 $(document).ready(function() {
+  $(window).on('resize',onResize);
   var manager = new DeviceManager(30000, 60000);
 
   var peer = manager.toProperty().map(function(devices) {
