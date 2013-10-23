@@ -135,7 +135,6 @@ $categoryChannelsBGLight:#FDAC10;
 
 @mixin mediaMobileSelected {
   @include selectable-element;
-  background-color: $tv_background_color;
   border-color: $tv_hover_border_color;
   color: $tv_hover_fg_color;
   cursor: pointer;
