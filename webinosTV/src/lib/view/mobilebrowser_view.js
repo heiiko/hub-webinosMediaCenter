@@ -223,7 +223,7 @@ function ContentListView(viewModel) {
         '<div class="' + iconClass + '"></div>' +
         '<div class="mediaitemcontent">' +
         '<div class="itemtitle">' + item.title + '</div>' +
-        '<div class="itemartists">' + item.artists + '</div>' +
+        '<div class="itemartists">' + (item.artists ? item.artists : 'unknown artist') + '</div>' +
         '</div>' +
         '</div></li>';
     }
