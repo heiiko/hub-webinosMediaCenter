@@ -758,6 +758,12 @@ $headerHeight: 5em;
       .controlFull{
         background-image: inline-image('player_enter_fullscreen.svg');
       }
+      .controlRewd{
+        background-image: inline-image('player_bwd.svg');
+      }
+      .controlFwrd{
+        background-image: inline-image('player_fwd.svg');
+      }
     }
 
     .controlSbar,
@@ -894,6 +900,12 @@ $headerHeight: 5em;
         }
         .controlBack{
           background-image: inline-image('player_exit_fullscreen.svg');
+        }
+        .controlRewd{
+          background-image: inline-image('player_bwd.svg');
+        }
+        .controlFwrd{
+          background-image: inline-image('player_fwd.svg');
         }
       }
 
