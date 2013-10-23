@@ -33,8 +33,7 @@ function MobileBrowserViewModel(manager, input) {
   var categories = Bacon.constant([
     {id: 'movies', type: 'Video', title: 'Movies', image: 'images/media-movies.svg'},
     {id: 'music', type: 'Audio', title: 'Music', image: 'images/media-music.svg'},
-    {id: 'images', type: 'Image', title: 'Images', image: 'images/media-images.svg'},
-    {id: 'channels', type: 'Channel', title: 'Channels', image: 'images/media-channels.svg'}
+    {id: 'images', type: 'Image', title: 'Images', image: 'images/media-images.svg'}
   ]);
 
   this.categories = function() {
