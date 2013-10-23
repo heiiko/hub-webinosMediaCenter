@@ -2185,9 +2185,6 @@ if (typeof _webinos === "undefined") {
 				}
 			};
 			ws.onmessage = function(event) {
-				if (self.debug || ReconnectingWebSocket.debugAll) {
-					console.debug('ReconnectingWebSocket', 'onmessage', url, event.data);
-				}
 				self.onmessage(event);
 			};
 			ws.onerror = function(event) {
@@ -2201,9 +2198,6 @@ if (typeof _webinos === "undefined") {
 
 		this.send = function(data) {
 			if (ws) {
-				if (self.debug || ReconnectingWebSocket.debugAll) {
-					console.debug('ReconnectingWebSocket', 'send', url, data);
-				}
 				return ws.send(data);
 			} else {
 				throw 'INVALID_STATE_ERR : Pausing to reconnect websocket';
