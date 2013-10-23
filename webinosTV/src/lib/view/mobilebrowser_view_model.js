@@ -17,7 +17,7 @@ function MobileBrowserViewModel(manager, input) {
 
   var sources = manager.toProperty().map(function(devices) {
     return _.filter(devices, function(device) {
-      return device.isSource() && (typeof device.type() != 'undefined');
+      return device.isSource(); // && (typeof device.type() != 'undefined');
     });
   });
 
@@ -69,8 +69,7 @@ function MobileBrowserViewModel(manager, input) {
           var typematch = item.type.toLowerCase().indexOf(type.toLowerCase()) !== -1;
           if(typematch) {
           	var titlematch = (typeof item.title !== "undefined") ? (item.title.toLowerCase().indexOf(querystring.toLowerCase()) !== -1) : false;
-          	var artistmatch = (typeof item.artists !== "undefined") ? (item.artists.toLowerCase().indexOf(querystring.toLowerCase()) !== -1) : false;
-          	return titlematch || artistmatch;
+          	return titlematch;
           }
           return false;
         });
@@ -89,7 +88,7 @@ function MobileBrowserViewModel(manager, input) {
 
   var targets = manager.toProperty().map(function(devices) {
     return _.chain(devices).filter(function(device) {
-      return device.isTarget() && (typeof device.type() != 'tablet' && (typeof device.type() != 'smartphone'));
+      return device.isTarget(); // && (typeof device.type() != 'undefined') && (device.type() !== 'tablet' &&) (device.type() !== 'smartphone');
     }).map(function (device) {
       return _.map(device.upnp(), function (service) {
         return {device: device, service: service, type: 'upnp'};
