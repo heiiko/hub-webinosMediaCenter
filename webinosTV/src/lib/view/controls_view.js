@@ -67,7 +67,7 @@ function ControlsView(parent, config, viewModel) {
   $(parent).append(controls);
 
   // $('.controlSbar div', controls).css({transition: 'width 1s linear'});
-  $('.controlButton', controls).css({width: (100 / buttonCount) + '%'});
+  //$('.controlButton', controls).css({width: (100 / buttonCount) + '%'});
 
   var length = 0, last = 0;
 

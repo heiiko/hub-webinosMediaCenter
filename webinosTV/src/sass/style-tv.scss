@@ -175,6 +175,7 @@ body {
   height: 100%;
   background-color: $tv_background_color;
   color: $tv_color;
+  overflow: hidden;
 }
 
 ::-webkit-scrollbar {
@@ -201,8 +202,8 @@ body {
   height: 100%;
 }
 
-#leftfadeout,
-#renderer {
+#leftfadeout/*,
+#renderer*/ {
   display: none;
 }
 
@@ -210,7 +211,7 @@ body {
   @include box-sizing(border-box);
   width: 70%;
   min-height: 10%;
-  background-color: white;
+  background-color: $tv_toast_bg_color;
   border: 3px solid $tv_selectable_bg_color;
   @include border-radius(5px);
   color: black;
@@ -308,7 +309,7 @@ body {
   .header-item-device {
     height: 3em;
 /*     padding: 15px 2px 15px 2px; */
-    border-bottom: 4px solid white;
+    border-bottom: 4px solid $tv_container_border_color;
     font-size: 3em;
     display: table;
     white-space: nowrap;
@@ -395,7 +396,7 @@ body {
   }
 
   #mobilesourcewrapper {
-    border-right: 1px solid white;
+    border-right: 1px solid $tv_container_border_color;
   }
 }
 
@@ -419,7 +420,7 @@ $headerHeight: 5em;
 /*       padding: 1em 0.125em 1.25em 0.125em; */
       height: 100%;
       font-size: 3em;
-      border-bottom: 0.0625em solid white;
+      border-bottom: 0.0625em solid $tv_container_border_color;
     }
 
     .separator {
@@ -531,7 +532,7 @@ $headerHeight: 5em;
     width: 75%;
     margin-right: 5%;
     height: $headerHeight;
-    border-bottom: 0.0625em solid white;
+    border-bottom: 0.0625em solid $tv_container_border_color;
     //uncomment to enable shadow over the topmost list item
     //box-shadow: 0 1.6em 1.4em 1em rgb(0, 0, 0);
     //z-index: 9999;
@@ -670,10 +671,6 @@ $headerHeight: 5em;
           
         }
 
-        li.mobileselected {
-          @include selected;
-        }
-
         li:hover,
         li.focus {
           @include focussed;
@@ -682,6 +679,10 @@ $headerHeight: 5em;
 
         li:active {
           @include pressed;
+        }
+        
+        li.mobileselected {
+          @include selected;
         }
       }
     }
@@ -754,6 +755,9 @@ $headerHeight: 5em;
       .controlNext{
         background-image: inline-image('player_next.svg');
       }
+      .controlFull{
+        background-image: inline-image('player_enter_fullscreen.svg');
+      }
     }
 
     .controlSbar,
@@ -807,5 +811,96 @@ $headerHeight: 5em;
       }
     }
 
+  }
+}
+
+#renderer{
+  background-color: $tv_background_color;
+  color: $tv_color;
+  height: 100%;
+  
+  .rendererControlls{
+      bottom: 0;
+      position: absolute;
+      width: 100%;
+      .full.controlContainer{
+      position: relative;
+      height: 8em;
+      border-top: 0.125em solid #D4D4D4;
+      border-bottom: 0.125em solid #D4D4D4;
+      background: inline-image('tv_controls_back.png');
+
+      .controlItemInfo {
+        height: 2.5em;
+      }
+
+      .listControlButtons {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+
+        .button {
+          display: inline-block;
+          @include selectable-button;
+          padding: 0.3em 1em;
+          margin-right: 0.3em;
+        }
+
+        .button.disabled {
+          @include selectable-button-disabled;
+        }
+
+        .button.focus,
+        .button:hover {
+          @include focussed;
+        }
+
+        .button:active {
+          @include pressed;
+        }
+      }
+
+      .controlButtons {
+        width: 40%;
+        height: 4em;
+        position: relative;
+        left: 60%;
+        bottom: -2em;
+
+        .controlButton{
+          float: right;
+          background-color: $webinosBlue;
+          width: 3em;
+          padding-bottom: 3em;
+          height: 0;
+          margin-top: 0;
+          margin-right: 0.75em;
+          border-radius: 3em;
+          background-size: cover;
+          background-position: center;
+        }
+
+        .controlPlay{
+          background-image: inline-image('player_play.svg');
+        }
+        .controlPaus{
+          background-image: inline-image('player_pause.svg');
+        }
+        .controlPrev{
+          background-image: inline-image('player_prev.svg');
+        }
+        .controlNext{
+          background-image: inline-image('player_next.svg');
+        }
+        .controlBack{
+          background-image: inline-image('player_exit_fullscreen.svg');
+        }
+      }
+
+      .controlSbar,
+      .controlStime {
+        display: none;
+      }
+    }
   }
 }
