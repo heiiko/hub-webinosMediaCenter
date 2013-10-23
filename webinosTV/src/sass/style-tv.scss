@@ -101,58 +101,65 @@ $categoryChannelsBGLight:#FDAC10;
 @mixin selectable-element {
   @include box-sizing(border-box);
   @include border-radius(0.3em);
-  border: 0.125em solid $tv_background_color;
+  border-width: 0.125em;
+  border-style: solid;
+  border-color: $tv_background_color;
 }
 
 @mixin selectable-button {
   @include selectable-element;
-  background-color: #0399CD;
-  border-color: #00759C;
-  color: #F2F2F2;
+  background-color: $tv_selectable_bg_color;
+  border-color: $tv_selectable_border_color;
+  color: $tv_hover_fg_color;
 }
 
 @mixin selectable-button-disabled {
   @include selectable-element;
   background-color: $tv_background_color;
   border-color: $tv_background_color;
-  color: #6E6E6E;
+  color: $tv_selectable_fg_disabled_color;
 }
 
 @mixin focussed {
   @include selectable-element;
-  background-color: #28404A;
-  border-color: #2D728F;
-  color: #F2F2F2;
+  background-color: $tv_hover_bg_color;
+  border-color: $tv_hover_border_color;
+  color: $tv_hover_fg_color;
   cursor: pointer;
+}
+
+@mixin mediaMobileHover{
+  @include selectable-element;
+  background-color: $tv_hover_bg_color;
 }
 
 @mixin mediaMobileSelected {
   @include selectable-element;
   background-color: $tv_background_color;
-  border-color: #2D728F;
-  color: #F2F2F2;
+  border-color: $tv_hover_border_color;
+  color: $tv_hover_fg_color;
   cursor: pointer;
 }
 
 @mixin pressed {
   @include selectable-element;
-  background-color: #2C799A;
-  border-color: #2E464E;
-  color: #F2F2F2;
+  background-color: $tv_pressed_bg_color;
+  border-color: $tv_pressed_border_color;
+  color: $tv_hover_fg_color;
   cursor: pointer;
 }
 
 @mixin selected {
   @include selectable-element;
-  border-color: #36B5E4;
-  color: #0399CD;
+  border-color: tv_selected_border_color;
+  color: $tv_selectable_bg_color;
 }
 
 @mixin disabled {
   @include selectable-element;
-  background-color: #191919;
-  border-color: #191A1A;
-  color: #272727;
+  background-color: $tv_disabled_bg_color;
+  border-color: $tv_disabled_border_color;
+  color: $tv_disabled_fg_color;
 }
 
 html {
@@ -204,7 +211,7 @@ body {
   width: 70%;
   min-height: 10%;
   background-color: white;
-  border: 3px solid #0399CD;
+  border: 3px solid $tv_selectable_bg_color;
   @include border-radius(5px);
   color: black;
   position: absolute;
@@ -322,8 +329,8 @@ body {
   }
 
   .header-active {
-    color: #0399CD;
-    border-color: #0399CD;
+    color: $tv_selectable_bg_color;
+    border-color: $tv_selectable_bg_color;
     @include device-types(1.5em);
     .device-image {
       margin-top: 1.1em;
@@ -601,6 +608,7 @@ $headerHeight: 5em;
       li.focus,
       li:hover {
         @include focussed;
+        @include mediaMobileHover;
       }
       li.mobileselected {
         @include mediaMobileSelected;
@@ -669,6 +677,7 @@ $headerHeight: 5em;
         li:hover,
         li.focus {
           @include focussed;
+          @include mediaMobileHover;
         }
 
         li:active {
@@ -791,6 +800,7 @@ $headerHeight: 5em;
       li.focus,
       li:hover {
         @include focussed;
+        @include mediaMobileHover;
       }
       li.mobileselected {
         @include mediaMobileSelected;

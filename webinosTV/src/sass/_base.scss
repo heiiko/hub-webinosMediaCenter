@@ -18,7 +18,18 @@
 $font-family: 'Roboto', sans-serif;
 $tv_background_color: black;
 $tv_color: #F1F1F1;
-
+$tv_hover_bg_color: #28404A;
+$tv_hover_fg_color: #F2F2F2;
+$tv_hover_border_color: #2D728F;
+$tv_selectable_bg_color: #0399CD;
+$tv_selectable_border_color: #00759C;
+$tv_selectable_fg_disabled_color: #6E6E6E;
+$tv_pressed_bg_color: #2C799A;
+$tv_pressed_border_color: #2E464E;
+$tv_selected_border_color: #36B5E4;
+$tv_disabled_bg_color: #191919;
+$tv_disabled_border_color: #191A1A;
+$tv_disabled_fg_color: #272727;
 
 
 // Import compass partials
