@@ -68,8 +68,9 @@ function MobileBrowserViewModel(manager, input) {
         return _.find(types, function(type) {
           var typematch = item.type.toLowerCase().indexOf(type.toLowerCase()) !== -1;
           if(typematch) {
-          	var titlematch = (item.title !== 'undefined') ? (item.title.toLowerCase().indexOf(querystring.toLowerCase()) !== -1) : false;
-          	return titlematch;
+          	var titlematch = (typeof item.title !== "undefined") ? (item.title.toLowerCase().indexOf(querystring.toLowerCase()) !== -1) : false;
+          	var artistmatch = (typeof item.artists !== "undefined") ? (item.artists.toLowerCase().indexOf(querystring.toLowerCase()) !== -1) : false;
+          	return titlematch || artistmatch;
           }
           return false;
         });
