@@ -21,6 +21,7 @@ $categoryChannelsBGLight:#FDAC10;
     width: $deviceIconWidth;
     height: 0;
     padding-bottom: $deviceIconWidth;
+    position: relative;
   }
 
   .device-image.type-laptop {
@@ -378,19 +379,27 @@ body {
       }
 
       padding: 2em;
+      box-sizing: inherit;
+      -webkit-box-sizing: inherit;
     }
 
     li.mobileselected {
       @include selected;
+      box-sizing: inherit;
+      -webkit-box-sizing: inherit;
     }
 
     li:hover,
     li.focus {
       @include focussed;
+      box-sizing: inherit;
+      -webkit-box-sizing: inherit;
     }
 
     li:active {
       @include pressed;
+      box-sizing: inherit;
+      -webkit-box-sizing: inherit;
     }
   }
 
@@ -644,7 +653,7 @@ $headerHeight: 5em;
 
 #container-queue {
   #header-queue {
-    @include box-sizing(border-box);
+    //@include box-sizing(border-box);
     padding-top: 1em;
     height: 7.5em;
     width: 100%;
@@ -666,14 +675,15 @@ $headerHeight: 5em;
         li {
           @include selectable-element;
           display: inline-block;
-          height: 100%;
+          height: 90%;
           padding: 0.25em 0.5em 0.25em 0.5em;
           width: 20%;
+          box-sizing: inherit;
           
           $deviceNameFontSize: 1.5em;
           @include device-types(2*$deviceNameFontSize);
           .device-image{
-            margin-top:$deviceNameFontSize;
+            top:$deviceNameFontSize;
           }
           .device-name {
             font-size: $deviceNameFontSize;
@@ -684,7 +694,7 @@ $headerHeight: 5em;
             text-overflow: ellipsis;
             margin-left: $deviceNameFontSize;
             position: relative;
-            top: -2.5em;
+            top: -1.5em;
           }
           
           .device-type {
@@ -695,7 +705,7 @@ $headerHeight: 5em;
             padding-right: 10%;
             margin-left: $deviceNameFontSize;
             position: relative;
-            top: -2.5em;
+            top: -1.5em;
           }
           
         }
@@ -704,14 +714,17 @@ $headerHeight: 5em;
         li.focus {
           @include focussed;
           @include mediaMobileHover;
+          box-sizing: inherit;
         }
 
         li:active {
           @include pressed;
+          box-sizing: inherit;
         }
         
         li.mobileselected {
           @include selected;
+          box-sizing: inherit;
         }
       }
     }
