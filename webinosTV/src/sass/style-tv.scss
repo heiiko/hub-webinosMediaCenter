@@ -731,24 +731,30 @@ $headerHeight: 5em;
       bottom: 0;
 
       .controlButton{
-        float: right;
+        display: inline-block;
         background-color: $webinosBlue;
         width: 3em;
-        height: 3em;
+        padding-bottom: 3em;
+        height: 0;
         margin-top: 0;
         margin-right: 0.75em;
         border-radius: 3em;
         background-size: cover;
         background-position: center;
+        border: 0.125em solid $webinosBlue;
       }
       
       .controlButton.focus{
         @include focussed;
         border-radius: 3em;
+        box-sizing: inherit;
+        -webkit-box-sizing: inherit;
       }
       .controlButton:hover{
         @include mediaMobileSelected;
         border-radius: 3em;
+        box-sizing: inherit;
+        -webkit-box-sizing: inherit;
       }
 
       .controlPlay{
@@ -875,14 +881,14 @@ $headerHeight: 5em;
       }
 
       .controlButtons {
-        width: 40%;
+        width: 20%;
         height: 4em;
         position: relative;
-        left: 60%;
-        bottom: -2em;
+        left: 80%;
+        top: 2em;
 
         .controlButton{
-          float: right;
+          display: inline-block;
           background-color: $webinosBlue;
           width: 3em;
           padding-bottom: 3em;
@@ -892,15 +898,20 @@ $headerHeight: 5em;
           border-radius: 3em;
           background-size: cover;
           background-position: center;
+          border: 0.125em solid $webinosBlue;
         }
         
         .controlButton.focus{
           @include focussed;
           border-radius: 3em;
+          box-sizing: inherit;
+          -webkit-box-sizing: inherit;
         }
         .controlButton:hover{
           @include mediaMobileSelected;
           border-radius: 3em;
+          box-sizing: inherit;
+          -webkit-box-sizing: inherit;
         }
 
         .controlPlay{
