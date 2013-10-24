@@ -591,7 +591,7 @@ function NavigationView (viewModel) {
           } else if (navigation["curCol"] == 8) {
             if(navigation["curEl"][navigation["regions"][navigation["curCol"]]] < ($(navigation["regions"][navigation["curCol"]]).length - 1)) {
               navigation["curEl"][navigation["regions"][navigation["curCol"]]]++;
-              $('#mobilequeuetargetlist').scrollTo($(navigation["regions"][navigation["curCol"]]).eq(navigation["curEl"][navigation["regions"][navigation["curCol"]]]-$(navigation["regions"][navigation["curCol"]]).length), {axis: 'x'});
+              $('#mobilequeuetargetlist').scrollTo($(navigation["regions"][navigation["curCol"]]).eq(navigation["curEl"][navigation["regions"][navigation["curCol"]]]-$(navigation["regions"][navigation["curCol"]]).length/2));
             }
           } else if (navigation["curCol"] == 9) {
             if(navigation["curEl"][navigation["regions"][navigation["curCol"]]] < $(navigation["regions"][navigation["curCol"]]).length-1) {
@@ -639,7 +639,7 @@ function NavigationView (viewModel) {
               navigation["curCol"] = 0;
             } else {
               navigation["curEl"][navigation["regions"][navigation["curCol"]]]--;
-              $('#mobilequeuetargetlist').scrollTo($(navigation["regions"][navigation["curCol"]]).eq(navigation["curEl"][navigation["regions"][navigation["curCol"]]]-$(navigation["regions"][navigation["curCol"]]).length), {axis: 'x'});
+              $('#mobilequeuetargetlist').scrollTo($(navigation["regions"][navigation["curCol"]]).eq(navigation["curEl"][navigation["regions"][navigation["curCol"]]]-$(navigation["regions"][navigation["curCol"]]).length/2));
             }
           } else if (navigation["curCol"] == 9) {
             if(navigation["curEl"][navigation["regions"][navigation["curCol"]]] > 0) {
