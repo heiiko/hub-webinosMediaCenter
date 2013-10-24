@@ -2,6 +2,7 @@ var $ = require('jquery');
 var _ = require('../util/objectscore.coffee');
 var address = require('../util/address.coffee');
 var Bacon = require('baconjs');
+require('scrollToJS');
 var util = require('util');
 
 var TV_Toast = require('./tv_toast_view.js');
@@ -432,12 +433,18 @@ function NavigationView (viewModel) {
         } else {
           if(navigation["curScreen"]===0) {
             // Device screen
+            if(navigation["curCol"]==1) {
+              if(navigation["curEl"][navigation["regions"][navigation["curCol"]]] < $(navigation["regions"][navigation["curCol"]]).length-1) {
+                navigation["curEl"][navigation["regions"][navigation["curCol"]]]++;
+              }
+              $('#mobilesourcelist').scrollTo($(navigation["regions"][navigation["curCol"]]).eq(navigation["curEl"][navigation["regions"][navigation["curCol"]]]));
+            }
+
             if(navigation["curCol"]==2) {
               if(navigation["curEl"][navigation["regions"][navigation["curCol"]]] < $(navigation["regions"][navigation["curCol"]]).length/2-1) {
                 navigation["curEl"][navigation["regions"][navigation["curCol"]]]++;
               }
-            } else if(navigation["curEl"][navigation["regions"][navigation["curCol"]]] < $(navigation["regions"][navigation["curCol"]]).length-1) {
-              navigation["curEl"][navigation["regions"][navigation["curCol"]]]++;
+              $('#mobiletargetlist').scrollTo($(navigation["regions"][navigation["curCol"]]).eq(navigation["curEl"][navigation["regions"][navigation["curCol"]]]));
             }
             // if(navigation["curEl"][navigation["regions"][navigation["curCol"]]] < $(navigation["regions"][navigation["curCol"]]).length-1) {
             //   navigation["curEl"][navigation["regions"][navigation["curCol"]]]++;
@@ -456,6 +463,7 @@ function NavigationView (viewModel) {
             } else if (navigation["curCol"] == 6) {
               if(navigation["curEl"][navigation["regions"][navigation["curCol"]]] < $(navigation["regions"][navigation["curCol"]]).length-1) {
                 navigation["curEl"][navigation["regions"][navigation["curCol"]]]++;
+                $('#mobilecontentlist').scrollTo($(navigation["regions"][navigation["curCol"]]).eq(navigation["curEl"][navigation["regions"][navigation["curCol"]]]));
               }
             }
           } else if(navigation["curScreen"]==2) {
@@ -472,6 +480,7 @@ function NavigationView (viewModel) {
             } else if (navigation["curCol"] == 10) {
               if(navigation["curEl"][navigation["regions"][navigation["curCol"]]] < $(navigation["regions"][navigation["curCol"]]).length-1) {
                 navigation["curEl"][navigation["regions"][navigation["curCol"]]]++;
+                $('#mobilequeuelist').scrollTo($(navigation["regions"][navigation["curCol"]]).eq(navigation["curEl"][navigation["regions"][navigation["curCol"]]]));
               }
             }
           }
@@ -486,6 +495,13 @@ function NavigationView (viewModel) {
             if(navigation["curEl"][navigation["regions"][navigation["curCol"]]] > 0) {
               navigation["curEl"][navigation["regions"][navigation["curCol"]]]--;
             }
+
+            if(navigation["curCol"]==1) {
+              $('#mobilesourcelist').scrollTo($(navigation["regions"][navigation["curCol"]]).eq(navigation["curEl"][navigation["regions"][navigation["curCol"]]]));
+            }
+            if(navigation["curCol"]==2) {
+              $('#mobiletargetlist').scrollTo($(navigation["regions"][navigation["curCol"]]).eq(navigation["curEl"][navigation["regions"][navigation["curCol"]]]));
+            }
           } else if(navigation["curScreen"]==1) {
             // Media screen
             if (navigation["curCol"] == 3) {
@@ -496,6 +512,7 @@ function NavigationView (viewModel) {
             } else if (navigation["curCol"] == 6) {
               if(navigation["curEl"][navigation["regions"][navigation["curCol"]]] > 0) {
                 navigation["curEl"][navigation["regions"][navigation["curCol"]]]--;
+                $('#mobilecontentlist').scrollTo($(navigation["regions"][navigation["curCol"]]).eq(navigation["curEl"][navigation["regions"][navigation["curCol"]]]));
               } else {
                 navigation["curCol"] = 5;
                 navigation["curEl"][navigation["regions"][4]]=0;
@@ -515,6 +532,7 @@ function NavigationView (viewModel) {
             } else if (navigation["curCol"] == 10) {
               if(navigation["curEl"][navigation["regions"][navigation["curCol"]]] > 0) {
                 navigation["curEl"][navigation["regions"][navigation["curCol"]]]--;
+                $('#mobilequeuelist').scrollTo($(navigation["regions"][navigation["curCol"]]).eq(navigation["curEl"][navigation["regions"][navigation["curCol"]]]));
               } else {
                 // In action bar going up
                 navigation["curCol"] = 9;
@@ -568,6 +586,7 @@ function NavigationView (viewModel) {
           } else if (navigation["curCol"] == 8) {
             if(navigation["curEl"][navigation["regions"][navigation["curCol"]]] < ($(navigation["regions"][navigation["curCol"]]).length - 1)) {
               navigation["curEl"][navigation["regions"][navigation["curCol"]]]++;
+              $('#mobilequeuetargetlist').scrollTo($(navigation["regions"][navigation["curCol"]]).eq(navigation["curEl"][navigation["regions"][navigation["curCol"]]]-$(navigation["regions"][navigation["curCol"]]).length), {axis: 'x'});
             }
           } else if (navigation["curCol"] == 9) {
             if(navigation["curEl"][navigation["regions"][navigation["curCol"]]] < $(navigation["regions"][navigation["curCol"]]).length-1) {
@@ -619,6 +638,7 @@ function NavigationView (viewModel) {
           } else if (navigation["curCol"] == 9) {
             if(navigation["curEl"][navigation["regions"][navigation["curCol"]]] > 0) {
               navigation["curEl"][navigation["regions"][navigation["curCol"]]]--;
+              $('#mobilequeuetargetlist').scrollTo($(navigation["regions"][navigation["curCol"]]).eq(navigation["curEl"][navigation["regions"][navigation["curCol"]]]-$(navigation["regions"][navigation["curCol"]]).length), {axis: 'x'});
             } else {
               navigation["curCol"] = 0;
             }

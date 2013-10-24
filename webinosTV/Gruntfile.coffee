@@ -17,9 +17,11 @@ module.exports = (grunt) ->
       exports: null
       depends:
         jquery: 'jQuery'
-#     iscroll:
-#       path: 'src/vendor/iscroll.js'
-#       exports: 'IScroll'
+    scrollToJS:
+      path: 'src/vendor/jquery.scrollTo.js'
+      exports: null
+      depends:
+        jquery: 'jQuery'
 
   grunt.initConfig
     browserify:
@@ -38,7 +40,7 @@ module.exports = (grunt) ->
         dest: 'dist/js/deps.js'
         options:
           alias: deps
-          shim: _.pick(shim, ['promise', 'jquery'])
+          shim: _.pick(shim, ['promise', 'jquery', 'scrollToJS'])
 
       app:
         src: ['src/lib/app.js']
@@ -50,7 +52,7 @@ module.exports = (grunt) ->
 
     clean:
       dist: ['dist']
-      
+
     uglify:
       dist:
         options:
@@ -82,7 +84,7 @@ module.exports = (grunt) ->
            environment:    'production'
            outputStyle:    'compressed'
            relativeAssets:  true
-    
+
     htmlmin:
        dist:
          files:
@@ -102,7 +104,7 @@ module.exports = (grunt) ->
           src: 'images/media-*.svg'
           dest: 'dist/'
         ]
-        
+
     watch:
       app:
         files: ['src/lib/**/*.coffee', 'src/lib/**/*.js', 'src/sass/*.scss']
@@ -115,7 +117,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-compass'
   grunt.loadNpmTasks 'grunt-contrib-htmlmin'
   grunt.loadNpmTasks 'grunt-contrib-copy'
-  
+
   grunt.registerTask 'dev', ['clean:dist', 'copy:images', 'browserify:wrt', 'browserify:deps', 'browserify:app', 'compass:dist', 'htmlmin:dist']
   grunt.registerTask 'prod', ['clean:dist', 'copy:images', 'browserify:wrt', 'browserify:deps', 'browserify:app', 'uglify:dist', 'compass:prod', 'htmlmin:prod']
   grunt.registerTask 'default', ['dev']
