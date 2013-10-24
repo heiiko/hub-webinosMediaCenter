@@ -28,19 +28,17 @@ function MobileRemoteViewModel(manager, input) {
     return targets;
   };
 
-  var selectedTarget = bjq.Model('<no-target>');
+  var selectedTarget = bjq.Model([]);
   this.selectedTarget = function () {
     return selectedTarget;
   };
 
   var peer = manager.toProperty().sampledBy(selectedTarget, function (devices, selectedTarget) {
-    if (selectedTarget === '<no-target>') return '<no-peer>';
-	
-    //gotoPageById('#controller');
-    //window.closeSelectTarget();
+    if (typeof selectedTarget[0] === 'undefined') 
+      return '<no-peer>';
 
     // Assumption: Only devices with a peer service are recognized as targets.
-    return devices[selectedTarget.device].services()[selectedTarget.service];
+    return devices[selectedTarget[0].device].services()[selectedTarget[0].service];
   });
 
   var keys = new Bacon.Bus();

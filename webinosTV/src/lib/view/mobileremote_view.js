@@ -41,7 +41,21 @@ function SelectTargetListView(items, selection) {
     return function (selection) {
       var $item = $(event.target).closest('li');
       if (!$item.length) return selection;
-      return $item.data('id');
+      var id = $item.data('id');
+      return [id];
+    };
+  }));
+  
+  selection.apply(items.map(function(items) {
+    return function(selection) {
+      if (items.length >= 1 && selection.length === 0) {
+        return [self.identify(items[0])];
+      }
+      else {
+        return _.ointersection(selection, _.map(items, function(item) {
+          return self.identify(item);
+        }));
+      }
     };
   }));
   
@@ -49,8 +63,8 @@ function SelectTargetListView(items, selection) {
     $('li', '#mobileselecttargetlist').each(function() {
       var $item = $(this);
       var id = $item.data('id');
-      var selected = selection === id;
-      
+      var selected = (JSON.stringify(selection[0]) === JSON.stringify(id));
+
       $item.toggleClass('mobileselected', selected);
     });
   });
