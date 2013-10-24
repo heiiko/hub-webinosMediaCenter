@@ -264,7 +264,7 @@ body {
   }
 
   .mobilemenu-item:hover,
-  .mobilemenu-item:focus {
+  .mobilemenu-item.focus {
     @include focussed;
   }
 
@@ -385,7 +385,7 @@ body {
     }
 
     li:hover,
-    li:focus {
+    li.focus {
       @include focussed;
     }
 
@@ -467,7 +467,7 @@ $headerHeight: 5em;
         }
       }
 
-      .category-type-movies:focus,
+      .category-type-movies.focus,
       .category-type-movies.mobileselected,
       .category-type-movies:hover {
         .category-image {
@@ -481,7 +481,7 @@ $headerHeight: 5em;
         }
       }
 
-      .category-type-music:focus,
+      .category-type-music.focus,
       .category-type-music.mobileselected,
       .category-type-music:hover {
         .category-image {
@@ -495,7 +495,7 @@ $headerHeight: 5em;
         }
       }
 
-      .category-type-images:focus,
+      .category-type-images.focus,
       .category-type-images.mobileselected,
       .category-type-images:hover {
         .category-image {
@@ -509,7 +509,7 @@ $headerHeight: 5em;
         }
       }
 
-      .category-type-channels:focus,
+      .category-type-channels.focus,
       .category-type-channels.mobileselected,
       .category-type-channels:hover {
         .category-image {
@@ -551,7 +551,7 @@ $headerHeight: 5em;
       @include selectable-button-disabled;
     }
 
-    .nav_media_action:focus,
+    .nav_media_action.focus,
     .nav_media_action:hover {
       @include focussed;
     }
@@ -605,7 +605,7 @@ $headerHeight: 5em;
         }
       }
 
-      li:focus,
+      li.focus,
       li:hover {
         @include focussed;
         @include mediaMobileHover;
@@ -671,7 +671,7 @@ $headerHeight: 5em;
         }
 
         li:hover,
-        li:focus {
+        li.focus {
           @include focussed;
           @include mediaMobileHover;
         }
@@ -714,7 +714,7 @@ $headerHeight: 5em;
         @include selectable-button-disabled;
       }
 
-      .button:focus,
+      .button.focus,
       .button:hover {
         @include focussed;
       }
@@ -742,7 +742,7 @@ $headerHeight: 5em;
         background-position: center;
       }
       
-      .controlButton:focus{
+      .controlButton.focus{
         @include focussed;
         border-radius: 3em;
       }
@@ -815,7 +815,7 @@ $headerHeight: 5em;
         }
       }
 
-      li:focus,
+      li.focus,
       li:hover {
         @include focussed;
         @include mediaMobileHover;
@@ -864,7 +864,7 @@ $headerHeight: 5em;
           @include selectable-button-disabled;
         }
 
-        .button:focus,
+        .button.focus,
         .button:hover {
           @include focussed;
         }
@@ -894,7 +894,7 @@ $headerHeight: 5em;
           background-position: center;
         }
         
-        .controlButton:focus{
+        .controlButton.focus{
           @include focussed;
           border-radius: 3em;
         }
