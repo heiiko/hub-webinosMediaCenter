@@ -1,42 +1,6 @@
 @mixin mobileController {
 
-#mobilecontroller.pt-page-current {
-	margin: 0px;
-	padding: 0px;
-	font-family: 'Roboto', sans-serif;
-	color: $fontcolor;
-	background-color: white;
-	text-align: left;
-
-	ul {
-		list-style-type:none;
-		padding: 0px;
-		margin: 0px;
-	}
-
-	li, ul {
-		text-align: left;
-		color: $fontcolor;
-		background-color: white;
-		font-family: 'Roboto', sans-serif;
-	}
-
-	.mobilemenu {
-		display: -webkit-box;
-		-webkit-box-orient: horizontal;
-		width: 100%;
-		background-color: $lightgray;
-		overflow: hidden;
-		border-bottom: 1px solid $green;
-		height: $menuheight;
-	}
-
-	.mobilemenu-item {
-		-webkit-box-flex: 1;
-		text-align: center;
-		padding: 14px 2px 15px 2px;
-		text-decoration: none;
-	}
+#container-control {
 
 	.header-control {
 		width: 100%;

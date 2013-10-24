@@ -25,6 +25,11 @@ function init() {
     gotoPageById('#container-queue');
     setActiveMenu('#menu-queue');
   });
+  
+  $('#menu-control').on('click', function() {
+    gotoPageById('#container-control');
+    setActiveMenu('#menu-control');
+  });
 
   if (window.location.hash) {
     gotoPageById(window.location.hash);
