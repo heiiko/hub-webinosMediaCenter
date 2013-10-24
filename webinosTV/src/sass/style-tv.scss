@@ -179,6 +179,7 @@ body {
 
 ::-webkit-scrollbar {
   width: 0.4em;
+  height: 0.4em;
 }
 
 ::-webkit-scrollbar-piece {
@@ -622,17 +623,22 @@ $headerHeight: 5em;
     @include box-sizing(border-box);
     padding-top: 1em;
     height: 7.5em;
+    width: 100%;
     padding-bottom: 0.25em;
 
     #mobilequeuetargetwrapper {
       height: 100%;
+      width: 100%;
       #mobilequeuetargetlist {
         list-style-type: none;
         height: 100%;
+        width: 100%;
         -webkit-padding-start: 0;
         -webkit-margin-before: 0;
         -webkit-margin-after: 0;
-
+        white-space: nowrap;
+        overflow-x: auto;
+        overflow-y: hidden;
         li {
           @include selectable-element;
           display: inline-block;
