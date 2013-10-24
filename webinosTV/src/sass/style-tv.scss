@@ -93,8 +93,7 @@ $categoryChannelsBGLight:#FDAC10;
   @include category-image-inner($imagename,$lowerRightColor,$upperLeftColor);
 }
 
-@mixin highlighted-category-image($imagename,$lowerRightColor,$upperLeftColor){
-  $selectedCategoryColor: $webinosBlue;
+@mixin highlighted-category-image($imagename,$lowerRightColor,$upperLeftColor,$selectedCategoryColor: $webinosBlue){
   box-shadow: inset 0px 0px 0px 0.125em $selectedCategoryColor;
 }
 
@@ -468,13 +467,20 @@ $headerHeight: 5em;
         }
       }
 
-      .category-type-movies.focus,
-      .category-type-movies.mobileselected,
-      .category-type-movies:hover {
+      .category-type-movies.mobileselected
+      {
         .category-image {
           @include highlighted-category-image('media-movies.svg',$categoryVideosBGLight,$categoryVideosBGDark);
         }
       }
+      
+      .category-type-movies.focus,
+      .category-type-movies:hover {
+        .category-image {
+          @include highlighted-category-image('media-movies.svg',$categoryVideosBGLight,$categoryVideosBGDark,$tv_color);
+        }
+      }
+      
 
       .category-type-music {
         .category-image {
@@ -482,11 +488,17 @@ $headerHeight: 5em;
         }
       }
 
-      .category-type-music.focus,
-      .category-type-music.mobileselected,
-      .category-type-music:hover {
+      .category-type-music.mobileselected
+      {
         .category-image {
           @include highlighted-category-image('media-music.svg',$categoryMusicBGLight,$categoryMusicBGDark);
+        }
+      }
+      
+      .category-type-music.focus,
+      .category-type-music:hover {
+        .category-image {
+          @include highlighted-category-image('media-music.svg',$categoryMusicBGLight,$categoryMusicBGDark,$tv_color);
         }
       }
 
@@ -496,27 +508,39 @@ $headerHeight: 5em;
         }
       }
 
-      .category-type-images.focus,
-      .category-type-images.mobileselected,
-      .category-type-images:hover {
+      .category-type-images.mobileselected {
         .category-image {
           @include highlighted-category-image('media-images.svg',$categoryImagesBGLight,$categoryImagesBGDark);
         }
       }
 
+      .category-type-images.focus,
+      .category-type-images:hover {
+        .category-image {
+          @include highlighted-category-image('media-images.svg',$categoryImagesBGLight,$categoryImagesBGDark,$tv_color);
+        }
+      }
+
+      
       .category-type-channels {
         .category-image {
           @include category-image('media-channels.svg',$categoryChannelsBGLight,$categoryChannelsBGDark);
         }
       }
 
-      .category-type-channels.focus,
-      .category-type-channels.mobileselected,
-      .category-type-channels:hover {
+      .category-type-channels.mobileselected{
         .category-image {
           @include highlighted-category-image('media-channels.svg',$categoryChannelsBGLight,$categoryChannelsBGDark);
         }
       }
+      
+      .category-type-channels.focus,
+      .category-type-channels:hover {
+        .category-image {
+          @include highlighted-category-image('media-channels.svg',$categoryChannelsBGLight,$categoryChannelsBGDark,$tv_color);
+        }
+      }
+      
     }
 
     .category-name {
