@@ -150,7 +150,7 @@ $categoryChannelsBGLight:#FDAC10;
 
 @mixin selected {
   @include selectable-element;
-  border-color: tv_selected_border_color;
+  border-color: $tv_selected_border_color;
   color: $tv_selectable_bg_color;
 }
 
