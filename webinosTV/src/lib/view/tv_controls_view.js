@@ -14,6 +14,8 @@ function TVControlsView(parent, config, viewModel) {
     fullscreen: false,
     local: false,
     highdef: false,
+    select: true,
+    trash: true,
     navclass: 'nav_qu'
   }, config || {});
 
@@ -40,9 +42,14 @@ function TVControlsView(parent, config, viewModel) {
 //  var ctime = $('<div class="controlTime"><div class="controlTimeSchnippel"></div><span>1:00</span></div>');
   var ctime = $('<div id="tv_controltime" class="controlTime"><div class="controlTimeSchnippel"></div></div>');
 
+  var cselall = $('<div id="tv_selectAll" class="textButton ' + config.navclass + '">Select All</div>');
+  var cdeselall = $('<div id="tv_deselectAll" class="textButton ' + config.navclass + '">Deselect All</div>');
+  var ctrash = $('<div id="tv_trash" class="textButton ' + config.navclass + '"></div>');
+
 
   var controls = $('#mobileControlContainer');
   var container = $('<div id="mobileControlButtons" class="controlButtons">');
+  var container2 = $('<div id="mobileControlButtons2" class="controlButtons">');
   var nowPlayingItem = $('<div class="controlItemInfo"><div class="itemtitle"></div><div class="itemartist"></div></div>');
 
   controls.empty();
@@ -68,7 +75,17 @@ function TVControlsView(parent, config, viewModel) {
   }
   if (config.highdef)
     container.append(chres);
-  controls.append([nowPlayingItem, container, csbar, ctime]);
+
+
+  if (config.select) {
+    container2.append(cselall);
+    container2.append(cdeselall);
+  }
+  if (config.trash) {
+    container2.append(ctrash);
+  }
+
+  controls.append([nowPlayingItem, container2, container, csbar, ctime]);
 
   viewModel.playOrPause().plug(cplay.asEventStream('click'));
   viewModel.previous().plug(cprev.asEventStream('click'));
