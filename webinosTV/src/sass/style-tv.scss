@@ -881,6 +881,11 @@ $headerHeight: 5em;
   background-color: $tv_background_color;
   color: $tv_color;
   height: 100%;
+  text-align: center;
+  
+  video{
+    height: 85%;
+  }
   
   .imageContainer {
     height: 85%;
@@ -894,7 +899,7 @@ $headerHeight: 5em;
     position: absolute;
     width: 100%;
     height: 15%;
-      
+    text-align: left;
     .full.controlContainer{
       position: relative;
       height: 8em;
