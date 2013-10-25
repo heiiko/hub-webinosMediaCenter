@@ -329,7 +329,7 @@ function TargetListView(viewModel) {
   viewModel.selectedQueueTargets().onValue(function(selection) {
     if(selection.length === 1) {
       var config = {'local': selection[0].device.isLocal(), 'remote': (selection[0].device.type() === 'laptop')};
-      controlsView = new TVControlsView('.mobilequeuecontrols', config, controlsViewModel);
+      controlsView = new TVControlsView('.mobilequeuecontrols', config, controlsViewModel,viewModel.queue(), viewModel.selectedQueue());
     }
   });
 
@@ -681,10 +681,10 @@ function NavigationView (viewModel) {
         }
         break;
     }
-    console.debug("col: " + navigation["curCol"]);
-    console.debug("class: " + navigation["regions"][navigation["curCol"]]);
-    console.debug("curEl: " + navigation["curEl"][navigation["regions"][navigation["curCol"]]]);
-    console.debug("curScreen: " + navigation["curScreen"]);
+    // console.debug("col: " + navigation["curCol"]);
+    // console.debug("class: " + navigation["regions"][navigation["curCol"]]);
+    // console.debug("curEl: " + navigation["curEl"][navigation["regions"][navigation["curCol"]]]);
+    // console.debug("curScreen: " + navigation["curScreen"]);
     $(navigation["regions"][navigation["curCol"]]).eq(navigation["curEl"][navigation["regions"][navigation["curCol"]]]).addClass('focus');
   }
 
@@ -714,7 +714,7 @@ function TVBrowserView(viewModel) {
   viewModel.append().plug($('#tv-append').asEventStream('click'));
 
   controlsViewModel = viewModel.controls();
-  controlsView = new TVControlsView('.mobilequeuecontrols', null, controlsViewModel);
+  controlsView = new TVControlsView('.mobilequeuecontrols', null, controlsViewModel, viewModel.queue(), viewModel.selectedQueue());
 
   $('.content-queuebutton').click(function() {
     if(! $(this).hasClass('disabled')) {

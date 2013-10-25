@@ -4,7 +4,7 @@ var _ = require('underscore');
 var Bacon = require('baconjs');
 var gotoPageById = require('./pagetransition.js');
 
-function TVControlsView(parent, config, viewModel) {
+function TVControlsView(parent, config, viewModel, queue, selectedQueue) {
   var self = this;
   parent = $(parent) || $('body');
   config = _.extend({
@@ -46,7 +46,6 @@ function TVControlsView(parent, config, viewModel) {
   var cdeselall = $('<div id="tv_deselectAll" class="textButton ' + config.navclass + '">Deselect All</div>');
   var ctrash = $('<div id="tv_trash" class="textButton ' + config.navclass + '"></div>');
 
-
   var controls = $('#mobileControlContainer');
   var container = $('<div id="mobileControlButtons" class="controlButtons">');
   var container2 = $('<div id="mobileControlButtons2" class="controlButtons">');
@@ -76,10 +75,25 @@ function TVControlsView(parent, config, viewModel) {
   if (config.highdef)
     container.append(chres);
 
-
   if (config.select) {
     container2.append(cselall);
     container2.append(cdeselall);
+    cselall.click(function() {
+      selectedQueue.apply(queue.map(function(queue) {
+        return function(selectedQueue) {
+          return _.ounion(_.map(queue, function(value) {
+            return value.link;
+          }));
+        };
+      }));
+    });
+    cdeselall.click(function() {
+      selectedQueue.apply(queue.map(function(queue) {
+        return function(selectedQueue) {
+          return [];
+        };
+     }));
+    });
   }
   if (config.trash) {
     container2.append(ctrash);
