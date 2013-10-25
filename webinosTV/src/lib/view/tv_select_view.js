@@ -2,30 +2,30 @@ var _ = require('underscore');
 var $ = require('jquery');
 
 function Select_View(items, selection) {
-  
+
   function selectAllItems() {
     selection.apply(items.map(function(items) {
-    	return function(selection) {
-    		return _.ounion(_.map(items, function(value) {
-      		return {
+      return function(selection) {
+        return _.ounion(_.map(items, function(value) {
+          return {
             device: value.device.address(),
             service: value.service.id(),
             item: {
               id: value.id,
               title: value.title
             }
-    			};
-      	}));
-  		};
-  	}));
+          };
+        }));
+      };
+    }));
   }
 
   function deselectAllItems() {
-  	selection.apply(items.map(function(items) {
-    	return function(selection) {
-      	return [];
- 	    };
-	 }));
+    selection.apply(items.map(function(items) {
+      return function(selection) {
+        return [];
+      };
+   }));
   }
 
   $('#select-media-dd-all').click(function() {
