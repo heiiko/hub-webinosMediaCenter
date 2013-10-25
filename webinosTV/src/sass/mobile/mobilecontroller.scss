@@ -72,7 +72,7 @@
   }
 
   .tapButton{
-    margin-top: 5%;
+    margin-top: 2%;
     margin-left: auto;
     margin-right: auto;
     position: relative;
@@ -87,17 +87,9 @@
       width: 320px;
       height: 320px;
     }
-     @media screen and (min-width: 720px){
+    @media screen and (min-width: $mintabletwidth){
       width: 480px;
       height: 480px;
-    }
-    @media screen and (min-width: $mintabletwidth - 1){
-      width: 600px;
-      height: 600px;
-    }
-    @media screen and (min-width: $mintabletwidth){
-      width: 600px;
-      height: 600px;
     }
   }
 
