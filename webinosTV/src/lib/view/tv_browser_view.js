@@ -392,13 +392,13 @@ function NavigationView (viewModel) {
     "regions": [
       ".nav_menu",
       ".nav_sl",
-      ".nav_tl",
+      "#mobiletargetlist .nav_tl",
       ".nav_media_category",
       ".nav_media_action_file",
       ".nav_media_action",
       ".nav_media_file",
       ".nav_queue",
-      ".nav_tl.device",
+      "#mobilequeuetargetlist .nav_tl.device",
       ".nav_qu",
       ".nav_queue_file"
     ],
@@ -406,13 +406,13 @@ function NavigationView (viewModel) {
     "curEl": {
       ".nav_menu": 0,
       ".nav_sl": 0,
-      ".nav_tl": 0,
+      "#mobiletargetlist .nav_tl": 0,
       ".nav_media_category": 0,
       ".nav_media_action_file": 1,
       ".nav_media_action": 0,
       ".nav_media_file": 0,
       ".nav_queue": 0,
-      ".nav_tl.device": 0,
+      "#mobilequeuetargetlist .nav_tl.device": 0,
       ".nav_qu": 0,
       ".nav_queue_file": 0
     },
@@ -441,7 +441,7 @@ function NavigationView (viewModel) {
             }
 
             if(navigation["curCol"]==2) {
-              if(navigation["curEl"][navigation["regions"][navigation["curCol"]]] < $(navigation["regions"][navigation["curCol"]]).length/2-1) {
+              if(navigation["curEl"][navigation["regions"][navigation["curCol"]]] < $(navigation["regions"][navigation["curCol"]]).length-1) {
                 navigation["curEl"][navigation["regions"][navigation["curCol"]]]++;
               }
               $('#mobiletargetlist').scrollTo($(navigation["regions"][navigation["curCol"]]).eq(navigation["curEl"][navigation["regions"][navigation["curCol"]]]), {margin: true, over: -3});
@@ -580,9 +580,6 @@ function NavigationView (viewModel) {
             // In left bar going right
             if (navigation["curEl"][navigation["regions"][7]]===0) {
               navigation["curCol"] = 8;
-              if(navigation["curEl"][navigation["regions"][navigation["curCol"]]] < $(navigation["regions"][navigation["curCol"]]).length/2) {
-                navigation["curEl"][navigation["regions"][navigation["curCol"]]] = navigation["curEl"][navigation["regions"][navigation["curCol"]]] + $(navigation["regions"][navigation["curCol"]]).length/2;
-              }
             } else if(navigation["curEl"][navigation["regions"][7]]==1) {
               navigation["curCol"] = 9;
             } else {
@@ -591,7 +588,7 @@ function NavigationView (viewModel) {
           } else if (navigation["curCol"] == 8) {
             if(navigation["curEl"][navigation["regions"][navigation["curCol"]]] < ($(navigation["regions"][navigation["curCol"]]).length - 1)) {
               navigation["curEl"][navigation["regions"][navigation["curCol"]]]++;
-              $('#mobilequeuetargetlist').scrollTo($(navigation["regions"][navigation["curCol"]]).eq(navigation["curEl"][navigation["regions"][navigation["curCol"]]]-$(navigation["regions"][navigation["curCol"]]).length/2), {margin: true, over: -3});
+              $('#mobilequeuetargetlist').scrollTo($(navigation["regions"][navigation["curCol"]]).eq(navigation["curEl"][navigation["regions"][navigation["curCol"]]]-$(navigation["regions"][navigation["curCol"]]).length), {margin: true, axis: 'x', over: -2});
             }
           } else if (navigation["curCol"] == 9) {
             if(navigation["curEl"][navigation["regions"][navigation["curCol"]]] < $(navigation["regions"][navigation["curCol"]]).length-1) {
@@ -635,11 +632,11 @@ function NavigationView (viewModel) {
           // Queue screen
           if (navigation["curCol"] == 8) {
             // Going from targets to menu
-            if (navigation["curEl"][navigation["regions"][8]]==($(navigation["regions"][navigation["curCol"]]).length/2)) {
+            if (navigation["curEl"][navigation["regions"][8]]===0) {
               navigation["curCol"] = 0;
             } else {
               navigation["curEl"][navigation["regions"][navigation["curCol"]]]--;
-              $('#mobilequeuetargetlist').scrollTo($(navigation["regions"][navigation["curCol"]]).eq(navigation["curEl"][navigation["regions"][navigation["curCol"]]]-$(navigation["regions"][navigation["curCol"]]).length/2), {margin: true, over: -3});
+              $('#mobilequeuetargetlist').scrollTo($(navigation["regions"][navigation["curCol"]]).eq(navigation["curEl"][navigation["regions"][navigation["curCol"]]]-$(navigation["regions"][navigation["curCol"]]).length), {margin: true, axis: 'x', over: -2});
             }
           } else if (navigation["curCol"] == 9) {
             if(navigation["curEl"][navigation["regions"][navigation["curCol"]]] > 0) {
@@ -684,10 +681,10 @@ function NavigationView (viewModel) {
         }
         break;
     }
-    // console.debug("col: " + navigation["curCol"]);
-    // console.debug("class: " + navigation["regions"][navigation["curCol"]]);
-    // console.debug("curEl: " + navigation["curEl"][navigation["regions"][navigation["curCol"]]]);
-    // console.debug("curScreen: " + navigation["curScreen"]);
+    console.debug("col: " + navigation["curCol"]);
+    console.debug("class: " + navigation["regions"][navigation["curCol"]]);
+    console.debug("curEl: " + navigation["curEl"][navigation["regions"][navigation["curCol"]]]);
+    console.debug("curScreen: " + navigation["curScreen"]);
     $(navigation["regions"][navigation["curCol"]]).eq(navigation["curEl"][navigation["regions"][navigation["curCol"]]]).addClass('focus');
   }
 
