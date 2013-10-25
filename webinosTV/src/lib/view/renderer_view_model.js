@@ -70,7 +70,7 @@ function RendererViewModel(manager, input) {
   }).map('.event'), function (device, event) {
     return {device: device, event: event};
   }).filter(function (operation) {
-    return operation.device !== '<no-device>' && operation.device.noupnp().length
+    return operation.device !== '<no-device>' && operation.device.noupnp().length;
   }).onValue(function (operation) {
     var service = operation.device.noupnp()[0];
 

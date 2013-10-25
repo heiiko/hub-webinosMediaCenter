@@ -14,49 +14,27 @@ $(document).ready(function() {
 var IMAGE_SLIDESHOW_INTERVAL = 5000;
 
 function NavigationView(viewModel) {
-  var curPos = 0;
-  var navVisible = false;
-  var timeoutHandle;
+  var curPos = 2;
 
   viewModel.input().onValue(Navigate);
 
   function Navigate(direction) {
-    window.clearTimeout(timeoutHandle);
-    if (navVisible === false) {
-      navVisible = true;
-    } else {
-      if (direction !== 'enter')
-        $(".nav_rd.focus").removeClass('focus');
-      switch (direction) {
-        case 'right':
-          if (curPos < 6)
-            curPos++;
-          break;
-        case 'left':
-          if (curPos > 0)
-            curPos--;
-          else if (curPos === 0)
-            //window.openMainmenu();
-            break;
-        case 'enter':
-          if (navVisible)
-            $(".nav_rd.focus").click();
-          break;
-      }
+    if (direction !== 'enter')
+      $(".nav_rd.focus").removeClass('focus');
+    switch (direction) {
+      case 'right':
+        if (curPos < $(".nav_rd").length-1)
+          curPos++;
+        break;
+      case 'left':
+        if (curPos > 0)
+          curPos--;
+        break;
+      case 'enter':
+        $(".nav_rd.focus").click();
+        break;
     }
     $(".nav_rd").eq(curPos).addClass('focus');
-    startNavVisibleTimeout();
-  }
-
-  function startNavVisibleTimeout() {
-    timeoutHandle = window.setTimeout(function() {
-      navVisible = false;
-      $(".nav_rd").eq(curPos).removeClass('focus');
-    }, 5000);
-  }
-
-  function navlog(direction) {
-    console.log(direction + "  pos:" + curPos);
   }
 }
 

@@ -33,7 +33,6 @@ function resetPage($outpage, $inpage) {
 */
 
 function gotoPageById(id) {
-  console.debug(id, current);
   if (current !== id) {
     var $currPage = $(current);
     $(id).addClass('pt-page-current').toggle();

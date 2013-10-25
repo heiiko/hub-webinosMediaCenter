@@ -54,8 +54,26 @@ $(document).ready(function() {
 
   var input = local.merge(remote);
 
-  var tvbrowserViewModel = new TVBrowserViewModel(manager, input);
+  var handled = false;
+
+  input_browser_view = input.filter(function() {
+    if ($('.pt-page-current').attr('id') === 'mobilebrowser') {
+      handled = true;
+      return true;
+    }
+    return false;
+  });
+
+  input_renderer = input.filter(function() {
+    if (handled === true) {
+      handled = false;
+      return false;
+    }
+    return $('.pt-page-current').attr('id') === 'renderer';
+  });
+
+  var tvbrowserViewModel = new TVBrowserViewModel(manager, input_browser_view);
   var tvbrowserView = new TVBrowserView(tvbrowserViewModel);
-  var rendererViewModel = new RendererViewModel(manager, input);
+  var rendererViewModel = new RendererViewModel(manager, input_renderer);
   var rendererView = new RendererView(rendererViewModel);
 });

@@ -27,7 +27,7 @@ function ControlsView(parent, config, viewModel) {
 
   var cprev = $('<div class="controlButton controlPrev ' + config.navclass + '">');
   var crewd = $('<div class="controlButton controlRewd ' + config.navclass + '">');
-  var cplay = $('<div class="controlButton controlPlay ' + config.navclass + '">');
+  var cplay = $('<div class="controlButton controlPlay ' + config.navclass + ' focus">');
   var cfwrd = $('<div class="controlButton controlFwrd ' + config.navclass + '">');
   var cnext = $('<div class="controlButton controlNext ' + config.navclass + '">');
   var cdele = $('<div class="controlButton controlDele ' + config.navclass + '">');

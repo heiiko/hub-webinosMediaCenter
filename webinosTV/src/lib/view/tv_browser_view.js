@@ -684,15 +684,11 @@ function NavigationView (viewModel) {
         }
         break;
     }
-    console.debug("col: " + navigation["curCol"]);
-    console.debug("class: " + navigation["regions"][navigation["curCol"]]);
-    console.debug("curEl: " + navigation["curEl"][navigation["regions"][navigation["curCol"]]]);
-    console.debug("curScreen: " + navigation["curScreen"]);
+    // console.debug("col: " + navigation["curCol"]);
+    // console.debug("class: " + navigation["regions"][navigation["curCol"]]);
+    // console.debug("curEl: " + navigation["curEl"][navigation["regions"][navigation["curCol"]]]);
+    // console.debug("curScreen: " + navigation["curScreen"]);
     $(navigation["regions"][navigation["curCol"]]).eq(navigation["curEl"][navigation["regions"][navigation["curCol"]]]).addClass('focus');
-  }
-
-  function centerFocusedElement(){
-    $(columns[navigation["curCol"]]).eq(curRow[navigation["curCol"]]).addClass("focus");
   }
 
   function startNavWithTimeout(){
@@ -704,10 +700,6 @@ function NavigationView (viewModel) {
         navigation["curCol"] = 0;
       }
     }, 500);
-  }
-
-  function navlog(direction) {
-    console.log(direction + "  col:" + navigation["curCol"] + " row:" + curRow);
   }
 }
 
