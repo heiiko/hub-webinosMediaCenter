@@ -882,11 +882,20 @@ $headerHeight: 5em;
   color: $tv_color;
   height: 100%;
   
+  .imageContainer {
+    height: 85%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  
   .rendererControlls{
-      bottom: 0;
-      position: absolute;
-      width: 100%;
-      .full.controlContainer{
+    bottom: 0;
+    position: absolute;
+    width: 100%;
+    height: 15%;
+      
+    .full.controlContainer{
       position: relative;
       height: 8em;
       border-top: 0.125em solid #D4D4D4;
