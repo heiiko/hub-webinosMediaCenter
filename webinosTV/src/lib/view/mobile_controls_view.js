@@ -9,7 +9,7 @@ function MobileControlsView(parent, config, viewModel) {
   parent = $(parent) || $('body');
   config = _.extend({
     style: 'slim',
-    remove: false,
+    remove: true,
     remote: false,
     fullscreen: false,
     local: false,
