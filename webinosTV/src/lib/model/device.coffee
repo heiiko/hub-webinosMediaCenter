@@ -9,7 +9,7 @@ MessagingService = require('../service/messaging.coffee')
 PeerService = require('./peer.coffee')
 MediaContentService = require('../service/mediacontent.coffee')
 TelevisionService = require('../service/television.coffee')
-MediaService = require('../service/media.coffee')
+MediaPlayService = require('../service/mediaplay.coffee')
 
 class DeviceManager extends Bacon.EventStream
   constructor: (interval = 15000, timeout = 30000) ->
@@ -54,7 +54,7 @@ class DeviceManager extends Bacon.EventStream
         MessagingService.findServices(),
         MediaContentService.findServices(),
         TelevisionService.findServices(),
-        MediaService.findServices())
+        MediaPlayService.findServices())
     services
       .flatMap (service) ->
         Bacon.fromPromise(service.bindService())
@@ -152,10 +152,9 @@ class Device extends Bacon.EventStream
     @devicestatus = -> _.find(services, ({ref}) -> ref instanceof DeviceStatusService)?.ref
     @mediacontent = -> _.chain(services).filter(({ref}) -> ref instanceof MediaContentService).pluck('ref').value()
     @television = -> _.find(services, ({ref}) -> ref instanceof TelevisionService)?.ref
-    @media = -> _.find(services, ({ref}) -> ref instanceof MediaService)?.ref
-    @media = -> _.chain(services).filter(({ref}) -> ref instanceof MediaService).pluck('ref').value()
-    @upnp = => _.filter(@media(), (ref) -> ref.description().toLowerCase().indexOf('upnp') isnt -1)
-    @noupnp = => _.filter(@media(), (ref) -> ref.description().toLowerCase().indexOf('upnp') is -1)
+    @mediaplay = -> _.chain(services).filter(({ref}) -> ref instanceof MediaPlayService).pluck('ref').value()
+    @upnp = => _.filter(@mediaplay(), (ref) -> ref.description().toLowerCase().indexOf('upnp') isnt -1)
+    @noupnp = => _.filter(@mediaplay(), (ref) -> ref.description().toLowerCase().indexOf('upnp') is -1)
     @peers = -> _.chain(services).filter(({ref}) -> ref instanceof PeerService).pluck('ref').value()
     @isSource = => @mediacontent().length or @television()?
     @isTarget = => @upnp().length > 0 or @peers().length > 0
