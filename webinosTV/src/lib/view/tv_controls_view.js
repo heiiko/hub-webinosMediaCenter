@@ -9,19 +9,18 @@ function TVControlsView(parent, config, viewModel, queue, selectedQueue) {
   parent = $(parent) || $('body');
   config = _.extend({
     style: 'slim',
-    remove: false,
+    remove: true,
     remote: false,
     fullscreen: false,
     local: false,
     highdef: false,
     select: true,
-    trash: true,
     navclass: 'nav_qu'
   }, config || {});
 
   var buttonCount = 5;
-  if (config.remove)
-    buttonCount++;
+  // if (config.remove)
+  //   buttonCount++;
   if (config.fullscreen)
     buttonCount++;
   if (config.remote)
@@ -34,7 +33,6 @@ function TVControlsView(parent, config, viewModel, queue, selectedQueue) {
   var cplay = $('<div id="tv_play" class="controlButton controlPlay ' + config.navclass + '">');
   var cfwrd = $('<div id="tv_forward" class="controlButton controlFwrd ' + config.navclass + '">');
   var cnext = $('<div id="tv_next" class="controlButton controlNext ' + config.navclass + '">');
-  var cdele = $('<div id="tv_delete" class="controlButton controlDele ' + config.navclass + '">');
   var cfull = $('<div id="tv_fullscreen" class="controlButton controlFull ' + config.navclass + '">');
   var cremote = $('<div id="tv_fullscreen" class="controlButton controlFull ' + config.navclass + '">');
   var chres = $('<div id="tv_highress" class="controlButton controlHres ' + config.navclass + '">');
@@ -44,7 +42,7 @@ function TVControlsView(parent, config, viewModel, queue, selectedQueue) {
 
   var cselall = $('<div id="tv_selectAll" class="textButton ' + config.navclass + '">Select All</div>');
   var cdeselall = $('<div id="tv_deselectAll" class="textButton ' + config.navclass + '">Deselect All</div>');
-  var ctrash = $('<div id="tv_trash" class="textButton ' + config.navclass + '"></div>');
+  var cdele = $('<div id="tv_delete" class="textButton controlDele ' + config.navclass + '">');
 
   var controls = $('#mobileControlContainer');
   var container = $('<div id="mobileControlButtons" class="controlButtons">');
@@ -54,10 +52,6 @@ function TVControlsView(parent, config, viewModel, queue, selectedQueue) {
   controls.empty();
   container.append([cprev, crewd, cplay, cfwrd, cnext]);
 
-  if (config.remove) {
-    container.append(cdele);
-    viewModel.remove().plug(cdele.asEventStream('click'));
-  }
   if (config.fullscreen || config.local) {
     container.append(cfull);
 
@@ -95,8 +89,9 @@ function TVControlsView(parent, config, viewModel, queue, selectedQueue) {
      }));
     });
   }
-  if (config.trash) {
-    container2.append(ctrash);
+  if (config.remove) {
+    container2.append(cdele);
+    viewModel.remove().plug(cdele.asEventStream('click'));
   }
 
   controls.append([nowPlayingItem, container2, container, csbar, ctime]);
