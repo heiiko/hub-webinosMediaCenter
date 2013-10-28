@@ -47,6 +47,14 @@ $category-wrapper-width-largescreen:150px;
   font-family: 'Roboto', sans-serif;
 }
 
+.bold {
+	text-weight: bold;
+}
+
+.underline {
+	text-decoration: underline;
+}
+
 #walkthrough.pt-page-current {
 	background-color: $blue;
 	color: white;
@@ -63,6 +71,8 @@ $category-wrapper-width-largescreen:150px;
 		overflow: hidden;
 		width: 100%;
 		height: 100%;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
 	}
 	
 	.wt-page-current {
@@ -75,6 +85,7 @@ $category-wrapper-width-largescreen:150px;
 		margin-top: 5%;
 		margin-left: 15px;
 		margin-right: 15px;
+		-webkit-box-flex: 1;
 	}
 	
 	.button {
@@ -87,7 +98,15 @@ $category-wrapper-width-largescreen:150px;
 		background-color: white;
 	}
 	
-	#wt-startbuttons {
+	.placeholder-button {
+		border-radius: 15px;
+		-webkit-box-flex: 1;
+		margin: 15px;
+		padding: 15px;
+		font-size: $fontsizelarge;
+	}
+	
+	.buttonbar {
 		display: -webkit-box;
 		-webkit-box-orient: horizontal;
 		margin-top: 5%;
@@ -101,26 +120,6 @@ $category-wrapper-width-largescreen:150px;
 		height: 70px;
 		width: 100%;
 	}
-	
-	#wt-carousel {
-		margin: 0 auto;
-  		width: 100%;
-  		height: 80%;
-  		background: #efefef;
-  		overflow: hidden;
-		
-		.carousel_box {
-  			float: left;
-  			border: solid #fff 5px;
-  			width: 100%;
-  			height: 100%;
-  			color: #fff;
-  			background: #252525;
-  			line-height: 140px;
-  			text-align: center;
-  			font-size: 123%;
-  		}
-  	}
 }
 
 #mobilebrowser.pt-page-current {

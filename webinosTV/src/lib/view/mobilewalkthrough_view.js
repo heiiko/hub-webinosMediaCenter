@@ -10,12 +10,40 @@ $(document).ready(function() {
 function init() {
   $(currentpage).addClass('wt-page-current');
 
-  $('#close-wt').on('click', function() {
+  $('#start-app-1').on('click', function() {
     gotoCorePageById("#mobilebrowser");
   });
   
-  $('#start-wt').on('click', function() {
+  $('#start-app-2').on('click', function() {
+    gotoCorePageById("#mobilebrowser");
+  });
+  
+  $('#start-wt-1').on('click', function() {
     gotoWTPageById("#wt-1");
+  });
+  
+  $('#start-wt-2').on('click', function() {
+    gotoWTPageById("#wt-2");
+  });
+  
+  $('#start-wt-3').on('click', function() {
+    gotoWTPageById("#wt-3");
+  });
+  
+  $('#start-wt-4').on('click', function() {
+    gotoWTPageById("#wt-4");
+  });
+  
+  $('#back-wt-1').on('click', function() {
+    gotoWTPageById("#wt-1");
+  });
+  
+  $('#back-wt-2').on('click', function() {
+    gotoWTPageById("#wt-2");
+  });
+  
+  $('#back-wt-3').on('click', function() {
+    gotoWTPageById("#wt-3");
   });
 }
 
