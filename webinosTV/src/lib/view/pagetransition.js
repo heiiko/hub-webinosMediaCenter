@@ -1,4 +1,4 @@
-var current = '#mobilebrowser',
+var current = '#walkthrough',
     isAnimating = false,
     endCurrPage = false,
     endNextPage = false;

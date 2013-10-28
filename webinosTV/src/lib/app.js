@@ -11,6 +11,7 @@ var RendererView = require('./view/renderer_view.js');
 var MobileRemoteView = require('./view/mobileremote_view.js');
 var MobileRemoteViewModel = require('./view/mobileremote_view_model.js');
 require('./view/mobilemain_view.js');
+require('./view/mobilewalkthrough_view.js');
 
 $(document).ready(function() {
   var manager = new DeviceManager(30000, 60000);

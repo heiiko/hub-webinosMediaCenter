@@ -14,11 +14,11 @@ $mediumgray: #dadada;
 $lightgray: #f1f1f1;
 $bordergray: gray;
 $devicelogo: #383838;
-
 $orange: #eeba42;
 
 $fontsize: 16px;
 $fontsizemini: 13px;
+$fontsizelarge: 20px;
 
 $mintabletwidth: 1200px;
 $headerheight: 56px;
@@ -41,12 +41,89 @@ $category-wrapper-width-largescreen:150px;
 .pt-page-current {
   visibility: visible;
   z-index: 1;
+  
+  margin: 0px;
+  padding: 0px;
+  font-family: 'Roboto', sans-serif;
 }
 
-#mobilebrowser.pt-page-current, #mobilecontroller.pt-page-current {
-	margin: 0px;
-	padding: 0px;
-	font-family: 'Roboto', sans-serif;
+#walkthrough.pt-page-current {
+	background-color: $blue;
+	color: white;
+	text-align: center;
+	
+	
+	.wt-page {
+		visibility: hidden;
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		overflow: hidden;
+		width: 100%;
+		height: 100%;
+	}
+	
+	.wt-page-current {
+		visibility: visible;
+		z-index: 2;
+	}
+	
+	.description {
+		font-size: $fontsizelarge;
+		margin-top: 5%;
+		margin-left: 15px;
+		margin-right: 15px;
+	}
+	
+	.button {
+		border-radius: 15px;
+		-webkit-box-flex: 1;
+		margin: 15px;
+		padding: 15px;
+		color: $blue;
+		font-size: $fontsizelarge;
+		background-color: white;
+	}
+	
+	#wt-startbuttons {
+		display: -webkit-box;
+		-webkit-box-orient: horizontal;
+		margin-top: 5%;
+	}
+
+	.webinos-logo {
+		background-image: inline-image('webinos_logo.svg');
+		background-repeat: no-repeat;
+		background-position: 50% 50%;
+		
+		height: 70px;
+		width: 100%;
+	}
+	
+	#wt-carousel {
+		margin: 0 auto;
+  		width: 100%;
+  		height: 80%;
+  		background: #efefef;
+  		overflow: hidden;
+		
+		.carousel_box {
+  			float: left;
+  			border: solid #fff 5px;
+  			width: 100%;
+  			height: 100%;
+  			color: #fff;
+  			background: #252525;
+  			line-height: 140px;
+  			text-align: center;
+  			font-size: 123%;
+  		}
+  	}
+}
+
+#mobilebrowser.pt-page-current {
 	color: $fontcolor;
 	background-color: white;
 	text-align: left;
