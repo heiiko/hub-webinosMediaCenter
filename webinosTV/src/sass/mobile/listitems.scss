@@ -24,7 +24,10 @@
     background-repeat: no-repeat;
     background-position: center;
   }
-
+  li.imglistitem div.imglistitem img.imglistitem {
+  	 width: $webinosThumbnailWidth;
+  	 height: $webinosThumbnailWidth;
+  }
   li.imglistitem div.imglistitem-title{
     height:$imgTitleHeight;
     position: relative;
@@ -36,10 +39,10 @@
     background-color: rgba(black,0.5);
   }
 
-  li.imglistitem.mobileselected div.imglistitem:after{
+  li.imglistitem.mobileselected div.imglistitem-title:before{
     background: rgba($blue,0.5);
     width: $webinosThumbnailWidth;
-    height: $webinosThumbnailWidth;
+    height: $imgTitleHeight;
     content: "\2713";
     display: block;
     position: relative;
@@ -250,7 +253,7 @@
     width: 60%;
   }
 
-    #mobilequeuelist li div.imglistitem {
+  #mobilequeuelist li div.imglistitem {
     height: 40px;
     width: 40px;
     left:50px;
@@ -260,6 +263,11 @@
     position: absolute;
     display: inline;
     line-height: 18px;
+  }
+  
+  #mobilequeuelist li div img.imglistitem {
+    height: 40px;
+    width: 40px;
   }
 
   #mobilequeuelist li div.default-icon,#mobilequeuelist li div.song-icon,#mobilequeuelist li div.clip-icon{

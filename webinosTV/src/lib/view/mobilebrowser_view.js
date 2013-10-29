@@ -201,7 +201,7 @@ function ContentListView(viewModel) {
     if (typeof item.type === 'string' && item.type.toLowerCase().indexOf('image') === 0)
     {
       html = '<li class="imglistitem">' +
-        '<div class="imglistitem" style="background-image:url(\'' + item.thumbnailURIs[0] + '\')"></div>' +
+        '<div class="imglistitem"><img class="imglistitem" src="' + item.thumbnailURIs[0] + '" /></div>' +
         '<div class="imglistitem-title">' + item.title + '</div>' +
         '</li>';
     }
@@ -345,7 +345,7 @@ function QueueListView(viewModel) {
     {
       html = '<li class="contentlistitem"><div class="itemcontainer">' +
         '<div class="chbx-container"><input type="checkbox" /></div>' +
-        '<div class="imglistitem" style="background-image:url(\'' + value.item.thumbnailURIs[0] + '\')"></div>' +
+        '<div class="imglistitem" ><img class="imglistitem" src="' + value.item.thumbnailURIs[0] + '" /></div>' +
         '<div class="mediaitemcontent">' +
         '<div class="itemtitle">' + value.item.title + '</div>' +
         '</div>' +
