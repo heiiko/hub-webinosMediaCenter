@@ -47,7 +47,7 @@ $categoryChannelsBGLight:#FDAC10;
   .device-image.type-unknown {
     -webkit-mask-image: inline-image('all_devices.svg');
   }
-  
+
   .device-image.type-none {
     visibility: hidden;
   }
@@ -68,7 +68,7 @@ $categoryChannelsBGLight:#FDAC10;
     background: black;
     -webkit-appearance: none;
   }
-  
+
   input[type=checkbox]:checked::after {
     position: absolute;
     content: '';
@@ -118,6 +118,7 @@ $categoryChannelsBGLight:#FDAC10;
   background-color: $tv_background_color;
   border-color: $tv_background_color;
   color: $tv_selectable_fg_disabled_color;
+  cursor: auto;
 }
 
 @mixin focussed {
@@ -159,6 +160,7 @@ $categoryChannelsBGLight:#FDAC10;
   background-color: $tv_disabled_bg_color;
   border-color: $tv_disabled_border_color;
   color: $tv_disabled_fg_color;
+  cursor: auto;
 }
 
 html {
@@ -341,7 +343,7 @@ body {
   .device-column {
     height: 85%;
   }
-  
+
   $deviceNameFontSize: 2em;
   .device-name {
     font-size: $deviceNameFontSize;
@@ -352,7 +354,7 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  
+
   .device-type {
     font-size: $deviceNameFontSize;
     font-weight: bold;
@@ -469,7 +471,7 @@ $headerHeight: 5em;
       li:hover {
         cursor: pointer;
       }
-      
+
       .category-type-movies {
         .category-image {
           @include category-image('media-movies.svg',$categoryVideosBGLight,$categoryVideosBGDark);
@@ -482,14 +484,14 @@ $headerHeight: 5em;
           @include highlighted-category-image('media-movies.svg',$categoryVideosBGLight,$categoryVideosBGDark);
         }
       }
-      
+
       .category-type-movies.focus,
       .category-type-movies:hover {
         .category-image {
           @include highlighted-category-image('media-movies.svg',$categoryVideosBGLight,$categoryVideosBGDark,$tv_color);
         }
       }
-      
+
 
       .category-type-music {
         .category-image {
@@ -503,7 +505,7 @@ $headerHeight: 5em;
           @include highlighted-category-image('media-music.svg',$categoryMusicBGLight,$categoryMusicBGDark);
         }
       }
-      
+
       .category-type-music.focus,
       .category-type-music:hover {
         .category-image {
@@ -530,7 +532,7 @@ $headerHeight: 5em;
         }
       }
 
-      
+
       .category-type-channels {
         .category-image {
           @include category-image('media-channels.svg',$categoryChannelsBGLight,$categoryChannelsBGDark);
@@ -542,14 +544,14 @@ $headerHeight: 5em;
           @include highlighted-category-image('media-channels.svg',$categoryChannelsBGLight,$categoryChannelsBGDark);
         }
       }
-      
+
       .category-type-channels.focus,
       .category-type-channels:hover {
         .category-image {
           @include highlighted-category-image('media-channels.svg',$categoryChannelsBGLight,$categoryChannelsBGDark,$tv_color);
         }
       }
-      
+
     }
 
     .category-name {
@@ -569,7 +571,7 @@ $headerHeight: 5em;
     //uncomment to enable shadow over the topmost list item
     //box-shadow: 0 1.6em 1.4em 1em rgb(0, 0, 0);
     //z-index: 9999;
-    
+
     .header-item-media.header-item-mediaactions {
       padding-top: 1em;
     }
@@ -593,7 +595,7 @@ $headerHeight: 5em;
     .nav_media_action:active {
       @include pressed;
     }
-    
+
     #select-media-dd-wrapper {
       font-size: 1.5em;
     }
@@ -606,7 +608,7 @@ $headerHeight: 5em;
     width: 75%;
     height: 83%;
     margin-right: 5%;
-    
+
     ul {
       padding-left: 0;
       list-style-type: none;
@@ -679,7 +681,7 @@ $headerHeight: 5em;
           padding: 0.25em 0.5em 0.25em 0.5em;
           width: 20%;
           box-sizing: inherit;
-          
+
           $deviceNameFontSize: 1.5em;
           @include device-types(2*$deviceNameFontSize);
           .device-image{
@@ -696,7 +698,7 @@ $headerHeight: 5em;
             position: relative;
             top: -1.5em;
           }
-          
+
           .device-type {
             font-size: $deviceNameFontSize;
 /*             font-weight: bold; */
@@ -707,7 +709,7 @@ $headerHeight: 5em;
             position: relative;
             top: -1.5em;
           }
-          
+
         }
 
         li:hover,
@@ -721,7 +723,7 @@ $headerHeight: 5em;
           @include pressed;
           box-sizing: inherit;
         }
-        
+
         li.mobileselected {
           @include selected;
           box-sizing: inherit;
@@ -767,10 +769,39 @@ $headerHeight: 5em;
       }
     }
 
-    .controlButtons {
-      height: 4em;
-      position: absolute;
+    #mobileControlButtons {
       right: 0;
+      height: 4em;
+    }
+
+    #mobileControlButtons2 {
+      left: 0;
+      padding-left: 15px;
+      padding-bottom: 20px;
+
+      .textButton{
+        display: inline-block;
+        @include selectable-button;
+        padding: 0.25em 1em;
+        margin-right: 0.25em;
+      }
+
+      .textButton.focus,
+      .textButton:hover {
+        @include focussed;
+      }
+
+      .textButton:active {
+        @include pressed;
+      }
+
+      .textButton.disabled {
+        @include selectable-button-disabled;
+      }
+    }
+
+    .controlButtons {
+      position: absolute;
       bottom: 0;
 
       .controlButton{
@@ -786,7 +817,7 @@ $headerHeight: 5em;
         background-position: center;
         border: 0.125em solid $webinosBlue;
       }
-      
+
       .controlButton.focus{
         @include focussed;
         border-radius: 3em;
@@ -882,18 +913,18 @@ $headerHeight: 5em;
   color: $tv_color;
   height: 100%;
   text-align: center;
-  
+
   video{
     height: 85%;
   }
-  
+
   .imageContainer {
     height: 85%;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
   }
-  
+
   .rendererControlls{
     bottom: 0;
     position: absolute;
@@ -957,7 +988,7 @@ $headerHeight: 5em;
           background-position: center;
           border: 0.125em solid $webinosBlue;
         }
-        
+
         .controlButton.focus{
           @include focussed;
           border-radius: 3em;

@@ -384,6 +384,22 @@ function QueueListView(viewModel) {
     return value.link;
   };
 
+  viewModel.selectedQueue().onValue(function(selection) {
+    // var file = (selection.length === 1) ? 'file' : 'files';
+    // $('#select-media-dd-count').text(selection.length + ' ' + file + ' ' + 'selected');
+
+    if (selection.length >= 1) {
+      selectedQueue = true;
+      if(targetSelected) {
+        $('.controlDele').removeClass('disabled');
+      }
+    }
+    else {
+      selectedQueue = false;
+      $('.controlDele').addClass('disabled');
+    }
+  });
+
   ListView.call(this, viewModel.queue(), viewModel.selectedQueue(), '#mobilequeuelist', '#mobilequeuewrapper', '#mobilequeue');
 }
 
@@ -592,6 +608,9 @@ function NavigationView (viewModel) {
             }
           } else if (navigation["curCol"] == 9) {
             if(navigation["curEl"][navigation["regions"][navigation["curCol"]]] < $(navigation["regions"][navigation["curCol"]]).length-1) {
+              if($(navigation["regions"][navigation["curCol"]]).eq(navigation["curEl"][navigation["regions"][navigation["curCol"]]]+1).hasClass('disabled')) {
+                navigation["curEl"][navigation["regions"][navigation["curCol"]]]++;
+              }
               navigation["curEl"][navigation["regions"][navigation["curCol"]]]++;
             }
           }
@@ -640,6 +659,9 @@ function NavigationView (viewModel) {
             }
           } else if (navigation["curCol"] == 9) {
             if(navigation["curEl"][navigation["regions"][navigation["curCol"]]] > 0) {
+              if($(navigation["regions"][navigation["curCol"]]).eq(navigation["curEl"][navigation["regions"][navigation["curCol"]]]-1).hasClass('disabled')) {
+                navigation["curEl"][navigation["regions"][navigation["curCol"]]]--;
+              }
               navigation["curEl"][navigation["regions"][navigation["curCol"]]]--;
             } else {
               navigation["curCol"] = 0;
