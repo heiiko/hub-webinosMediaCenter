@@ -583,10 +583,6 @@ $headerHeight: 5em;
       margin-right: 0.25em;
     }
 
-    .nav_media_action.disabled {
-      @include selectable-button-disabled;
-    }
-
     .nav_media_action.focus,
     .nav_media_action:hover {
       @include focussed;
@@ -594,6 +590,10 @@ $headerHeight: 5em;
 
     .nav_media_action:active {
       @include pressed;
+    }
+
+    .nav_media_action.disabled {
+      @include selectable-button-disabled;
     }
 
     #select-media-dd-wrapper {
