@@ -12,6 +12,7 @@ function init() {
 
   $('#start-app-1').on('click', function() {
     gotoCorePageById("#mobilebrowser");
+    document.querySelector('body').webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
   });
   
   $('#start-app-2').on('click', function() {
@@ -20,6 +21,7 @@ function init() {
   
   $('#start-wt-1').on('click', function() {
     gotoWTPageById("#wt-1");
+    document.querySelector('body').webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
   });
   
   $('#start-wt-2').on('click', function() {
