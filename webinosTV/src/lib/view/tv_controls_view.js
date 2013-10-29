@@ -194,8 +194,8 @@ function TVControlsView(parent, config, viewModel, queue, selectedQueue) {
     }
   });
 
-  var seeker = $('#mobilecontroltime', controls).drags({
-    seekBar: $('#mobilecontrolbar', controls),
+  var seeker = $('#tv_controltime', controls).drags({
+    seekBar: $('#tv_controlbar', controls),
     seekStateBus: bus
   });
 
@@ -263,15 +263,15 @@ TVControlsView.prototype.setControlsForMediaType = function(type) {
   switch (type) {
     case 'image':
       $('#mobileControlButtons').addClass('controlsForImage');
-      $('#mobilecontrolbar').addClass('controlsForImage');
-      $('#mobilecontroltime').addClass('controlsForImage');
+      $('#tv_controlbar').addClass('controlsForImage');
+      $('#tv_controltime').addClass('controlsForImage');
       break;
     case 'channels':
     case 'audio':
     case 'video':
       $('#mobileControlButtons').removeClass('controlsForImage');
-      $('#mobilecontrolbar').removeClass('controlsForImage');
-      $('#mobilecontroltime').removeClass('controlsForImage');
+      $('#tv_controlbar').removeClass('controlsForImage');
+      $('#tv_controltime').removeClass('controlsForImage');
       break;
     default:
       console.warn("Unknown type");
