@@ -741,6 +741,14 @@ $headerHeight: 5em;
 
     .controlItemInfo {
       height: 2.5em;
+      line-height: 2.5em;
+      font-size: 1.25em;
+      margin-left: 1em;
+
+      .itemartist,.itemtitle{
+        display: inline-block;
+      }
+        
     }
 
     .listControlButtons {
@@ -940,6 +948,14 @@ $headerHeight: 5em;
 
       .controlItemInfo {
         height: 2.5em;
+        line-height: 2.5em;
+        font-size: 1.25em;
+        margin-left: 1em;
+
+        .itemartist,.itemtitle{
+          display: inline-block;
+        }
+        
       }
 
       .listControlButtons {

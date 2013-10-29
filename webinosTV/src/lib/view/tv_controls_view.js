@@ -47,7 +47,7 @@ function TVControlsView(parent, config, viewModel, queue, selectedQueue) {
   var controls = $('#mobileControlContainer');
   var container = $('<div id="mobileControlButtons" class="controlButtons">');
   var container2 = $('<div id="mobileControlButtons2" class="controlButtons">');
-  var nowPlayingItem = $('<div class="controlItemInfo"><div class="itemtitle"></div><div class="itemartist"></div></div>');
+  var nowPlayingItem = $('<div class="controlItemInfo">Now Playing: <span class="itemartist"></span> - <span class="itemtitle"></span></div>');
 
   controls.empty();
   container.append([cprev, crewd, cplay, cfwrd, cnext]);
