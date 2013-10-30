@@ -734,7 +734,7 @@ $headerHeight: 5em;
 
   #mobilequeuecontrols {
     position: relative;
-    height: 8em;
+    height: 12em;
     border-top: 0.125em solid #D4D4D4;
     border-bottom: 0.125em solid #D4D4D4;
     background: inline-image('tv_controls_back.png');
@@ -744,11 +744,15 @@ $headerHeight: 5em;
       line-height: 2.5em;
       font-size: 1.25em;
       margin-left: 1em;
+      text-shadow: 0.125em 0.125em $tv_background_color;
 
       .itemartist,.itemtitle{
         display: inline-block;
       }
     }
+    
+    $barWidth:98%;
+    $barHeight:0.125em;
     
     .controlTime{
       width: 2em;
@@ -756,12 +760,12 @@ $headerHeight: 5em;
       background-color: rgba($webinosBlue,0.5);
       position: relative;
       bottom: 0;
-      margin-left: 49%;
-      margin-right: 49%;
+      margin-left: $barWidth * 0.5;
+      margin-right: $barWidth * 0.5;
       border: 0.125em solid $webinosBlue;
       cursor: pointer;
       border-radius: 100%;
-      top: -1.125em;
+      top: -0.125em;
     }
 
     .controlTimeSchnippel{
@@ -773,44 +777,43 @@ $headerHeight: 5em;
       position: relative;
       left: 0.75em;
       top: 0.75em;
-/*      height: 0;
-      width: 0;
-      margin-top: -0.6em;
-      position: absolute;
-      z-index: 3;
-      left: 50%;
-      margin-left: -0.35em;
-      border-color:  transparent transparent #666666;
-      border-top-color: transparent;
-      border-right-color: transparent;
-      border-bottom-color: #666666;
-      border-left-color: transparent;
-      border-style: solid;
-      border-top-style: solid;
-      border-right-style: solid;
-      border-bottom-style: solid;
-      border-left-style: solid;
-      border-width: 0.35em;*/
     }
     
   .controlSbar{
-    $barsize:0.125em;
-    height:$barsize;
-    height: 0.125em;
-    width: 98%;
+    height:$barHeight;
+    width: $barWidth;
     margin-left: 1em;
+    position: relative;
+    top: 1em;
     background-color: $tv_hover_bg_color;
+    
+    div {
+      height: 0.125em;
+      position: relative;
+      background-color: $webinosBlue;
+      box-shadow: 0 0 0.5em 0.0625em $webinosBlue;
+      top: -1.55em;
+    }
 
     span{
       color: $webinosBlue;
+      text-shadow: 0.125em 0.125em $tv_background_color;
     }
 
     span.elapsed{
       left: 0;
+      position: relative;
+      top: 1.125em;
+      font-weight: bolder;
+      font-size: 1.25em;
     }
 
     span.remaining{
-      left: 0;
+      left: 96%;
+      position: relative;
+      top: 0.125em;
+      font-weight: bolder;
+      font-size: 1.25em;
     }
   }
 
