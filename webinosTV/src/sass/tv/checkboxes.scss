@@ -1,0 +1,28 @@
+@mixin tv-checkboxes{
+  input[type="checkbox"] {
+    font-size: 1.3em;
+    position: relative;
+    border: 0.0625em solid gray;
+    display: inline-block;
+    line-height: 1em;
+    margin-right: 0.75em;
+    padding: 0;
+    width: 1em;
+    height: 1em;
+    vertical-align: text-top;
+    background: black;
+    -webkit-appearance: none;
+  }
+
+  input[type=checkbox]:checked::after {
+    position: absolute;
+    content: '';
+    left: 10%;
+    top: 15%;
+        height: 25%;
+    width: 60%;
+    border-bottom: 0.25em solid $webinosBlue;
+    border-left: 0.25em solid $webinosBlue;
+    -webkit-transform: rotate(-45deg);
+  }
+} 

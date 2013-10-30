@@ -1,0 +1,182 @@
+@mixin player-control-bar($playerHeight:12em,$topOffset:1em){
+  position: relative;
+  height: $playerHeight;
+  border-top: 0.125em solid #D4D4D4;
+  border-bottom: 0.125em solid #D4D4D4;
+  background: inline-image('tv_controls_back.png');
+
+  .controlItemInfo {
+    height: 2.5em;
+    line-height: 2.5em;
+    font-size: 1.25em;
+    margin-left: 1em;
+    text-shadow: 0.125em 0.125em $tv_background_color;
+
+    .itemartist,.itemtitle{
+      display: inline-block;
+    }
+  }
+  
+  $barWidth:98%;
+  $barHeight:0.125em;
+  
+  .controlTime{
+    width: 2em;
+    height: 2em;
+    background-color: rgba($webinosBlue,0.5);
+    position: relative;
+    bottom: 0;
+    margin-left: $barWidth * 0.5;
+    margin-right: $barWidth * 0.5;
+    border: 0.125em solid $webinosBlue;
+    cursor: pointer;
+    border-radius: 100%;
+    top: -0.125em;
+  }
+
+  .controlTimeSchnippel{
+    background-color: $webinosBlue;
+    height: 0.5em;
+    width: 0.5em;
+    border-color: $tv_container_border_color;
+    border-radius: 100%;
+    position: relative;
+    left: 0.75em;
+    top: 0.75em;
+  }
+    
+  .controlSbar{
+    height:$barHeight;
+    width: $barWidth;
+    margin-left: 1em;
+    position: relative;
+    top: $topOffset;
+    background-color: $tv_hover_bg_color;
+    
+    div {
+      height: 0.125em;
+      position: relative;
+      background-color: $webinosBlue;
+      box-shadow: 0 0 0.5em 0.0625em $webinosBlue;
+      top: -1.55em;
+    }
+
+    span{
+      color: $webinosBlue;
+      text-shadow: 0.125em 0.125em $tv_background_color;
+    }
+
+    span.elapsed{
+      left: 0;
+      position: relative;
+      top: 1.125em;
+      font-weight: bolder;
+      font-size: 1.25em;
+    }
+
+    span.remaining{
+      left: 96%;
+      position: relative;
+      top: 0.125em;
+      font-weight: bolder;
+      font-size: 1.25em;
+    }
+  }
+}
+
+
+@mixin listControlButtons{
+  .listControlButtons {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+
+    .button {
+      display: inline-block;
+      @include selectable-button;
+      padding: 0.3em 1em;
+      margin-right: 0.3em;
+    }
+
+    .button.disabled {
+      @include selectable-button-disabled;
+    }
+
+    .button.focus,
+    .button:hover {
+      @include focussed;
+    }
+
+    .button:active {
+      @include pressed;
+    }
+  }
+}
+
+
+
+
+
+@mixin controlButtons{
+  .controlButtons {
+    position: absolute;
+    bottom: 0;
+
+    .controlButton{
+      display: inline-block;
+      background-color: $webinosBlue;
+      width: 3em;
+      padding-bottom: 3em;
+      height: 0;
+      margin-top: 0;
+      margin-right: 0.75em;
+      border-radius: 3em;
+      background-size: cover;
+      background-position: center;
+      border: 0.125em solid $webinosBlue;
+    }
+
+    .controlButton.focus{
+      @include focussed;
+      border-radius: 3em;
+      box-sizing: inherit;
+      -webkit-box-sizing: inherit;
+    }
+    .controlButton:hover{
+      @include mediaMobileSelected;
+      border-radius: 3em;
+      box-sizing: inherit;
+      -webkit-box-sizing: inherit;
+    }
+
+    .controlPlay{
+      background-image: inline-image('player_play.svg');
+    }
+    .controlPaus{
+      background-image: inline-image('player_pause.svg');
+    }
+    .controlPrev{
+      background-image: inline-image('player_prev.svg');
+    }
+    .controlNext{
+      background-image: inline-image('player_next.svg');
+    }
+    .controlFull{
+      background-image: inline-image('player_enter_fullscreen.svg');
+    }
+    .controlBack{
+      background-image: inline-image('player_exit_fullscreen.svg');
+    }
+    .controlRewd{
+      background-image: inline-image('player_bwd.svg');
+    }
+    .controlFwrd{
+      background-image: inline-image('player_fwd.svg');
+    }
+  }
+
+  .controlSbar,
+  .controlStime {
+    // display: none;
+  }
+}

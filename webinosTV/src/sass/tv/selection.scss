@@ -1,0 +1,64 @@
+@mixin selectable-element {
+  @include box-sizing(border-box);
+  @include border-radius(0.3em);
+  border-width: 0.125em;
+  border-style: solid;
+  border-color: $tv_background_color;
+}
+
+@mixin selectable-button {
+  @include selectable-element;
+  background-color: $tv_selectable_bg_color;
+  border-color: $tv_selectable_border_color;
+  color: $tv_hover_fg_color;
+}
+
+@mixin selectable-button-disabled {
+  @include selectable-element;
+  background-color: $tv_background_color;
+  border-color: $tv_background_color;
+  color: $tv_selectable_fg_disabled_color;
+  cursor: auto;
+}
+
+@mixin focussed {
+  @include selectable-element;
+  background-color: $tv_hover_bg_color;
+  border-color: $tv_hover_border_color;
+  color: $tv_hover_fg_color;
+  cursor: pointer;
+}
+
+@mixin mediaMobileHover{
+  @include selectable-element;
+  background-color: $tv_hover_bg_color;
+}
+
+@mixin mediaMobileSelected {
+  @include selectable-element;
+  border-color: $tv_hover_border_color;
+  color: $tv_hover_fg_color;
+  cursor: pointer;
+}
+
+@mixin pressed {
+  @include selectable-element;
+  background-color: $tv_pressed_bg_color;
+  border-color: $tv_pressed_border_color;
+  color: $tv_hover_fg_color;
+  cursor: pointer;
+}
+
+@mixin selected {
+  @include selectable-element;
+  border-color: $tv_selected_border_color;
+  color: $tv_selectable_bg_color;
+}
+
+@mixin disabled {
+  @include selectable-element;
+  background-color: $tv_disabled_bg_color;
+  border-color: $tv_disabled_border_color;
+  color: $tv_disabled_fg_color;
+  cursor: auto;
+} 

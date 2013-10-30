@@ -1,0 +1,39 @@
+@mixin device-types($deviceIconWidth){
+  .device-image {
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    background-color: $devicelogo;
+    width: $deviceIconWidth;
+    height: 0;
+    padding-bottom: $deviceIconWidth;
+    position: relative;
+  }
+
+  .device-image.type-laptop {
+    -webkit-mask-image: inline-image('laptop.svg');
+  }
+
+  .device-image.type-pc {
+    -webkit-mask-image: inline-image('pc.svg');
+  }
+
+  .device-image.type-phone {
+    -webkit-mask-image: inline-image('phone.svg');
+  }
+
+  .device-image.type-tablet {
+    -webkit-mask-image: inline-image('tablet.svg');
+  }
+
+  .device-image.type-tv {
+    -webkit-mask-image: inline-image('tv.svg');
+  }
+
+  .device-image.type-unknown {
+    -webkit-mask-image: inline-image('all_devices.svg');
+  }
+
+  .device-image.type-none {
+    visibility: hidden;
+  }
+} 

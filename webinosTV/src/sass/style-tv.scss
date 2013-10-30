@@ -1,5 +1,10 @@
 @charset "UTF-8";
 @import "base";
+@import "tv/selection";
+@import "tv/media-categories";
+@import "tv/checkboxes";
+@import "tv/controls";
+@import "tv/device-types";
 
 $webinosBlue:#0099CC;
 $devicelogo: #FFFFFF;
@@ -12,156 +17,6 @@ $categoryImagesBGDark:#4EB815;
 $categoryImagesBGLight:#4EAB1B;
 $categoryChannelsBGDark:#FDBD10;
 $categoryChannelsBGLight:#FDAC10;
-
-@mixin device-types($deviceIconWidth){
-  .device-image {
-    -webkit-mask-size: contain;
-    -webkit-mask-repeat: no-repeat;
-    background-color: $devicelogo;
-    width: $deviceIconWidth;
-    height: 0;
-    padding-bottom: $deviceIconWidth;
-    position: relative;
-  }
-
-  .device-image.type-laptop {
-    -webkit-mask-image: inline-image('laptop.svg');
-  }
-
-  .device-image.type-pc {
-    -webkit-mask-image: inline-image('pc.svg');
-  }
-
-  .device-image.type-phone {
-    -webkit-mask-image: inline-image('phone.svg');
-  }
-
-  .device-image.type-tablet {
-    -webkit-mask-image: inline-image('tablet.svg');
-  }
-
-  .device-image.type-tv {
-    -webkit-mask-image: inline-image('tv.svg');
-  }
-
-  .device-image.type-unknown {
-    -webkit-mask-image: inline-image('all_devices.svg');
-  }
-
-  .device-image.type-none {
-    visibility: hidden;
-  }
-}
-
-@mixin tv-checkboxes{
-  input[type="checkbox"] {
-    font-size: 1.3em;
-    position: relative;
-    border: 0.0625em solid gray;
-    display: inline-block;
-    line-height: 1em;
-    margin-right: 0.75em;
-    padding: 0;
-    width: 1em;
-    height: 1em;
-    vertical-align: text-top;
-    background: black;
-    -webkit-appearance: none;
-  }
-
-  input[type=checkbox]:checked::after {
-    position: absolute;
-    content: '';
-    left: 10%;
-    top: 15%;
-        height: 25%;
-    width: 60%;
-    border-bottom: 0.25em solid $webinosBlue;
-    border-left: 0.25em solid $webinosBlue;
-    -webkit-transform: rotate(-45deg);
-  }
-}
-
-@mixin category-image-inner($imagename,$lowerRightColor,$upperLeftColor){
-  background-image: -webkit-radial-gradient(center, circle contain, transparent 84%, $tv_background_color 85%, $tv_background_color 101%),inline-image($imagename),-webkit-linear-gradient(-45deg,$lowerRightColor 50%,$upperLeftColor 50%);
-  border-radius: 100%;
-  background-size: 100%, 100%, 100%;
-  border: 0.125em solid $tv_background_color;
-}
-
-@mixin category-image($imagename,$lowerRightColor,$upperLeftColor){
-  box-shadow: inset 0px 0px 0px 0.125em $tv_background_color;
-  @include category-image-inner($imagename,$lowerRightColor,$upperLeftColor);
-}
-
-@mixin highlighted-category-image($imagename,$lowerRightColor,$upperLeftColor,$selectedCategoryColor: $webinosBlue){
-  box-shadow: inset 0px 0px 0px 0.125em $selectedCategoryColor;
-}
-
-@mixin selectable-element {
-  @include box-sizing(border-box);
-  @include border-radius(0.3em);
-  border-width: 0.125em;
-  border-style: solid;
-  border-color: $tv_background_color;
-}
-
-@mixin selectable-button {
-  @include selectable-element;
-  background-color: $tv_selectable_bg_color;
-  border-color: $tv_selectable_border_color;
-  color: $tv_hover_fg_color;
-}
-
-@mixin selectable-button-disabled {
-  @include selectable-element;
-  background-color: $tv_background_color;
-  border-color: $tv_background_color;
-  color: $tv_selectable_fg_disabled_color;
-  cursor: auto;
-}
-
-@mixin focussed {
-  @include selectable-element;
-  background-color: $tv_hover_bg_color;
-  border-color: $tv_hover_border_color;
-  color: $tv_hover_fg_color;
-  cursor: pointer;
-}
-
-@mixin mediaMobileHover{
-  @include selectable-element;
-  background-color: $tv_hover_bg_color;
-}
-
-@mixin mediaMobileSelected {
-  @include selectable-element;
-  border-color: $tv_hover_border_color;
-  color: $tv_hover_fg_color;
-  cursor: pointer;
-}
-
-@mixin pressed {
-  @include selectable-element;
-  background-color: $tv_pressed_bg_color;
-  border-color: $tv_pressed_border_color;
-  color: $tv_hover_fg_color;
-  cursor: pointer;
-}
-
-@mixin selected {
-  @include selectable-element;
-  border-color: $tv_selected_border_color;
-  color: $tv_selectable_bg_color;
-}
-
-@mixin disabled {
-  @include selectable-element;
-  background-color: $tv_disabled_bg_color;
-  border-color: $tv_disabled_border_color;
-  color: $tv_disabled_fg_color;
-  cursor: auto;
-}
 
 html {
   height: 100%;
@@ -733,115 +588,8 @@ $headerHeight: 5em;
   }
 
   #mobilequeuecontrols {
-    position: relative;
-    height: 12em;
-    border-top: 0.125em solid #D4D4D4;
-    border-bottom: 0.125em solid #D4D4D4;
-    background: inline-image('tv_controls_back.png');
-
-    .controlItemInfo {
-      height: 2.5em;
-      line-height: 2.5em;
-      font-size: 1.25em;
-      margin-left: 1em;
-      text-shadow: 0.125em 0.125em $tv_background_color;
-
-      .itemartist,.itemtitle{
-        display: inline-block;
-      }
-    }
-    
-    $barWidth:98%;
-    $barHeight:0.125em;
-    
-    .controlTime{
-      width: 2em;
-      height: 2em;
-      background-color: rgba($webinosBlue,0.5);
-      position: relative;
-      bottom: 0;
-      margin-left: $barWidth * 0.5;
-      margin-right: $barWidth * 0.5;
-      border: 0.125em solid $webinosBlue;
-      cursor: pointer;
-      border-radius: 100%;
-      top: -0.125em;
-    }
-
-    .controlTimeSchnippel{
-      background-color: $webinosBlue;
-      height: 0.5em;
-      width: 0.5em;
-      border-color: $tv_container_border_color;
-      border-radius: 100%;
-      position: relative;
-      left: 0.75em;
-      top: 0.75em;
-    }
-    
-  .controlSbar{
-    height:$barHeight;
-    width: $barWidth;
-    margin-left: 1em;
-    position: relative;
-    top: 1em;
-    background-color: $tv_hover_bg_color;
-    
-    div {
-      height: 0.125em;
-      position: relative;
-      background-color: $webinosBlue;
-      box-shadow: 0 0 0.5em 0.0625em $webinosBlue;
-      top: -1.55em;
-    }
-
-    span{
-      color: $webinosBlue;
-      text-shadow: 0.125em 0.125em $tv_background_color;
-    }
-
-    span.elapsed{
-      left: 0;
-      position: relative;
-      top: 1.125em;
-      font-weight: bolder;
-      font-size: 1.25em;
-    }
-
-    span.remaining{
-      left: 96%;
-      position: relative;
-      top: 0.125em;
-      font-weight: bolder;
-      font-size: 1.25em;
-    }
-  }
-
-    .listControlButtons {
-      position: absolute;
-      left: 0;
-      bottom: 0;
-
-      .button {
-        display: inline-block;
-        @include selectable-button;
-        padding: 0.3em 1em;
-        margin-right: 0.3em;
-      }
-
-      .button.disabled {
-        @include selectable-button-disabled;
-      }
-
-      .button.focus,
-      .button:hover {
-        @include focussed;
-      }
-
-      .button:active {
-        @include pressed;
-      }
-    }
+    @include player-control-bar(12em,1em);
+    @include listControlButtons;
 
     #mobileControlButtons {
       right: 0;
@@ -850,8 +598,8 @@ $headerHeight: 5em;
 
     #mobileControlButtons2 {
       left: 0;
-      padding-left: 15px;
-      padding-bottom: 20px;
+      padding-left: 1em;
+      padding-bottom: 1.25em;
 
       .textButton{
         display: inline-block;
@@ -874,64 +622,7 @@ $headerHeight: 5em;
       }
     }
 
-    .controlButtons {
-      position: absolute;
-      bottom: 0;
-
-      .controlButton{
-        display: inline-block;
-        background-color: $webinosBlue;
-        width: 3em;
-        padding-bottom: 3em;
-        height: 0;
-        margin-top: 0;
-        margin-right: 0.75em;
-        border-radius: 3em;
-        background-size: cover;
-        background-position: center;
-        border: 0.125em solid $webinosBlue;
-      }
-
-      .controlButton.focus{
-        @include focussed;
-        border-radius: 3em;
-        box-sizing: inherit;
-        -webkit-box-sizing: inherit;
-      }
-      .controlButton:hover{
-        @include mediaMobileSelected;
-        border-radius: 3em;
-        box-sizing: inherit;
-        -webkit-box-sizing: inherit;
-      }
-
-      .controlPlay{
-        background-image: inline-image('player_play.svg');
-      }
-      .controlPaus{
-        background-image: inline-image('player_pause.svg');
-      }
-      .controlPrev{
-        background-image: inline-image('player_prev.svg');
-      }
-      .controlNext{
-        background-image: inline-image('player_next.svg');
-      }
-      .controlFull{
-        background-image: inline-image('player_enter_fullscreen.svg');
-      }
-      .controlRewd{
-        background-image: inline-image('player_bwd.svg');
-      }
-      .controlFwrd{
-        background-image: inline-image('player_fwd.svg');
-      }
-    }
-
-    .controlSbar,
-    .controlStime {
-     // display: none;
-    }
+    @include controlButtons;
   }
 
   #mobilequeuewrapper {
@@ -1003,192 +694,27 @@ $headerHeight: 5em;
     bottom: 0;
     position: absolute;
     width: 100%;
-    height: 15%;
+    //height: 15%;
     text-align: left;
     .full.controlContainer{
-      position: relative;
-      height: 8em;
-      border-top: 0.125em solid #D4D4D4;
-      border-bottom: 0.125em solid #D4D4D4;
-      background: inline-image('tv_controls_back.png');
-
-      .controlItemInfo {
-        height: 2.5em;
-        line-height: 2.5em;
-        font-size: 1.25em;
-        margin-left: 1em;
-
-        .itemartist,.itemtitle{
-          display: inline-block;
-        }
-        
+      @include player-control-bar(10em,4em);
+      @include listControlButtons;
+      @include controlButtons;
+      .controlButtons{
+        right:0;
+        height:4em;
       }
-      
-    .controlTime{
-      width: 2em;
-      height: 2em;
-      background-color: rgba($webinosBlue,0.5);
-      position: relative;
-      bottom: 0;
-      margin-left: 40%;
-      margin-right: 40%;
-      border: 0.125em solid $webinosBlue;
-      cursor: pointer;
-      border-radius: 100%;
-      top: -1.125em;
-    }
-
-    .controlTimeSchnippel{
-      background-color: $webinosBlue;
-      height: 0.5em;
-      width: 0.5em;
-      border-color: $tv_container_border_color;
-      border-radius: 100%;
-      position: relative;
-      left: 0.75em;
-      top: 0.75em;
-    }
-
-/*      .controlTime{
-        width: 20%;
-        height: 20%;
-        background-color: #666666;
-        position: relative;
-        bottom: 0;
-        margin-left: 40%;
-        margin-right: 40%;
-        border: 1px solid #3f3f3f;
-        cursor: pointer;
+      .controlTime{
+        top: 2.875em;
       }
-
-      .controlTimeSchnippel{
-        height: 0;
-        width: 0;
-        margin-top: -0.6em;
-        position: absolute;
-        z-index: 3;
-        left: 50%;
-        margin-left: -0.35em;
-        border-color:  transparent transparent #666666;
-        border-top-color: transparent;
-        border-right-color: transparent;
-        border-bottom-color: #666666;
-        border-left-color: transparent;
-        border-style: solid;
-        border-top-style: solid;
-        border-right-style: solid;
-        border-bottom-style: solid;
-        border-left-style: solid;
-        border-width: 0.35em;
-      }*/
-      
       .controlSbar{
-        $barsize:0.125em;
-        height:$barsize;
-        height: 0.125em;
-        width: 98%;
-        margin-left: 1em;
-        background-color: $tv_hover_bg_color;
-
-        span{
-          color: $webinosBlue;
-        }
-
         span.elapsed{
-          left: 0;
+          top:-2.625em;
         }
-
         span.remaining{
-          left: 0;
+          left: 97.2%;
+          top:-3.875em;
         }
-      }
-      
-      .listControlButtons {
-        position: absolute;
-        left: 0;
-        bottom: 0;
-
-        .button {
-          display: inline-block;
-          @include selectable-button;
-          padding: 0.3em 1em;
-          margin-right: 0.3em;
-        }
-
-        .button.disabled {
-          @include selectable-button-disabled;
-        }
-
-        .button.focus,
-        .button:hover {
-          @include focussed;
-        }
-
-        .button:active {
-          @include pressed;
-        }
-      }
-
-      .controlButtons {
-        width: 20%;
-        height: 4em;
-        position: relative;
-        left: 80%;
-        top: 2em;
-
-        .controlButton{
-          display: inline-block;
-          background-color: $webinosBlue;
-          width: 3em;
-          padding-bottom: 3em;
-          height: 0;
-          margin-top: 0;
-          margin-right: 0.75em;
-          border-radius: 3em;
-          background-size: cover;
-          background-position: center;
-          border: 0.125em solid $webinosBlue;
-        }
-
-        .controlButton.focus{
-          @include focussed;
-          border-radius: 3em;
-          box-sizing: inherit;
-          -webkit-box-sizing: inherit;
-        }
-        .controlButton:hover{
-          @include mediaMobileSelected;
-          border-radius: 3em;
-          box-sizing: inherit;
-          -webkit-box-sizing: inherit;
-        }
-
-        .controlPlay{
-          background-image: inline-image('player_play.svg');
-        }
-        .controlPaus{
-          background-image: inline-image('player_pause.svg');
-        }
-        .controlPrev{
-          background-image: inline-image('player_prev.svg');
-        }
-        .controlNext{
-          background-image: inline-image('player_next.svg');
-        }
-        .controlBack{
-          background-image: inline-image('player_exit_fullscreen.svg');
-        }
-        .controlRewd{
-          background-image: inline-image('player_bwd.svg');
-        }
-        .controlFwrd{
-          background-image: inline-image('player_fwd.svg');
-        }
-      }
-
-      .controlSbar,
-      .controlStime {
-   //     display: none;
       }
     }
   }

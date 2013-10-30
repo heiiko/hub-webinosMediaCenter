@@ -1,0 +1,15 @@
+@mixin category-image-inner($imagename,$lowerRightColor,$upperLeftColor){
+  background-image: -webkit-radial-gradient(center, circle contain, transparent 84%, $tv_background_color 85%, $tv_background_color 101%),inline-image($imagename),-webkit-linear-gradient(-45deg,$lowerRightColor 50%,$upperLeftColor 50%);
+  border-radius: 100%;
+  background-size: 100%, 100%, 100%;
+  border: 0.125em solid $tv_background_color;
+}
+
+@mixin category-image($imagename,$lowerRightColor,$upperLeftColor){
+  box-shadow: inset 0px 0px 0px 0.125em $tv_background_color;
+  @include category-image-inner($imagename,$lowerRightColor,$upperLeftColor);
+}
+
+@mixin highlighted-category-image($imagename,$lowerRightColor,$upperLeftColor,$selectedCategoryColor: $webinosBlue){
+  box-shadow: inset 0px 0px 0px 0.125em $selectedCategoryColor;
+}
