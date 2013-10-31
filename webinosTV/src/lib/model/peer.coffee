@@ -162,10 +162,12 @@ class LocalPeerService extends PeerService
             index = 0; next(no)
         when 'queue:remove'
           queue = _.clone(queue)
-          for i in _.sortBy(content.items, _.identity).reverse()
-            queue.splice(i, 1)
           if index in content.items
             index = 0; next(no)
+          for i in _.sortBy(content.items, _.identity).reverse()
+            queue.splice(i, 1)
+            if index > i
+              index = index - 1
       {playback, index, queue}
     @initialize = =>
       state.onValue (state) => @send('synchronize', state)
