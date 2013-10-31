@@ -668,6 +668,8 @@ $headerHeight: 5em;
       li.mobileselected {
         @include mediaMobileSelected;
       }
+      
+      @include player_statuses;
     }
 
   }

@@ -180,3 +180,20 @@
     // display: none;
   }
 }
+
+@mixin player_statuses{
+  ._status_item:after,.pauseditem:after,.playingitem:after{
+    position: relative;
+    left: 1em;
+    top: 0.125em;
+  }
+  
+  .pauseditem:after{
+    content:'Ⅱ Paused…';
+    color: gray;
+  }
+  .playingitem:after{
+    content:'▶  Playing…';
+    color: $tv_hover_border_color;
+  }
+}
