@@ -103,6 +103,14 @@ module.exports = (grunt) ->
           dest: 'dist/'
         ]
 
+      favicon:
+        files: [
+          expand: true
+          cwd: 'src/images/'
+          src: 'favicon.ico'
+          dest: 'dist/'
+        ]
+
       widget:
         files: [
           expand: true
@@ -136,7 +144,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-copy'
   grunt.loadNpmTasks 'grunt-contrib-compress'
   
-  grunt.registerTask 'dev', ['clean:dist', 'copy:images', 'browserify:wrt', 'browserify:deps', 'browserify:app', 'compass:dist', 'htmlmin:dist']
-  grunt.registerTask 'prod', ['clean:dist', 'copy:images', 'browserify:wrt', 'browserify:deps', 'browserify:app', 'uglify:dist', 'compass:prod', 'htmlmin:prod']
+  grunt.registerTask 'dev', ['clean:dist', 'copy:images', 'copy:favicon', 'browserify:wrt', 'browserify:deps', 'browserify:app', 'compass:dist', 'htmlmin:dist']
+  grunt.registerTask 'prod', ['clean:dist', 'copy:images', 'copy:favicon', 'browserify:wrt', 'browserify:deps', 'browserify:app', 'uglify:dist', 'compass:prod', 'htmlmin:prod']
   grunt.registerTask 'wgt', ['prod', 'copy:widget', 'compress:app']
   grunt.registerTask 'default', ['dev']
