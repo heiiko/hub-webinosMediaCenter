@@ -564,7 +564,7 @@ $headerHeight: 5em;
             position: relative;
             top: -1.5em;
           }
-
+          
         }
 
         li:hover,
@@ -583,6 +583,31 @@ $headerHeight: 5em;
           @include selected;
           box-sizing: inherit;
         }
+        
+        $status_item_size:1em;
+        li._playing_status:after,li.playing:after,li.paused:after{
+          color:black;
+          position: absolute;
+          top: 6em;
+          left: 1em;
+          background-color:$webinosBlue;
+          width: $status_item_size;
+          height: $status_item_size;
+          padding: $status_item_size / 8;
+          border-radius: 100%;
+          font-size: $status_item_size;
+          line-height: $status_item_size;
+          text-align: center;
+        }
+        li.playing:after{
+          content:'▶';
+          line-height: $status_item_size * 0.8;
+        }
+        li.paused:after{
+          content:'Ⅱ';
+          font-weight: bold;
+        }
+        
       }
     }
   }

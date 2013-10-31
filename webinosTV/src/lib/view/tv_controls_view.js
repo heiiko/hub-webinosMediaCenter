@@ -44,6 +44,7 @@ function TVControlsView(parent, config, viewModel, queue, selectedQueue) {
   var cdeselall = $('<div id="tv_deselectAll" class="textButton ' + config.navclass + '">Deselect All</div>');
   var cdele = $('<div id="tv_delete" class="textButton controlDele disabled ' + config.navclass + '">Delete</div>');
 
+  var targetList = $('#mobilequeuetargetlist');
   var controls = $('#mobileControlContainer');
   var container = $('<div id="mobileControlButtons" class="controlButtons">');
   var container2 = $('<div id="mobileControlButtons2" class="controlButtons">');
