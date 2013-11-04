@@ -89,7 +89,7 @@ function TVBrowserViewModel(manager, input) {
 
   var targets = manager.toProperty().map(function(devices) {
     return _.chain(devices).filter(function(device) {
-      return device.isTarget();
+      return device.isTarget() && (typeof device.type() != 'undefined') && (device.type() !== 'smartphone') && (device.type() !== 'tablet');
     }).map(function (device) {
       return _.map(device.upnp(), function (service) {
         return {device: device, service: service, type: 'upnp'};
