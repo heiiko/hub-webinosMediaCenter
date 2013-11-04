@@ -340,44 +340,47 @@ function TargetListView(viewModel) {
 util.inherits(QueueListView, ListView);
 function QueueListView(viewModel) {
   this.htmlify = function(value) {
-    var html;
-    if (typeof value.item.type === 'string' && value.item.type.toLowerCase().indexOf('image') === 0)
-    {
-      html = '<li class="contentlistitem"><div class="itemcontainer">' +
-        '<div class="chbx-container"><input type="checkbox" /></div>' +
-        '<div class="imglistitem" ><img class="imglistitem" src="' + value.item.thumbnailURIs[0] + '" /></div>' +
-        '<div class="mediaitemcontent">' +
-        '<div class="itemtitle">' + value.item.title + '</div>' +
-        '</div>' +
-        '<div class="status"><span class="statusicon"></span><span class="statustext"></span>' +
-        '</div></div></li>';
+    
+    var type = value.item.type.toLowerCase();
+    var iconClass;
+    
+    switch (type) {
+      case 'audio':
+        iconClass = "song-icon";
+        break;
+      case 'video':
+        iconClass = "clip-icon";
+        break;
+      case 'image':
+        iconClass = "img-icon";
+        break;
+      default:
+        iconClass = "default-icon";
     }
+    
+    var title = value.item.title;
+    var artists;
+    
+    if(iconClass === "img-icon") {
+      artists = "unknown";
+    } 
     else {
-      var type = value.item.type.toLowerCase();
-      var iconClass;
-      switch (type) {
-        case 'audio':
-          iconClass = "song-icon";
-          break;
-        case 'video':
-          iconClass = "clip-icon";
-          break;
-        default:
-          iconClass = "default-icon";
-      }
-      html = '<li class="contentlistitem"><div class="itemcontainer">' +
-        '<div class="chbx-container"><input type="checkbox" /></div>' +
-        '<div class="' + iconClass + '"></div>' +
-        '<div class="mediaitemcontent">' +
-        '<div class="itemtitle">' + value.item.title + '</div>' +
-        '<div class="itemartists">' + value.item.artists + '</div>' +
-        '</div>' +
-        '<div class="status">' +
-        '<div class="statusicon"></div>' +
-        '<div class="statustext"></div>' +
-        '</div>' +
-        '</div></li>';
+      artists = value.item.artists;
     }
+    
+    var html = '<li class="contentlistitem"><div class="itemcontainer">' +
+      '<div class="chbx-container"><input type="checkbox" /></div>' +
+      '<div class="' + iconClass + '"></div>' +
+      '<div class="mediaitemcontent">' +
+      '<div class="itemtitle">' + title + '</div>' +
+      '<div class="itemartists">' + artists + '</div>' +
+      '</div>' +
+      '<div class="status">' +
+      '<div class="statusicon"></div>' +
+      '<div class="statustext"></div>' +
+      '</div>' +
+      '</div></li>';
+      
     return html;
   };
 
