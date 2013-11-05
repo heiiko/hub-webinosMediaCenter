@@ -22,6 +22,10 @@ html {
   height: 100%;
 }
 
+* {
+  cursor: none;
+}
+
 
 $baseFontSize: 16px;
 body {
@@ -175,7 +179,7 @@ $headerHeight: 8em;
     white-space: nowrap;
     overflow: hidden;
   }
-  
+
   .header-item-device {
     border-bottom: 0.0625em solid $tv_container_border_color;
     font-size: 3em;
@@ -188,7 +192,7 @@ $headerHeight: 8em;
       overflow: hidden;
       text-overflow: ellipsis;
     }
-    
+
     #current-source-name,
     #current-target-name {
 //      display: table-cell;
@@ -196,7 +200,7 @@ $headerHeight: 8em;
       text-align: left;
       width: 80%;
     }
-    
+
     .type-none{
       margin-top: 1.1em;
       position: relative;
@@ -291,7 +295,7 @@ $headerHeight: 8em;
 
 #container-media {
   .header-media {
-    
+
     .header-item-media {
       width: 100%;
       white-space: nowrap;
@@ -598,7 +602,7 @@ $headerHeight: 8em;
             position: relative;
             top: -1.5em;
           }
-          
+
         }
 
         li:hover,
@@ -617,7 +621,7 @@ $headerHeight: 8em;
           @include selected;
           box-sizing: inherit;
         }
-        
+
         $status_item_size:1em;
         li._playing_status:after,li.playing:after,li.paused:after{
           color:black;
@@ -641,7 +645,7 @@ $headerHeight: 8em;
           content:'Ⅱ';
           font-weight: bold;
         }
-        
+
       }
     }
   }
@@ -732,7 +736,7 @@ $headerHeight: 8em;
       li.mobileselected {
         @include mediaMobileSelected;
       }
-      
+
       @include player_statuses;
     }
 
