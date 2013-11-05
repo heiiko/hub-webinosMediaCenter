@@ -23,12 +23,33 @@ function NavigationView(viewModel) {
       $(".nav_rd.focus").removeClass('focus');
     switch (direction) {
       case 'right':
-        if (curPos < $(".nav_rd").length-1)
-          curPos++;
+        if ($(".controlButtons").hasClass("controlsForImage")) {
+          if (curPos < $(".nav_rd").length-1) {
+            if ((curPos === 0) || (curPos == 2)) {
+              curPos = curPos + 2;
+            } else {
+              curPos++;
+            }
+          }
+        } else {
+          if (curPos < $(".nav_rd").length-1) {
+            curPos++;
+          }
+        }
         break;
       case 'left':
-        if (curPos > 0)
-          curPos--;
+        if ($(".controlButtons").hasClass("controlsForImage")) {
+          if (curPos > 0) {
+            if ((curPos === 0) || (curPos == 2)) {
+              curPos = curPos - 2;
+            } else {
+              curPos--;
+            }
+          }
+        } else {
+          if (curPos > 0)
+            curPos--;
+        }
         break;
       case 'enter':
         $(".nav_rd.focus").click();
