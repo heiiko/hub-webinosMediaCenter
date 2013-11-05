@@ -40,7 +40,7 @@ function NavigationView(viewModel) {
       case 'left':
         if ($(".controlButtons").hasClass("controlsForImage")) {
           if (curPos > 0) {
-            if ((curPos === 0) || (curPos == 2)) {
+            if ((curPos === 2) || (curPos == 4)) {
               curPos = curPos - 2;
             } else {
               curPos--;
