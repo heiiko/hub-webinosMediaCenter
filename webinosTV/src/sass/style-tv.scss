@@ -156,19 +156,29 @@ body {
     z-index: 1;
 }
 
+.header{
+  height: 8em;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  top: 0;
+  left: 0;
+}
+
 #container-device {
   .header-item-device, .device-column {
     @include box-sizing(border-box);
     width: 50%;
     float: left;
+    height: 100%;
+    white-space: nowrap;
+    overflow: hidden;
   }
 
   .header-item-device {
-    height: 3em;
-/*     padding: 15px 2px 15px 2px; */
-    border-bottom: 4px solid $tv_container_border_color;
+    border-bottom: 0.0625em solid $tv_container_border_color;
     font-size: 3em;
-    display: table;
+    //display: table;
     white-space: nowrap;
 
     >* {
@@ -180,9 +190,10 @@ body {
 
     #current-source-name,
     #current-target-name {
-      display: table-cell;
-      vertical-align: middle;
+//      display: table-cell;
+//      vertical-align: middle;
       text-align: left;
+      width: 80%;
     }
   }
 
@@ -192,6 +203,8 @@ body {
     @include device-types(1.5em);
     .device-image {
       margin-top: 1.1em;
+      position: relative;
+      top: -0.3em;
     }
   }
 
