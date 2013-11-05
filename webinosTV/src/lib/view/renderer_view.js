@@ -11,7 +11,7 @@ $(document).ready(function() {
 
 });
 
-var IMAGE_SLIDESHOW_INTERVAL = 5000;
+var IMAGE_SLIDESHOW_INTERVAL = 15000;
 
 function NavigationView(viewModel) {
   var curPos = 2;
