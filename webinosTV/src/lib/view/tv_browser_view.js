@@ -418,7 +418,7 @@ function NavigationView (viewModel) {
       ".nav_qu",
       ".nav_queue_file"
     ],
-    "curCol": 1,
+    "curCol": 0,
     "curEl": {
       ".nav_menu": 0,
       ".nav_sl": 0,
@@ -435,7 +435,7 @@ function NavigationView (viewModel) {
     "curScreen": 0,
   };
 
-  startNavWithTimeout();
+  // startNavWithTimeout();
   viewModel.input().onValue(Navigate);
 
   function Navigate(direction) {
@@ -677,10 +677,10 @@ function NavigationView (viewModel) {
         if(navigation["curCol"] === 0) {
           // From main menu to one of the 3 main screens
           navigation["curScreen"] = navigation["curEl"][navigation["regions"][navigation["curCol"]]];
-          if(navigation["curScreen"] == 1) {
-            navigation["curCol"] = 3;
-            $(navigation["regions"][0]+".focus").removeClass('focus');
-          }
+          // if(navigation["curScreen"] == 1) {
+          //   navigation["curCol"] = 3;
+          //   $(navigation["regions"][0]+".focus").removeClass('focus');
+          // }
         } else if(navigation["curCol"] == 1) {
           if($(navigation["regions"][2]).length > 0) {
             navigation["curCol"] = 2;
