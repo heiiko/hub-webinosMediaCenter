@@ -36,7 +36,15 @@ function ListView(items, selection, list, wrapper, fadeout) {
         $item.data('local', item.device.isLocal());
       else if (list === '#mobilecategorylist')
         $item.data('index', counter);
-      $list.append($item);
+      
+      if (list === '#mobilecontentlist' && $item.hasClass('imglistitem')) {
+        setTimeout(function() {
+          $list.append($item);
+        }, counter * 500);
+      }
+      else
+        $list.append($item);
+      
       counter++;
     });
   });
@@ -198,8 +206,7 @@ util.inherits(ContentListView, ListView);
 function ContentListView(viewModel) {
   this.htmlify = function(item) {
     var html;
-    if (typeof item.type === 'string' && item.type.toLowerCase().indexOf('image') === 0)
-    {
+    if (typeof item.type === 'string' && item.type.toLowerCase().indexOf('image') === 0){
       html = '<li class="imglistitem">' +
         '<div class="imglistitem"><img class="imglistitem" src="' + item.thumbnailURIs[0] + '" /></div>' +
         '<div class="imglistitem-title">' + item.title + '</div>' +
