@@ -36,13 +36,7 @@ function ListView(items, selection, list, wrapper, fadeout) {
         $item.data('local', item.device.isLocal());
       else if (list === '#mobilecategorylist')
         $item.data('index', counter);
-      
-      if (list === '#mobilecontentlist' && $item.hasClass('imglistitem')) {
-        setTimeout(function() {
-          $list.append($item);
-        }, counter * 500);
-      }
-      else
+
         $list.append($item);
       
       counter++;
