@@ -104,6 +104,25 @@ module.exports = (grunt) ->
           src: 'images/media-*.svg'
           dest: 'dist/'
         ]
+      
+      widget:
+        files: [
+          expand: true
+          cwd: 'src/widget/'
+          src: '*.*'
+          dest: 'dist/'
+        ]
+
+    compress:
+      app:
+         options:
+           archive: 'dist/wgt/webinostv.wgt'
+           mode: 'zip'
+         files: [
+           expand: true
+           cwd: 'dist/'
+           src: ['**/*']
+         ]
 
     watch:
       app:
@@ -117,7 +136,9 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-compass'
   grunt.loadNpmTasks 'grunt-contrib-htmlmin'
   grunt.loadNpmTasks 'grunt-contrib-copy'
+  grunt.loadNpmTasks 'grunt-contrib-compress'
 
   grunt.registerTask 'dev', ['clean:dist', 'copy:images', 'browserify:wrt', 'browserify:deps', 'browserify:app', 'compass:dist', 'htmlmin:dist']
   grunt.registerTask 'prod', ['clean:dist', 'copy:images', 'browserify:wrt', 'browserify:deps', 'browserify:app', 'uglify:dist', 'compass:prod', 'htmlmin:prod']
+  grunt.registerTask 'wgt', ['prod', 'copy:widget', 'compress:app']
   grunt.registerTask 'default', ['dev']
